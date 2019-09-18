@@ -50,10 +50,7 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleSceneIntro.cpp">
-      <Filter>Sources\Modules\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="ModulePlayer.cpp">
-      <Filter>Sources\Modules\Game</Filter>
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,10 +112,7 @@
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="ModuleSceneIntro.h">
-      <Filter>Sources\Modules\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="ModulePlayer.h">
-      <Filter>Sources\Modules\Game</Filter>
+      <Filter>Sources\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +127,6 @@
     </Filter>
     <Filter Include="Sources\Modules">
       <UniqueIdentifier>{4da5a104-3d63-4c5e-96f5-96a02a49a41f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Modules\Game">
-      <UniqueIdentifier>{cab36943-5ca4-4eb1-bc8c-db2808cf12fd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Tools">
       <UniqueIdentifier>{eaf583c6-a075-4474-bfee-ef30ed67b3a5}</UniqueIdentifier>

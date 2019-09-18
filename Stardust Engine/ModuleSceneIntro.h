@@ -26,6 +26,7 @@ public:
 private:
 
 	//Objects to render
+	Plane grid;
 	p2List<Cube> cubesToRender;
 	p2List<Cylinder> cylindersToRender;
 	p2List<Sphere> spheresToRender;

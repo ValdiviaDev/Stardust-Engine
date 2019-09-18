@@ -20,6 +20,8 @@ bool ModuleSceneIntro::Start()
 
 	App->camera->Move(vec3(3.0f, 3.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+	grid = Plane(0, 1, 0, 0);
+	grid.axis = true;
 
 	return ret;
 }
@@ -35,11 +37,6 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	//Render grid
-	Plane plane(0, 1, 0, 0);
-	plane.axis = true;
-	plane.Render();
-
 	//Render everything on scene
 	RenderPrimitives();
 
@@ -54,6 +51,9 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::RenderPrimitives()
 {
+	//Render grid
+	grid.Render();
+
 	//Render cubes
 	for (p2List_item<Cube>* item = cubesToRender.getFirst(); item; item = item->next)
 		item->data.Render();
