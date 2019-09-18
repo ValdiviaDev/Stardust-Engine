@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
+#include "imgui/imgui.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -23,7 +24,22 @@ bool ModuleSceneIntro::Start()
 	grid = Plane(0, 1, 0, 0);
 	grid.axis = true;
 
+
+	// imgui init
+		//ImGui::CreateContext();
+		//ImGuiIO &io = ImGui::GetIO();
+
+		//Style
+		//ImGui::StyleColorsDark();
+
+
 	return ret;
+}
+
+update_status ModuleSceneIntro::PreUpdate(float dt)
+{
+	//ImGui::NewFrame();
+	return(UPDATE_CONTINUE);
 }
 
 // Load assets
@@ -37,6 +53,20 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	//bool show_demo_window = true;
+	//ImGui::ShowDemoWindow(&show_demo_window);
+	//
+	////Render
+	//ImGui::Render();
+	//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	//
+	////CleanUp
+	//ImGui_ImplOpenGL3_Shutdown();
+	////ImGui_ImplGlfw_Shutdown();
+	//ImGui::DestroyContext();
+
+	//glfwTerminate();
+
 	//Render everything on scene
 	RenderPrimitives();
 
