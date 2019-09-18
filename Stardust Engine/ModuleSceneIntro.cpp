@@ -21,14 +21,14 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	App->camera->Move(vec3(75.0f, 60.0f, -5.0f));
+	App->camera->Move(vec3(3.0f, 3.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	
 	//Death sensor
 	//CreateDeathSensors();
 
 	//Ring
-	DefineRing();
+	//DefineRing();
 
 	//Constraints
 	//CreateLevelConstraints();
@@ -51,10 +51,14 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 	
+	Plane plane(0, 1, 0, 0);
+	plane.axis = true;
+	plane.Render();
+
 	//UpdateRotatingConstraints();
 
 	//Render everything on scene
-	RenderPrimitives();
+	//RenderPrimitives();
 
 	//if (isCapsuleRendering)
 	//	capsule.Render();
