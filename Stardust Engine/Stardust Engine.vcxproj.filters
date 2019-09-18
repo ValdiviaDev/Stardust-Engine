@@ -25,10 +25,10 @@
     <ClCompile Include="Primitive.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
+    <ClCompile Include="log.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="log.cpp">
+    <ClCompile Include="Timer.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
     <ClCompile Include="ModuleAudio.cpp">
@@ -123,22 +123,22 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
-      <UniqueIdentifier>{61cc3038-37bc-4d2e-907c-f17d52130480}</UniqueIdentifier>
+      <UniqueIdentifier>{74caaa2b-4946-40ea-9879-2ae0f79fa52e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Containers">
-      <UniqueIdentifier>{8275ca98-fbf6-4cd1-aae5-7e3c7e09fdd7}</UniqueIdentifier>
+      <UniqueIdentifier>{eaafcd6b-ed88-4c60-b891-2b7064a1904f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Helpers">
-      <UniqueIdentifier>{220921f0-288c-44af-ba69-faaecbd7180a}</UniqueIdentifier>
+      <UniqueIdentifier>{5df921f2-c027-4fad-97bb-d101a64b209d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Modules">
-      <UniqueIdentifier>{c807481e-c67d-4708-9e55-81fe08c58da9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Tools">
-      <UniqueIdentifier>{5fe9fb6e-b63a-4789-8c3b-8d5ad7ac0f51}</UniqueIdentifier>
+      <UniqueIdentifier>{4da5a104-3d63-4c5e-96f5-96a02a49a41f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Modules\Game">
-      <UniqueIdentifier>{a2e2f229-c8ab-4ab6-89aa-eaa927f536dd}</UniqueIdentifier>
+      <UniqueIdentifier>{cab36943-5ca4-4eb1-bc8c-db2808cf12fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools">
+      <UniqueIdentifier>{eaf583c6-a075-4474-bfee-ef30ed67b3a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
