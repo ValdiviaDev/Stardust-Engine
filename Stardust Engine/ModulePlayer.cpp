@@ -20,8 +20,8 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	//Car creation
-	CreateCar(1);
-	CreateCar(2);
+	//CreateCar(1);
+	//CreateCar(2);
 		
 	return true;
 }
@@ -37,20 +37,20 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
-	UpdateCar01(dt);
-	UpdateCar02(dt);
+	//UpdateCar01(dt);
+	//UpdateCar02(dt);
 
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
-		if (inpodium)
-			ResetGame();
-		else
-			InGameReset();
-	}
+	//if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+	//	if (inpodium)
+	//		ResetGame();
+	//	else
+	//		InGameReset();
+	//}
 
 	//Title
-    char title[80];
-    sprintf_s(title, "%.1f Km/h, %.1f Km/h", car01->GetKmh(), car02->GetKmh());
-    App->window->SetTitle(title);
+    //char title[80];
+    //sprintf_s(title, "%.1f Km/h, %.1f Km/h", car01->GetKmh(), car02->GetKmh());
+    //App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
 }

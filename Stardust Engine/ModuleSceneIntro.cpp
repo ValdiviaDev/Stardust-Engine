@@ -25,17 +25,17 @@ bool ModuleSceneIntro::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 	
 	//Death sensor
-	CreateDeathSensors();
+	//CreateDeathSensors();
 
 	//Ring
 	DefineRing();
 
 	//Constraints
-	CreateLevelConstraints();
+	//CreateLevelConstraints();
 
-	App->audio->PlayMusic("Assets/Audio/Music/level_theme.ogg");
+	//App->audio->PlayMusic("Assets/Audio/Music/level_theme.ogg");
 
-	capsule = CreateCapsuleBonus(2.0f, vec3(0, 2.0f, 0), { 255,255,0 });
+	//capsule = CreateCapsuleBonus(2.0f, vec3(0, 2.0f, 0), { 255,255,0 });
 	return ret;
 }
 
@@ -51,16 +51,16 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 	
-	UpdateRotatingConstraints();
+	//UpdateRotatingConstraints();
 
 	//Render everything on scene
 	RenderPrimitives();
 
-	if (isCapsuleRendering)
-		capsule.Render();
-
-	else if (!isCapsuleRendering && !App->player->IsGameFinished())
-		CheckForCapsuleToAppear(dt);
+	//if (isCapsuleRendering)
+	//	capsule.Render();
+	//
+	//else if (!isCapsuleRendering && !App->player->IsGameFinished())
+	//	CheckForCapsuleToAppear(dt);
 
 
 	return UPDATE_CONTINUE;
