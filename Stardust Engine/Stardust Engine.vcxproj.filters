@@ -52,6 +52,12 @@
     <ClCompile Include="ModuleScene.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_sdl.cpp">
+      <Filter>Sources\imGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_opengl2.cpp">
+      <Filter>Sources\imGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -119,6 +125,12 @@
     </ClInclude>
     <ClInclude Include="ModuleScene.h">
       <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_sdl.h">
+      <Filter>Sources\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_opengl2.h">
+      <Filter>Sources\imGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

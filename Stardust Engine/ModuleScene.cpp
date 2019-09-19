@@ -5,6 +5,9 @@
 #include "ModuleScene.h"
 #include "Primitive.h"
 #include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl.h"
+#include "imgui/imgui_impl_opengl2.h"
+#include "imgui/imgui_internal.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -26,19 +29,24 @@ bool ModuleScene::Start()
 
 
 	// imgui init
-		//ImGui::CreateContext();
-		//ImGuiIO &io = ImGui::GetIO();
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
+	ImGui_ImplOpenGL2_Init();
 
-		//Style
-		//ImGui::StyleColorsDark();
-
+	//Style
+	ImGui::StyleColorsDark();
 
 	return ret;
 }
 
 update_status ModuleScene::PreUpdate(float dt)
 {
-	//ImGui::NewFrame();
+	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplSDL2_NewFrame(App->window->window);
+	ImGui::NewFrame();
 	return(UPDATE_CONTINUE);
 }
 
@@ -47,28 +55,26 @@ bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
+	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
 	return true;
 }
 
 // Update
 update_status ModuleScene::Update(float dt)
 {
-	//bool show_demo_window = true;
-	//ImGui::ShowDemoWindow(&show_demo_window);
-	//
-	////Render
-	//ImGui::Render();
-	//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	//
-	////CleanUp
-	//ImGui_ImplOpenGL3_Shutdown();
-	////ImGui_ImplGlfw_Shutdown();
-	//ImGui::DestroyContext();
-
-	//glfwTerminate();
-
 	//Render everything on scene
 	RenderPrimitives();
+
+	//Demo window
+	bool show_demo_window = true;
+	ImGui::ShowDemoWindow(&show_demo_window);
+
+	////Render
+	ImGui::Render();
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	//Title
 	char title[80];
