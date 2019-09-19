@@ -55,7 +55,7 @@ update_status ModuleScene::PreUpdate(float dt)
 	static bool show_app_metrics = false;
 	static bool show_app_style_editor = false;
 	static bool show_demo_window = false;
-	static bool exit_engine = false;
+	static bool quit_engine = false;
 
 
 	ImGui::SetNextWindowPos({ 0,0 }, ImGuiCond_Once);
@@ -66,6 +66,7 @@ update_status ModuleScene::PreUpdate(float dt)
 	window_flags |= ImGuiWindowFlags_MenuBar;
 	window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
+	window_flags |= ImGuiWindowFlags_NoResize;
 	
 	ImGui::Begin("Top Menu", &top_menu_bar, window_flags);
 
@@ -73,10 +74,11 @@ update_status ModuleScene::PreUpdate(float dt)
 	{
 		
 
-		if (ImGui::BeginMenu("Examples"))
+		if (ImGui::BeginMenu("Menu"))
 		{
-			ImGui::MenuItem("Main menu bar", NULL, &show_app_main_menu_bar);
+			ImGui::MenuItem("Something");
 			ImGui::MenuItem("Console", NULL, &show_app_console);
+			ImGui::MenuItem("Quit", NULL, &quit_engine);
 			
 			ImGui::EndMenu();
 		}
@@ -84,7 +86,7 @@ update_status ModuleScene::PreUpdate(float dt)
 		{
 			ImGui::MenuItem("Metrics", NULL, &show_app_metrics);
 			ImGui::MenuItem("Show Demo Window", NULL, &show_demo_window);
-			ImGui::MenuItem("Exit Engine", NULL, &exit_engine);
+			
 			
 			ImGui::EndMenu();
 		}
@@ -98,7 +100,7 @@ update_status ModuleScene::PreUpdate(float dt)
 	//Show demo window if we click on the menu
 	if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
 
-	if (exit_engine) return UPDATE_STOP;
+	if (quit_engine) return UPDATE_STOP;
 
 	
 
