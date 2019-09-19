@@ -47,6 +47,76 @@ update_status ModuleScene::PreUpdate(float dt)
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
+
+
+
+
+	//CREATING MENU BAR
+
+	/*static bool show_app_main_menu_bar = false;
+
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Menu2")) {
+			ImGui::MenuItem("Main menu bar2", NULL, &show_app_main_menu_bar);
+			ImGui::EndMenu();
+		}
+
+	}*/
+
+	static bool show_app_main_menu_bar = false;
+	static bool show_app_console = false;
+	static bool show_app_metrics = false;
+	static bool show_app_style_editor = false;
+	static bool show_demo_window = false;
+	//if (ImGui::Begin("Visuals"), &Optionss.Menuu.Visuals, ImVec2(300, 300)))
+	// Menu
+
+
+	ImGui::SetNextWindowPos({ 0,0 }, ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(SCREEN_WIDTH, 100), ImGuiCond_Once);
+
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_MenuBar;
+	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	window_flags |= ImGuiWindowFlags_NoMove;
+
+
+
+	ImGui::Begin("Ventana bacana", &show_demo_window, window_flags);
+
+	if (ImGui::BeginMenuBar())
+	{
+		//if (ImGui::Begin("Testing", NULL, ImVec2(100,100)))
+		//{
+		
+			//ImGui::EndMenu();
+		//}
+
+
+		
+
+		if (ImGui::BeginMenu("Examples"))
+		{
+			ImGui::MenuItem("Main menu bar", NULL, &show_app_main_menu_bar);
+			ImGui::MenuItem("Console", NULL, &show_app_console);
+			
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Help"))
+		{
+			ImGui::MenuItem("Metrics", NULL, &show_app_metrics);
+			ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
+			
+			ImGui::EndMenu();
+		}
+		
+		ImGui::EndMenuBar();
+		
+	}
+	ImGui::End();
+
 	return(UPDATE_CONTINUE);
 }
 
