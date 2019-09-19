@@ -1,6 +1,5 @@
 #pragma once
 #include "Module.h"
-#include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
 
@@ -11,7 +10,6 @@ public:
 	~ModuleScene();
 
 	bool Start();
-	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	bool CleanUp();
 
