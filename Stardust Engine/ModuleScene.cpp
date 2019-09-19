@@ -2,19 +2,19 @@
 
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleSceneIntro.h"
+#include "ModuleScene.h"
 #include "Primitive.h"
 #include "imgui/imgui.h"
 
-ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
 
-ModuleSceneIntro::~ModuleSceneIntro()
+ModuleScene::~ModuleScene()
 {}
 
 // Load assets
-bool ModuleSceneIntro::Start()
+bool ModuleScene::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
@@ -36,14 +36,14 @@ bool ModuleSceneIntro::Start()
 	return ret;
 }
 
-update_status ModuleSceneIntro::PreUpdate(float dt)
+update_status ModuleScene::PreUpdate(float dt)
 {
 	//ImGui::NewFrame();
 	return(UPDATE_CONTINUE);
 }
 
 // Load assets
-bool ModuleSceneIntro::CleanUp()
+bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
@@ -51,7 +51,7 @@ bool ModuleSceneIntro::CleanUp()
 }
 
 // Update
-update_status ModuleSceneIntro::Update(float dt)
+update_status ModuleScene::Update(float dt)
 {
 	//bool show_demo_window = true;
 	//ImGui::ShowDemoWindow(&show_demo_window);
@@ -79,7 +79,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
-void ModuleSceneIntro::RenderPrimitives()
+void ModuleScene::RenderPrimitives()
 {
 	//Render grid
 	grid.Render();
@@ -99,7 +99,7 @@ void ModuleSceneIntro::RenderPrimitives()
 }
 
 
-Cube ModuleSceneIntro::CreateCube(vec3 size, vec3 pos, Color color, float mass, bool draw, bool isPhysicsObject, bool rotate, float angleToRot, vec3  axisToRot)
+Cube ModuleScene::CreateCube(vec3 size, vec3 pos, Color color, bool draw, bool rotate, float angleToRot, vec3  axisToRot)
 {
 	Cube cube(size.x, size.y, size.z);
 	cube.SetPos(pos.x, pos.y, pos.z);
@@ -111,13 +111,10 @@ Cube ModuleSceneIntro::CreateCube(vec3 size, vec3 pos, Color color, float mass, 
 	if (draw)
 		cubesToRender.add(cube);
 
-	if (isPhysicsObject) 
-		App->physics->AddBody(cube, mass);
-
 	return cube;
 }
 
-Cylinder ModuleSceneIntro::CreateCylinder(float radius, float height, vec3 pos, Color color, float mass, bool draw, bool isPhysicsObject, bool rotate, float angleToRot, vec3 axisToRot)
+Cylinder ModuleScene::CreateCylinder(float radius, float height, vec3 pos, Color color, bool draw, bool rotate, float angleToRot, vec3 axisToRot)
 {
 	Cylinder cylinder(radius, height);
 	cylinder.SetPos(pos.x, pos.y, pos.z);
@@ -129,13 +126,10 @@ Cylinder ModuleSceneIntro::CreateCylinder(float radius, float height, vec3 pos, 
 	if (draw)
 		cylindersToRender.add(cylinder);
 
-	if (isPhysicsObject)
-		App->physics->AddBody(cylinder, mass);
-
 	return cylinder;
 }
 
-Sphere ModuleSceneIntro::CreateSphere(float radius, vec3 pos, Color color, float mass, bool draw, bool isPhysicsObject, bool rotate, float angleToRot, vec3 axisToRot)
+Sphere ModuleScene::CreateSphere(float radius, vec3 pos, Color color, bool draw, bool rotate, float angleToRot, vec3 axisToRot)
 {
 	Sphere sphere(radius);
 	sphere.SetPos(pos.x, pos.y, pos.z);
@@ -146,9 +140,6 @@ Sphere ModuleSceneIntro::CreateSphere(float radius, vec3 pos, Color color, float
 
 	if (draw)
 		spheresToRender.add(sphere);
-
-	if(isPhysicsObject)
-		App->physics->AddBody(sphere, mass);
 
 	return sphere;
 }
