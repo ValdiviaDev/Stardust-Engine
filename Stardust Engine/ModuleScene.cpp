@@ -49,52 +49,28 @@ update_status ModuleScene::PreUpdate(float dt)
 	ImGui::NewFrame();
 
 
-
-
-	//CREATING MENU BAR
-
-	/*static bool show_app_main_menu_bar = false;
-
-	if (ImGui::BeginMenuBar())
-	{
-		if (ImGui::BeginMenu("Menu2")) {
-			ImGui::MenuItem("Main menu bar2", NULL, &show_app_main_menu_bar);
-			ImGui::EndMenu();
-		}
-
-	}*/
-
+	static bool top_menu_bar = false;
 	static bool show_app_main_menu_bar = false;
 	static bool show_app_console = false;
 	static bool show_app_metrics = false;
 	static bool show_app_style_editor = false;
 	static bool show_demo_window = false;
-	//if (ImGui::Begin("Visuals"), &Optionss.Menuu.Visuals, ImVec2(300, 300)))
-	// Menu
+	static bool exit_engine = false;
 
 
 	ImGui::SetNextWindowPos({ 0,0 }, ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(SCREEN_WIDTH, 100), ImGuiCond_Once);
 
-
+	//Creating menu bar at the top
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_MenuBar;
 	window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
-
-
-
-	ImGui::Begin("Ventana bacana", &show_demo_window, window_flags);
+	
+	ImGui::Begin("Top Menu", &top_menu_bar, window_flags);
 
 	if (ImGui::BeginMenuBar())
 	{
-		//if (ImGui::Begin("Testing", NULL, ImVec2(100,100)))
-		//{
-		
-			//ImGui::EndMenu();
-		//}
-
-
 		
 
 		if (ImGui::BeginMenu("Examples"))
@@ -107,7 +83,8 @@ update_status ModuleScene::PreUpdate(float dt)
 		if (ImGui::BeginMenu("Help"))
 		{
 			ImGui::MenuItem("Metrics", NULL, &show_app_metrics);
-			ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
+			ImGui::MenuItem("Show Demo Window", NULL, &show_demo_window);
+			ImGui::MenuItem("Exit Engine", NULL, &exit_engine);
 			
 			ImGui::EndMenu();
 		}
@@ -116,6 +93,14 @@ update_status ModuleScene::PreUpdate(float dt)
 		
 	}
 	ImGui::End();
+
+
+	//Show demo window if we click on the menu
+	if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
+
+	if (exit_engine) return UPDATE_STOP;
+
+	
 
 	return(UPDATE_CONTINUE);
 }
@@ -138,9 +123,7 @@ update_status ModuleScene::Update(float dt)
 	//Render everything on scene
 	RenderPrimitives();
 
-	//Demo window
-	bool show_demo_window = true;
-	ImGui::ShowDemoWindow(&show_demo_window);
+	
 
 	////Render
 	ImGui::Render();
