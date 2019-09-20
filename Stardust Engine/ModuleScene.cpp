@@ -4,7 +4,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include <gl/GL.h>
-
+#include "MathGeoLib/include/MathGeoLib.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -25,8 +25,12 @@ bool ModuleScene::Start()
 
 
 	LCG::LCG();
-	
-	
+
+	//Spheres positions and radiuses
+	sp1.pos = { 0.0, 0.0, 0.0 };
+	sp1.r = 7.0;
+	sp2.pos = { 14.1, 0.0, 0.0 };
+	sp2.r = 7.0;
 
 	return true;
 }
@@ -34,7 +38,7 @@ bool ModuleScene::Start()
 // Update
 update_status ModuleScene::Update(float dt)
 {
-
+	//Grid
 	glBegin(GL_LINES); 
 		for (int i = -50; i < 50; i++) {
 
@@ -55,8 +59,8 @@ update_status ModuleScene::Update(float dt)
 		
 	glEnd();
 
-
-
+	//Trying out MatGeoLib intersections
+	//TryMathGeoLibInters();
 	
 	//Example calling random float between 0-1 and int between 2 numbers
 	LOG("%f", GetRandomFloat());
@@ -90,3 +94,14 @@ int ModuleScene::GetRandomInt(int a, int b) {
 
 	return lcg.Int(a, b);
 }
+
+void ModuleScene::TryMathGeoLibInters()
+{
+	//Testing sphere intersection
+	if (sp1.Intersects(sp2)) {
+		LOG("true");
+	}
+	else {
+		LOG("false");
+	}
+}	

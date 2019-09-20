@@ -1,8 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "MathGeoLib/include/Algorithm/Random/LCG.h"
-
+#include "MathGeoLib/include/MathGeoLib.h"
 
 class ModuleScene : public Module
 {
@@ -18,7 +17,14 @@ public:
 	float GetRandomFloat();
 	int GetRandomInt(int a, int b);
 
+	void TryMathGeoLibInters();
+
 
 private:
+	//RNG test
 	LCG lcg;
+
+	//Intersections test
+	math::Sphere sp1;
+	math::Sphere sp2;
 };
