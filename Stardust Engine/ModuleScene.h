@@ -1,6 +1,8 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "MathGeoLib/include/Algorithm/Random/LCG.h"
+
 
 class ModuleScene : public Module
 {
@@ -12,6 +14,11 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-private:
 
+	float GetRandomFloat();
+	int GetRandomInt(int a, int b);
+
+
+private:
+	LCG lcg;
 };

@@ -5,6 +5,8 @@
 #include "ModuleScene.h"
 #include <gl/GL.h>
 
+
+
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -20,6 +22,11 @@ bool ModuleScene::Start()
 	//Camera position
 	App->camera->Move(vec3(3.0f, 3.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+
+
+	LCG::LCG();
+	
+	
 
 	return true;
 }
@@ -48,6 +55,15 @@ update_status ModuleScene::Update(float dt)
 		
 	glEnd();
 
+
+
+	
+	//Example calling random float between 0-1 and int between 2 numbers
+	LOG("%f", GetRandomFloat());
+
+	LOG("%i", GetRandomInt(0, 10));
+	
+
 	//Title
 	char title[80];
 	sprintf_s(title, "Stardust Engine %.1f fps", 1/dt);
@@ -61,4 +77,16 @@ bool ModuleScene::CleanUp()
 {
 
 	return true;
+}
+
+
+
+float ModuleScene::GetRandomFloat() {
+
+	return lcg.Float(0, 1);;
+}
+
+int ModuleScene::GetRandomInt(int a, int b) {
+
+	return lcg.Int(a, b);
 }
