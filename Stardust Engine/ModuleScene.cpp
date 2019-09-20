@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "Primitive.h"
+#include <gl/GL.h>
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -32,7 +33,20 @@ bool ModuleScene::Start()
 update_status ModuleScene::Update(float dt)
 {
 	//Render everything on scene
-	RenderPrimitives();
+	//RenderPrimitives();
+
+	glBegin(GL_LINES); 
+		for (int i = -10; i <= 10; i++) {
+
+			glVertex3f(-10, 0, i);
+			glVertex3f(10, 0, i);
+
+			glVertex3f(i, 0, -10);
+			glVertex3f(i, 0, 10);
+
+		}
+		glColor3f(255, 255, 0);
+	glEnd();
 
 	//Title
 	char title[80];
