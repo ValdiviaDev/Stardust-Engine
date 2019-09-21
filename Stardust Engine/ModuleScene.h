@@ -13,6 +13,7 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void PrintGrid();
 
 	float GetRandomFloat();
 	int GetRandomInt(int a, int b);

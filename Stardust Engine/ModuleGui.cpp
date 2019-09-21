@@ -3,6 +3,10 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_impl_opengl2.h"
+#include "imgui/imgui_impl_opengl3.h"
+
+#include "Glew/include/glew.h"
+#pragma comment (lib, "Glew/lib/glew32.lib")
 
 
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, start_enabled)

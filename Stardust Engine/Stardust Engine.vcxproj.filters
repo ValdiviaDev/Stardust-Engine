@@ -154,6 +154,9 @@
     <ClCompile Include="MathGeoLib\include\Math\TransformOps.cpp">
       <Filter>Sources\Tools\MathGeoLib\Math</Filter>
     </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp">
+      <Filter>Sources\Tools\imGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -410,6 +413,9 @@
     </ClInclude>
     <ClInclude Include="Glew\include\wglew.h">
       <Filter>Sources\Tools\Glew</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_opengl3.h">
+      <Filter>Sources\Tools\imGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

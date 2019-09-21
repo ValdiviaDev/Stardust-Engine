@@ -5,7 +5,6 @@
 #include "ModuleScene.h"
 
 #include "MathGeoLib/include/MathGeoLib.h"
-#include "Glew/include/glew.h"
 #include <gl/GL.h>
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -40,33 +39,15 @@ bool ModuleScene::Start()
 update_status ModuleScene::Update(float dt)
 {
 	//Grid
-	glBegin(GL_LINES); 
-		for (int i = -50; i < 50; i++) {
-
-			glVertex3f(-50, 0, i);
-			glVertex3f(50, 0, i);
-
-			glVertex3f(i, 0, -50);
-			glVertex3f(i, 0, 50);
-			
-			if (i % 10 == 0) {
-				glColor3f(255, 255, 0);
-			}
-			else {
-				glColor3f(255, 0, 255);
-			}
-
-		}
-		
-	glEnd();
+	PrintGrid();
 
 	//Trying out MatGeoLib intersections
 	//TryMathGeoLibInters();
 	
 	//Example calling random float between 0-1 and int between 2 numbers
-	LOG("%f", GetRandomFloat());
+	//LOG("%f", GetRandomFloat());
 
-	LOG("%i", GetRandomInt(0, 10));
+	//LOG("%i", GetRandomInt(0, 10));
 	
 
 	//Title
@@ -85,6 +66,28 @@ bool ModuleScene::CleanUp()
 }
 
 
+void ModuleScene::PrintGrid() {
+
+	glBegin(GL_LINES);
+	for (int i = -50; i < 50; i++) {
+
+		glVertex3f(-50, 0, i);
+		glVertex3f(50, 0, i);
+
+		glVertex3f(i, 0, -50);
+		glVertex3f(i, 0, 50);
+
+		if (i % 10 == 0) {
+			glColor3f(255, 255, 0);
+		}
+		else {
+			glColor3f(255, 0, 255);
+		}
+
+	}
+
+	glEnd();
+}
 
 float ModuleScene::GetRandomFloat() {
 
