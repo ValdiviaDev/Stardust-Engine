@@ -399,6 +399,18 @@
     <ClInclude Include="MathGeoLib\include\Math\TransformOps.h">
       <Filter>Sources\Tools\MathGeoLib\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Glew\include\eglew.h">
+      <Filter>Sources\Tools\Glew</Filter>
+    </ClInclude>
+    <ClInclude Include="Glew\include\glew.h">
+      <Filter>Sources\Tools\Glew</Filter>
+    </ClInclude>
+    <ClInclude Include="Glew\include\glxew.h">
+      <Filter>Sources\Tools\Glew</Filter>
+    </ClInclude>
+    <ClInclude Include="Glew\include\wglew.h">
+      <Filter>Sources\Tools\Glew</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -433,6 +445,9 @@
     </Filter>
     <Filter Include="Sources\Tools\MathGeoLib\Time">
       <UniqueIdentifier>{54cf5400-0a8b-485d-8c75-8ebdeb28445b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools\Glew">
+      <UniqueIdentifier>{42d85780-89d8-4f7c-aec3-a24f72ff4f27}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

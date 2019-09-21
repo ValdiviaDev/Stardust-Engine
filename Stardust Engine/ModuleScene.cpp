@@ -3,9 +3,10 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleScene.h"
-#include <gl/GL.h>
-#include "MathGeoLib/include/MathGeoLib.h"
 
+#include "MathGeoLib/include/MathGeoLib.h"
+#include "Glew/include/glew.h"
+#include <gl/GL.h>
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
