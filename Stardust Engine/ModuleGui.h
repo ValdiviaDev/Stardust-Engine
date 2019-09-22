@@ -12,5 +12,10 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	update_status CreateSampleWindows();
+
+private:
+
+
 };
 

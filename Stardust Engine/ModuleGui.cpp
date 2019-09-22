@@ -2,17 +2,11 @@
 #include "ModuleGui.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
-#include "imgui/imgui_impl_opengl2.h"
 #include "imgui/imgui_impl_opengl3.h"
-
-#include "Glew/include/glew.h"
-#pragma comment (lib, "Glew/lib/glew32.lib")
-
 
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
-
 
 ModuleGui::~ModuleGui()
 {
@@ -26,7 +20,7 @@ bool ModuleGui::Init()
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
-	ImGui_ImplOpenGL2_Init();
+	ImGui_ImplOpenGL3_Init();
 
 	//Window Style
 	ImGui::StyleColorsDark();
@@ -37,10 +31,36 @@ bool ModuleGui::Init()
 update_status ModuleGui::PreUpdate(float dt)
 {
 	//Stablish new frame
-	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
+	update_status status = CreateSampleWindows();
+
+	return status;
+}
+
+update_status ModuleGui::PostUpdate(float dt)
+{
+	//Render
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	return UPDATE_CONTINUE;
+}
+
+bool ModuleGui::CleanUp()
+{
+	//Clearing up imGui
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
+	return true;
+}
+
+update_status ModuleGui::CreateSampleWindows()
+{
 
 	static bool top_menu_bar = false;
 	static bool show_app_main_menu_bar = false;
@@ -92,25 +112,6 @@ update_status ModuleGui::PreUpdate(float dt)
 	if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
 
 	if (quit_engine) return UPDATE_STOP;
-
-	return (UPDATE_CONTINUE);
-}
-
-update_status ModuleGui::PostUpdate(float dt)
-{
-	//Render
-	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-
+	
 	return UPDATE_CONTINUE;
-}
-
-bool ModuleGui::CleanUp()
-{
-	//Clearing up imGui
-	ImGui_ImplOpenGL2_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
-
-	return true;
 }

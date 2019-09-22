@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleScene.h"
+#include "ModuleRenderer3D.h"
 
 #include "MathGeoLib/include/MathGeoLib.h"
 #include <gl/GL.h>
@@ -69,23 +70,22 @@ bool ModuleScene::CleanUp()
 void ModuleScene::PrintGrid() {
 
 	glBegin(GL_LINES);
-	for (int i = -50; i < 50; i++) {
+	for (int i = -50; i <= 50; i++) {
+	
+			glVertex3f(-50, 0, i);
+			glVertex3f(50, 0, i);
 
-		glVertex3f(-50, 0, i);
-		glVertex3f(50, 0, i);
+			glVertex3f(i, 0, -50);
+			glVertex3f(i, 0, 50);
 
-		glVertex3f(i, 0, -50);
-		glVertex3f(i, 0, 50);
-
-		if (i % 10 == 0) {
-			glColor3f(255, 255, 0);
-		}
-		else {
-			glColor3f(255, 0, 255);
-		}
+			if (i % 10 == 0 || i == 49) {
+					glColor3f(255, 255, 0);
+			}
+			else {
+				glColor3f(255, 0, 255);
+			}
 
 	}
-
 	glEnd();
 }
 
