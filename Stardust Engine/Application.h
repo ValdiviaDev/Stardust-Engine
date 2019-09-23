@@ -38,6 +38,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void RequestBrowser(const char* website) const;
+
 private:
 
 	void AddModule(Module* mod);
