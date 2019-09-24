@@ -25,6 +25,10 @@ bool ModuleGui::Init()
 	//Window Style
 	ImGui::StyleColorsDark();
 
+	//Panels
+	about = new PanelAbout();
+	panels.push_back(about);
+
 	return true;
 }
 
@@ -52,8 +56,14 @@ update_status ModuleGui::Update(float dt)
 	if (show_app_config)
 		HandleConfigWindow();
 
-	if (show_about_window)
-		HandleAboutWindow();
+	//Draw panel or not
+	list<Panel*>::const_iterator panel = panels.begin();
+	while (panel != panels.end())
+	{
+		if ((*panel)->IsActive())
+			(*panel)->Draw();
+		panel++;
+	}
 
 	update_status status = HandleMainMenuBar();
 
@@ -75,6 +85,19 @@ bool ModuleGui::CleanUp()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+
+	//CleanUp panels
+	list<Panel*>::const_iterator panel = panels.begin();
+	while (panel != panels.end())
+	{
+		if ((*panel) != nullptr) {
+			delete *panel;
+			panels.remove(*panel++);
+			continue;
+		}
+		panel++;
+	}
+	about = nullptr;
 
 	return true;
 }
@@ -115,7 +138,7 @@ update_status ModuleGui::HandleMainMenuBar()
 				App->RequestBrowser("https://github.com/ValdiviaDev/Stardust-Engine/issues");
 			
 			if (ImGui::MenuItem("About"))
-				show_about_window = !show_about_window;
+				about->ToggleActive();
 
 			ImGui::EndMenu();
 		}
@@ -151,25 +174,21 @@ void ModuleGui::HandleConfigWindow()
 
 	//Window
 	ImGui::Begin("Configuration", &show_app_config, ImGuiWindowFlags_None);
+	if (ImGui::BeginMenu("Options"))
+	{
 
-	ImGui::End();
-}
+		ImGui::EndMenu();
+	}
+	if (ImGui::CollapsingHeader("Aplication"))
+	{
+		//if(ImGui::Checkbox("Active", true)){}
+	}
 
-void ModuleGui::HandleAboutWindow()
-{
-	ImGuiWindowFlags window_flags = 0;
-	window_flags |= ImGuiWindowFlags_NoResize;
-	window_flags |= ImGuiWindowFlags_NoCollapse;
+	if (ImGui::CollapsingHeader("Window"))
+	{
+		//if(ImGui::Checkbox("Active", true)){}
+	}
 
-	//Set window position and size
-	ImGui::SetNextWindowPos({ 70,70 }, ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiCond_Once);
-
-	//Window
-	ImGui::Begin("About", &show_about_window, window_flags);
-	ImGui::Text("Stardust Engine");
-	ImGui::Separator();
-	ImGui::Text("3D game engine by Ricardo \nGutierrez & David Valdivia.");
 
 	ImGui::End();
 }

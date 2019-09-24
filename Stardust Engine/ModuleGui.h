@@ -1,5 +1,10 @@
 #pragma once
 #include "Module.h"
+#include <list>
+#include "Panel.h"
+#include "PanelAbout.h"
+
+using namespace std;
 
 class ModuleGui : public Module
 {
@@ -16,11 +21,13 @@ public:
 	update_status HandleMainMenuBar();
 	void HandleConsoleWindow();
 	void HandleConfigWindow();
-	void HandleAboutWindow();
 
 private:
 	bool show_app_console = true;
 	bool show_app_config = true;
-	bool show_about_window = false;
+
+	//Panels
+	list<Panel*> panels;
+	PanelAbout* about;
 };
 
