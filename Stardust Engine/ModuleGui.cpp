@@ -28,6 +28,10 @@ bool ModuleGui::Init()
 	//Panels
 	about = new PanelAbout();
 	panels.push_back(about);
+	console = new PanelConsole();
+	panels.push_back(console);
+	config = new PanelConfig();
+	panels.push_back(config);
 
 	return true;
 }
@@ -46,15 +50,9 @@ update_status ModuleGui::Update(float dt)
 {
 	//Shortcuts
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-		show_app_console = !show_app_console;
+		console->ToggleActive();
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
-		show_app_config = !show_app_config;
-
-	if(show_app_console)
-		HandleConsoleWindow();
-
-	if (show_app_config)
-		HandleConfigWindow();
+		config->ToggleActive();
 
 	//Draw panel or not
 	list<Panel*>::const_iterator panel = panels.begin();
@@ -98,6 +96,8 @@ bool ModuleGui::CleanUp()
 		panel++;
 	}
 	about = nullptr;
+	console = nullptr;
+	config = nullptr;
 
 	return true;
 }
@@ -117,9 +117,11 @@ update_status ModuleGui::HandleMainMenuBar()
 		}
 		if (ImGui::BeginMenu("View"))
 		{
-			ImGui::MenuItem("Console", "1", &show_app_console);
-			ImGui::MenuItem("Configuration", "4", &show_app_config);
+			if(ImGui::MenuItem("Console", "1", console->IsActive()))
+				console->ToggleActive(); 
 
+			if (ImGui::MenuItem("Configuration", "4", config->IsActive()))
+				config->ToggleActive();
 
 			ImGui::EndMenu();
 		}
@@ -152,43 +154,4 @@ update_status ModuleGui::HandleMainMenuBar()
 	if (quit_engine) return UPDATE_STOP;
 	
 	return UPDATE_CONTINUE;
-}
-
-void ModuleGui::HandleConsoleWindow()
-{
-	//Set window position and size
-	ImGui::SetNextWindowPos({ 50,70 }, ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiCond_Once);
-
-	//Window
-	ImGui::Begin("Console", &show_app_console, ImGuiWindowFlags_None);
-
-	ImGui::End();
-}
-
-void ModuleGui::HandleConfigWindow()
-{
-	//Set window position and size
-	ImGui::SetNextWindowPos({ 700,70 }, ImGuiWindowFlags_MenuBar);
-	ImGui::SetNextWindowSize(ImVec2(400, 900), ImGuiCond_Once);
-
-	//Window
-	ImGui::Begin("Configuration", &show_app_config, ImGuiWindowFlags_None);
-	if (ImGui::BeginMenu("Options"))
-	{
-
-		ImGui::EndMenu();
-	}
-	if (ImGui::CollapsingHeader("Aplication"))
-	{
-		//if(ImGui::Checkbox("Active", true)){}
-	}
-
-	if (ImGui::CollapsingHeader("Window"))
-	{
-		//if(ImGui::Checkbox("Active", true)){}
-	}
-
-
-	ImGui::End();
 }

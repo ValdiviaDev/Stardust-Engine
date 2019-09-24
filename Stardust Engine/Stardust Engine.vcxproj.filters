@@ -160,6 +160,12 @@
     <ClCompile Include="PanelAbout.cpp">
       <Filter>Sources\Panels</Filter>
     </ClCompile>
+    <ClCompile Include="PanelConsole.cpp">
+      <Filter>Sources\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelConfig.cpp">
+      <Filter>Sources\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -421,6 +427,12 @@
       <Filter>Sources\Panels</Filter>
     </ClInclude>
     <ClInclude Include="PanelAbout.h">
+      <Filter>Sources\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelConsole.h">
+      <Filter>Sources\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelConfig.h">
       <Filter>Sources\Panels</Filter>
     </ClInclude>
   </ItemGroup>

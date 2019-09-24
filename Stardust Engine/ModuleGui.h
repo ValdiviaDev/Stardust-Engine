@@ -3,6 +3,8 @@
 #include <list>
 #include "Panel.h"
 #include "PanelAbout.h"
+#include "PanelConsole.h"
+#include "PanelConfig.h"
 
 using namespace std;
 
@@ -19,15 +21,13 @@ public:
 	bool CleanUp();
 
 	update_status HandleMainMenuBar();
-	void HandleConsoleWindow();
-	void HandleConfigWindow();
 
 private:
-	bool show_app_console = true;
-	bool show_app_config = true;
 
 	//Panels
 	list<Panel*> panels;
 	PanelAbout* about;
+	PanelConsole* console;
+	PanelConfig* config;
 };
 

@@ -160,6 +160,8 @@
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="PanelAbout.h" />
+    <ClInclude Include="PanelConfig.h" />
+    <ClInclude Include="PanelConsole.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +217,8 @@
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="PanelAbout.cpp" />
+    <ClCompile Include="PanelConfig.cpp" />
+    <ClCompile Include="PanelConsole.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>

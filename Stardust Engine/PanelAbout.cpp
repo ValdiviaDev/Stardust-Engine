@@ -3,7 +3,7 @@
 
 PanelAbout::PanelAbout()
 {
-	name = "About";
+	name = "about";
 	active = false;
 }
 
