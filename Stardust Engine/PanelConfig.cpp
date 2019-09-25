@@ -55,6 +55,13 @@ void PanelConfig::Draw()
 
 void PanelConfig::ApplicationMenu()
 {
+	static char eng_name[30] = "Stardust Engine";
+	ImGui::InputText("App Name", eng_name, IM_ARRAYSIZE(eng_name)); //TODO
+
+	static char org_name[30] = "Speedwagon Foundation";
+	ImGui::InputText("Organization", org_name, IM_ARRAYSIZE(org_name)); //TODO
+
+	//Historiograms fps/ms
 	FillFPSVector();
 	FillMSVector();
 
