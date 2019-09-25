@@ -40,6 +40,7 @@ public:
 
 	void RequestBrowser(const char* website) const;
 	float GetFPS() const;
+	float GetMS();
 
 private:
 
