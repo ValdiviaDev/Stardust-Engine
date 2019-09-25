@@ -2,6 +2,10 @@
 #define __PANEL_CONFIG_H__
 
 #include "Panel.h"
+#include <vector>
+
+using namespace std;
+
 class PanelConfig : public Panel
 {
 public:
@@ -10,7 +14,10 @@ public:
 
 	void Draw();
 
+	void FillFPSVector();
+
 private:
+	vector<float> fps_log;
 
 };
 

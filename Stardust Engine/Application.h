@@ -39,6 +39,7 @@ public:
 	bool CleanUp();
 
 	void RequestBrowser(const char* website) const;
+	float GetFPS() const;
 
 private:
 
@@ -46,3 +47,6 @@ private:
 	void PrepareUpdate();
 	void FinishUpdate();
 };
+
+//Get App from everywhere in the code
+extern Application* App;

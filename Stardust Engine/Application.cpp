@@ -130,6 +130,11 @@ void Application::RequestBrowser(const char* url) const
 	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
 
+float Application::GetFPS() const
+{
+	return (1.0f/dt);
+}
+
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
