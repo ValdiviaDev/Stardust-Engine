@@ -26,6 +26,7 @@ void PanelConfig::Draw()
 		ImGui::MenuItem("Set defaults"); //TODO
 		ImGui::MenuItem("Save"); //TODO
 		ImGui::MenuItem("Load"); //TODO
+
 		ImGui::EndMenu();
 	}
 	if (ImGui::CollapsingHeader("Application"))
@@ -35,31 +36,26 @@ void PanelConfig::Draw()
 		WindowMenu();
 
 	if (ImGui::CollapsingHeader("File System"))
-	{
-		//if(ImGui::Checkbox("Active", true)){}
-	}
+		FileSystemMenu();
 
 	if (ImGui::CollapsingHeader("Input"))
-	{
-		//if(ImGui::Checkbox("Active", true)){}
-	}
+		InputMenu();
 
 	if (ImGui::CollapsingHeader("Hardware"))
-	{
-		//if(ImGui::Checkbox("Active", true)){}
-	}
-
+		HardwareMenu();
 
 	ImGui::End();
 }
 
 void PanelConfig::ApplicationMenu()
 {
-	static char eng_name[30] = "Stardust Engine";
-	ImGui::InputText("App Name", eng_name, IM_ARRAYSIZE(eng_name)); //TODO
+	//Engine name & organization
+	static char eng_name[30] = TITLE;
+	if (ImGui::InputText("App Name", eng_name, IM_ARRAYSIZE(eng_name)))
+		App->window->SetTitle(eng_name);
 
-	static char org_name[30] = "Speedwagon Foundation";
-	ImGui::InputText("Organization", org_name, IM_ARRAYSIZE(org_name)); //TODO
+	static char org_name[30] = ORGANIZATION;
+	ImGui::InputText("Organization", org_name, IM_ARRAYSIZE(org_name));
 
 	//Historiograms fps/ms
 	FillFPSVector();
@@ -108,6 +104,19 @@ void PanelConfig::WindowMenu()
 		App->window->SetFullDesktop(full_desktop);
 }
 
+void PanelConfig::FileSystemMenu()
+{
+}
+
+void PanelConfig::InputMenu()
+{
+}
+
+void PanelConfig::HardwareMenu()
+{
+	ImGui::Text("CPUs: %i", SDL_GetCPUCount());
+}
+
 void PanelConfig::FillFPSVector()
 {
 	if (fps_log.size() >= perfor_vec_size) {
@@ -131,5 +140,4 @@ void PanelConfig::FillMSVector()
 	}
 	else
 		ms_log.push_back(App->GetMS());
-
 }

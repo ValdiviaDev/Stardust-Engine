@@ -29,11 +29,11 @@ void PanelAbout::Draw()
 	ImGui::Text("Made by Ricardo Gutierrez & David Valdivia.");
 	ImGui::Text("\n");
 	ImGui::Text("3rd party libraries used:");
-	ImGui::Text("	* SDL "); //TODO
-	ImGui::Text("	* ImGui "); //TODO
-	ImGui::Text("	* MathGeoLib "); //TODO
-	ImGui::Text("	* LGC RNG "); //TODO
-	ImGui::Text("	* Glew "); //TODO
+	ImGui::Text("	* SDL 2.0.4"); //TODO
+	ImGui::Text("	* ImGui 1.72b"); //TODO
+	ImGui::Text("	* MathGeoLib 1.5"); //TODO
+	ImGui::Text("	* LGC RNG 1.5"); //TODO
+	ImGui::Text("	* Glew 2.1.0"); //TODO
 	ImGui::Text("\n");
 
 	//License
@@ -41,7 +41,7 @@ void PanelAbout::Draw()
 	ImGui::Text("\n");
 	ImGui::Text("MIT License");
 	ImGui::Text("\n");
-	ImGui::Text("Copyright (c) 2019 Ricardo Gutiérrez & David Valdivia");
+	ImGui::Text("Copyright (c) 2019 Ricardo Gutirrez & David Valdivia");
 	ImGui::Text("\n");
 	ImGui::Text("Permission is hereby granted, free of charge, to any person \nobtaining a copy of this software and associated documentation \nfiles(the 'Software'), to deal in the Software without restriction, \nincluding without limitation the rights to use, copy, modify, merge,\npublish, distribute, sublicense, and/or sell copies of the Software, \nand to permit persons to whom the Software is furnished to do so, \nsubject to the following conditions : ");
 	ImGui::Text("\n");

@@ -38,6 +38,8 @@ bool ModuleGui::Init()
 	config = new PanelConfig();
 	panels.push_back(config);
 	
+	AddLogToConsole("Initializing ImGui");
+
 	return true;
 }
 
@@ -58,6 +60,9 @@ update_status ModuleGui::Update(float dt)
 		console->ToggleActive();
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
 		config->ToggleActive();
+
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+		AddLogToConsole("SAMPLE LOG");
 
 	//Draw panel or not
 	list<Panel*>::const_iterator panel = panels.begin();
@@ -159,4 +164,10 @@ update_status ModuleGui::HandleMainMenuBar()
 	if (quit_engine) return UPDATE_STOP;
 	
 	return UPDATE_CONTINUE;
+}
+
+void ModuleGui::AddLogToConsole(const char * log)
+{
+	if(console != nullptr)
+		console->AddLog(log);
 }
