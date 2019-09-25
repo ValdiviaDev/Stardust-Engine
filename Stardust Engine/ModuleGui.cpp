@@ -32,7 +32,7 @@ bool ModuleGui::Init()
 	panels.push_back(console);
 	config = new PanelConfig();
 	panels.push_back(config);
-
+	
 	return true;
 }
 

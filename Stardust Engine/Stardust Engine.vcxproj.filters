@@ -169,6 +169,9 @@
     <ClCompile Include="Parson\parson.c">
       <Filter>Sources\Tools\Parson</Filter>
     </ClCompile>
+    <ClCompile Include="ConfigEditor.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -440,6 +443,9 @@
     </ClInclude>
     <ClInclude Include="Parson\parson.h">
       <Filter>Sources\Tools\Parson</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigEditor.h">
+      <Filter>Sources\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
