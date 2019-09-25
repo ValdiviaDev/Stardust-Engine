@@ -6,6 +6,8 @@ ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, s
 {
 	window = NULL;
 	screen_surface = NULL;
+	win_width = SCREEN_WIDTH;
+	win_height = SCREEN_HEIGHT;
 }
 
 // Destructor
@@ -91,4 +93,50 @@ bool ModuleWindow::CleanUp()
 void ModuleWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
+}
+
+void ModuleWindow::ChangeWindowBrightness(float brightness)
+{
+	SDL_SetWindowBrightness(window, brightness);
+}
+
+void ModuleWindow::ChangeWindowWidth(int width)
+{
+	win_width = width;
+	SDL_SetWindowSize(window, width, win_height);
+}
+
+void ModuleWindow::ChangeWindowHeight(int height)
+{
+	win_height = height;
+	SDL_SetWindowSize(window, win_width, height);
+}
+
+void ModuleWindow::SetFullscreen(bool fullscreen)
+{
+	if (fullscreen)
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+	else
+		SDL_SetWindowFullscreen(window, 0);
+}
+
+void ModuleWindow::SetResizable(bool resizable)
+{
+	//SDL_SetWindowResizable() SDL ver 2.0.5
+}
+
+void ModuleWindow::SetBorderless(bool borderless)
+{
+	if(borderless)
+		SDL_SetWindowBordered(window, (SDL_bool)false);
+	else
+		SDL_SetWindowBordered(window, (SDL_bool)true);
+}
+
+void ModuleWindow::SetFullDesktop(bool full_desktop)
+{
+	if (full_desktop)
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	else
+		SDL_SetWindowFullscreen(window, 0);
 }

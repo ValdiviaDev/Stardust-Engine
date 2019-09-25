@@ -2,6 +2,7 @@
 #define __PANEL_CONFIG_H__
 
 #include "Panel.h"
+#include "globals.h"
 #include <vector>
 
 using namespace std;
@@ -14,11 +15,17 @@ public:
 
 	void Draw();
 
+	void ApplicationMenu();
+	void WindowMenu();
+
 	void FillFPSVector();
+	void FillMSVector();
 
 private:
-	vector<float> fps_log;
 
+	vector<float> fps_log;
+	vector<float> ms_log;
+	const uint perfor_vec_size = 70;
 };
 
 #endif

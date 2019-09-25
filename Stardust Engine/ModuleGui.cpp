@@ -4,6 +4,11 @@
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_impl_opengl3.h"
 
+#include "Panel.h"
+#include "PanelAbout.h"
+#include "PanelConsole.h"
+#include "PanelConfig.h"
+
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }

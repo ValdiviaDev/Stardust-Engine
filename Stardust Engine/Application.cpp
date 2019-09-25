@@ -83,7 +83,7 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
-	
+
 	list<Module*>::const_iterator item = list_modules.begin();
 	
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
@@ -133,6 +133,11 @@ void Application::RequestBrowser(const char* url) const
 float Application::GetFPS() const
 {
 	return (1.0f/dt);
+}
+
+float Application::GetMS() 
+{
+	return ((float)ms_timer.Read());
 }
 
 void Application::AddModule(Module* mod)

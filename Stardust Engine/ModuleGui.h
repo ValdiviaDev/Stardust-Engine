@@ -1,10 +1,11 @@
 #pragma once
 #include "Module.h"
 #include <list>
-#include "Panel.h"
-#include "PanelAbout.h"
-#include "PanelConsole.h"
-#include "PanelConfig.h"
+
+class Panel;
+class PanelAbout;
+class PanelConsole;
+class PanelConfig;
 
 using namespace std;
 
