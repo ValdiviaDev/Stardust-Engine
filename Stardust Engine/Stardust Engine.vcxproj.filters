@@ -166,6 +166,9 @@
     <ClCompile Include="PanelConfig.cpp">
       <Filter>Sources\Panels</Filter>
     </ClCompile>
+    <ClCompile Include="Parson\parson.c">
+      <Filter>Sources\Tools\Parson</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -435,6 +438,9 @@
     <ClInclude Include="PanelConfig.h">
       <Filter>Sources\Panels</Filter>
     </ClInclude>
+    <ClInclude Include="Parson\parson.h">
+      <Filter>Sources\Tools\Parson</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -475,6 +481,9 @@
     </Filter>
     <Filter Include="Sources\Panels">
       <UniqueIdentifier>{ffff7460-e4f4-467b-a190-5a87c3520536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools\Parson">
+      <UniqueIdentifier>{8dc347ff-a94c-44b8-98da-7497e9408770}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
