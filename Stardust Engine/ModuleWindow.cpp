@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ConfigEditor.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, "Window", start_enabled)
 {
@@ -16,7 +17,7 @@ ModuleWindow::~ModuleWindow()
 }
 
 // Called before render is available
-bool ModuleWindow::Init()
+bool ModuleWindow::Init(ConfigEditor* config)
 {
 	LOG("Init SDL window & surface");
 	bool ret = true;
@@ -28,36 +29,47 @@ bool ModuleWindow::Init()
 	}
 	else
 	{
+
+		win_width = config->ReadInt("Width", SCREEN_WIDTH * SCREEN_SIZE);
+		win_height = config->ReadInt("Height", SCREEN_HEIGHT * SCREEN_SIZE);
 		//Create window
-		int width = SCREEN_WIDTH * SCREEN_SIZE;
-		int height = SCREEN_HEIGHT * SCREEN_SIZE;
+		//int width = SCREEN_WIDTH * SCREEN_SIZE;
+		//int height = SCREEN_HEIGHT * SCREEN_SIZE;
+
+		fullscreen = config->ReadBool("Fullscreen", false);
+		resizable = config->ReadBool("Resizable", false);
+		borderless = config->ReadBool("Borderless", false);
+		full_desktop = config->ReadBool("Full Desktop", false);
+
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if(WIN_FULLSCREEN == true)
+		if(fullscreen == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(WIN_RESIZABLE == true)
+		if(resizable == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if(WIN_BORDERLESS == true)
+		if(borderless == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if(WIN_FULLSCREEN_DESKTOP == true)
+		if(full_desktop == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		
+
+		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, win_width, win_height, flags);
 
 		if(window == NULL)
 		{
@@ -70,6 +82,8 @@ bool ModuleWindow::Init()
 			screen_surface = SDL_GetWindowSurface(window);
 		}
 	}
+
+	ChangeWindowBrightness(config->ReadFloat("Brightness", 1.0f));
 
 	return ret;
 }
@@ -97,6 +111,7 @@ void ModuleWindow::SetTitle(const char* title)
 
 void ModuleWindow::ChangeWindowBrightness(float brightness)
 {
+	this->brightness = brightness;
 	SDL_SetWindowBrightness(window, brightness);
 }
 
@@ -114,6 +129,7 @@ void ModuleWindow::ChangeWindowHeight(int height)
 
 void ModuleWindow::SetFullscreen(bool fullscreen)
 {
+	this->fullscreen = fullscreen;
 	if (fullscreen)
 		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 	else
@@ -122,11 +138,13 @@ void ModuleWindow::SetFullscreen(bool fullscreen)
 
 void ModuleWindow::SetResizable(bool resizable)
 {
+	this->resizable = resizable;
 	//SDL_SetWindowResizable() SDL ver 2.0.5
 }
 
 void ModuleWindow::SetBorderless(bool borderless)
 {
+	this->borderless = borderless;
 	if(borderless)
 		SDL_SetWindowBordered(window, (SDL_bool)false);
 	else
@@ -135,8 +153,34 @@ void ModuleWindow::SetBorderless(bool borderless)
 
 void ModuleWindow::SetFullDesktop(bool full_desktop)
 {
+	this->full_desktop = full_desktop;
 	if (full_desktop)
 		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 	else
 		SDL_SetWindowFullscreen(window, 0);
+}
+
+
+void ModuleWindow::Load(ConfigEditor* config) {
+
+	fullscreen = config->ReadBool("Fullscreen", false);
+	resizable = config->ReadBool("Resizable", true);
+	borderless = config->ReadBool("Borderless", false);
+	full_desktop = config->ReadBool("Full Desktop", false);
+
+	win_width = config->ReadInt("Width", SCREEN_WIDTH * SCREEN_SIZE);
+	win_height = config->ReadInt("Height", SCREEN_HEIGHT * SCREEN_SIZE);
+	brightness = config->ReadFloat("Brightness", 1.0f);
+}
+
+void ModuleWindow::Save(ConfigEditor* config) const {
+
+	config->WriteBool("Fullscreen", fullscreen);
+	config->WriteBool("Resizable", resizable);
+	config->WriteBool("Borderless", borderless);
+	config->WriteBool("Full Desktop", full_desktop);
+
+	config->WriteInt("Width", win_width);
+	config->WriteInt("Height", win_height);
+	config->WriteFloat("Brightness", brightness);
 }

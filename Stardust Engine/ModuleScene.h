@@ -20,7 +20,6 @@ public:
 
 	void TryMathGeoLibInters();
 
-	void TestingParson(const char* username, const char* repo);
 
 private:
 	//RNG test

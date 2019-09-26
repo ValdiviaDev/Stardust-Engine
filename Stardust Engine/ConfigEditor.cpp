@@ -80,3 +80,19 @@ int ConfigEditor::ReadInt(const char* name, int default) const {
 
 	//return default;
 }
+
+
+void ConfigEditor::WriteFloat(const char* name, float value) {
+	LOG("Writing float");
+	json_object_set_number(module_object, name, (float)value);
+	json_serialize_to_file(root_value, "config.json");
+}
+
+
+float ConfigEditor::ReadFloat(const char* name, float default) const {
+	LOG("Float is %f", (float)json_object_get_number(module_object, name));
+
+	return (float)json_object_get_number(module_object, name);
+
+	//return default;
+}

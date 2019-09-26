@@ -18,7 +18,7 @@ ModuleGui::~ModuleGui()
 {
 }
 
-bool ModuleGui::Init()
+bool ModuleGui::Init(ConfigEditor* config)
 {
 	//imGui init
 	IMGUI_CHECKVERSION();
@@ -32,12 +32,12 @@ bool ModuleGui::Init()
 	ImGui::StyleColorsDark();
 
 	//Panels
-	about = new PanelAbout();
-	panels.push_back(about);
-	console = new PanelConsole();
-	panels.push_back(console);
-	config = new PanelConfig();
-	panels.push_back(config);
+	p_about = new PanelAbout();
+	panels.push_back(p_about);
+	p_console = new PanelConsole();
+	panels.push_back(p_console);
+	p_config = new PanelConfig();
+	panels.push_back(p_config);
 	
 	AddLogToConsole("Initializing ImGui");
 
@@ -58,9 +58,9 @@ update_status ModuleGui::Update(float dt)
 {
 	//Shortcuts
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-		console->ToggleActive();
+		p_console->ToggleActive();
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
-		config->ToggleActive();
+		p_config->ToggleActive();
 
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		AddLogToConsole("SAMPLE LOG");
@@ -106,9 +106,9 @@ bool ModuleGui::CleanUp()
 		}
 		panel++;
 	}
-	about = nullptr;
-	console = nullptr;
-	config = nullptr;
+	p_about = nullptr;
+	p_console = nullptr;
+	p_config = nullptr;
 
 	return true;
 }
@@ -128,11 +128,11 @@ update_status ModuleGui::HandleMainMenuBar()
 		}
 		if (ImGui::BeginMenu("View"))
 		{
-			if(ImGui::MenuItem("Console", "1", console->IsActive()))
-				console->ToggleActive(); 
+			if(ImGui::MenuItem("Console", "1", p_console->IsActive()))
+				p_console->ToggleActive(); 
 
-			if (ImGui::MenuItem("Configuration", "4", config->IsActive()))
-				config->ToggleActive();
+			if (ImGui::MenuItem("Configuration", "4", p_config->IsActive()))
+				p_config->ToggleActive();
 
 			ImGui::EndMenu();
 		}
@@ -151,7 +151,7 @@ update_status ModuleGui::HandleMainMenuBar()
 				App->RequestBrowser("https://github.com/ValdiviaDev/Stardust-Engine/issues");
 			
 			if (ImGui::MenuItem("About"))
-				about->ToggleActive();
+				p_about->ToggleActive();
 
 			ImGui::EndMenu();
 		}
@@ -169,19 +169,10 @@ update_status ModuleGui::HandleMainMenuBar()
 
 void ModuleGui::AddLogToConsole(const char * log)
 {
-	if(console != nullptr)
-		console->AddLog(log);
+	if(p_console != nullptr)
+		p_console->AddLog(log);
 }
 
-void ModuleGui::Load(ConfigEditor* config) {
 
 
-	bool testing = config->ReadBool("Test2", true);
-	int testingint = config->ReadInt("TestInt", -1);
-}
 
-void ModuleGui::Save(ConfigEditor* config) const {
-	config->WriteBool("Test", true);
-	config->WriteBool("Test2", false);
-	config->WriteInt("TestInt", 11);
-}

@@ -28,6 +28,7 @@ public:
 	void FillFPSVector();
 	void FillMSVector();
 
+
 private:
 	vector<float> fps_log;
 	vector<float> ms_log;
@@ -35,6 +36,7 @@ private:
 	
 	ImGuiTextBuffer imput_log_buff;
 	bool imput_log_scroll = false;
+
 };
 
 #endif

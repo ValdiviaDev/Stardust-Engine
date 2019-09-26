@@ -20,7 +20,7 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Init() 
+	virtual bool Init(ConfigEditor* config) 
 	{
 		return true; 
 	}

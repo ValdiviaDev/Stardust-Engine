@@ -25,7 +25,9 @@ void PanelConfig::Draw()
 	if (ImGui::BeginMenu("Options"))
 	{
 		ImGui::MenuItem("Set defaults"); //TODO
-		ImGui::MenuItem("Save"); //TODO
+		if (ImGui::MenuItem("Save"))
+			App->SaveConfig();
+
 		ImGui::MenuItem("Load"); //TODO
 
 		ImGui::EndMenu();
@@ -84,18 +86,20 @@ void PanelConfig::WindowMenu()
 {
 	//TODO icon
 
-	static float brighntess = 1.0f;
-	static int w_width = SCREEN_WIDTH;
-	static int w_height = SCREEN_HEIGHT;
+	float brightness = App->window->brightness;
+	int w_width = App->window->win_width;
+	int w_height = App->window->win_height;
 
-	static bool fullscreen = false;
-	static bool resizable = false;
-	static bool borderless = false;
-	static bool full_desktop = false;
-	
+	bool fullscreen = App->window->fullscreen;
+	bool resizable = App->window->resizable;
+	bool borderless = App->window->borderless;
+	bool full_desktop = App->window->full_desktop;
+	 
+
+
 	//Brigthness
-	if (ImGui::SliderFloat("Brightness", &brighntess, 0.0f, 1.0f))
-		App->window->ChangeWindowBrightness(brighntess);
+	if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f))
+		App->window->ChangeWindowBrightness(brightness);
 
 	//Resize window
 	if (ImGui::SliderInt("Width", &w_width, 640, 1920))
@@ -118,6 +122,8 @@ void PanelConfig::WindowMenu()
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Full Desktop", &full_desktop))
 		App->window->SetFullDesktop(full_desktop);
+
+	
 }
 
 void PanelConfig::FileSystemMenu()
@@ -275,3 +281,6 @@ void PanelConfig::FillMSVector()
 	else
 		ms_log.push_back(App->GetMS());
 }
+
+
+
