@@ -1,6 +1,7 @@
 #pragma once
 
 class Application;
+class ConfigEditor;
 
 class Module
 {
@@ -45,4 +46,10 @@ public:
 	{ 
 		return true; 
 	}
+
+	virtual void Save(ConfigEditor* config) const
+	{}
+
+	virtual void Load(ConfigEditor* config)
+	{}
 };

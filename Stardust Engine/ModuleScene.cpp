@@ -119,77 +119,61 @@ void ModuleScene::TestingParson(const char* username, const char* repo) {
 
 
 
-	JSON_Value* root_value = json_value_init_object();
-	JSON_Object* root_object = json_value_get_object(root_value);
-	root_value = json_parse_file("testing.json");
+	JSON_Value *root_value = json_parse_file("config.json");
+	
+	JSON_Object *root_object = json_value_get_object(root_value);
+	//root_value = json_parse_file("testing.json"); //parse_string?
+	char buf[256] = "rikarudoo";
 
-	if (json_value_get_type(root_value) != JSONArray) {
-		LOG("JSON ERROR");
-		return;
+	if (root_value == NULL) { //JSONArray) {
+		LOG("JSON not found, creating new file");
+		root_value = json_value_init_object();
+		
 	}
 
-	
-	
-	//json_object_set_string(root_object, "name", "John Smith");
+	json_object_set_string(json_object(root_value), "testing", buf);
+	json_serialize_to_file(root_value, "config.json");
 
 	json_value_free(root_value);
-
-
+	//json_value_free(root_object); //Does JSON_Object have to be freed? How?
 	
-	//JSON_Value* root_value;
-	//JSON_Array* commits;
-	//JSON_Object* commit;
-	//size_t i;
 
-	//char curl_command[512];
-	//char cleanup_command[256];
-	//char output_filename[] = "commits.json";
+	//PARSON examples, delete later
 
-	///* it ain't pretty, but it's not a libcurl tutorial */
-	//sprintf(curl_command,
-	//	"curl -s \"https://api.github.com/repos/%s/%s/commits\" > %s",
-	//	username, repo, output_filename);
-	//sprintf(cleanup_command, "rm -f %s", output_filename);
-	//system(curl_command);
-
-	///* parsing json and validating output */
-	//root_value = json_parse_file(output_filename);
-	//if (json_value_get_type(root_value) != JSONArray) {
-	//	system(cleanup_command);
-	//	return;
+	//JSON_Value *schema = json_parse_string("{\"name\":\"\"}");
+	//JSON_Value *user_data = json_parse_file("user_data.json");
+	//char buf[256] = "rikarudo";
+	//const char *name = NULL;
+	//if (user_data == NULL || json_validate(schema, user_data) != JSONSuccess) {
+	//	/*puts("Enter your name:");
+	//	scanf("%s", buf);*/
+	//	
+	//	user_data = json_value_init_object();
+	//	json_object_set_string(json_object(user_data), "name", buf);
+	//	json_serialize_to_file(user_data, "user_data.json");
 	//}
-
-	///* getting array from root value and printing commit info */
-	//commits = json_value_get_array(root_value);
-	//LOG("%-10.10s %-10.10s %s\n", "Date", "SHA", "Author");
-	//for (i = 0; i < json_array_get_count(commits); i++) {
-	//	commit = json_array_get_object(commits, i);
-	//	LOG("%.10s %.10s %s\n",
-	//		json_object_dotget_string(commit, "commit.author.date"),
-	//		json_object_get_string(commit, "sha"),
-	//		json_object_dotget_string(commit, "commit.author.name"));
-	//}
-
-	///* cleanup code */
-	//json_value_free(root_value);
-	//system(cleanup_command);
-
+	//name = json_object_get_string(json_object(user_data), "name");
+	//LOG("Hello, %s.", name);
+	//json_value_free(schema);
+	//json_value_free(user_data);
 	
 	
 
-	/*
 	
-	JSON_Value *root_value = json_value_init_object();
-    JSON_Object *root_object = json_value_get_object(root_value);
-    char *serialized_string = NULL;
-    json_object_set_string(root_object, "name", "John Smith");
-    json_object_set_number(root_object, "age", 25);
-    json_object_dotset_string(root_object, "address.city", "Cupertino");
-    json_object_dotset_value(root_object, "contact.emails", json_parse_string("[\"email@example.com\",\"email2@example.com\"]"));
-    serialized_string = json_serialize_to_string_pretty(root_value);
-    puts(serialized_string);
-    json_free_serialized_string(serialized_string);
-    json_value_free(root_value);
+	//
+	//JSON_Value *root_value = json_value_init_object();
+ //   JSON_Object *root_object = json_value_get_object(root_value);
+	//root_value = json_parse_file("commits.json");
+ //   char *serialized_string = NULL;
+ //   json_object_set_string(root_object, "name", "John Smith");
+ //   json_object_set_number(root_object, "age", 25);
+ //   json_object_dotset_string(root_object, "address.city", "Cupertino");
+ //   json_object_dotset_value(root_object, "contact.emails", json_parse_string("[\"email@example.com\",\"email2@example.com\"]"));
+ //   serialized_string = json_serialize_to_string_pretty(root_value);
+ //   puts(serialized_string);
+ //   json_free_serialized_string(serialized_string);
+ //   json_value_free(root_value);
 	
-	*/
+	
+	
 }

@@ -1,4 +1,6 @@
 #include "Application.h"
+#include "ConfigEditor.h"
+
 
 Application::Application()
 {
@@ -124,6 +126,15 @@ bool Application::CleanUp()
 	}
 	return ret;
 }
+
+void Application::SaveConfig(ConfigEditor& config) const {
+
+}
+
+void Application:: LoadConfig(const ConfigEditor& config) {
+
+}
+
 
 void Application::RequestBrowser(const char* url) const
 {

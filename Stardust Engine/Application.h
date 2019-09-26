@@ -13,6 +13,10 @@
 
 using namespace std;
 
+class ConfigEditor;
+
+
+
 class Application
 {
 public:
@@ -41,6 +45,10 @@ public:
 	void RequestBrowser(const char* website) const;
 	float GetFPS() const;
 	float GetMS();
+
+	void SaveConfig(ConfigEditor& config) const;
+	void LoadConfig(const ConfigEditor& config);
+
 
 private:
 
