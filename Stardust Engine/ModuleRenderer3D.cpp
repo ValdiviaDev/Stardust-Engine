@@ -162,3 +162,14 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
+void ModuleRenderer3D::SaveGPUInfo()
+{
+	gpu_info.GPU_renderer = (const char*)glGetString(GL_RENDERER);
+	gpu_info.GPU_vendor = (const char*)glGetString(GL_VENDOR);
+}
+
+GPU_Info ModuleRenderer3D::GetGPUInfo()
+{
+	return gpu_info;
+}

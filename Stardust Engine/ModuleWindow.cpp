@@ -112,6 +112,20 @@ void ModuleWindow::ChangeWindowHeight(int height)
 	SDL_SetWindowSize(window, win_width, height);
 }
 
+int ModuleWindow::GetScreenRefreshRate()
+{
+	SDL_DisplayMode Mode;
+	int DisplayIndex = SDL_GetWindowDisplayIndex(window);
+	
+	SDL_GetDesktopDisplayMode(DisplayIndex, &Mode);
+
+	if (Mode.refresh_rate == 0)
+	{
+		return 0; //If error, return 0
+	}
+	return Mode.refresh_rate;
+}
+
 void ModuleWindow::SetFullscreen(bool fullscreen)
 {
 	if (fullscreen)

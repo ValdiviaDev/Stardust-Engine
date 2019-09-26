@@ -15,6 +15,7 @@ public:
 protected:
 	bool active = true;
 	char* name = nullptr;
+	int pos_x, pos_y, width, height;
 };
 
 #endif

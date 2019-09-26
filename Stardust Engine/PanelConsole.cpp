@@ -5,6 +5,7 @@ PanelConsole::PanelConsole()
 {
 	name = "console";
 	active = true;
+	pos_x = 50, pos_y = 70, width = 700, height = 200;
 }
 
 PanelConsole::~PanelConsole()
@@ -14,8 +15,8 @@ PanelConsole::~PanelConsole()
 void PanelConsole::Draw()
 {
 	//Set window position and size
-	ImGui::SetNextWindowPos({ 50,70 }, ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(700, 200), ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Once);
 	
 	static bool autom_scroll = true;
 

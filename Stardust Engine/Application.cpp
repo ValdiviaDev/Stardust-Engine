@@ -5,6 +5,7 @@
 Application::Application()
 {
 	last_frame_ms = -1;
+	GetHardwareInfo();
 
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
@@ -171,6 +172,30 @@ float Application::GetFPS() const
 float Application::GetMS() 
 {
 	return ((float)last_frame_ms);
+}
+
+void Application::SaveHardwareInfo()
+{
+	h_info.CPU_core_num = SDL_GetCPUCount();
+	h_info.cache_line_size = SDL_GetCPUCacheLineSize();
+	h_info.RAM_mb = SDL_GetSystemRAM();
+
+	h_info.using_AVX = SDL_HasAVX();
+	h_info.using_AVX2 = SDL_HasAVX2();
+	h_info.using_3DNow = SDL_Has3DNow();
+	h_info.using_AltiVec = SDL_HasAltiVec();
+	h_info.using_MMX = SDL_HasMMX();
+	h_info.using_RDTSC = SDL_HasRDTSC();
+	h_info.using_SSE = SDL_HasSSE();
+	h_info.using_SSE2 = SDL_HasSSE2();
+	h_info.using_SSE3 = SDL_HasSSE3();
+	h_info.using_SSE41 = SDL_HasSSE41();
+	h_info.using_SSE42 = SDL_HasSSE42();
+}
+
+Hardware_Info Application::GetHardwareInfo()
+{
+	return h_info;
 }
 
 void Application::AddModule(Module* mod)

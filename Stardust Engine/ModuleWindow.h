@@ -25,6 +25,8 @@ public:
 	void ChangeWindowWidth(int width);
 	void ChangeWindowHeight(int height);
 
+	int GetScreenRefreshRate();
+
 	void SetFullscreen(bool fullscreen);
 	void SetResizable(bool resizable);
 	void SetBorderless(bool borderless);

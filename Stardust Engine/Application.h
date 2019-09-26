@@ -15,7 +15,23 @@ using namespace std;
 
 class ConfigEditor;
 
+struct Hardware_Info {
+	int CPU_core_num = 0;
+	int cache_line_size = 0;
+	int RAM_mb = 0;
 
+	bool using_AVX = false;
+	bool using_AVX2 = false;
+	bool using_3DNow = false;
+	bool using_AltiVec = false;
+	bool using_MMX = false;
+	bool using_RDTSC = false;
+	bool using_SSE = false;
+	bool using_SSE2 = false;
+	bool using_SSE3 = false;
+	bool using_SSE41 = false;
+	bool using_SSE42 = false;
+};
 
 class Application
 {
@@ -35,6 +51,8 @@ private:
 
 	list<Module*> list_modules;
 
+	Hardware_Info h_info;
+
 public:
 
 	Application();
@@ -47,6 +65,9 @@ public:
 	void RequestBrowser(const char* website) const;
 	float GetFPS() const;
 	float GetMS();
+
+	void SaveHardwareInfo();
+	Hardware_Info GetHardwareInfo();
 
 	void SaveConfig() const;
 	void LoadConfig();

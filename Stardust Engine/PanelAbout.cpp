@@ -5,6 +5,7 @@ PanelAbout::PanelAbout()
 {
 	name = "about";
 	active = false;
+	pos_x = 70, pos_y = 70, width = 500, height = 700;
 }
 
 PanelAbout::~PanelAbout()
@@ -18,8 +19,8 @@ void PanelAbout::Draw()
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 
 	//Set window position and size
-	ImGui::SetNextWindowPos({ 70,70 }, ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(500, 700), ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Once);
 
 	//Window
 	ImGui::Begin("About", &active, window_flags);
