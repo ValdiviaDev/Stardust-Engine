@@ -46,8 +46,8 @@ public:
 	float GetFPS() const;
 	float GetMS();
 
-	void SaveConfig(ConfigEditor& config) const;
-	void LoadConfig(const ConfigEditor& config);
+	void SaveConfig() const;
+	void LoadConfig();
 
 
 private:

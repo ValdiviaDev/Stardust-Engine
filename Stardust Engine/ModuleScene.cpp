@@ -9,7 +9,7 @@
 #include "MathGeoLib/include/MathGeoLib.h"
 #include <gl/GL.h>
 
-ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, "Scene", start_enabled)
 {
 }
 
@@ -114,8 +114,11 @@ void ModuleScene::TryMathGeoLibInters()
 
 void ModuleScene::TestingParson(const char* username, const char* repo) {
 
+	App->SaveConfig();
 
 
+
+	/*
 	JSON_Value *root_value = json_parse_file("config.json");
 	
 	JSON_Object *root_object = json_value_get_object(root_value);

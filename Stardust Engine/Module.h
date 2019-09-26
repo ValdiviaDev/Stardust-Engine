@@ -7,12 +7,15 @@ class Module
 {
 private :
 	bool enabled;
+	char name[20];
 
 public:
 	Application* App;
 
-	Module(Application* parent, bool start_enabled = true) : App(parent)
-	{}
+	Module(Application* parent, const char* name, bool start_enabled = true) : App(parent)
+	{
+		strcpy_s(this->name, 20, name);
+	}
 
 	virtual ~Module()
 	{}
@@ -45,6 +48,11 @@ public:
 	virtual bool CleanUp() 
 	{ 
 		return true; 
+	}
+
+	const char* GetName() const
+	{
+		return name;
 	}
 
 	virtual void Save(ConfigEditor* config) const

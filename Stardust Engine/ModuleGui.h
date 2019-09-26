@@ -6,6 +6,7 @@ class Panel;
 class PanelAbout;
 class PanelConsole;
 class PanelConfig;
+class ModuleGui;
 
 using namespace std;
 
@@ -23,6 +24,9 @@ public:
 
 	update_status HandleMainMenuBar();
 	void AddLogToConsole(const char* log);
+
+	void Load(ConfigEditor* config);
+	void Save(ConfigEditor* config) const;
 
 private:
 

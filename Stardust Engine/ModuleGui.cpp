@@ -3,13 +3,14 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_impl_opengl3.h"
+#include "ConfigEditor.h"
 
 #include "Panel.h"
 #include "PanelAbout.h"
 #include "PanelConsole.h"
 #include "PanelConfig.h"
 
-ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, "Gui", start_enabled)
 {
 }
 
@@ -170,4 +171,15 @@ void ModuleGui::AddLogToConsole(const char * log)
 {
 	if(console != nullptr)
 		console->AddLog(log);
+}
+
+void ModuleGui::Load(ConfigEditor* config) {
+
+
+}
+
+void ModuleGui::Save(ConfigEditor* config) const {
+	config->WriteBool("Test", true);
+	config->WriteBool("Test2", false);
+
 }
