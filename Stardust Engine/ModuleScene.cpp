@@ -57,10 +57,7 @@ update_status ModuleScene::Update(float dt)
 		TestingParson("ValdiviaDev", "Stardust-Engine");
 
 
-	//Title
-	char title[80];
-	sprintf_s(title, "Stardust Engine %.1f fps", 1/dt);
-	App->window->SetTitle(title);
+	
 
 
 	return UPDATE_CONTINUE;

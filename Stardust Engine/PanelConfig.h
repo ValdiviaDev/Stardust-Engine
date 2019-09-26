@@ -17,6 +17,9 @@ public:
 
 	void ApplicationMenu();
 	void WindowMenu();
+	void FileSystemMenu();
+	void InputMenu();
+	void HardwareMenu();
 
 	void FillFPSVector();
 	void FillMSVector();

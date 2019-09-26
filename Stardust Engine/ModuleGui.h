@@ -22,6 +22,7 @@ public:
 	bool CleanUp();
 
 	update_status HandleMainMenuBar();
+	void AddLogToConsole(const char* log);
 
 private:
 

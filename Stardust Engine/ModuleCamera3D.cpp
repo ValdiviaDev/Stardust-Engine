@@ -1,7 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
-
+#include "ModuleGui.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -22,6 +22,7 @@ ModuleCamera3D::~ModuleCamera3D()
 bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
+	App->gui->AddLogToConsole("Setting up the camera");
 	bool ret = true;
 
 	return ret;
@@ -39,7 +40,6 @@ bool ModuleCamera3D::CleanUp()
 update_status ModuleCamera3D::Update(float dt)
 {
 	// Keys motion ----------------
-	
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		vec3 newPos(0, 0, 0);
