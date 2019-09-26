@@ -8,6 +8,7 @@ PanelConfig::PanelConfig()
 {
 	name = "config";
 	active = true;
+	pos_x = 800, pos_y = 70, width = 400, height = 700;
 }
 
 PanelConfig::~PanelConfig()
@@ -17,8 +18,8 @@ PanelConfig::~PanelConfig()
 void PanelConfig::Draw()
 {
 	//Set window position and size
-	ImGui::SetNextWindowPos({ 700,70 }, ImGuiWindowFlags_MenuBar);
-	ImGui::SetNextWindowSize(ImVec2(400, 900), ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Once);
 
 	//Window
 	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_None);
@@ -108,7 +109,10 @@ void PanelConfig::WindowMenu()
 	if (ImGui::SliderInt("Height", &w_height, 480, 1080))
 		App->window->ChangeWindowHeight(w_height);
 	
-	//TODO Refresh Rate
+	//Refresh Rate
+	ImGui::Text("Refresh rate:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%i", App->window->GetScreenRefreshRate());
 
 	//Checkboxes for different window flags
 	if (ImGui::Checkbox("Fullscreen", &fullscreen))
@@ -179,7 +183,10 @@ void PanelConfig::HardwareMenu()
 	CheckForCaps();
 
 	ImGui::Separator();
-	//ImGui::Text("GPU:"); //TODO
+	ImGui::Text("GPU:"); //TODO
+	ImGui::SameLine();
+	if(App->renderer3D->GetGPUInfo().GPU_renderer != nullptr)
+		ImGui::TextColored({ 255,255,0,255 }, App->renderer3D->GetGPUInfo().GPU_renderer);
 	//ImGui::Text("Brand:");
 	//ImGui::Text("VRAM Budget:");
 	//ImGui::Text("VRAM Usage:");
