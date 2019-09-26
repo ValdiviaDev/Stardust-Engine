@@ -4,6 +4,8 @@
 
 Application::Application()
 {
+	last_frame_ms = -1;
+
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	scene = new ModuleScene(this);
@@ -80,6 +82,7 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	last_frame_ms = ms_timer.Read();
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -167,7 +170,7 @@ float Application::GetFPS() const
 
 float Application::GetMS() 
 {
-	return ((float)ms_timer.Read());
+	return ((float)last_frame_ms);
 }
 
 void Application::AddModule(Module* mod)

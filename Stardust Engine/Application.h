@@ -31,6 +31,8 @@ private:
 
 	Timer	ms_timer;
 	float	dt;
+	int		last_frame_ms;
+
 	list<Module*> list_modules;
 
 public:

@@ -2,6 +2,7 @@
 #include "imgui/imgui.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleInput.h"
 
 PanelConfig::PanelConfig()
 {
@@ -49,6 +50,8 @@ void PanelConfig::Draw()
 
 void PanelConfig::ApplicationMenu()
 {
+	static int max_fps = 60;
+
 	//Engine name & organization
 	static char eng_name[30] = TITLE;
 	if (ImGui::InputText("App Name", eng_name, IM_ARRAYSIZE(eng_name)))
@@ -56,6 +59,13 @@ void PanelConfig::ApplicationMenu()
 
 	static char org_name[30] = ORGANIZATION;
 	ImGui::InputText("Organization", org_name, IM_ARRAYSIZE(org_name));
+
+	//Toggle FPS
+	if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120)){} //TODO
+
+	ImGui::Text("Limit framerate: ");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "0");
 
 	//Historiograms fps/ms
 	FillFPSVector();
@@ -66,10 +76,14 @@ void PanelConfig::ApplicationMenu()
 	ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
 	sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
 	ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
+
+	//MEMORY STUFF TODO
 }
 
 void PanelConfig::WindowMenu()
 {
+	//TODO icon
+
 	static float brighntess = 1.0f;
 	static int w_width = SCREEN_WIDTH;
 	static int w_height = SCREEN_HEIGHT;
@@ -90,6 +104,8 @@ void PanelConfig::WindowMenu()
 	if (ImGui::SliderInt("Height", &w_height, 480, 1080))
 		App->window->ChangeWindowHeight(w_height);
 	
+	//TODO Refresh Rate
+
 	//Checkboxes for different window flags
 	if (ImGui::Checkbox("Fullscreen", &fullscreen))
 		App->window->SetFullscreen(fullscreen);
@@ -106,10 +122,36 @@ void PanelConfig::WindowMenu()
 
 void PanelConfig::FileSystemMenu()
 {
+	//TODO
 }
 
 void PanelConfig::InputMenu()
 {
+	ImGui::Text("Mouse Position:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%i, %i",
+		App->input->GetMouseX(), App->input->GetMouseY());
+
+	ImGui::Text("Mouse Motion:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%i, %i",
+		App->input->GetMouseXMotion(), App->input->GetMouseYMotion());
+
+	ImGui::Text("Mouse Wheel:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%i", App->input->GetMouseZ());
+
+	ImGui::Separator();
+
+	//Input Log
+	ImGui::BeginChild("Input Log", {370,70});
+	ImGui::TextUnformatted(imput_log_buff.begin());
+	InputConsole();
+	if (imput_log_scroll){
+		ImGui::SetScrollHere(1.0f);
+		imput_log_scroll = false;
+	}
+	ImGui::EndChild();
 }
 
 void PanelConfig::HardwareMenu()
@@ -128,13 +170,85 @@ void PanelConfig::HardwareMenu()
 	
 	ImGui::Text("Caps:");
 	ImGui::SameLine();
+	CheckForCaps();
 
 	ImGui::Separator();
-	//ImGui::Text("GPU:");
+	//ImGui::Text("GPU:"); //TODO
 	//ImGui::Text("Brand:");
 	//ImGui::Text("VRAM Budget:");
 	//ImGui::Text("VRAM Usage:");
 	//ImGui::Text("VRAM Reserved:");
+}
+
+void PanelConfig::InputConsole()
+{
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		imput_log_buff.appendf("Left button down");
+		imput_log_buff.appendf("\n");
+		imput_log_scroll = true;
+	}
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP) {
+		imput_log_buff.appendf("Left button release");
+		imput_log_buff.appendf("\n");
+		imput_log_scroll = true;
+	}
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN) {
+		imput_log_buff.appendf("Right button down");
+		imput_log_buff.appendf("\n");
+		imput_log_scroll = true;
+	}
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_UP) {
+		imput_log_buff.appendf("Right button release");
+		imput_log_buff.appendf("\n");
+		imput_log_scroll = true;
+	}
+
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_DOWN) {
+		imput_log_buff.appendf("Middle button down");
+		imput_log_buff.appendf("\n");
+		imput_log_scroll = true;
+	}
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_UP) {
+		imput_log_buff.appendf("Middle button release");
+		imput_log_buff.appendf("\n");
+		imput_log_scroll = true;
+	}
+}
+
+void PanelConfig::CheckForCaps()
+{
+	if(SDL_HasAVX())
+		ImGui::TextColored({ 255,255,0,255 }, "AVX,");
+	ImGui::SameLine();
+	if (SDL_Has3DNow())
+		ImGui::TextColored({ 255,255,0,255 }, "3DNow,");
+	ImGui::SameLine();
+	if (SDL_HasAVX2())
+		ImGui::TextColored({ 255,255,0,255 }, "AVX2,");
+	ImGui::SameLine();
+	if (SDL_HasAltiVec())
+		ImGui::TextColored({ 255,255,0,255 }, "AltiVec,");
+	ImGui::SameLine();
+	if (SDL_HasMMX())
+		ImGui::TextColored({ 255,255,0,255 }, "MMX,");
+	ImGui::SameLine();
+	if (SDL_HasRDTSC())
+		ImGui::TextColored({ 255,255,0,255 }, "RDTSC,");
+	ImGui::SameLine();
+	if (SDL_HasSSE())
+		ImGui::TextColored({ 255,255,0,255 }, "SSE,");
+	ImGui::SameLine();
+	if (SDL_HasSSE2())
+		ImGui::TextColored({ 255,255,0,255 }, "SSE2,");
+	if (SDL_HasSSE3())
+		ImGui::TextColored({ 255,255,0,255 }, "SSE3,");
+	ImGui::SameLine();
+	if (SDL_HasSSE41())
+		ImGui::TextColored({ 255,255,0,255 }, "SSE41,");
+	ImGui::SameLine();
+	if (SDL_HasSSE42())
+		ImGui::TextColored({ 255,255,0,255 }, "SSE42");
 }
 
 void PanelConfig::FillFPSVector()
