@@ -45,9 +45,38 @@ ConfigEditor ConfigEditor::GetModuleLocation(const char* name) {
 }
 
 
-void ConfigEditor::WriteBool(const char* name, bool value)
-{
+void ConfigEditor::WriteBool(const char* name, bool value){
 	LOG("Writing bool");
 	json_object_set_boolean(module_object, name, value);
+	json_serialize_to_file(root_value, "config.json"); //MIRAR SI ESTO SE TIENE QE HACER CADA VZ O UNA VEZ al fiNAL Y YA
+}
+
+
+bool ConfigEditor::ReadBool(const char* name, bool default) const {
+
+	if(json_object_get_boolean(module_object, name) == true)
+		LOG("%s is true", name);
+	if (json_object_get_boolean(module_object, name) == false)
+		LOG("%s is false", name);
+
+	return json_object_get_boolean(module_object, name);
+
+	
+	//return default;
+}
+
+
+void ConfigEditor::WriteInt(const char* name, int value) {
+	LOG("Writing int");
+	json_object_set_number(module_object, name, (double)value);
 	json_serialize_to_file(root_value, "config.json");
+}
+
+
+int ConfigEditor::ReadInt(const char* name, int default) const {
+	LOG("Int is %i", (int)json_object_get_number(module_object, name));
+	
+	return (int)json_object_get_number(module_object, name);
+
+	//return default;
 }

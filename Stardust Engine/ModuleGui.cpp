@@ -176,10 +176,12 @@ void ModuleGui::AddLogToConsole(const char * log)
 void ModuleGui::Load(ConfigEditor* config) {
 
 
+	bool testing = config->ReadBool("Test2", true);
+	int testingint = config->ReadInt("TestInt", -1);
 }
 
 void ModuleGui::Save(ConfigEditor* config) const {
 	config->WriteBool("Test", true);
 	config->WriteBool("Test2", false);
-
+	config->WriteInt("TestInt", 11);
 }

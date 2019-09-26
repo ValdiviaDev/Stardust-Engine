@@ -64,6 +64,8 @@ bool Application::Init()
 		item++;
 	}
 	
+	LoadConfig();
+
 	ms_timer.Start();
 	return ret;
 }
@@ -134,9 +136,7 @@ void Application::SaveConfig() const {
 	ConfigEditor module_location("App");
 
 	for (list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); item++) {
-		if (!strcmp((*item)->GetName(), "Gui")) {
-			LOG("Gui now");
-		}
+		
 		module_location = module_location.GetModuleLocation((*item)->GetName());
 		(*item)->Save(&module_location);
 	}
@@ -144,6 +144,14 @@ void Application::SaveConfig() const {
 
 void Application:: LoadConfig() {
 
+	ConfigEditor config;
+	ConfigEditor module_location("App");
+
+	for (list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); item++) {
+		
+		module_location = module_location.GetModuleLocation((*item)->GetName());
+		(*item)->Load(&module_location);
+	}
 }
 
 

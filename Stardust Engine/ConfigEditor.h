@@ -25,6 +25,10 @@ public:
 	ConfigEditor GetModuleLocation(const char* name);
 
 	void WriteBool(const char* name, bool value);
+	bool ReadBool(const char* name, bool default) const;
+
+	void WriteInt(const char* name, int value);
+	int ReadInt(const char* name, int default) const;
 
 
 private:
