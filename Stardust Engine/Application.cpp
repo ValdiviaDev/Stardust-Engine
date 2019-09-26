@@ -51,10 +51,18 @@ bool Application::Init()
 	// Call Init() in all modules
 	list<Module*>::const_iterator item = list_modules.begin();
 
-	while(item != list_modules.end() && ret == true)
+
+
+	ConfigEditor config;
+	ConfigEditor module_location("App");
+
+	
+
+	for (item; item != list_modules.end() && ret; item++) 
 	{
-		ret = (*item)->Init();
-		item++;
+		module_location = module_location.GetModuleLocation((*item)->GetName());
+		ret = (*item)->Init(&module_location);
+		
 	}
 
 	// After all Init calls we call Start() in all modules

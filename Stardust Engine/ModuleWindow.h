@@ -5,6 +5,7 @@
 #include "SDL/include/SDL.h"
 
 class Application;
+class ConfigEditor;
 
 class ModuleWindow : public Module
 {
@@ -15,7 +16,7 @@ public:
 	// Destructor
 	virtual ~ModuleWindow();
 
-	bool Init();
+	bool Init(ConfigEditor* config);
 	bool CleanUp();
 
 	void SetTitle(const char* title);
@@ -32,6 +33,10 @@ public:
 	void SetBorderless(bool borderless);
 	void SetFullDesktop(bool full_desktop);
 
+	void Load(ConfigEditor* config);
+	void Save(ConfigEditor* config) const;
+
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;
@@ -39,9 +44,18 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
 
+	//Config
+	bool fullscreen = false;
+	bool resizable = false;
+	bool borderless = false;
+	bool full_desktop = false;
+	float brightness = 1.0f;
+	int win_width = SCREEN_WIDTH;
+	int win_height = SCREEN_HEIGHT;
+
 private:
-	int win_width = 0;
-	int win_height = 0;
+	
+
 
 };
 

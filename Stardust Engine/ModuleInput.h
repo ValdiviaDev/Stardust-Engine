@@ -19,7 +19,7 @@ public:
 	ModuleInput(Application* app, bool start_enabled = true);
 	~ModuleInput();
 
-	bool Init();
+	bool Init(ConfigEditor* config);
 	update_status PreUpdate(float dt);
 	bool CleanUp();
 

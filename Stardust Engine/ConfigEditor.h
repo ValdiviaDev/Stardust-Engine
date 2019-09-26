@@ -30,6 +30,8 @@ public:
 	void WriteInt(const char* name, int value);
 	int ReadInt(const char* name, int default) const;
 
+	void WriteFloat(const char* name, float value);
+	float ReadFloat(const char* name, float default) const;
 
 private:
 
