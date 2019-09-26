@@ -114,7 +114,27 @@ void PanelConfig::InputMenu()
 
 void PanelConfig::HardwareMenu()
 {
-	ImGui::Text("CPUs: %i", SDL_GetCPUCount());
+	ImGui::Text("SDL Version:"); //TODO
+	ImGui::Separator();
+	
+	ImGui::Text("CPUs:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%i (Cache: %ikb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+	
+	ImGui::Text("System RAM:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%.3fGb", ((float)SDL_GetSystemRAM() / 1000));
+	
+	
+	ImGui::Text("Caps:");
+	ImGui::SameLine();
+
+	ImGui::Separator();
+	//ImGui::Text("GPU:");
+	//ImGui::Text("Brand:");
+	//ImGui::Text("VRAM Budget:");
+	//ImGui::Text("VRAM Usage:");
+	//ImGui::Text("VRAM Reserved:");
 }
 
 void PanelConfig::FillFPSVector()
