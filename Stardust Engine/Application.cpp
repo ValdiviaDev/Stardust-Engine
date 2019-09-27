@@ -5,7 +5,7 @@
 Application::Application()
 {
 	last_frame_ms = -1;
-	GetHardwareInfo();
+	SaveHardwareInfo();
 
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);

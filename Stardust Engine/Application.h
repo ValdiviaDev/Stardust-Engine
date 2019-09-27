@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __Application__H__
+#define __Application__H__
 
 #include <list>
 #include "Globals.h"
@@ -82,3 +83,5 @@ private:
 
 //Get App from everywhere in the code
 extern Application* App;
+
+#endif

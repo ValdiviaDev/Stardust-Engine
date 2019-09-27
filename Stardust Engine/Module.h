@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __Module_H__
+#define __Module_H__
 
 class Application;
 class ConfigEditor;
@@ -61,3 +62,5 @@ public:
 	virtual void Load(ConfigEditor* config)
 	{}
 };
+
+#endif

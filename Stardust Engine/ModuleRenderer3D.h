@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleRenderer3D__H__
+#define __ModuleRenderer3D__H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "glmath.h"
@@ -13,6 +15,14 @@ struct GPU_Info {
 	int VRAM_usage = 0;
 	int VRAM_available = 0;
 	int VRAM_reserved = 0;
+};
+
+struct GL_Flags {
+	bool depth_test = true;
+	bool cull_face = true;
+	bool lightning = true;
+	bool color_material = true;
+	bool texture_2D = true;
 };
 
 class ModuleRenderer3D : public Module
@@ -37,8 +47,11 @@ public:
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	GL_Flags gl_flags;
 
 private:
 	GPU_Info gpu_info;
 
 };
+
+#endif

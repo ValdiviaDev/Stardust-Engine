@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleGui__H__
+#define __ModuleGui__H__
+
 #include "Module.h"
 #include <list>
 
@@ -40,3 +42,4 @@ private:
 	update_status decide_if_update = UPDATE_CONTINUE;
 };
 
+#endif

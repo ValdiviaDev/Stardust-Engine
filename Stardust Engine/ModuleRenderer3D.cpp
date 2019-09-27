@@ -107,6 +107,8 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
+
+		SaveGPUInfo();
 	}
 
 	// Projection matrix for
@@ -174,6 +176,11 @@ void ModuleRenderer3D::SaveGPUInfo()
 {
 	gpu_info.GPU_renderer = (const char*)glGetString(GL_RENDERER);
 	gpu_info.GPU_vendor = (const char*)glGetString(GL_VENDOR);
+
+	//LOG("Vendor: %s", glGetString(GL_VENDOR));
+	//LOG("Renderer: %s", glGetString(GL_RENDERER));
+	//LOG("OpenGL version supported %s", glGetString(GL_VERSION));
+	//LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
 GPU_Info ModuleRenderer3D::GetGPUInfo()

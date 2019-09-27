@@ -1,5 +1,5 @@
-#ifndef __PANEL_CONFIG_H__
-#define __PANEL_CONFIG_H__
+#ifndef __PanelConfig_H__
+#define __PanelConfig_H__
 
 #include "Panel.h"
 #include "globals.h"
@@ -21,6 +21,7 @@ public:
 	void FileSystemMenu();
 	void InputMenu();
 	void HardwareMenu();
+	void RendererMenu();
 
 	void InputConsole();
 	void CheckForCaps();

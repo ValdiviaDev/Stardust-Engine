@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
+#include "ModuleRenderer3D.h"
 
 PanelConfig::PanelConfig()
 {
@@ -47,6 +48,9 @@ void PanelConfig::Draw()
 
 	if (ImGui::CollapsingHeader("Hardware"))
 		HardwareMenu();
+
+	if (ImGui::CollapsingHeader("Renderer"))
+		RendererMenu();
 
 	ImGui::End();
 }
@@ -95,7 +99,6 @@ void PanelConfig::WindowMenu()
 	bool resizable = App->window->resizable;
 	bool borderless = App->window->borderless;
 	bool full_desktop = App->window->full_desktop;
-	 
 
 
 	//Brigthness
@@ -168,14 +171,15 @@ void PanelConfig::HardwareMenu()
 {
 	ImGui::Text("SDL Version:"); //TODO
 	ImGui::Separator();
-	
+
 	ImGui::Text("CPUs:");
 	ImGui::SameLine();
-	ImGui::TextColored({ 255,255,0,255 }, "%i (Cache: %ikb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+	ImGui::TextColored({ 255,255,0,255 }, "%i (Cache: %ikb)", App->GetHardwareInfo().CPU_core_num,
+					   App->GetHardwareInfo().cache_line_size);
 	
 	ImGui::Text("System RAM:");
 	ImGui::SameLine();
-	ImGui::TextColored({ 255,255,0,255 }, "%.3fGb", ((float)SDL_GetSystemRAM() / 1000));
+	ImGui::TextColored({ 255,255,0,255 }, "%.3fGb", ((float)App->GetHardwareInfo().RAM_mb / 1000));
 	
 	
 	ImGui::Text("Caps:");
@@ -183,14 +187,28 @@ void PanelConfig::HardwareMenu()
 	CheckForCaps();
 
 	ImGui::Separator();
-	ImGui::Text("GPU:"); //TODO
+	ImGui::Text("GPU:");
 	ImGui::SameLine();
-	if(App->renderer3D->GetGPUInfo().GPU_renderer != nullptr)
-		ImGui::TextColored({ 255,255,0,255 }, App->renderer3D->GetGPUInfo().GPU_renderer);
-	//ImGui::Text("Brand:");
-	//ImGui::Text("VRAM Budget:");
-	//ImGui::Text("VRAM Usage:");
-	//ImGui::Text("VRAM Reserved:");
+	ImGui::TextColored({ 255,255,0,255 }, App->renderer3D->GetGPUInfo().GPU_renderer);
+	
+	ImGui::Text("Brand:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, App->renderer3D->GetGPUInfo().GPU_vendor);
+	
+	ImGui::Text("VRAM Budget:"); //TODO
+	ImGui::Text("VRAM Usage:"); //TODO
+	ImGui::Text("VRAM Reserved:"); //TODO
+}
+
+void PanelConfig::RendererMenu()
+{
+	if (ImGui::Checkbox("GL_DEPTH_TEST", &App->renderer3D->gl_flags.depth_test)){}
+	if (ImGui::Checkbox("GL_CULL_FACE", &App->renderer3D->gl_flags.cull_face)){}
+	if (ImGui::Checkbox("GL_LIGHTING", &App->renderer3D->gl_flags.lightning)){}
+	if (ImGui::Checkbox("GL_COLOR_MATERIAL", &App->renderer3D->gl_flags.color_material)){}
+	if (ImGui::Checkbox("GL_TEXTURE_2D", &App->renderer3D->gl_flags.texture_2D)){}
+	//if (ImGui::Checkbox("OTHER_01", &gl_flags.texture_2D)) {} //TODO
+	//if (ImGui::Checkbox("OTHER_02", &gl_flags.texture_2D)) {} //TODO
 }
 
 void PanelConfig::InputConsole()
@@ -231,36 +249,37 @@ void PanelConfig::InputConsole()
 
 void PanelConfig::CheckForCaps()
 {
-	if(SDL_HasAVX())
+	Hardware_Info h_info = App->GetHardwareInfo();
+	if(h_info.using_AVX)
 		ImGui::TextColored({ 255,255,0,255 }, "AVX,");
 	ImGui::SameLine();
-	if (SDL_Has3DNow())
-		ImGui::TextColored({ 255,255,0,255 }, "3DNow,");
-	ImGui::SameLine();
-	if (SDL_HasAVX2())
+	if (h_info.using_AVX2)
 		ImGui::TextColored({ 255,255,0,255 }, "AVX2,");
 	ImGui::SameLine();
-	if (SDL_HasAltiVec())
+	if (h_info.using_3DNow)
+		ImGui::TextColored({ 255,255,0,255 }, "3DNow,");
+	ImGui::SameLine();
+	if (h_info.using_AltiVec)
 		ImGui::TextColored({ 255,255,0,255 }, "AltiVec,");
 	ImGui::SameLine();
-	if (SDL_HasMMX())
+	if (h_info.using_MMX)
 		ImGui::TextColored({ 255,255,0,255 }, "MMX,");
 	ImGui::SameLine();
-	if (SDL_HasRDTSC())
+	if (h_info.using_RDTSC)
 		ImGui::TextColored({ 255,255,0,255 }, "RDTSC,");
 	ImGui::SameLine();
-	if (SDL_HasSSE())
+	if (h_info.using_SSE)
 		ImGui::TextColored({ 255,255,0,255 }, "SSE,");
 	ImGui::SameLine();
-	if (SDL_HasSSE2())
+	if (h_info.using_SSE2)
 		ImGui::TextColored({ 255,255,0,255 }, "SSE2,");
-	if (SDL_HasSSE3())
+	if (h_info.using_SSE3)
 		ImGui::TextColored({ 255,255,0,255 }, "SSE3,");
 	ImGui::SameLine();
-	if (SDL_HasSSE41())
+	if (h_info.using_SSE41)
 		ImGui::TextColored({ 255,255,0,255 }, "SSE41,");
 	ImGui::SameLine();
-	if (SDL_HasSSE42())
+	if (h_info.using_SSE42)
 		ImGui::TextColored({ 255,255,0,255 }, "SSE42");
 }
 

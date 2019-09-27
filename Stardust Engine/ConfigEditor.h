@@ -1,5 +1,5 @@
-#ifndef __CONFIG_EDITOR__
-#define __CONFIG_EDITOR__
+#ifndef __ConfigEditor__
+#define __ConfigEditor__
 
 #include "Globals.h"
 

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleScene_H__
+#define __ModuleScene_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
@@ -29,3 +31,5 @@ private:
 	math::Sphere sp1;
 	math::Sphere sp2;
 };
+
+#endif
