@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ConfigEditor.h"
+#include "ModuleRenderer3D.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, "Window", start_enabled)
 {
@@ -119,12 +120,14 @@ void ModuleWindow::ChangeWindowWidth(int width)
 {
 	win_width = width;
 	SDL_SetWindowSize(window, width, win_height);
+	App->renderer3D->OnResize(width, win_height);
 }
 
 void ModuleWindow::ChangeWindowHeight(int height)
 {
 	win_height = height;
 	SDL_SetWindowSize(window, win_width, height);
+	App->renderer3D->OnResize(win_width, height);
 }
 
 int ModuleWindow::GetScreenRefreshRate()
