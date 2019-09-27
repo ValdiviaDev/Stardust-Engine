@@ -62,28 +62,15 @@ update_status ModuleGui::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
 		p_config->ToggleActive();
 
+	//Debug REMOVE LATER
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		AddLogToConsole("SAMPLE LOG");
 
-	//Draw panel or not
-	list<Panel*>::const_iterator panel = panels.begin();
-	while (panel != panels.end())
-	{
-		if ((*panel)->IsActive())
-			(*panel)->Draw();
-		panel++;
-	}
-
-	update_status status = HandleMainMenuBar();
-
-	return status;
+	return decide_if_update;
 }
 
 update_status ModuleGui::PostUpdate(float dt)
 {
-	//Render
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	return UPDATE_CONTINUE;
 }
@@ -113,7 +100,25 @@ bool ModuleGui::CleanUp()
 	return true;
 }
 
-update_status ModuleGui::HandleMainMenuBar()
+void ModuleGui::Draw()
+{
+	//Draw panel or not
+	list<Panel*>::const_iterator panel = panels.begin();
+	while (panel != panels.end())
+	{
+		if ((*panel)->IsActive())
+			(*panel)->Draw();
+		panel++;
+	}
+
+	HandleMainMenuBar();
+	
+	//Render
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void ModuleGui::HandleMainMenuBar()
 {
 	static bool show_demo_window = false;
 	static bool quit_engine = false;
@@ -162,9 +167,8 @@ update_status ModuleGui::HandleMainMenuBar()
 	//Show demo window if we click on the menu
 	if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
 
-	if (quit_engine) return UPDATE_STOP;
-	
-	return UPDATE_CONTINUE;
+	if (quit_engine) 
+		decide_if_update = UPDATE_STOP;
 }
 
 void ModuleGui::AddLogToConsole(const char * log)

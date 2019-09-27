@@ -22,18 +22,21 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	update_status HandleMainMenuBar();
+	void Draw();
+
+	void HandleMainMenuBar();
 	void AddLogToConsole(const char* log);
 
 	/*void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;*/
 
 private:
-
 	//Panels
 	list<Panel*> panels;
 	PanelAbout* p_about;
 	PanelConsole* p_console;
 	PanelConfig* p_config;
+
+	update_status decide_if_update = UPDATE_CONTINUE;
 };
 

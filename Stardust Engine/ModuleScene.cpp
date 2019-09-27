@@ -40,8 +40,6 @@ bool ModuleScene::Start()
 // Update
 update_status ModuleScene::Update(float dt)
 {
-	//Grid
-	PrintGrid();
 
 	//Trying out MatGeoLib intersections
 	//TryMathGeoLibInters();
@@ -62,10 +60,7 @@ bool ModuleScene::CleanUp()
 }
 
 
-void ModuleScene::PrintGrid() {
-
-	
-
+void ModuleScene::Draw() {
 	glBegin(GL_LINES);
 	for (int i = -25; i <= 25; i++) {
 
