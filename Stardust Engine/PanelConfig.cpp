@@ -79,7 +79,7 @@ void PanelConfig::ApplicationMenu()
 
 	ImGui::Text("Limit framerate: ");
 	ImGui::SameLine();
-	ImGui::TextColored({ 255,255,0,255 }, "0");
+	ImGui::TextColored({ 255,255,0,255 }, "%i", max_fps);
 
 	//Historiograms fps/ms
 	FillFPSVector();
@@ -201,10 +201,7 @@ void PanelConfig::HardwareMenu()
 	ImGui::Text("Brand:");
 	ImGui::SameLine();
 	ImGui::TextColored({ 255,255,0,255 }, App->renderer3D->GetGPUInfo().GPU_vendor);
-	
-	ImGui::Text("VRAM Budget:"); //TODO
-	ImGui::Text("VRAM Usage:"); //TODO
-	ImGui::Text("VRAM Reserved:"); //TODO
+
 }
 
 void PanelConfig::RendererMenu()

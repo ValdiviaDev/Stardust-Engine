@@ -61,6 +61,8 @@ bool ModuleScene::CleanUp()
 
 
 void ModuleScene::Draw() {
+
+	//Grid
 	glBegin(GL_LINES);
 	for (int i = -25; i <= 25; i++) {
 
@@ -75,6 +77,77 @@ void ModuleScene::Draw() {
 		
 	}
 	glEnd();
+
+	//Cube
+	glBegin(GL_TRIANGLES);
+	//Front face
+	glColor3f(255.0f, 0.0f, 0.0f);
+
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+
+	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+
+	//Right face
+	glColor3f(0.0f, 255.0f, 0.0f);
+
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+
+	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+
+	//Up face
+	glColor3f(0.0f, 0.0f, 255.0f);
+
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+
+	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+
+	//Back face
+	glColor3f(255.0f, 255.0f, 0.0f);
+
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+
+	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+
+	//Left face
+	glColor3f(255.0f, 0.0f, 255.0f);
+
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+
+	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+
+	//Down face
+	glColor3f(0.0f, 255.0f, 255.0f);
+
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+
+	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+
+	glEnd();
+
 }
 
 float ModuleScene::GetRandomFloat() {
