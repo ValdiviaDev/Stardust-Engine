@@ -57,7 +57,8 @@ void PanelConfig::Draw()
 
 void PanelConfig::ApplicationMenu()
 {
-	static int max_fps = 60;
+	static int max_fps = App->GetFPSCap();
+	static bool cap_fps = App->GetIfFPSCapping();
 
 	//Engine name & organization
 	static char eng_name[30] = TITLE;
@@ -68,7 +69,13 @@ void PanelConfig::ApplicationMenu()
 	ImGui::InputText("Organization", org_name, IM_ARRAYSIZE(org_name));
 
 	//Toggle FPS
-	if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120)){} //TODO
+	if (ImGui::Checkbox("Cap FPS", &cap_fps))
+		App->SetIfFPSCapping(cap_fps);
+
+	if (cap_fps) {
+		if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
+			App->SetFPSCap(max_fps);
+	}
 
 	ImGui::Text("Limit framerate: ");
 	ImGui::SameLine();
@@ -202,13 +209,13 @@ void PanelConfig::HardwareMenu()
 
 void PanelConfig::RendererMenu()
 {
-	if (ImGui::Checkbox("GL_DEPTH_TEST", &App->renderer3D->gl_flags.depth_test)){}
-	if (ImGui::Checkbox("GL_CULL_FACE", &App->renderer3D->gl_flags.cull_face)){}
-	if (ImGui::Checkbox("GL_LIGHTING", &App->renderer3D->gl_flags.lightning)){}
-	if (ImGui::Checkbox("GL_COLOR_MATERIAL", &App->renderer3D->gl_flags.color_material)){}
-	if (ImGui::Checkbox("GL_TEXTURE_2D", &App->renderer3D->gl_flags.texture_2D)){}
-	//if (ImGui::Checkbox("OTHER_01", &gl_flags.texture_2D)) {} //TODO
-	//if (ImGui::Checkbox("OTHER_02", &gl_flags.texture_2D)) {} //TODO
+	if (ImGui::Checkbox("GL_DEPTH_TEST", &App->renderer3D->gl_caps.depth_test)){}
+	if (ImGui::Checkbox("GL_CULL_FACE", &App->renderer3D->gl_caps.cull_face)){}
+	if (ImGui::Checkbox("GL_LIGHTING", &App->renderer3D->gl_caps.lightning)){}
+	if (ImGui::Checkbox("GL_COLOR_MATERIAL", &App->renderer3D->gl_caps.color_material)){}
+	if (ImGui::Checkbox("GL_TEXTURE_2D", &App->renderer3D->gl_caps.texture_2D)){}
+	if (ImGui::Checkbox("GL_ALPHA_TEST", &App->renderer3D->gl_caps.alpha_test)) {}
+	if (ImGui::Checkbox("GL_LINE_SMOOTH", &App->renderer3D->gl_caps.line_smooth)) {} //TODO
 }
 
 void PanelConfig::InputConsole()

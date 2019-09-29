@@ -17,12 +17,14 @@ struct GPU_Info {
 	int VRAM_reserved = 0;
 };
 
-struct GL_Flags {
+struct GL_Caps {
+	bool alpha_test = true;
 	bool depth_test = true;
 	bool cull_face = true;
 	bool lightning = true;
 	bool color_material = true;
 	bool texture_2D = true;
+	bool line_smooth = true;
 };
 
 class ModuleRenderer3D : public Module
@@ -47,7 +49,7 @@ public:
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-	GL_Flags gl_flags;
+	GL_Caps gl_caps;
 
 private:
 	GPU_Info gpu_info;

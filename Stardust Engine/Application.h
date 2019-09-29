@@ -49,6 +49,10 @@ private:
 	Timer	ms_timer;
 	float	dt;
 	int		last_frame_ms;
+	int		capped_ms;
+	int		cap = 60;
+	bool	fps_capped = true;
+
 
 	list<Module*> list_modules;
 
@@ -65,7 +69,11 @@ public:
 
 	void RequestBrowser(const char* website) const;
 	float GetFPS() const;
-	float GetMS();
+	float GetMS() const;
+	int GetFPSCap() const;
+	void SetFPSCap(int cap);
+	bool GetIfFPSCapping() const;
+	void SetIfFPSCapping(bool isCap);
 
 	void SaveHardwareInfo();
 	Hardware_Info GetHardwareInfo();

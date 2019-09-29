@@ -5,6 +5,8 @@
 Application::Application()
 {
 	last_frame_ms = -1;
+	if(fps_capped)
+		capped_ms = 1000 / cap;
 	SaveHardwareInfo();
 
 	window = new ModuleWindow(this);
@@ -92,6 +94,13 @@ void Application::PrepareUpdate()
 void Application::FinishUpdate()
 {
 	last_frame_ms = ms_timer.Read();
+
+	if (fps_capped) {
+		if (capped_ms > 0 && (last_frame_ms < capped_ms))
+			SDL_Delay(capped_ms - last_frame_ms);
+	}
+
+	LOG("%i", capped_ms - last_frame_ms);
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -177,9 +186,35 @@ float Application::GetFPS() const
 	return (1.0f/dt);
 }
 
-float Application::GetMS() 
+float Application::GetMS() const 
 {
-	return ((float)last_frame_ms);
+	if (fps_capped)
+		return ((float)(capped_ms - last_frame_ms));
+	else
+		return ((float)last_frame_ms);
+}
+
+int Application::GetFPSCap() const
+{
+	return cap;
+}
+
+void Application::SetFPSCap(int cap)
+{
+	if(cap != 0)
+		capped_ms = 1000 / cap;
+	else
+		capped_ms = 1000 / this->cap;
+}
+
+bool Application::GetIfFPSCapping() const
+{
+	return fps_capped;
+}
+
+void Application::SetIfFPSCapping(bool isCap)
+{
+	fps_capped = isCap;
 }
 
 void Application::SaveHardwareInfo()
