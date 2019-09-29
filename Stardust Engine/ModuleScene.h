@@ -16,6 +16,9 @@ public:
 	bool CleanUp();
 
 	void Draw();
+	void DrawCubeDirectMode();
+	void DrawCubeVertexArray();
+	void DrawCubeIndices();
 
 	float GetRandomFloat();
 	int GetRandomInt(int a, int b);
@@ -30,6 +33,8 @@ private:
 	//Intersections test
 	math::Sphere sp1;
 	math::Sphere sp2;
+
+
 };
 
 #endif
