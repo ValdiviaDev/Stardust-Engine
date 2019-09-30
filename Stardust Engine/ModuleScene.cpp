@@ -83,7 +83,7 @@ void ModuleScene::Draw() {
 	glEnd();
 	
 	//Cube
-	DrawCubeVertexArray();
+	DrawCubeIndices();
 	
 
 }
@@ -223,18 +223,47 @@ void ModuleScene::DrawCubeVertexArray()
 
 void ModuleScene::DrawCubeIndices()
 {
-	static float indices[] = { //Front
-								1.0f, 1.0f, 1.0f, //v0 
-								-1.0f, 1.0f, 1.0f, //v1
-								-1.0f, -1.0f, 1.0f, //v2
-													};
+	static float vert[] = {
+							1.0f, 1.0f, 1.0f, //v0 
+							-1.0f, 1.0f, 1.0f, //v1
+							-1.0f, -1.0f, 1.0f, //v2
+							//1.0f, -1.0f, 1.0f, //v3
+							//1.0f, -1.0f, -1.0f, //v4
+							//1.0f, 1.0f, -1.0f, //v5
+							//-1.0f, 1.0f, -1.0f, //v6
+							//-1.0f, -1.0f, -1.0f //v7
+							};
 
-	uint my_indices = 0;
-	glGenBuffers(1, (GLuint*) &(my_indices));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices);
+	static uint indices[] = { 0, 1, 1, 2, 2, 0 };
+
+	//Vertex
+	uint vert_id = 0;
+	glGenBuffers(1, (GLuint*) &(vert_id));
+	glBindBuffer(GL_ARRAY_BUFFER, vert_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vert), vert, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Index
+	uint ind_id = 0;
+	glGenBuffers(1, (GLuint*) &(ind_id));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ind_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_indices);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	//Draw
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vert_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ind_id);
 	glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT, NULL);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	
 }
 
 float ModuleScene::GetRandomFloat() {
