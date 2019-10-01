@@ -21,7 +21,7 @@ struct GL_Caps {
 	bool alpha_test = true;
 	bool depth_test = true;
 	bool cull_face = true;
-	bool lightning = true;
+	bool lighting = true;
 	bool color_material = true;
 	bool texture_2D = true;
 	bool line_smooth = true;
@@ -42,6 +42,9 @@ public:
 
 	void SaveGPUInfo();
 	GPU_Info GetGPUInfo();
+
+	void Load(ConfigEditor* config);
+	void Save(ConfigEditor* config) const;
 
 public:
 

@@ -208,7 +208,7 @@ void PanelConfig::RendererMenu()
 {
 	if (ImGui::Checkbox("GL_DEPTH_TEST", &App->renderer3D->gl_caps.depth_test)){}
 	if (ImGui::Checkbox("GL_CULL_FACE", &App->renderer3D->gl_caps.cull_face)){}
-	if (ImGui::Checkbox("GL_LIGHTING", &App->renderer3D->gl_caps.lightning)){}
+	if (ImGui::Checkbox("GL_LIGHTING", &App->renderer3D->gl_caps.lighting)){}
 	if (ImGui::Checkbox("GL_COLOR_MATERIAL", &App->renderer3D->gl_caps.color_material)){}
 	if (ImGui::Checkbox("GL_TEXTURE_2D", &App->renderer3D->gl_caps.texture_2D)){}
 	if (ImGui::Checkbox("GL_ALPHA_TEST", &App->renderer3D->gl_caps.alpha_test)) {}

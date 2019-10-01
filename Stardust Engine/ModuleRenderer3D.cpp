@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "ConfigEditor.h"
 
 #include "Glew/include/glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -188,4 +189,29 @@ void ModuleRenderer3D::SaveGPUInfo()
 GPU_Info ModuleRenderer3D::GetGPUInfo()
 {
 	return gpu_info;
+}
+
+
+void ModuleRenderer3D::Load(ConfigEditor* config) {
+
+	gl_caps.alpha_test = config->ReadBool("AlphaTest", true);
+	gl_caps.depth_test = config->ReadBool("DepthTest", true);
+	gl_caps.cull_face = config->ReadBool("CullFace", true);
+	gl_caps.lighting = config->ReadBool("Lighting", true);
+	gl_caps.color_material = config->ReadBool("ColorMaterial", true);
+	gl_caps.texture_2D = config->ReadBool("Texture2D", true);
+	gl_caps.line_smooth = config->ReadBool("LineSmooth", true);
+
+}
+
+
+void ModuleRenderer3D::Save(ConfigEditor* config) const {
+
+	config->WriteBool("AlphaTest", gl_caps.alpha_test);
+	config->WriteBool("DepthTest", gl_caps.depth_test);
+	config->WriteBool("CullFace", gl_caps.cull_face);
+	config->WriteBool("Lighting", gl_caps.lighting);
+	config->WriteBool("ColorMaterial", gl_caps.color_material);
+	config->WriteBool("Texture2D", gl_caps.texture_2D);
+	config->WriteBool("LineSmooth", gl_caps.line_smooth);
 }
