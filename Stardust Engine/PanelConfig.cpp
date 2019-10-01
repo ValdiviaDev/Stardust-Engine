@@ -63,6 +63,7 @@ void PanelConfig::ApplicationMenu()
 {
 	static int max_fps = App->GetFPSCap();
 	static bool cap_fps = App->GetIfFPSCapping();
+	static bool vsync = App->renderer3D->vsync;
 
 	//Engine name & organization
 	static char eng_name[30] = TITLE;
@@ -75,6 +76,10 @@ void PanelConfig::ApplicationMenu()
 	//Toggle FPS
 	if (ImGui::Checkbox("Cap FPS", &cap_fps))
 		App->SetIfFPSCapping(cap_fps);
+	ImGui::SameLine();
+	if (ImGui::Checkbox("Vsync", &vsync))
+		App->renderer3D->ChangeVsync(vsync);
+
 
 	if (cap_fps) {
 		if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
@@ -85,7 +90,7 @@ void PanelConfig::ApplicationMenu()
 	ImGui::SameLine();
 	ImGui::TextColored({ 255,255,0,255 }, "%i", max_fps);
 
-	//Historiograms fps/ms
+	//Histogram fps/ms
 	FillFPSVector();
 	FillMSVector();
 
@@ -117,12 +122,13 @@ void PanelConfig::WindowMenu()
 		App->window->ChangeWindowBrightness(brightness);
 
 	//Resize window
-	if (ImGui::SliderInt("Width", &w_width, 640, 1920))
-		App->window->ChangeWindowWidth(w_width);
+	if (resizable) {
+		if (ImGui::SliderInt("Width", &w_width, 640, 1920))
+			App->window->ChangeWindowWidth(w_width);
 
-	if (ImGui::SliderInt("Height", &w_height, 480, 1080))
-		App->window->ChangeWindowHeight(w_height);
-	
+		if (ImGui::SliderInt("Height", &w_height, 480, 1080))
+			App->window->ChangeWindowHeight(w_height);
+	}
 	//Refresh Rate
 	ImGui::Text("Refresh rate:");
 	ImGui::SameLine();
@@ -180,7 +186,12 @@ void PanelConfig::InputMenu()
 
 void PanelConfig::HardwareMenu()
 {
-	ImGui::Text("SDL Version:"); //TODO
+	static SDL_version sdl_version;
+	SDL_VERSION(&sdl_version); //Linked version
+	ImGui::Text("SDL Version:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%i.%i.%i", sdl_version.major, sdl_version.minor, sdl_version.patch);
+
 	ImGui::Separator();
 
 	ImGui::Text("CPUs:");

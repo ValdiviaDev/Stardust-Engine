@@ -30,9 +30,6 @@ bool ModuleWindow::Init(ConfigEditor* config)
 	}
 	else
 	{
-
-		
-
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 

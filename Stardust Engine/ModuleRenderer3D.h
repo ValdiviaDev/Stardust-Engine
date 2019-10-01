@@ -55,7 +55,8 @@ public:
 	void SetTexture2D();
 	void SetLineSmooth();
 	void SetWireframe();
-	
+	void ChangeVsync(bool active);
+
 	void SetDefaultConfig();
 
 public:
@@ -65,6 +66,7 @@ public:
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	GL_Caps gl_caps;
+	bool vsync = true;
 
 private:
 	GPU_Info gpu_info;

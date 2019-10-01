@@ -48,8 +48,11 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 		
 
 		//Use Vsync
-		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
-			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+		if (vsync) {
+			SDL_GL_SetSwapInterval(1);
+		}
+		else
+			SDL_GL_SetSwapInterval(0);
 
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
@@ -279,6 +282,16 @@ void ModuleRenderer3D::SetWireframe() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void ModuleRenderer3D::ChangeVsync(bool active)
+{
+	vsync = active;
+	if (vsync) {
+		SDL_GL_SetSwapInterval(1);
+	}
+	else
+		SDL_GL_SetSwapInterval(0);
 }
 
 
