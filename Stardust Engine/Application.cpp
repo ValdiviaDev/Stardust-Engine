@@ -99,8 +99,7 @@ void Application::FinishUpdate()
 		if (capped_ms > 0 && (last_frame_ms < capped_ms))
 			SDL_Delay(capped_ms - last_frame_ms);
 	}
-
-	//LOG("%i", capped_ms - last_frame_ms);
+	last_frame_ms = ms_timer.Read();
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -203,10 +202,7 @@ float Application::GetFPS() const
 
 float Application::GetMS() const 
 {
-	if (fps_capped)
-		return ((float)(capped_ms - last_frame_ms));
-	else
-		return ((float)last_frame_ms);
+	return ((float)last_frame_ms);
 }
 
 int Application::GetFPSCap() const
