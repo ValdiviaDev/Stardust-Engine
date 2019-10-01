@@ -26,11 +26,15 @@ void PanelConfig::Draw()
 	ImGui::Begin("Configuration", &active, ImGuiWindowFlags_None);
 	if (ImGui::BeginMenu("Options"))
 	{
-		ImGui::MenuItem("Set defaults"); //TODO
+		if (ImGui::MenuItem("Set defaults"))
+			App->SetAllConfigToDefault();
+
 		if (ImGui::MenuItem("Save"))
 			App->SaveConfig();
 
-		ImGui::MenuItem("Load"); //TODO
+		if (ImGui::MenuItem("Load"))
+			App->LoadConfig();
+			
 
 		ImGui::EndMenu();
 	}
@@ -206,13 +210,30 @@ void PanelConfig::HardwareMenu()
 
 void PanelConfig::RendererMenu()
 {
-	if (ImGui::Checkbox("GL_DEPTH_TEST", &App->renderer3D->gl_caps.depth_test)){}
-	if (ImGui::Checkbox("GL_CULL_FACE", &App->renderer3D->gl_caps.cull_face)){}
-	if (ImGui::Checkbox("GL_LIGHTING", &App->renderer3D->gl_caps.lighting)){}
-	if (ImGui::Checkbox("GL_COLOR_MATERIAL", &App->renderer3D->gl_caps.color_material)){}
-	if (ImGui::Checkbox("GL_TEXTURE_2D", &App->renderer3D->gl_caps.texture_2D)){}
-	if (ImGui::Checkbox("GL_ALPHA_TEST", &App->renderer3D->gl_caps.alpha_test)) {}
-	if (ImGui::Checkbox("GL_LINE_SMOOTH", &App->renderer3D->gl_caps.line_smooth)) {} //TODO
+	if (ImGui::Checkbox("GL_DEPTH_TEST", &App->renderer3D->gl_caps.depth_test)){
+		App->renderer3D->SetDepthTest();
+	}
+	if (ImGui::Checkbox("GL_CULL_FACE", &App->renderer3D->gl_caps.cull_face)){
+		App->renderer3D->SetCullFace();
+	}
+	if (ImGui::Checkbox("GL_LIGHTING", &App->renderer3D->gl_caps.lighting)){
+		App->renderer3D->SetLighting();
+	}
+	if (ImGui::Checkbox("GL_COLOR_MATERIAL", &App->renderer3D->gl_caps.color_material)){
+		App->renderer3D->SetColorMaterial();
+	}
+	if (ImGui::Checkbox("GL_TEXTURE_2D", &App->renderer3D->gl_caps.texture_2D)){
+		App->renderer3D->SetTexture2D();
+	}
+	if (ImGui::Checkbox("GL_ALPHA_TEST", &App->renderer3D->gl_caps.alpha_test)) {
+		App->renderer3D->SetAlphaTest();
+	}
+	if (ImGui::Checkbox("GL_LINE_SMOOTH", &App->renderer3D->gl_caps.line_smooth)) {
+		App->renderer3D->SetLineSmooth();
+	} 
+	if (ImGui::Checkbox("WIREFRAME MODE", &App->renderer3D->gl_caps.wireframe)) {
+		App->renderer3D->SetWireframe();
+	}
 }
 
 void PanelConfig::InputConsole()

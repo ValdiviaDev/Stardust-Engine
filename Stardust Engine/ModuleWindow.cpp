@@ -31,16 +31,7 @@ bool ModuleWindow::Init(ConfigEditor* config)
 	else
 	{
 
-		win_width = config->ReadInt("Width", SCREEN_WIDTH * SCREEN_SIZE);
-		win_height = config->ReadInt("Height", SCREEN_HEIGHT * SCREEN_SIZE);
-		//Create window
-		//int width = SCREEN_WIDTH * SCREEN_SIZE;
-		//int height = SCREEN_HEIGHT * SCREEN_SIZE;
-
-		fullscreen = config->ReadBool("Fullscreen", false);
-		resizable = config->ReadBool("Resizable", false);
-		borderless = config->ReadBool("Borderless", false);
-		full_desktop = config->ReadBool("Full Desktop", false);
+		
 
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
@@ -48,27 +39,7 @@ bool ModuleWindow::Init(ConfigEditor* config)
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if(fullscreen == true)
-		{
-			flags |= SDL_WINDOW_FULLSCREEN;
-		}
-
-		if(resizable == true)
-		{
-			flags |= SDL_WINDOW_RESIZABLE;
-		}
-
-		if(borderless == true)
-		{
-			flags |= SDL_WINDOW_BORDERLESS;
-		}
-
-		if(full_desktop == true)
-		{
-			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-		}
-
-		
+			
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, win_width, win_height, flags);
 
@@ -82,9 +53,11 @@ bool ModuleWindow::Init(ConfigEditor* config)
 			//Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
 		}
+
+		Load(config);
 	}
 
-	ChangeWindowBrightness(config->ReadFloat("Brightness", 1.0f));
+	
 
 	return ret;
 }
@@ -181,13 +154,20 @@ void ModuleWindow::SetFullDesktop(bool full_desktop)
 void ModuleWindow::Load(ConfigEditor* config) {
 
 	fullscreen = config->ReadBool("Fullscreen", false);
+	SetFullscreen(fullscreen);
 	resizable = config->ReadBool("Resizable", true);
+	SetResizable(resizable);
 	borderless = config->ReadBool("Borderless", false);
+	SetBorderless(borderless);
 	full_desktop = config->ReadBool("Full Desktop", false);
+	SetFullDesktop(full_desktop);
 
 	win_width = config->ReadInt("Width", SCREEN_WIDTH * SCREEN_SIZE);
+	ChangeWindowWidth(win_width);
 	win_height = config->ReadInt("Height", SCREEN_HEIGHT * SCREEN_SIZE);
+	ChangeWindowHeight(win_height);
 	brightness = config->ReadFloat("Brightness", 1.0f);
+	ChangeWindowBrightness(brightness);
 }
 
 void ModuleWindow::Save(ConfigEditor* config) const {
@@ -200,4 +180,18 @@ void ModuleWindow::Save(ConfigEditor* config) const {
 	config->WriteInt("Width", win_width);
 	config->WriteInt("Height", win_height);
 	config->WriteFloat("Brightness", brightness);
+}
+
+
+void ModuleWindow::SetDefaultConfig() {
+
+	fullscreen = false;
+	resizable = false;
+	borderless = false;
+	full_desktop = false;
+	brightness = 1.0f;
+	win_width = SCREEN_WIDTH;
+	win_height = SCREEN_HEIGHT;
+
+	
 }

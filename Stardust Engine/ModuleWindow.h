@@ -36,6 +36,8 @@ public:
 	void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;
 
+	void SetDefaultConfig();
+
 
 public:
 	//The window we'll be rendering to

@@ -81,6 +81,7 @@ public:
 	void SaveConfig() const;
 	void LoadConfig();
 
+	void SetAllConfigToDefault();
 
 private:
 

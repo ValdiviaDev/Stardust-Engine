@@ -45,6 +45,8 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 	
 	if(ret == true)
 	{
+		
+
 		//Use Vsync
 		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
@@ -102,14 +104,10 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
-		glEnable(GL_ALPHA_TEST);
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+		
 		lights[0].Active(true);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_LINE_SMOOTH);
+		
+		Load(config);
 
 		SaveGPUInfo();
 	}
@@ -195,13 +193,21 @@ GPU_Info ModuleRenderer3D::GetGPUInfo()
 void ModuleRenderer3D::Load(ConfigEditor* config) {
 
 	gl_caps.alpha_test = config->ReadBool("AlphaTest", true);
+	SetAlphaTest();
 	gl_caps.depth_test = config->ReadBool("DepthTest", true);
+	SetDepthTest();
 	gl_caps.cull_face = config->ReadBool("CullFace", true);
+	SetCullFace();
 	gl_caps.lighting = config->ReadBool("Lighting", true);
+	SetLighting();
 	gl_caps.color_material = config->ReadBool("ColorMaterial", true);
+	SetColorMaterial();
 	gl_caps.texture_2D = config->ReadBool("Texture2D", true);
+	SetTexture2D();
 	gl_caps.line_smooth = config->ReadBool("LineSmooth", true);
-
+	SetLineSmooth();
+	gl_caps.wireframe = config->ReadBool("Wireframe", true);
+	SetWireframe();
 }
 
 
@@ -214,4 +220,77 @@ void ModuleRenderer3D::Save(ConfigEditor* config) const {
 	config->WriteBool("ColorMaterial", gl_caps.color_material);
 	config->WriteBool("Texture2D", gl_caps.texture_2D);
 	config->WriteBool("LineSmooth", gl_caps.line_smooth);
+	config->WriteBool("Wireframe", gl_caps.wireframe);
+}
+
+
+void ModuleRenderer3D::SetAlphaTest() {
+	if (gl_caps.alpha_test)
+		glEnable(GL_ALPHA_TEST);
+	else
+		glDisable(GL_ALPHA_TEST);
+}
+
+void ModuleRenderer3D::SetDepthTest() {
+	if (gl_caps.depth_test)
+		glEnable(GL_DEPTH_TEST);
+	else
+		glDisable(GL_DEPTH_TEST);
+}
+
+void ModuleRenderer3D::SetCullFace() {
+	if (gl_caps.cull_face)
+		glEnable(GL_CULL_FACE);
+	else
+		glDisable(GL_CULL_FACE);
+}
+
+void ModuleRenderer3D::SetLighting() {
+	if (gl_caps.lighting)
+		glEnable(GL_LIGHTING);
+	else
+		glDisable(GL_LIGHTING);
+}
+
+void ModuleRenderer3D::SetColorMaterial() {
+	if (gl_caps.color_material)
+		glEnable(GL_COLOR_MATERIAL);
+	else
+		glDisable(GL_COLOR_MATERIAL);
+}
+
+void ModuleRenderer3D::SetTexture2D() {
+	if (gl_caps.texture_2D)
+		glEnable(GL_TEXTURE_2D);
+	else
+		glDisable(GL_TEXTURE_2D);
+}
+
+void ModuleRenderer3D::SetLineSmooth() {
+	if (gl_caps.line_smooth)
+		glEnable(GL_LINE_SMOOTH);
+	else
+		glDisable(GL_LINE_SMOOTH);
+}
+
+
+void ModuleRenderer3D::SetWireframe() {
+	if(gl_caps.wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+
+void ModuleRenderer3D::SetDefaultConfig() {
+
+	gl_caps.alpha_test = true;
+	gl_caps.depth_test = true;
+	gl_caps.cull_face = true;
+	gl_caps.lighting = true;
+	gl_caps.color_material = true;
+	gl_caps.texture_2D = true;
+	gl_caps.line_smooth = true;
+	gl_caps.wireframe = false;
+
 }

@@ -61,6 +61,10 @@ public:
 
 	virtual void Load(ConfigEditor* config)
 	{}
+
+
+	virtual void SetDefaultConfig()
+	{}
 };
 
 #endif

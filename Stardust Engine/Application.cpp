@@ -100,7 +100,7 @@ void Application::FinishUpdate()
 			SDL_Delay(capped_ms - last_frame_ms);
 	}
 
-	LOG("%i", capped_ms - last_frame_ms);
+	//LOG("%i", capped_ms - last_frame_ms);
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -175,6 +175,21 @@ void Application:: LoadConfig() {
 	}
 }
 
+void Application::SetAllConfigToDefault() {
+
+	ConfigEditor config;
+	ConfigEditor module_location("App");
+
+	for (list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); item++) {
+
+		module_location = module_location.GetModuleLocation((*item)->GetName());
+		(*item)->SetDefaultConfig();
+		(*item)->Save(&module_location);
+	}
+
+	LoadConfig();
+}
+
 
 void Application::RequestBrowser(const char* url) const
 {
@@ -245,3 +260,5 @@ void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
 }
+
+

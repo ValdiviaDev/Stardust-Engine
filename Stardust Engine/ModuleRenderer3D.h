@@ -25,6 +25,7 @@ struct GL_Caps {
 	bool color_material = true;
 	bool texture_2D = true;
 	bool line_smooth = true;
+	bool wireframe = false;
 };
 
 class ModuleRenderer3D : public Module
@@ -45,6 +46,17 @@ public:
 
 	void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;
+
+	void SetAlphaTest();
+	void SetDepthTest();
+	void SetCullFace();
+	void SetLighting();
+	void SetColorMaterial();
+	void SetTexture2D();
+	void SetLineSmooth();
+	void SetWireframe();
+	
+	void SetDefaultConfig();
 
 public:
 
