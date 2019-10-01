@@ -35,6 +35,12 @@ bool ModuleWindow::Init(ConfigEditor* config)
 
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
+
+		resizable = config->ReadBool("Resizable", true);
+		SetResizable(resizable);
+		if(resizable)
+			flags |= SDL_WINDOW_RESIZABLE;
+
 		//Use OpenGL 2.1
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -53,7 +59,7 @@ bool ModuleWindow::Init(ConfigEditor* config)
 			//Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
 		}
-
+		
 		Load(config);
 	}
 
