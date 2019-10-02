@@ -5,7 +5,7 @@
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
 
-
+#include "Par/par_shapes.h"
 
 class ModuleScene : public Module
 {
@@ -39,9 +39,14 @@ private:
 	math::Sphere sp1;
 	math::Sphere sp2;
 
+	//Sphere to print
+	par_shapes_mesh* sphere;
+
 	uint vert_only_id;
 	uint vert_id;
 	uint ind_id;
+	uint sph_id_vert;
+	uint sph_id_ind;
 	
 	uint num_only_vertex = 1;
 	uint num_index = 1;

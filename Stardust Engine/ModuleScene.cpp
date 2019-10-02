@@ -1,3 +1,9 @@
+#ifndef PAR_SHAPES_IMPLEMENTATION
+#define PAR_SHAPES_IMPLEMENTATION
+#endif
+
+#include "Par/par_shapes.h"
+
 #include <time.h>
 
 #include "Globals.h"
@@ -38,8 +44,10 @@ bool ModuleScene::Start()
 	sp2.pos = { 14.1f, 0.0f, 0.0f };
 	sp2.r = 7.0;
 
+	//Cubes and a sphere
+	sphere = par_shapes_create_subdivided_sphere(1);
+	par_shapes_translate(sphere, 0, 4.0, 0);
 	BufferSimpleGemoetry();
-
 
 	return true;
 }
@@ -62,7 +70,7 @@ update_status ModuleScene::Update(float dt)
 
 bool ModuleScene::CleanUp()
 {
-
+	par_shapes_free_mesh(sphere);
 	return true;
 }
 
@@ -173,6 +181,14 @@ void ModuleScene::DrawCubeVertexArray()
 
 	glDrawArrays(GL_TRIANGLES, 0, num_only_vertex);
 	glDisableClientState(GL_VERTEX_ARRAY);
+
+	//Draw sphere with vertex
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, sph_id_vert);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	glDrawArrays(GL_TRIANGLES, 0, sphere->ntriangles);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void ModuleScene::DrawCubeIndices()
@@ -190,6 +206,21 @@ void ModuleScene::DrawCubeIndices()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
+
+	//Sphere draw with vertex and index
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//
+	//glBindBuffer(GL_ARRAY_BUFFER, sph_id_vert);
+	//glVertexPointer(3, GL_FLOAT, 0, NULL);
+	//
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sph_id_ind);
+	//glDrawElements(GL_TRIANGLES, sphere->ntriangles, GL_UNSIGNED_INT, NULL);
+	//
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//
+	//glDisableClientState(GL_VERTEX_ARRAY);
+
 
 }
 
@@ -310,6 +341,20 @@ void ModuleScene::BufferSimpleGemoetry()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ind_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	//Sphere
+	//Vertex
+	glGenBuffers(1, (GLuint*) &(sph_id_vert));
+	glBindBuffer(GL_ARRAY_BUFFER, sph_id_vert);
+	glBufferData(GL_ARRAY_BUFFER, sphere->npoints, sphere->points, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Index
+	glGenBuffers(1, (GLuint*) &(sph_id_ind));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sph_id_ind);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere->ntriangles, sphere->triangles, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 }
 
 
