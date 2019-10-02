@@ -28,6 +28,9 @@ public:
 	void TryMathGeoLibInters();
 
 
+	void BufferSimpleGemoetry();
+
+
 private:
 	//RNG test
 	LCG lcg;
@@ -36,6 +39,13 @@ private:
 	math::Sphere sp1;
 	math::Sphere sp2;
 
+	uint vert_only_id;
+	uint vert_id = 0;
+	uint ind_id = 0;
+	
+	uint num_only_vertex = 1;
+	uint num_index = 1;
+	
 
 };
 
