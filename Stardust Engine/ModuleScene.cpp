@@ -71,6 +71,9 @@ void ModuleScene::Draw() {
 
 	//Grid
 	glBegin(GL_LINES);
+
+	glColor3f(255.0f, 255.0f, 255.0f);
+
 	for (int i = -25; i <= 25; i++) {
 
 		glVertex3f(-25.0f, 0.0f, i);
@@ -78,9 +81,6 @@ void ModuleScene::Draw() {
 
 		glVertex3f(i, 0.0f, -25.0f);
 		glVertex3f(i, 0.0f, 25.0f);
-
-		
-		glColor3f(255.0f, 255.0f, 255.0f);
 		
 	}
 	glEnd();
@@ -89,6 +89,7 @@ void ModuleScene::Draw() {
 	DrawCubeDirectMode();
 	DrawCubeVertexArray();
 	DrawCubeIndices();
+
 }
 
 void ModuleScene::DrawCubeDirectMode()
@@ -169,7 +170,6 @@ void ModuleScene::DrawCubeVertexArray()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, vert_only_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
 
 	glDrawArrays(GL_TRIANGLES, 0, num_only_vertex);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -278,7 +278,7 @@ void ModuleScene::BufferSimpleGemoetry()
 					2.0f, -1.0f, -1.0f //v7
 	};
 
-	uint indices[] = { //Front
+	uint indices[] = {		 //Front
 							  0, 1, 2,
 							  2, 3, 0,
 							  //Right

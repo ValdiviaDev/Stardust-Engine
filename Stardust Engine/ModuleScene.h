@@ -40,8 +40,8 @@ private:
 	math::Sphere sp2;
 
 	uint vert_only_id;
-	uint vert_id = 0;
-	uint ind_id = 0;
+	uint vert_id;
+	uint ind_id;
 	
 	uint num_only_vertex = 1;
 	uint num_index = 1;

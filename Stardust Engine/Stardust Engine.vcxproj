@@ -164,6 +164,7 @@
     <ClInclude Include="PanelConfig.h" />
     <ClInclude Include="PanelConsole.h" />
     <ClInclude Include="Parson\parson.h" />
+    <ClInclude Include="Par\par_shapes.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>

@@ -447,6 +447,9 @@
     <ClInclude Include="ConfigEditor.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Par\par_shapes.h">
+      <Filter>Sources\Tools\Par</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -490,6 +493,9 @@
     </Filter>
     <Filter Include="Sources\Tools\Parson">
       <UniqueIdentifier>{8dc347ff-a94c-44b8-98da-7497e9408770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools\Par">
+      <UniqueIdentifier>{9cdadec2-dac6-4048-a77b-ec8b42598cd1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
