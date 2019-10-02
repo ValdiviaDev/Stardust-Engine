@@ -55,7 +55,7 @@ public:
 	void SetTexture2D();
 	void SetLineSmooth();
 	void SetWireframe();
-	void ChangeVsync(bool active);
+	void SetVsync(bool value);
 
 	void SetDefaultConfig();
 

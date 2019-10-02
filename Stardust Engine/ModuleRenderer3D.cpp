@@ -47,13 +47,6 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 	{
 		
 
-		//Use Vsync
-		if (vsync) {
-			SDL_GL_SetSwapInterval(1);
-		}
-		else
-			SDL_GL_SetSwapInterval(0);
-
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -211,6 +204,8 @@ void ModuleRenderer3D::Load(ConfigEditor* config) {
 	SetLineSmooth();
 	gl_caps.wireframe = config->ReadBool("Wireframe", true);
 	SetWireframe();
+	vsync = config->ReadBool("Vsync", true);
+	SetVsync(vsync);
 }
 
 
@@ -224,6 +219,7 @@ void ModuleRenderer3D::Save(ConfigEditor* config) const {
 	config->WriteBool("Texture2D", gl_caps.texture_2D);
 	config->WriteBool("LineSmooth", gl_caps.line_smooth);
 	config->WriteBool("Wireframe", gl_caps.wireframe);
+	config->WriteBool("Vsync", vsync);
 }
 
 
@@ -284,9 +280,9 @@ void ModuleRenderer3D::SetWireframe() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void ModuleRenderer3D::ChangeVsync(bool active)
+void ModuleRenderer3D::SetVsync(bool value)
 {
-	vsync = active;
+	vsync = value;
 	if (vsync) {
 		SDL_GL_SetSwapInterval(1);
 	}
@@ -305,5 +301,5 @@ void ModuleRenderer3D::SetDefaultConfig() {
 	gl_caps.texture_2D = true;
 	gl_caps.line_smooth = true;
 	gl_caps.wireframe = false;
-
+	vsync = true;
 }

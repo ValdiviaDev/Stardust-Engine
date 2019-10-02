@@ -63,7 +63,7 @@ void PanelConfig::ApplicationMenu()
 {
 	static int max_fps = App->GetFPSCap();
 	static bool cap_fps = App->GetIfFPSCapping();
-	static bool vsync = App->renderer3D->vsync;
+	bool vsync = App->renderer3D->vsync;
 
 	//Engine name & organization
 	static char eng_name[30] = TITLE;
@@ -78,7 +78,7 @@ void PanelConfig::ApplicationMenu()
 		App->SetIfFPSCapping(cap_fps);
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Vsync", &vsync))
-		App->renderer3D->ChangeVsync(vsync);
+		App->renderer3D->SetVsync(vsync);
 
 
 	if (cap_fps) {
