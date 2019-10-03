@@ -172,6 +172,9 @@
     <ClCompile Include="ConfigEditor.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="mmgr\mmgr.cpp">
+      <Filter>Sources\Tools\mmgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -450,6 +453,12 @@
     <ClInclude Include="Par\par_shapes.h">
       <Filter>Sources\Tools\Par</Filter>
     </ClInclude>
+    <ClInclude Include="mmgr\mmgr.h">
+      <Filter>Sources\Tools\mmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="mmgr\nommgr.h">
+      <Filter>Sources\Tools\mmgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -496,6 +505,9 @@
     </Filter>
     <Filter Include="Sources\Tools\Par">
       <UniqueIdentifier>{9cdadec2-dac6-4048-a77b-ec8b42598cd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools\mmgr">
+      <UniqueIdentifier>{a09da4eb-efc7-416c-856b-7869d669fee2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
