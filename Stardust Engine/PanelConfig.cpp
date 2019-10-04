@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
+#include "mmgr/mmgr.h"
 
 PanelConfig::PanelConfig()
 {
@@ -100,7 +101,37 @@ void PanelConfig::ApplicationMenu()
 	sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
 	ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
 
-	//MEMORY STUFF TODO
+	// Memory histogram and information 
+	sMStats stats = m_getMemoryStatistics();
+	static int mov_graph_speed = 0;
+	static vector<float> memory(100);
+
+	//Fill memory vector
+	mov_graph_speed++;
+	if (mov_graph_speed > 15) {
+		if (memory.size() == perfor_vec_size) {
+			for (int i = 0; i < perfor_vec_size - 1; i++)
+				memory[i] = memory[i + 1];
+
+			memory[perfor_vec_size - 1] = (float)stats.totalReportedMemory;
+		}
+		else
+			memory.push_back((float)stats.totalReportedMemory);
+
+		mov_graph_speed = 0;
+	}
+
+	ImGui::PlotHistogram("##memory", &memory[0], memory.size(), 0, "Memory Consumption", 0.0f, (float)stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
+
+	ImGui::Text("Total Reported Mem: %u", stats.totalReportedMemory);
+	ImGui::Text("Total Actual Mem: %u", stats.totalActualMemory);
+	ImGui::Text("Peak Reported Mem: %u", stats.peakReportedMemory);
+	ImGui::Text("Peak Actual Mem: %u", stats.peakActualMemory);
+	ImGui::Text("Accumulated Reported Mem: %u", stats.accumulatedReportedMemory);
+	ImGui::Text("Accumulated Actual Mem: %u", stats.accumulatedActualMemory);
+	ImGui::Text("Accumulated Alloc Unit Count: %u", stats.accumulatedAllocUnitCount);
+	ImGui::Text("Total Alloc Unit Count: %u", stats.totalAllocUnitCount);
+	ImGui::Text("Peak Alloc Unit Count: %u", stats.peakAllocUnitCount);
 }
 
 void PanelConfig::WindowMenu()
@@ -343,6 +374,7 @@ void PanelConfig::FillMSVector()
 	else
 		ms_log.push_back(App->GetMS());
 }
+
 
 
 

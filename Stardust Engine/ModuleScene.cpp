@@ -98,6 +98,13 @@ void ModuleScene::Draw() {
 	//Sphere draw with vertex and index
 	//glBindVertexArray(vao);
 
+
+
+	//Cube
+	DrawCubeDirectMode();
+	DrawCubeVertexArray();
+	DrawCubeIndices();
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	glBindBuffer(GL_ARRAY_BUFFER, sph_v_id);
@@ -105,15 +112,10 @@ void ModuleScene::Draw() {
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glDrawElements(GL_TRIANGLES, sphere->ntriangles * 3, GL_UNSIGNED_SHORT, NULL);
 
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
-	//Cube
-	//DrawCubeDirectMode();
-	//DrawCubeVertexArray();
-	//DrawCubeIndices();
-
 }
 
 void ModuleScene::DrawCubeDirectMode()
@@ -336,7 +338,6 @@ void ModuleScene::BufferSimpleGemoetry()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//Sphere
-	
 	//Vertex
 	glGenBuffers(1, (GLuint*) &(sph_v_id));
 	glBindBuffer(GL_ARRAY_BUFFER, sph_v_id);
@@ -348,19 +349,6 @@ void ModuleScene::BufferSimpleGemoetry()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sph_i_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(PAR_SHAPES_T) * 3 * sphere->ntriangles, sphere->triangles, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	//vao
-	//glGenVertexArrays(1, (GLuint*) &vao);
-	//glBindVertexArray(vao);
-	//
-	//glBindBuffer(GL_ARRAY_BUFFER, sph_id[0]);
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-	//
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//
-	//glBindVertexArray(0);	
-
 }
 
 

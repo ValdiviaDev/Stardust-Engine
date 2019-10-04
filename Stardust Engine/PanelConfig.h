@@ -29,11 +29,10 @@ public:
 	void FillFPSVector();
 	void FillMSVector();
 
-
 private:
 	vector<float> fps_log;
 	vector<float> ms_log;
-	const uint perfor_vec_size = 70;
+	const uint perfor_vec_size = 100;
 	
 	ImGuiTextBuffer imput_log_buff;
 	bool imput_log_scroll = false;
