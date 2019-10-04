@@ -48,7 +48,7 @@ bool ModuleScene::Start()
 	sphere = par_shapes_create_subdivided_sphere(2);
 	par_shapes_translate(sphere, 0, 4.0, 0);
 	
-	BufferSimpleGemoetry();
+	//BufferSimpleGemoetry();
 	
 
 	return true;
@@ -101,21 +101,21 @@ void ModuleScene::Draw() {
 
 
 	//Cube
-	DrawCubeDirectMode();
-	DrawCubeVertexArray();
-	DrawCubeIndices();
+	//DrawCubeDirectMode();
+	//DrawCubeVertexArray();
+	//DrawCubeIndices();
 
-	glEnableClientState(GL_VERTEX_ARRAY);
+	//glEnableClientState(GL_VERTEX_ARRAY);
 
-	glBindBuffer(GL_ARRAY_BUFFER, sph_v_id);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sph_i_id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glDrawElements(GL_TRIANGLES, sphere->ntriangles * 3, GL_UNSIGNED_SHORT, NULL);
+	//glBindBuffer(GL_ARRAY_BUFFER, sph_v_id);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sph_i_id);
+	//glVertexPointer(3, GL_FLOAT, 0, NULL);
+	//glDrawElements(GL_TRIANGLES, sphere->ntriangles * 3, GL_UNSIGNED_SHORT, NULL);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void ModuleScene::DrawCubeDirectMode()

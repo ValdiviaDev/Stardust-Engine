@@ -20,16 +20,16 @@ public:
 	~ModuleImport();
 
 	bool Init(ConfigEditor* config);
-	/*bool Start();
-	update_status PreUpdate(float dt);
-	update_status Update(float dt);
-	update_status PostUpdate(float dt);*/
+	bool Start();
+	//update_status PreUpdate(float dt);
+	//update_status Update(float dt);
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 	geo_info LoadMeshVerticesAndIndices();
 
 private:
 
-	
+	geo_info m;
 
 
 };
