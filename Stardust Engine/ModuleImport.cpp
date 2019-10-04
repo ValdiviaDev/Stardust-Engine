@@ -42,7 +42,7 @@ bool ModuleImport::Start() {
 	aiAttachLogStream(&stream);
 
 
-	const aiScene* scene = aiImportFile("Assets/Meshes/jojomodelo.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+	const aiScene* scene = aiImportFile("Assets/Meshes/alita-bald.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
 
@@ -97,6 +97,12 @@ bool ModuleImport::CleanUp() {
 
 	// detach log stream
 	aiDetachAllLogStreams();
+
+	//CleanUp for the mesh elements TODO
+	delete[] m.vertex;
+	m.vertex = nullptr;
+	delete[] m.index;
+	m.index = nullptr;
 
 	return true;
 }
