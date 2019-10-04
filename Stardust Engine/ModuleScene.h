@@ -45,7 +45,8 @@ private:
 	uint vert_only_id;
 	uint vert_id;
 	uint ind_id;
-	uint sph_id[2];
+	uint sph_v_id;
+	uint sph_i_id;
 	uint vao;
 
 	uint num_only_vertex = 1;
