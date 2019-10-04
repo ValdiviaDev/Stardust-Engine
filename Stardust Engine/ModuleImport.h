@@ -25,7 +25,7 @@ public:
 	//update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
-	geo_info LoadMeshVerticesAndIndices();
+	void BindBuffers(geo_info &m);
 
 private:
 

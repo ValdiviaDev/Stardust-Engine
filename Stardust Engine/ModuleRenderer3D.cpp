@@ -312,60 +312,7 @@ void ModuleRenderer3D::SetDefaultConfig() {
 
 
 
-void ModuleRenderer3D::GetModelInfo(geo_info &m) {
 
-	const aiScene* scene = aiImportFile("Assets/Meshes/warrior-export.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
-	if (scene != nullptr && scene->HasMeshes())
-	{
-
-
-		aiMesh* new_mesh = scene->mMeshes[0];
-		// copy vertices
-
-
-		m.num_vertex = new_mesh->mNumVertices;
-		m.vertex = new float[m.num_vertex * 3];
-		memcpy(m.vertex, new_mesh->mVertices, sizeof(float) * m.num_vertex * 3);
-		LOG("New mesh with %d vertices", m.num_vertex);
-
-		// copy faces
-		if (new_mesh->HasFaces())
-		{
-			m.num_index = new_mesh->mNumFaces * 3;
-			m.index = new uint[m.num_index]; // assume each face is a triangle
-			for (uint i = 0; i < new_mesh->mNumFaces; ++i)
-			{
-				if (new_mesh->mFaces[i].mNumIndices != 3) {
-					LOG("WARNING, geometry face with != 3 indices!");
-				}
-				else
-					memcpy(&m.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
-			}
-		}
-
-
-		// Use scene->mNumMeshes to iterate on scene->mMeshes array
-
-
-
-		LOG("aaa");
-		//Vertex
-		glGenBuffers(1, (GLuint*) &(m.id_vertex));
-		glBindBuffer(GL_ARRAY_BUFFER, m.id_vertex);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_vertex, m.vertex, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		//Index
-		glGenBuffers(1, (GLuint*) &(m.id_index));
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_index);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m.num_index, m.index, GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	}
-	else
-		LOG("Error loading mesh");
-
-	
-}
 
 
 

@@ -62,7 +62,7 @@ public:
 
 	void SetDefaultConfig();
 
-	void GetModelInfo(geo_info &m);
+	
 	void DrawModel(geo_info m);
 
 public:
