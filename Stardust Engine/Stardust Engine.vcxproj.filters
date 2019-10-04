@@ -175,6 +175,9 @@
     <ClCompile Include="mmgr\mmgr.cpp">
       <Filter>Sources\Tools\mmgr</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleImport.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -458,6 +461,9 @@
     </ClInclude>
     <ClInclude Include="mmgr\nommgr.h">
       <Filter>Sources\Tools\mmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleImport.h">
+      <Filter>Sources\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

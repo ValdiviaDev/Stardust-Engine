@@ -11,6 +11,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleGui.h"
+#include "ModuleImport.h"
 
 using namespace std;
 
@@ -43,6 +44,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleGui* gui;
+	ModuleImport* importer;
 
 private:
 
