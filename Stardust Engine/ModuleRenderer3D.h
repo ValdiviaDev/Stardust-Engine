@@ -8,6 +8,9 @@
 
 #define MAX_LIGHTS 8
 
+struct geo_info;
+
+
 struct GPU_Info {
 	const char* GPU_vendor = nullptr;
 	const char* GPU_renderer = nullptr;
@@ -58,6 +61,9 @@ public:
 	void SetVsync(bool value);
 
 	void SetDefaultConfig();
+
+	void GetModelInfo(geo_info &m);
+	void DrawModel(geo_info m);
 
 public:
 
