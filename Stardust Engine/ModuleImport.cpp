@@ -76,8 +76,6 @@ bool ModuleImport::Start() {
 		}
 
 
-
-
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		aiReleaseImport(scene);
 
@@ -92,7 +90,7 @@ bool ModuleImport::Start() {
 		//Index
 		glGenBuffers(1, (GLuint*) &(m.id_index));
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_index);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 3 * m.num_index, m.index, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m.num_index, m.index, GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 	else
