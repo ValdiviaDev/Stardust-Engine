@@ -119,16 +119,10 @@ bool ModuleImport::CleanUp() {
 	aiDetachAllLogStreams();
 
 	//CleanUp for the mesh elements TODO
-	delete[] m.vertex;
-	m.vertex = nullptr;
-	delete[] m.index;
-	m.index = nullptr;
-	delete[] m.normal;
-	m.normal = nullptr;
-	if (m.uv != nullptr) {
-		delete[] m.uv;
-		m.uv = nullptr;
-	}
+	RELEASE_ARRAY(m.vertex);
+	RELEASE_ARRAY(m.index);
+	RELEASE_ARRAY(m.normal);
+	RELEASE_ARRAY(m.uv);
 
 	return true;
 }
