@@ -16,7 +16,7 @@ struct geo_info {
 
 	uint id_uv = 0;
 	uint num_uv = 0;
-	float* uv;
+	float* uv = nullptr;
 };
 
 class ModuleImport : public Module

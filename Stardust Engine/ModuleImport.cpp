@@ -56,12 +56,12 @@ void ModuleImport::ImportFile(char* path) {
 
 		//copy uvs
 		if (new_mesh->HasTextureCoords(0)) {
-			m.num_uv = new_mesh->mNumVertices;
-			m.uv = new float[m.num_uv * 2];
-			for (uint i = 0; i < new_mesh->mNumVertices; ++i)
-			{
-				memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i], sizeof(float) * 2);
-			}
+		m.num_uv = new_mesh->mNumVertices;
+		m.uv = new float[m.num_uv * 2];
+		for (uint i = 0; i < new_mesh->mNumVertices; ++i)
+		{
+			memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i], sizeof(float) * 2);
+		}
 		}
 
 
@@ -124,8 +124,10 @@ bool ModuleImport::CleanUp() {
 	m.index = nullptr;
 	delete[] m.normal;
 	m.normal = nullptr;
-	delete[] m.uv;
-	m.uv = nullptr;
+	if (m.uv != nullptr) {
+		delete[] m.uv;
+		m.uv = nullptr;
+	}
 
 	return true;
 }
@@ -146,11 +148,15 @@ void ModuleImport::BindBuffers(geo_info &m) {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_index);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m.num_index, m.index, GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		if (m.uv != nullptr) {
+			//Texture coordinates
+			glGenBuffers(1, (GLuint*) &(m.id_uv));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_uv);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * 2 * m.num_uv, m.uv, GL_STATIC_DRAW);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		}
 	}
 
-	//Texture coordinates
-	glGenBuffers(1, (GLuint*) &(m.id_uv));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_uv);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * 2 * m.num_uv, m.uv, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	
 }
