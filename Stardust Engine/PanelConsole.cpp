@@ -5,7 +5,7 @@ PanelConsole::PanelConsole()
 {
 	name = "console";
 	active = true;
-	pos_x = 50, pos_y = 70, width = 700, height = 200;
+	pos_x = 10, pos_y = 800, width = 700, height = 200;
 }
 
 PanelConsole::~PanelConsole()
@@ -24,11 +24,17 @@ void PanelConsole::Draw()
 	ImGui::Begin("Console", &active, ImGuiWindowFlags_None);
 	
 	//Clear button
-	if (ImGui::Button("Clear", { 50, 20 }))
-		ConsoleClear();
-
+	ImGui::BeginChild(1, { (float)width, (float)(height - 160) }, true);
 	//Automatic scroll
 	ImGui::Checkbox("Automatic scroll", &autom_scroll);
+	ImGui::SameLine();
+	if (ImGui::Button("Clear", { 50, 20 }))
+		ConsoleClear();
+	
+	
+	ImGui::EndChild();
+
+	ImGui::BeginChild(2, { (float)width, (float)(height - 40) });
 
 	//Scrolling Logs
 	ImGui::TextUnformatted(buff.begin());
@@ -36,7 +42,7 @@ void PanelConsole::Draw()
 		ImGui::SetScrollHere(1.0f);
 		scroll = false;
 	}
-	
+	ImGui::EndChild();
 
 	ImGui::End();
 }

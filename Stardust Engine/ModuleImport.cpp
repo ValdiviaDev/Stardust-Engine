@@ -35,7 +35,18 @@ bool ModuleImport::Init(ConfigEditor* config)
 
 void ModuleImport::ImportFile(char* path) {
 
+	//If there's previous data for a mesh, delete it (temporary)
+	RELEASE_ARRAY(m.vertex);
+	RELEASE_ARRAY(m.index);
+	RELEASE_ARRAY(m.normal);
+	RELEASE_ARRAY(m.uv);
+
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+	if (scene)
+		App->gui->AddLogToConsole("Assimp scene loaded correctly");
+	else
+		App->gui->AddLogToConsole("ERROR: Assimp scene not loaded correctly");
+
 	if (scene != nullptr && scene->HasMeshes())
 	{
 
@@ -46,22 +57,35 @@ void ModuleImport::ImportFile(char* path) {
 		memcpy(m.vertex, new_mesh->mVertices, sizeof(float) * m.num_vertex * 3);
 		LOG("New mesh with %d vertices", m.num_vertex);
 		
+		if (m.vertex)
+			App->gui->AddLogToConsole("Mesh vertices loaded correctly");
+		else
+			App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
+
 		//copy normals
 		if (new_mesh->HasNormals()) {
 			m.num_normal = new_mesh->mNumVertices;
 			m.normal = new float[m.num_normal * 3];
 			memcpy(m.normal, new_mesh->mNormals, sizeof(float) * m.num_normal * 3);
 			LOG("New mesh with %d normals", m.num_normal);
+
+			if (m.normal)
+				App->gui->AddLogToConsole("Normals loaded correctly");
+			else
+				App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
 		}
 
 		//copy uvs
 		if (new_mesh->HasTextureCoords(0)) {
-		m.num_uv = new_mesh->mNumVertices;
-		m.uv = new float[m.num_uv * 2];
-		for (uint i = 0; i < new_mesh->mNumVertices; ++i)
-		{
-			memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i], sizeof(float) * 2);
-		}
+			m.num_uv = new_mesh->mNumVertices;
+			m.uv = new float[m.num_uv * 2];
+			for (uint i = 0; i < new_mesh->mNumVertices; ++i)
+				memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i], sizeof(float) * 2);
+
+			if (m.uv)
+				App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
+			else
+				App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
 		}
 
 
@@ -79,6 +103,11 @@ void ModuleImport::ImportFile(char* path) {
 				else
 					memcpy(&m.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 			}
+
+			if (m.index)
+				App->gui->AddLogToConsole("Mesh indexes loaded correctly");
+			else
+				App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
 		}
 
 		BindBuffers(m);
@@ -91,6 +120,11 @@ void ModuleImport::ImportFile(char* path) {
 	aiReleaseImport(scene);
 }
 
+geo_info ModuleImport::GetModel()
+{
+	return m;
+}
+
 bool ModuleImport::Start() {
 
 	//Stream log messages to Debug window
@@ -100,17 +134,7 @@ bool ModuleImport::Start() {
 
 	ImportFile("Assets/Meshes/alita-bald.FBX");
 
-		
-
 	return true;
-}
-
-update_status ModuleImport::PostUpdate(float dt) {
-
-	if (m.index != nullptr && m.vertex != nullptr) 
-		App->renderer3D->DrawModel(m);
-
-	return UPDATE_CONTINUE;
 }
 
 bool ModuleImport::CleanUp() {

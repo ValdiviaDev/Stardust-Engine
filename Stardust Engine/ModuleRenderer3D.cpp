@@ -144,6 +144,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	App->scene->Draw();
 
 	//Debug TODO
+	if (App->importer->GetModel().index != nullptr && App->importer->GetModel().vertex != nullptr)
+		App->renderer3D->DrawModel(App->importer->GetModel());
 
 	App->gui->Draw();
 
