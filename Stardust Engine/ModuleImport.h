@@ -26,6 +26,7 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 	void BindBuffers(geo_info &m);
+	void ImportFile(char* path);
 
 private:
 

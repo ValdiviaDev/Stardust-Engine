@@ -28,21 +28,14 @@ ModuleImport::~ModuleImport()
 bool ModuleImport::Init(ConfigEditor* config)
 {
 
-
+	
 
 	return true;
 }
 
+void ModuleImport::ImportFile(char* path) {
 
-bool ModuleImport::Start() {
-
-	//Stream log messages to Debug window
-	struct aiLogStream stream;
-	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
-	aiAttachLogStream(&stream);
-
-
-	const aiScene* scene = aiImportFile("Assets/Meshes/alita-bald.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
 
@@ -79,16 +72,25 @@ bool ModuleImport::Start() {
 
 
 	aiReleaseImport(scene);
+}
 
-	
+bool ModuleImport::Start() {
+
+	//Stream log messages to Debug window
+	struct aiLogStream stream;
+	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	aiAttachLogStream(&stream);
+
+
+		
 
 	return true;
 }
 
 update_status ModuleImport::PostUpdate(float dt) {
 
-
-	App->renderer3D->DrawModel(m);
+	if (m.index != nullptr && m.vertex != nullptr) 
+		App->renderer3D->DrawModel(m);
 
 	return UPDATE_CONTINUE;
 }
@@ -109,16 +111,20 @@ bool ModuleImport::CleanUp() {
 
 void ModuleImport::BindBuffers(geo_info &m) {
 
-	//Vertex
-	glGenBuffers(1, (GLuint*) &(m.id_vertex));
-	glBindBuffer(GL_ARRAY_BUFFER, m.id_vertex);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_vertex, m.vertex, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
+	if (m.index!=nullptr && m.vertex != nullptr) {
+	//if (m.num_index != 0 && m.num_vertex != 0) {
+		//Vertex
+		glGenBuffers(1, (GLuint*) &(m.id_vertex));
+		glBindBuffer(GL_ARRAY_BUFFER, m.id_vertex);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_vertex, m.vertex, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//Index
-	glGenBuffers(1, (GLuint*) &(m.id_index));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m.num_index, m.index, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		//Index
+		glGenBuffers(1, (GLuint*) &(m.id_index));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_index);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m.num_index, m.index, GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
 
 }
