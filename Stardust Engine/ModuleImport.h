@@ -10,6 +10,13 @@ struct geo_info {
 	uint id_vertex = 0; // unique vertex in VRAM
 	uint num_vertex = 0;
 	float* vertex = nullptr;
+
+	uint num_normal = 0;
+	float* normal = nullptr;
+
+	uint id_uv = 0;
+	uint num_uv = 0;
+	float* uv;
 };
 
 class ModuleImport : public Module

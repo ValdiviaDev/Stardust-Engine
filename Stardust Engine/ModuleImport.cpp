@@ -46,15 +46,31 @@ bool ModuleImport::Start() {
 	if (scene != nullptr && scene->HasMeshes())
 	{
 
-
 		aiMesh* new_mesh = scene->mMeshes[0];
 		// copy vertices
-
-
 		m.num_vertex = new_mesh->mNumVertices;
 		m.vertex = new float[m.num_vertex * 3];
 		memcpy(m.vertex, new_mesh->mVertices, sizeof(float) * m.num_vertex * 3);
 		LOG("New mesh with %d vertices", m.num_vertex);
+		
+		//copy normals
+		if (new_mesh->HasNormals()) {
+			m.num_normal = new_mesh->mNumVertices;
+			m.normal = new float[m.num_normal * 3];
+			memcpy(m.normal, new_mesh->mNormals, sizeof(float) * m.num_normal * 3);
+			LOG("New mesh with %d normals", m.num_normal);
+		}
+
+		//copy uvs
+		if (new_mesh->HasTextureCoords(0)) {
+			m.num_uv = new_mesh->mNumVertices;
+			m.uv = new float[m.num_uv * 2];
+			for (uint i = 0; i < new_mesh->mNumVertices; ++i)
+			{
+				memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i], sizeof(float) * 2);
+			}
+		}
+
 
 		// copy faces
 		if (new_mesh->HasFaces())
@@ -65,6 +81,7 @@ bool ModuleImport::Start() {
 			{
 				if (new_mesh->mFaces[i].mNumIndices != 3) {
 					LOG("WARNING, geometry face with != 3 indices!");
+					App->gui->AddLogToConsole("WARNING, geometry face with != 3 indices!");
 				}
 				else
 					memcpy(&m.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
@@ -103,6 +120,10 @@ bool ModuleImport::CleanUp() {
 	m.vertex = nullptr;
 	delete[] m.index;
 	m.index = nullptr;
+	delete[] m.normal;
+	m.normal = nullptr;
+	delete[] m.uv;
+	m.uv = nullptr;
 
 	return true;
 }
@@ -121,4 +142,9 @@ void ModuleImport::BindBuffers(geo_info &m) {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m.num_index, m.index, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+	//Texture coordinates
+	glGenBuffers(1, (GLuint*) &(m.id_uv));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_uv);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * 2 * m.num_uv, m.uv, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
