@@ -73,6 +73,7 @@ public:
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	GL_Caps gl_caps;
 	bool vsync = true;
+	bool draw_vert_normals = false;
 
 private:
 	GPU_Info gpu_info;

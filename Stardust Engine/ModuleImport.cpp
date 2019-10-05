@@ -98,6 +98,7 @@ bool ModuleImport::Start() {
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
 
+	ImportFile("Assets/Meshes/alita-bald.FBX");
 
 		
 

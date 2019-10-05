@@ -312,12 +312,10 @@ void ModuleRenderer3D::SetDefaultConfig() {
 
 
 
-
-
-
-
 void ModuleRenderer3D::DrawModel(geo_info m) {
 
+	//Model mesh
+	glColor3f(0.0f, 0.0f, 255.0f);
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m.id_vertex);
@@ -329,4 +327,18 @@ void ModuleRenderer3D::DrawModel(geo_info m) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
+
+	//Vertex normals
+	if (draw_vert_normals) {
+		glBegin(GL_LINES);
+		glColor3f(255.0f, 255.0f, 0.0f); //Yellow
+		for (int i = 0; i < m.num_normal * 3; i++) {
+
+			glVertex3f(m.vertex[i], m.vertex[i + 1], m.vertex[i + 2]);
+			glVertex3f(m.vertex[i] + m.normal[i], m.vertex[i + 1] + m.normal[i + 1], m.vertex[i + 2] + m.normal[i + 2]);
+
+			i += 2;
+		}
+		glEnd();
+	}
 }
