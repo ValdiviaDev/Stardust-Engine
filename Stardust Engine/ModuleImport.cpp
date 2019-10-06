@@ -47,8 +47,13 @@ void ModuleImport::ImportFile(char* path) {
 	//If there's previous data for a mesh, delete it (temporary)
 	
 	
+	uint flags = 0;
+	flags |= aiProcessPreset_TargetRealtime_MaxQuality;
+	flags |= aiProcess_Triangulate;
+	flags |= aiProcess_SortByPType | aiPrimitiveType_LINE | aiPrimitiveType_POINT;
 
-	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+
+	const aiScene* scene = aiImportFile(path, flags);
 	if (scene)
 		App->gui->AddLogToConsole("Assimp scene loaded correctly");
 	else
@@ -60,10 +65,10 @@ void ModuleImport::ImportFile(char* path) {
 		geo_info m;
 
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
-		for (int i = 0; i < scene->mNumMeshes; i++) {
+		for (int j = 0; j < scene->mNumMeshes; j++) {
 
 
-			aiMesh* new_mesh = scene->mMeshes[i];
+			aiMesh* new_mesh = scene->mMeshes[j];
 			// copy vertices
 			m.num_vertex = new_mesh->mNumVertices;
 			m.vertex = new float[m.num_vertex * 3];
@@ -111,6 +116,10 @@ void ModuleImport::ImportFile(char* path) {
 				{
 					if (new_mesh->mFaces[i].mNumIndices != 3) {
 						LOG("WARNING, geometry face with != 3 indices!");
+						if(new_mesh->mFaces[i].mNumIndices < 3)
+							App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
+						
+						if (new_mesh->mFaces[i].mNumIndices > 3)
 						App->gui->AddLogToConsole("WARNING, geometry face with != 3 indices!");
 					}
 					else
