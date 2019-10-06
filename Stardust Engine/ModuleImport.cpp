@@ -42,6 +42,7 @@ void ModuleImport::ImportFile(char* path) {
 		RELEASE_ARRAY(m->vertex);
 		RELEASE_ARRAY(m->normal);
 		RELEASE_ARRAY(m->uv);
+		RELEASE_ARRAY(m->color);
 	}
 	m_list.clear();
 	//If there's previous data for a mesh, delete it (temporary)
@@ -61,7 +62,6 @@ void ModuleImport::ImportFile(char* path) {
 
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		for (int i = 0; i < scene->mNumMeshes; i++) {
-
 
 			aiMesh* new_mesh = scene->mMeshes[i];
 			// copy vertices
@@ -88,12 +88,31 @@ void ModuleImport::ImportFile(char* path) {
 					App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
 			}
 
+			//copy color
+			if (new_mesh->HasVertexColors(0)) {
+				m.num_color = new_mesh->mNumVertices;
+				m.color = new float[m.num_color * 4];
+				for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
+					memcpy(&m.color[i], &new_mesh->mColors[0][i].r, sizeof(float));
+					memcpy(&m.color[i + 1], &new_mesh->mColors[0][i].g, sizeof(float));
+					memcpy(&m.color[i + 2], &new_mesh->mColors[0][i].b, sizeof(float));
+					memcpy(&m.color[i + 3], &new_mesh->mColors[0][i].a, sizeof(float));
+				}
+
+				if (m.color)
+					App->gui->AddLogToConsole("Color vertex loaded correctly");
+				else
+					App->gui->AddLogToConsole("ERROR: Color vertex not loaded correctly");
+			}
+
 			//copy uvs
 			if (new_mesh->HasTextureCoords(0)) {
 				m.num_uv = new_mesh->mNumVertices;
 				m.uv = new float[m.num_uv * 2];
-				for (uint i = 0; i < new_mesh->mNumVertices; ++i)
-					memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i], sizeof(float) * 2);
+				for (uint i = 0; i < new_mesh->mNumVertices; ++i){
+					memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
+					memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
+					}
 
 				if (m.uv)
 					App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
@@ -130,9 +149,6 @@ void ModuleImport::ImportFile(char* path) {
 	}
 
 
-	
-
-
 	aiReleaseImport(scene);
 }
 
@@ -147,8 +163,6 @@ bool ModuleImport::Start() {
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
-
-	//ImportFile("Assets/Meshes/alita-bald.FBX");
 
 	return true;
 }
@@ -165,6 +179,7 @@ bool ModuleImport::CleanUp() {
 		RELEASE_ARRAY(m->vertex);
 		RELEASE_ARRAY(m->normal);
 		RELEASE_ARRAY(m->uv);
+		RELEASE_ARRAY(m->color);
 	}
 	m_list.clear();
 
@@ -174,8 +189,7 @@ bool ModuleImport::CleanUp() {
 void ModuleImport::BindBuffers(geo_info &m) {
 
 	
-	if (m.index!=nullptr && m.vertex != nullptr) {
-	//if (m.num_index != 0 && m.num_vertex != 0) {
+	if (m.index != nullptr && m.vertex != nullptr) {
 		//Vertex
 		glGenBuffers(1, (GLuint*) &(m.id_vertex));
 		glBindBuffer(GL_ARRAY_BUFFER, m.id_vertex);
@@ -188,14 +202,20 @@ void ModuleImport::BindBuffers(geo_info &m) {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m.num_index, m.index, GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+		//Texture coordinates
 		if (m.uv != nullptr) {
-			//Texture coordinates
 			glGenBuffers(1, (GLuint*) &(m.id_uv));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_uv);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * 2 * m.num_uv, m.uv, GL_STATIC_DRAW);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, m.id_uv);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * m.num_uv, m.uv, GL_STATIC_DRAW);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+
+		//Color coordinates
+		if (m.color != nullptr) {
+			glGenBuffers(1, (GLuint*) &(m.id_color));
+			glBindBuffer(GL_ARRAY_BUFFER, m.id_color);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * m.num_color, m.color, GL_STATIC_DRAW);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 	}
-
-	
 }

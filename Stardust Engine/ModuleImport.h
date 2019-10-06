@@ -4,13 +4,16 @@
 #include "Module.h"
 
 struct geo_info {
-	uint id_index = 0; // index in VRAM
-	uint num_index = 0;
-	uint* index = nullptr;
 
-	uint id_vertex = 0; // unique vertex in VRAM
+	//Vertex info
+	uint id_vertex = 0;
 	uint num_vertex = 0;
 	float* vertex = nullptr;
+
+	//Index info
+	uint id_index = 0;
+	uint num_index = 0;
+	uint* index = nullptr;
 
 	//Normals info
 	uint num_normal = 0;
@@ -21,6 +24,10 @@ struct geo_info {
 	uint num_uv = 0;
 	float* uv = nullptr;
 
+	//Colour vertex info
+	uint id_color = 0;
+	uint num_color = 0;
+	float* color = nullptr;
 	
 };
 
