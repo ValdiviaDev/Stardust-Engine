@@ -144,6 +144,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	App->scene->Draw();
 
 	//Debug TODO
+	DrawModelDebug();
+
 	//if (App->importer->GetModel().index != nullptr && App->importer->GetModel().vertex != nullptr)
 	if (!App->importer->GetModel().empty())
 		DrawModel();
@@ -350,41 +352,35 @@ void ModuleRenderer3D::DrawModel() {
 			glEnd();
 		}
 
-
-		//Face normals GOOD
-		glBegin(GL_LINES);
-		glColor3f(255.0f, 0.0f, 0.0f); //Red
-		for (int i = 0; i < m->num_index ; i++) {
-			//Triangle points
-			uint index_01 = m->index[i] * 3;
-			uint index_02 = m->index[i + 1] * 3;
-			uint index_03 = m->index[i + 2] * 3;
-
-			float3 p1 = { m->vertex[index_01], m->vertex[index_01 + 1], m->vertex[index_01 + 2] };
-			float3 p2 = { m->vertex[index_02], m->vertex[index_02 + 1], m->vertex[index_02 + 2] };
-			float3 p3 = { m->vertex[index_03], m->vertex[index_03 + 1], m->vertex[index_03 + 2] };
-		
-			//Calculate face center
-			float C1 = (p1.x + p2.x + p3.x) / 3;
-			float C2 = (p1.y + p2.y + p3.y) / 3;
-			float C3 = (p1.z + p2.z + p3.z) / 3;
-		
-			//Calculate Face Normal
-			float3 U = { p2 - p1 };
-			float3 V = { p3 - p1 };
-		
-			float Nx = U.y*V.z - U.z*V.y;
-			float Ny = U.z*V.x - U.x*V.z;
-			float Nz = U.x*V.y - U.y*V.x;
-		
-			glVertex3f(C1, C2, C3);
-			glVertex3f(C1 + Nx, C2 + Ny, C3 + Nz);
-		
-			i += 2;
-		}
-		glColor3f(255.0f, 255.0f, 255.0f); //White
-		glEnd();
-
 		m++;
+	}
+}
+
+void ModuleRenderer3D::DrawModelDebug()
+{
+	list<geo_debug> m_debug = App->importer->GetDebugInfo();
+	list<geo_debug>::const_iterator deb = m_debug.begin();
+
+	while (deb != m_debug.end())
+	{
+		//Face normals
+		if (draw_face_normals) {
+
+			for (int i = 0; i < deb->tri_normal.size(); i++) {
+
+				glBegin(GL_LINES);
+				glColor3f(255.0f, 0.0f, 0.0f); //Red
+
+				glVertex3f(deb->tri_center[i].x, deb->tri_center[i].y, deb->tri_center[i].z);
+				glVertex3f(deb->tri_center[i].x + deb->tri_normal[i].x, deb->tri_center[i].y + deb->tri_normal[i].y,
+						   deb->tri_center[i].z + deb->tri_normal[i].z);
+
+
+				glColor3f(255.0f, 255.0f, 255.0f); //White
+				glEnd();
+			}
+		}
+
+		deb++;
 	}
 }

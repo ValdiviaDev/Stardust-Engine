@@ -1,6 +1,7 @@
 #ifndef __ModuleImport__H__
 #define __ModuleImport__H__
 
+
 #include "Module.h"
 
 struct geo_info {
@@ -31,6 +32,14 @@ struct geo_info {
 	
 };
 
+struct geo_debug {
+
+	vector<float3> tri_center;
+	vector<float3> tri_normal;
+
+
+};
+
 class ModuleImport : public Module
 {
 public: 
@@ -47,11 +56,14 @@ public:
 	void BindBuffers(geo_info &m);
 	void ImportFile(char* path);
 
+	void SaveDebugData(geo_info &m);
+
 	list<geo_info> GetModel();
-	void asdas(list <geo_info> a) {};
+	list<geo_debug> GetDebugInfo();
 
 private:
 	list<geo_info> m_list;
+	list<geo_debug> m_debug;
 	//geo_info m;
 
 };
