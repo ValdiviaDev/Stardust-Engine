@@ -351,35 +351,39 @@ void ModuleRenderer3D::DrawModel() {
 		}
 
 
-		//Face normals BAD
+		//Face normals GOOD
+		glBegin(GL_LINES);
+		glColor3f(255.0f, 0.0f, 0.0f); //Red
+		for (int i = 0; i < m->num_index ; i++) {
+			//Triangle points
+			uint index_01 = m->index[i] * 3;
+			uint index_02 = m->index[i + 1] * 3;
+			uint index_03 = m->index[i + 2] * 3;
 
-		//glBegin(GL_LINES);
-		//glColor3f(255.0f, 0.0f, 0.0f); //Red
-		//for (int i = 0; i < 3 ; i++) {
-		//	//Triangle points
-		//	float3 p1 = { m.vertex[m.index[i]], m.vertex[m.index[i] + 1], m.vertex[m.index[i] + 2] };
-		//	float3 p2 = { m.vertex[m.index[i + 1]], m.vertex[m.index[i + 1] + 1], m.vertex[m.index[i + 1] + 2] };
-		//	float3 p3 = { m.vertex[m.index[i + 2]], m.vertex[m.index[i + 2] + 1], m.vertex[m.index[i + 2] + 2] };
-		//
-		//	//Calculate face center
-		//	float C1 = (p1.x + p2.x + p3.x) / 3;
-		//	float C2 = (p1.y + p2.y + p3.y) / 3;
-		//	float C3 = (p1.z + p2.z + p3.z) / 3;
-		//
-		//	//Calculate Face Normal
-		//	float3 U = { p2 - p1 };
-		//	float3 V = { p3 - p1 };
-		//
-		//	float Nx = U.y*V.z - U.z*V.y;
-		//	float Ny = U.z*V.x - U.x*V.z;
-		//	float Nz = U.x*V.y - U.y*V.x;
-		//
-		//	glVertex3f(C1, C2, C3);
-		//	glVertex3f(C1 + Nx, C2 + Ny, C3 + Nz);
-		//
-		//
-		//}
-		//glEnd();
+			float3 p1 = { m->vertex[index_01], m->vertex[index_01 + 1], m->vertex[index_01 + 2] };
+			float3 p2 = { m->vertex[index_02], m->vertex[index_02 + 1], m->vertex[index_02 + 2] };
+			float3 p3 = { m->vertex[index_03], m->vertex[index_03 + 1], m->vertex[index_03 + 2] };
+		
+			//Calculate face center
+			float C1 = (p1.x + p2.x + p3.x) / 3;
+			float C2 = (p1.y + p2.y + p3.y) / 3;
+			float C3 = (p1.z + p2.z + p3.z) / 3;
+		
+			//Calculate Face Normal
+			float3 U = { p2 - p1 };
+			float3 V = { p3 - p1 };
+		
+			float Nx = U.y*V.z - U.z*V.y;
+			float Ny = U.z*V.x - U.x*V.z;
+			float Nz = U.x*V.y - U.y*V.x;
+		
+			glVertex3f(C1, C2, C3);
+			glVertex3f(C1 + Nx, C2 + Ny, C3 + Nz);
+		
+			i += 2;
+		}
+		glColor3f(255.0f, 255.0f, 255.0f); //White
+		glEnd();
 
 		m++;
 	}
