@@ -35,11 +35,18 @@ bool ModuleImport::Init(ConfigEditor* config)
 
 void ModuleImport::ImportFile(char* path) {
 
+		
+	for (list<geo_info>::iterator m = m_list.begin(), end = m_list.end(); m != end; ++m) {
+		
+		RELEASE_ARRAY(m->index);
+		RELEASE_ARRAY(m->vertex);
+		RELEASE_ARRAY(m->normal);
+		RELEASE_ARRAY(m->uv);
+	}
+	m_list.clear();
 	//If there's previous data for a mesh, delete it (temporary)
-	RELEASE_ARRAY(m.vertex);
-	RELEASE_ARRAY(m.index);
-	RELEASE_ARRAY(m.normal);
-	RELEASE_ARRAY(m.uv);
+	
+	
 
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene)
@@ -49,80 +56,89 @@ void ModuleImport::ImportFile(char* path) {
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+	
+		geo_info m;
 
-		aiMesh* new_mesh = scene->mMeshes[0];
-		// copy vertices
-		m.num_vertex = new_mesh->mNumVertices;
-		m.vertex = new float[m.num_vertex * 3];
-		memcpy(m.vertex, new_mesh->mVertices, sizeof(float) * m.num_vertex * 3);
-		LOG("New mesh with %d vertices", m.num_vertex);
-		
-		if (m.vertex)
-			App->gui->AddLogToConsole("Mesh vertices loaded correctly");
-		else
-			App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
+		// Use scene->mNumMeshes to iterate on scene->mMeshes array
+		for (int i = 0; i < scene->mNumMeshes; i++) {
 
-		//copy normals
-		if (new_mesh->HasNormals()) {
-			m.num_normal = new_mesh->mNumVertices;
-			m.normal = new float[m.num_normal * 3];
-			memcpy(m.normal, new_mesh->mNormals, sizeof(float) * m.num_normal * 3);
-			LOG("New mesh with %d normals", m.num_normal);
 
-			if (m.normal)
-				App->gui->AddLogToConsole("Normals loaded correctly");
+			aiMesh* new_mesh = scene->mMeshes[i];
+			// copy vertices
+			m.num_vertex = new_mesh->mNumVertices;
+			m.vertex = new float[m.num_vertex * 3];
+			memcpy(m.vertex, new_mesh->mVertices, sizeof(float) * m.num_vertex * 3);
+			LOG("New mesh with %d vertices", m.num_vertex);
+
+			if (m.vertex)
+				App->gui->AddLogToConsole("Mesh vertices loaded correctly");
 			else
-				App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
-		}
+				App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
 
-		//copy uvs
-		if (new_mesh->HasTextureCoords(0)) {
-			m.num_uv = new_mesh->mNumVertices;
-			m.uv = new float[m.num_uv * 2];
-			for (uint i = 0; i < new_mesh->mNumVertices; ++i)
-				memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i], sizeof(float) * 2);
+			//copy normals
+			if (new_mesh->HasNormals()) {
+				m.num_normal = new_mesh->mNumVertices;
+				m.normal = new float[m.num_normal * 3];
+				memcpy(m.normal, new_mesh->mNormals, sizeof(float) * m.num_normal * 3);
+				LOG("New mesh with %d normals", m.num_normal);
 
-			if (m.uv)
-				App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
-			else
-				App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
-		}
-
-
-		// copy faces
-		if (new_mesh->HasFaces())
-		{
-			m.num_index = new_mesh->mNumFaces * 3;
-			m.index = new uint[m.num_index]; // assume each face is a triangle
-			for (uint i = 0; i < new_mesh->mNumFaces; ++i)
-			{
-				if (new_mesh->mFaces[i].mNumIndices != 3) {
-					LOG("WARNING, geometry face with != 3 indices!");
-					App->gui->AddLogToConsole("WARNING, geometry face with != 3 indices!");
-				}
+				if (m.normal)
+					App->gui->AddLogToConsole("Normals loaded correctly");
 				else
-					memcpy(&m.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+					App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
 			}
 
-			if (m.index)
-				App->gui->AddLogToConsole("Mesh indexes loaded correctly");
-			else
-				App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
-		}
+			//copy uvs
+			if (new_mesh->HasTextureCoords(0)) {
+				m.num_uv = new_mesh->mNumVertices;
+				m.uv = new float[m.num_uv * 2];
+				for (uint i = 0; i < new_mesh->mNumVertices; ++i)
+					memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i], sizeof(float) * 2);
 
-		BindBuffers(m);
+				if (m.uv)
+					App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
+				else
+					App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
+			}
+
+
+			// copy faces
+			if (new_mesh->HasFaces())
+			{
+				m.num_index = new_mesh->mNumFaces * 3;
+				m.index = new uint[m.num_index]; // assume each face is a triangle
+				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
+				{
+					if (new_mesh->mFaces[i].mNumIndices != 3) {
+						LOG("WARNING, geometry face with != 3 indices!");
+						App->gui->AddLogToConsole("WARNING, geometry face with != 3 indices!");
+					}
+					else
+						memcpy(&m.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+				}
+
+				if (m.index)
+					App->gui->AddLogToConsole("Mesh indexes loaded correctly");
+				else
+					App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
+			}
+
+			BindBuffers(m);
+
+			m_list.push_back(m);
+		}
 	}
 
 
-	// Use scene->mNumMeshes to iterate on scene->mMeshes array
+	
 
 
 	aiReleaseImport(scene);
 }
 
-geo_info ModuleImport::GetModel()
+list<geo_info> ModuleImport::GetModel()
 {
-	return m;
+	return m_list;
 }
 
 bool ModuleImport::Start() {
@@ -132,7 +148,7 @@ bool ModuleImport::Start() {
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
 
-	ImportFile("Assets/Meshes/alita-bald.FBX");
+	//ImportFile("Assets/Meshes/alita-bald.FBX");
 
 	return true;
 }
@@ -143,10 +159,14 @@ bool ModuleImport::CleanUp() {
 	aiDetachAllLogStreams();
 
 	//CleanUp for the mesh elements TODO
-	RELEASE_ARRAY(m.vertex);
-	RELEASE_ARRAY(m.index);
-	RELEASE_ARRAY(m.normal);
-	RELEASE_ARRAY(m.uv);
+	for (list<geo_info>::iterator m = m_list.begin(), end = m_list.end(); m != end; ++m) {
+
+		RELEASE_ARRAY(m->index);
+		RELEASE_ARRAY(m->vertex);
+		RELEASE_ARRAY(m->normal);
+		RELEASE_ARRAY(m->uv);
+	}
+	m_list.clear();
 
 	return true;
 }

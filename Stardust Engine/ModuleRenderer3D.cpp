@@ -144,8 +144,9 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	App->scene->Draw();
 
 	//Debug TODO
-	if (App->importer->GetModel().index != nullptr && App->importer->GetModel().vertex != nullptr)
-		App->renderer3D->DrawModel(App->importer->GetModel());
+	//if (App->importer->GetModel().index != nullptr && App->importer->GetModel().vertex != nullptr)
+	if (!App->importer->GetModel().empty())
+		DrawModel();
 
 	App->gui->Draw();
 
@@ -314,33 +315,41 @@ void ModuleRenderer3D::SetDefaultConfig() {
 
 
 
-void ModuleRenderer3D::DrawModel(geo_info m) {
+void ModuleRenderer3D::DrawModel() {
 
-	//Model mesh
-	glColor3f(0.0f, 0.0f, 255.0f);
-	glEnableClientState(GL_VERTEX_ARRAY);
+	list<geo_info> m_list = App->importer->GetModel();
+	list<geo_info>::const_iterator m = m_list.begin();
 
-	glBindBuffer(GL_ARRAY_BUFFER, m.id_vertex);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_index);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glDrawElements(GL_TRIANGLES, m.num_index * 3, GL_UNSIGNED_INT, NULL);
+	while (m != m_list.end())
+	{
+		
+		//Model mesh
+		glColor3f(0.0f, 0.0f, 255.0f);
+		glEnableClientState(GL_VERTEX_ARRAY);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_index);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glDrawElements(GL_TRIANGLES, m->num_index * 3, GL_UNSIGNED_INT, NULL);
 
-	glDisableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//Vertex normals
-	if (draw_vert_normals) {
-		glBegin(GL_LINES);
-		glColor3f(255.0f, 255.0f, 0.0f); //Yellow
-		for (int i = 0; i < m.num_normal * 3; i++) {
+		glDisableClientState(GL_VERTEX_ARRAY);
 
-			glVertex3f(m.vertex[i], m.vertex[i + 1], m.vertex[i + 2]);
-			glVertex3f(m.vertex[i] + m.normal[i], m.vertex[i + 1] + m.normal[i + 1], m.vertex[i + 2] + m.normal[i + 2]);
+		//Vertex normals
+		if (draw_vert_normals) {
+			glBegin(GL_LINES);
+			glColor3f(255.0f, 255.0f, 0.0f); //Yellow
+			for (int i = 0; i < m->num_normal * 3; i++) {
 
-			i += 2;
+				glVertex3f(m->vertex[i], m->vertex[i + 1], m->vertex[i + 2]);
+				glVertex3f(m->vertex[i] + m->normal[i], m->vertex[i + 1] + m->normal[i + 1], m->vertex[i + 2] + m->normal[i + 2]);
+
+				i += 2;
+			}
+			glEnd();
 		}
-		glEnd();
+		m++;
 	}
 }

@@ -63,7 +63,7 @@ public:
 	void SetDefaultConfig();
 
 	
-	void DrawModel(geo_info m);
+	void DrawModel();
 
 public:
 
