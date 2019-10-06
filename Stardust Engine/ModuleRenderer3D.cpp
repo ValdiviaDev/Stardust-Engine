@@ -144,6 +144,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	App->scene->Draw();
 
 	//Debug TODO
+	DrawModelDebug();
+
 	//if (App->importer->GetModel().index != nullptr && App->importer->GetModel().vertex != nullptr)
 	if (!App->importer->GetModel().empty())
 		DrawModel();
@@ -322,9 +324,7 @@ void ModuleRenderer3D::DrawModel() {
 
 	while (m != m_list.end())
 	{
-		
 		//Model mesh
-		glColor3f(0.0f, 0.0f, 255.0f);
 		glEnableClientState(GL_VERTEX_ARRAY);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
@@ -348,8 +348,39 @@ void ModuleRenderer3D::DrawModel() {
 
 				i += 2;
 			}
+			glColor3f(255.0f, 255.0f, 255.0f); //White
 			glEnd();
 		}
+
 		m++;
+	}
+}
+
+void ModuleRenderer3D::DrawModelDebug()
+{
+	list<geo_debug> m_debug = App->importer->GetDebugInfo();
+	list<geo_debug>::const_iterator deb = m_debug.begin();
+
+	while (deb != m_debug.end())
+	{
+		//Face normals
+		if (draw_face_normals) {
+
+			for (int i = 0; i < deb->tri_normal.size(); i++) {
+
+				glBegin(GL_LINES);
+				glColor3f(255.0f, 0.0f, 0.0f); //Red
+
+				glVertex3f(deb->tri_center[i].x, deb->tri_center[i].y, deb->tri_center[i].z);
+				glVertex3f(deb->tri_center[i].x + deb->tri_normal[i].x, deb->tri_center[i].y + deb->tri_normal[i].y,
+						   deb->tri_center[i].z + deb->tri_normal[i].z);
+
+
+				glColor3f(255.0f, 255.0f, 255.0f); //White
+				glEnd();
+			}
+		}
+
+		deb++;
 	}
 }

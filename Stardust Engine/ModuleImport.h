@@ -1,16 +1,20 @@
 #ifndef __ModuleImport__H__
 #define __ModuleImport__H__
 
+
 #include "Module.h"
 
 struct geo_info {
-	uint id_index = 0; // index in VRAM
-	uint num_index = 0;
-	uint* index = nullptr;
 
-	uint id_vertex = 0; // unique vertex in VRAM
+	//Vertex info
+	uint id_vertex = 0;
 	uint num_vertex = 0;
 	float* vertex = nullptr;
+
+	//Index info
+	uint id_index = 0;
+	uint num_index = 0;
+	uint* index = nullptr;
 
 	//Normals info
 	uint num_normal = 0;
@@ -21,7 +25,19 @@ struct geo_info {
 	uint num_uv = 0;
 	float* uv = nullptr;
 
+	//Colour vertex info
+	uint id_color = 0;
+	uint num_color = 0;
+	float* color = nullptr;
 	
+};
+
+struct geo_debug {
+
+	vector<float3> tri_center;
+	vector<float3> tri_normal;
+
+
 };
 
 class ModuleImport : public Module
@@ -40,11 +56,14 @@ public:
 	void BindBuffers(geo_info &m);
 	void ImportFile(char* path);
 
+	void SaveDebugData(geo_info &m);
+
 	list<geo_info> GetModel();
-	void asdas(list <geo_info> a) {};
+	list<geo_debug> GetDebugInfo();
 
 private:
 	list<geo_info> m_list;
+	list<geo_debug> m_debug;
 	//geo_info m;
 
 };

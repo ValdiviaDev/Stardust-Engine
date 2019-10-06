@@ -254,6 +254,7 @@ void PanelConfig::RendererMenu()
 {
 	ImGui::Text("Debug painting:");
 	ImGui::Checkbox("Vertex normals", &App->renderer3D->draw_vert_normals);
+	ImGui::Checkbox("Face normals", &App->renderer3D->draw_face_normals);
 
 	ImGui::Separator();
 

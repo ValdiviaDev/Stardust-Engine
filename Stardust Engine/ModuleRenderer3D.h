@@ -64,6 +64,7 @@ public:
 
 	
 	void DrawModel();
+	void DrawModelDebug();
 
 public:
 
@@ -73,7 +74,10 @@ public:
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	GL_Caps gl_caps;
 	bool vsync = true;
+
+	//Debug
 	bool draw_vert_normals = false;
+	bool draw_face_normals = false;
 
 private:
 	GPU_Info gpu_info;
