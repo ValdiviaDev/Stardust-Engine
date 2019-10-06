@@ -30,13 +30,13 @@ struct geo_info {
 	uint num_color = 0;
 	float* color = nullptr;
 	
+	bool has_no_triangle = false;
 };
 
 struct geo_debug {
 
 	vector<float3> tri_center;
 	vector<float3> tri_normal;
-
 
 };
 
@@ -64,7 +64,6 @@ public:
 private:
 	list<geo_info> m_list;
 	list<geo_debug> m_debug;
-	//geo_info m;
 
 };
 

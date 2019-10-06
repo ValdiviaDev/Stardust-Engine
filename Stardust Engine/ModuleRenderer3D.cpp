@@ -143,12 +143,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->scene->Draw();
 
-	//Debug TODO
-	DrawModelDebug();
-
-	//if (App->importer->GetModel().index != nullptr && App->importer->GetModel().vertex != nullptr)
-	if (!App->importer->GetModel().empty())
+	if (!App->importer->GetModel().empty()) {
 		DrawModel();
+		DrawModelDebug();
+	}
 
 	App->gui->Draw();
 
@@ -366,19 +364,20 @@ void ModuleRenderer3D::DrawModelDebug()
 		//Face normals
 		if (draw_face_normals) {
 
+			glBegin(GL_LINES);
+
+			glColor3f(255.0f, 0.0f, 0.0f); //Red
+
 			for (int i = 0; i < deb->tri_normal.size(); i++) {
 
-				glBegin(GL_LINES);
-				glColor3f(255.0f, 0.0f, 0.0f); //Red
+			glVertex3f(deb->tri_center[i].x, deb->tri_center[i].y, deb->tri_center[i].z);
+			glVertex3f(deb->tri_center[i].x + deb->tri_normal[i].x, deb->tri_center[i].y + deb->tri_normal[i].y,
+					   deb->tri_center[i].z + deb->tri_normal[i].z);
 
-				glVertex3f(deb->tri_center[i].x, deb->tri_center[i].y, deb->tri_center[i].z);
-				glVertex3f(deb->tri_center[i].x + deb->tri_normal[i].x, deb->tri_center[i].y + deb->tri_normal[i].y,
-						   deb->tri_center[i].z + deb->tri_normal[i].z);
-
-
-				glColor3f(255.0f, 255.0f, 255.0f); //White
-				glEnd();
 			}
+			glColor3f(255.0f, 255.0f, 255.0f); //White
+
+			glEnd();
 		}
 
 		deb++;

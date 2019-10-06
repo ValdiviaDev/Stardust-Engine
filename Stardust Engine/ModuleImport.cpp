@@ -45,6 +45,7 @@ void ModuleImport::ImportFile(char* path) {
 		RELEASE_ARRAY(m->color);
 	}
 	m_list.clear();
+	m_debug.clear();
 	//If there's previous data for a mesh, delete it (temporary)
 	
 	
@@ -136,11 +137,13 @@ void ModuleImport::ImportFile(char* path) {
 				{
 					if (new_mesh->mFaces[i].mNumIndices != 3) {
 						LOG("WARNING, geometry face with != 3 indices!");
+						m.has_no_triangle = true;
+
 						if(new_mesh->mFaces[i].mNumIndices < 3)
 							App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
 						
 						if (new_mesh->mFaces[i].mNumIndices > 3)
-						App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
+							App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
 					}
 					else
 						memcpy(&m.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
@@ -152,8 +155,11 @@ void ModuleImport::ImportFile(char* path) {
 					App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
 			}
 
+
 			BindBuffers(m);
-			SaveDebugData(m);
+
+			if (!m.has_no_triangle) //Check if theres a face that isn't a triangle
+				SaveDebugData(m);
 
 			m_list.push_back(m);
 		}
