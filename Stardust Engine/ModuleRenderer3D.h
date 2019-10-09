@@ -5,15 +5,15 @@
 #include "Globals.h"
 #include "glmath.h"
 #include "Light.h"
-
+//TEST-----------------------------------------------------------------
 #include "Glew/include/glew.h"
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
-
+//TEST-----------------------------------------------------------------
 #define MAX_LIGHTS 8
-#define CHECKERS_HEIGHT 64
-#define CHECKERS_WIDTH 64
+#define CHECKERS_HEIGHT 128
+#define CHECKERS_WIDTH 128
 
 
 struct geo_info;
@@ -69,13 +69,9 @@ public:
 	void SetVsync(bool value);
 
 	void SetDefaultConfig();
-
 	
 	void DrawModel();
 	void DrawModelDebug();
-
-	void DrawCubeDirectMode();
-	void DrawCubeIndices();
 
 public:
 
@@ -95,8 +91,6 @@ private:
 
 	GLuint ImgId;
 
-	uint vert_id;
-	uint ind_id;
 };
 
 #endif

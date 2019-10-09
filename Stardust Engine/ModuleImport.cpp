@@ -117,8 +117,9 @@ void ModuleImport::ImportFile(char* path) {
 				m.num_uv = new_mesh->mNumVertices;
 				m.uv = new float[m.num_uv * 2];
 				for (uint i = 0; i < new_mesh->mNumVertices; ++i){
-					memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
-					memcpy(&m.uv[i], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
+					memcpy(&m.uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
+					memcpy(&m.uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
+
 					}
 
 				if (m.uv)
