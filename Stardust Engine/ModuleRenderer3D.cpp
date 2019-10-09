@@ -135,10 +135,10 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glGenTextures(1, &ImgId);
 	glBindTexture(GL_TEXTURE_2D, ImgId);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_HEIGHT, CHECKERS_WIDTH,
 		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 
@@ -207,11 +207,6 @@ void ModuleRenderer3D::SaveGPUInfo()
 {
 	gpu_info.GPU_renderer = (const char*)glGetString(GL_RENDERER);
 	gpu_info.GPU_vendor = (const char*)glGetString(GL_VENDOR);
-
-	//LOG("Vendor: %s", glGetString(GL_VENDOR));
-	//LOG("Renderer: %s", glGetString(GL_RENDERER));
-	//LOG("OpenGL version supported %s", glGetString(GL_VERSION));
-	//LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
 GPU_Info ModuleRenderer3D::GetGPUInfo()
@@ -342,73 +337,97 @@ void ModuleRenderer3D::DrawCubeDirectMode()
 {
 
 	glBindTexture(GL_TEXTURE_2D, ImgId);
-
 	
 	glBegin(GL_TRIANGLES);
 	//Front face
 	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(1.0f, 1.0f, 1.0f); //v0
-	glTexCoord2f(1.0f, 0.0f);
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
 	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
-	glTexCoord2f(0.0f, 1.0f);
 
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(1.0f, 1.0f, 1.0f); //v0
 
 	//Right face
-
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(1.0f, -1.0f, -1.0f); //v4
 
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(1.0f, 1.0f, 1.0f); //v0
 
 	//Up face
-
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
 
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(1.0f, 1.0f, 1.0f); //v0
 
 	//Back face
-
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(1.0f, 1.0f, -1.0f); //v5
 
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
 
 	//Left face
-
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
 
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
 
 	//Down face
-
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(1.0f, -1.0f, 1.0f); //v3
 
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
-
-
 
 	glEnd();
 
