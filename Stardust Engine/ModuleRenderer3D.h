@@ -6,7 +6,15 @@
 #include "glmath.h"
 #include "Light.h"
 
+#include "Glew/include/glew.h"
+#include "SDL\include\SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
 #define MAX_LIGHTS 8
+#define CHECKERS_HEIGHT 64
+#define CHECKERS_WIDTH 64
+
 
 struct geo_info;
 
@@ -66,6 +74,8 @@ public:
 	void DrawModel();
 	void DrawModelDebug();
 
+	void DrawCubeDirectMode();
+
 public:
 
 	Light lights[MAX_LIGHTS];
@@ -82,6 +92,7 @@ public:
 private:
 	GPU_Info gpu_info;
 
+	GLuint ImgId;
 };
 
 #endif

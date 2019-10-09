@@ -117,6 +117,31 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 	// Projection matrix for
 	OnResize(App->window->win_width, App->window->win_height);
 
+
+
+	//TEST-----------------------------------------------------------------
+	//glprogramming.com/red/chapter09.html
+	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
+	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
+		for (int j = 0; j < CHECKERS_WIDTH; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &ImgId);
+	glBindTexture(GL_TEXTURE_2D, ImgId);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_HEIGHT, CHECKERS_WIDTH,
+		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+
 	return ret;
 }
 
@@ -147,7 +172,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		DrawModel();
 		DrawModelDebug();
 	}
-
+	DrawCubeDirectMode();
 	App->gui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);
@@ -313,7 +338,82 @@ void ModuleRenderer3D::SetDefaultConfig() {
 	vsync = true;
 }
 
+void ModuleRenderer3D::DrawCubeDirectMode()
+{
 
+	glBindTexture(GL_TEXTURE_2D, ImgId);
+
+	
+	glBegin(GL_TRIANGLES);
+	//Front face
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glTexCoord2f(0.0f, 1.0f);
+
+	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+
+	//Right face
+
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+
+	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+
+	//Up face
+
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+
+	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+	glVertex3f(1.0f, 1.0f, 1.0f); //v0
+
+	//Back face
+
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+
+	glVertex3f(1.0f, 1.0f, -1.0f); //v5
+	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+
+	//Left face
+
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+
+	glVertex3f(-1.0f, 1.0f, 1.0f); //v1
+	glVertex3f(-1.0f, 1.0f, -1.0f); //v6
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+
+	//Down face
+
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+	glVertex3f(1.0f, -1.0f, -1.0f); //v4
+	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+
+	glVertex3f(1.0f, -1.0f, 1.0f); //v3
+	glVertex3f(-1.0f, -1.0f, 1.0f); //v2
+	glVertex3f(-1.0f, -1.0f, -1.0f); //v7
+
+
+
+	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
 
 void ModuleRenderer3D::DrawModel() {
 
