@@ -53,8 +53,10 @@ public:
 	//update_status Update(float dt);
 	//update_status PostUpdate(float dt);
 	bool CleanUp();
+	
 	void BindBuffers(geo_info &m);
 	void ImportFile(char* path);
+	void LoadImg();
 
 	void SaveDebugData(geo_info &m);
 

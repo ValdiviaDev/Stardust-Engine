@@ -10,10 +10,15 @@
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
+
+
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
 #pragma comment (lib, "DevIL/libx86/ILU.lib")
 #pragma comment (lib, "DevIL/libx86/ILUT.lib")
+#include "DevIL/include/il.h"
+#include "DevIL/include/ilu.h"
+#include "DevIL/include/ilut.h"
 
 
 
@@ -29,8 +34,6 @@ ModuleImport::~ModuleImport()
 
 bool ModuleImport::Init(ConfigEditor* config)
 {
-
-	
 
 	return true;
 }
@@ -172,6 +175,34 @@ void ModuleImport::ImportFile(char* path) {
 	aiReleaseImport(scene);
 }
 
+void ModuleImport::LoadImg()
+{
+	ilInit();
+	iluInit();
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
+
+	uint image_id = 0;
+	ilGenImages(1, &image_id);
+	ilBindImage(image_id);
+
+	const char *path = "Assets/Textures/Lenna.PNG";
+
+	if (ilLoad(IL_TYPE_UNKNOWN, path)) {
+		LOG("LOAD LENAA AAAAAAAAAAAAAAAAAAAAA");
+	}
+	else {
+		LOG("NO LOAD LENNA BBBBBBBBBBBBBBBB");
+	}
+
+	ILenum Error;
+	while ((Error = ilGetError()) != IL_NO_ERROR) {
+		LOG("%d: %s/n", Error, iluErrorString(Error));
+	}
+
+	//ilDeleteImages(1, &image_id);
+}
+
 void ModuleImport::SaveDebugData(geo_info &m)
 {
 	geo_debug deb;
@@ -224,6 +255,7 @@ bool ModuleImport::Start() {
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
+	LoadImg();
 
 	return true;
 }
