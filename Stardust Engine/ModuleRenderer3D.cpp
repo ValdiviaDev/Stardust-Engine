@@ -81,7 +81,7 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 		glClearDepth(1.0f);
 		
 		//Initialize clear color
-		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glClearColor(255.f, 0.f, 0.f, 1.f);
 
 		//Check for error
 		error = glGetError();
@@ -141,6 +141,53 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_HEIGHT, CHECKERS_WIDTH,
 		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+
+	//Vertex and index cube
+	float vert[] = {
+					4.0f, 1.0f, 1.0f, //v0 
+					2.0f, 1.0f, 1.0f, //v1
+					2.0f, -1.0f, 1.0f, //v2
+					4.0f, -1.0f, 1.0f, //v3
+					4.0f, -1.0f, -1.0f, //v4
+					4.0f, 1.0f, -1.0f, //v5
+					2.0f, 1.0f, -1.0f, //v6
+					2.0f, -1.0f, -1.0f //v7
+	};
+
+	uint indices[] = {		 //Front
+							  0, 1, 2,
+							  2, 3, 0,
+							  //Right
+							  0, 3, 4,
+							  4, 5, 0,
+							  //Up
+							  0, 5, 6,
+							  6, 1, 0,
+							  //Back
+							  7, 6, 5,
+							  5, 4, 7,
+							  //Left
+							  7, 2, 1,
+							  1, 6, 7,
+							  //Back
+							  7, 4, 3,
+							  3, 2, 7
+	};
+
+	//Vertex
+	glGenBuffers(1, (GLuint*) &(vert_id));
+	glBindBuffer(GL_ARRAY_BUFFER, vert_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vert), vert, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Index
+	glGenBuffers(1, (GLuint*) &(ind_id));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ind_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 
 	return ret;
 }
@@ -172,7 +219,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		DrawModel();
 		DrawModelDebug();
 	}
-	DrawCubeDirectMode();
+	DrawCubeIndices();
 	App->gui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);
@@ -333,6 +380,23 @@ void ModuleRenderer3D::SetDefaultConfig() {
 	vsync = true;
 }
 
+void ModuleRenderer3D::DrawCubeIndices()
+{
+	//Draw
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vert_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ind_id);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, NULL);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
 void ModuleRenderer3D::DrawCubeDirectMode()
 {
 
@@ -442,17 +506,29 @@ void ModuleRenderer3D::DrawModel() {
 	while (m != m_list.end())
 	{
 		//Model mesh
-		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindTexture(GL_TEXTURE_2D, ImgId);
 
+		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_index);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, m->id_uv);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_index);
+
+		
 		glDrawElements(GL_TRIANGLES, m->num_index * 3, GL_UNSIGNED_INT, NULL);
+
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		//Vertex normals
 		if (draw_vert_normals) {

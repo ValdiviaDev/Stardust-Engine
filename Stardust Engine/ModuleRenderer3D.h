@@ -75,6 +75,7 @@ public:
 	void DrawModelDebug();
 
 	void DrawCubeDirectMode();
+	void DrawCubeIndices();
 
 public:
 
@@ -93,6 +94,9 @@ private:
 	GPU_Info gpu_info;
 
 	GLuint ImgId;
+
+	uint vert_id;
+	uint ind_id;
 };
 
 #endif

@@ -8,11 +8,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2019
 		Month: 10
-		Day: 6
-		Hour: 16
-		Minute: 50
-		Second: 42
-		Millisecond: 514
+		Day: 9
+		Hour: 15
+		Minute: 46
+		Second: 44
+		Millisecond: 897
 	}
 	Creator: "FBX SDK/FBX Plugins version 2019.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -28,20 +28,20 @@ FBXHeaderExtension:  {
 			Comment: ""
 		}
 		Properties70:  {
-			P: "DocumentUrl", "KString", "Url", "", "C:\Users\Ricard\Documents\GitHub\Stardust-Engine\Game\Assets\Meshes\FacesWith5Vertex.fbx"
-			P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\Ricard\Documents\GitHub\Stardust-Engine\Game\Assets\Meshes\FacesWith5Vertex.fbx"
+			P: "DocumentUrl", "KString", "Url", "", "C:\Users\Ricard\Desktop\plane.fbx"
+			P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\Ricard\Desktop\plane.fbx"
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "Maya"
 			P: "Original|ApplicationVersion", "KString", "", "", "201900"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "06/10/2019 14:50:42.512"
-			P: "Original|FileName", "KString", "", "", "C:\Users\Ricard\Documents\GitHub\Stardust-Engine\Game\Assets\Meshes\FacesWith5Vertex.fbx"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "09/10/2019 13:46:44.889"
+			P: "Original|FileName", "KString", "", "", "C:\Users\Ricard\Desktop\plane.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Maya"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "201900"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "06/10/2019 14:50:42.512"
-			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\Ricard\Documents\GitHub\Stardust-Engine\Game\Assets\Meshes"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "09/10/2019 13:46:44.889"
+			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\Ricard\Desktop"
 		}
 	}
 }
@@ -76,7 +76,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1353127089248, "", "Scene" {
+	Document: 2178189249872, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", "Take 001"
@@ -221,27 +221,27 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 1354813067920, "Geometry::", "Mesh" {
-		Vertices: *39 {
-			a: -0.5,-0.5,0.5,0.5,-0.5,0.5,-0.5,0.5,0.5,0.5,0.5,0.5,-0.5,0.5,-0.5,0.5,0.5,-0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5,0.5,0.931780278682709,0.0177260041236877,-0.5,0.931780278682709,0.00746500492095947,0.0182729661464691,0.931780278682709,0.5,-0.00183007121086121,1.51125383377075,0.0134250037372112,-0.00766023248434067,0.931780278682709,-0.5
+	Geometry: 2178196862064, "Geometry::", "Mesh" {
+		Vertices: *12 {
+			a: -0.5,0,0.5,0.5,0,0.5,-0.5,0,-0.5,0.5,0,-0.5
 		} 
-		PolygonVertexIndex: *40 {
-			a: 0,1,3,10,-3,2,10,11,-10,4,12,5,7,-7,6,7,1,-1,1,7,5,8,-4,6,0,2,9,-5,9,11,12,-5,11,10,3,-9,12,11,8,-6
+		PolygonVertexIndex: *6 {
+			a: 0,1,-4,0,3,-3
 		} 
-		Edges: *20 {
-			a: 0,3,9,12,4,1,8,21,13,11,17,15,20,26,35,2,7,10,6,29
+		Edges: *5 {
+			a: 0,5,1,4,2
 		} 
 		GeometryVersion: 124
 		LayerElementNormal: 0 {
 			Version: 102
 			Name: ""
-			MappingInformationType: "ByPolygonVertex"
+			MappingInformationType: "ByVertice"
 			ReferenceInformationType: "Direct"
-			Normals: *120 {
-				a: 0,0,0.999999940395355,0,0,0.999999940395355,0,0,0.999999940395355,0,0,0.999999940395355,0,0,1,-0.567494928836823,0.566887557506561,0.597150027751923,0.00444639613851905,0.693784415721893,0.720169067382813,-0.00627259630709887,0.99995493888855,-0.00713005382567644,-0.709843695163727,0.704135477542877,0.0177504364401102,0,0,-1,0,0,-1,0,0,-1,0,0,-0.999999940395355,0,0,-0.999999940395355,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0.999999940395355,0,0,0.999999940395355,0,0,1,0,0,1,0,0,1,0,0,-0.999999940395355,0,0,-0.999999940395355,0,0,-1,0,0,-1,0,0,-1,0,0,-0.709843695163727,0.704135477542877,0.0177504364401102,-0.00627259630709887,0.99995493888855,-0.00713005382567644,0.00324303307570517,0.712217569351196,-0.701951205730438,-0.586018562316895,0.577348172664642,-0.568552017211914,-0.00627259630709887,0.99995493888855,-0.00713005382567644,0.00444639613851905,0.693784415721893,0.720169067382813,0.582026422023773,0.568558216094971,0.581366419792175,0.712117373943329,0.70194137096405,-0.0129283610731363,0.00324303307570517,0.712217569351196,-0.701951205730438,-0.00627259630709887,0.99995493888855,-0.00713005382567644,0.712117373943329,0.70194137096405,-0.0129283610731363,0.582252085208893,0.578808426856995,-0.570931851863861
+			Normals: *12 {
+				a: 0,1,0,0,1,0,0,1,0,0,1,0
 			} 
-			NormalsW: *40 {
-				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			NormalsW: *4 {
+				a: 1,1,1,1
 			} 
 		}
 		LayerElementUV: 0 {
@@ -249,11 +249,11 @@ Objects:  {
 			Name: "map1"
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "IndexToDirect"
-			UV: *42 {
-				a: 0.375,0,0.625,0,0.375,0.25,0.625,0.25,0.375,0.5,0.625,0.5,0.375,0.75,0.625,0.75,0.375,1,0.625,1,0.875,0,0.875,0.25,0.125,0,0.125,0.25,0.625,0.370568513870239,0.745568513870239,0.25,0.25186625123024,0.25,0.375,0.37313374876976,0.525235772132874,0.25,0.520210027694702,0.371643781661987,0.513741016387939,0.5
+			UV: *8 {
+				a: 0,0,1,0,0,1,1,1
 			} 
-			UVIndex: *40 {
-				a: 0,1,3,18,2,2,18,19,17,4,20,5,7,6,6,7,9,8,1,10,11,15,3,12,0,2,16,13,17,19,20,4,19,18,3,14,20,19,14,5
+			UVIndex: *6 {
+				a: 0,1,3,0,3,2
 			} 
 		}
 		LayerElementMaterial: 0 {
@@ -281,7 +281,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 1353125207376, "Model::pCube1", "Mesh" {
+	Model: 2178195659168, "Model::pPlane1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -293,7 +293,7 @@ Objects:  {
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 1355014337904, "Material::lambert1", "" {
+	Material: 2178001266288, "Material::lambert1", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -315,12 +315,12 @@ Objects:  {
 
 Connections:  {
 	
-	;Model::pCube1, Model::RootNode
-	C: "OO",1353125207376,0
+	;Model::pPlane1, Model::RootNode
+	C: "OO",2178195659168,0
 	
-	;Geometry::, Model::pCube1
-	C: "OO",1354813067920,1353125207376
+	;Geometry::, Model::pPlane1
+	C: "OO",2178196862064,2178195659168
 	
-	;Material::lambert1, Model::pCube1
-	C: "OO",1355014337904,1353125207376
+	;Material::lambert1, Model::pPlane1
+	C: "OO",2178001266288,2178195659168
 }
