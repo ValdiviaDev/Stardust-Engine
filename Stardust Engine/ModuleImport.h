@@ -63,6 +63,8 @@ public:
 	list<geo_info> GetModel();
 	list<geo_debug> GetDebugInfo();
 
+	uint textureID = 0;
+
 private:
 	list<geo_info> m_list;
 	list<geo_debug> m_debug;

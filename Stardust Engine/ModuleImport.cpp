@@ -177,30 +177,36 @@ void ModuleImport::ImportFile(char* path) {
 
 void ModuleImport::LoadImg()
 {
+	//Init DevIL
 	ilInit();
 	iluInit();
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 
+	//Bind DevIL image
 	uint image_id = 0;
 	ilGenImages(1, &image_id);
 	ilBindImage(image_id);
 
+	//Load image
 	const char *path = "Assets/Textures/Lenna.png";
-
 	if (ilLoad(IL_TYPE_UNKNOWN, path)) {
-		LOG("LOAD LENAA AAAAAAAAAAAAAAAAAAAAA");
+		LOG("LOADING LENNA");
+
 	}
 	else {
-		LOG("NO LOAD LENNA BBBBBBBBBBBBBBBB");
+		LOG("CANNOT LOAD LENNA");
+		ILenum Error;
+		while ((Error = ilGetError()) != IL_NO_ERROR) {
+			LOG("%d: %s", Error, iluErrorString(Error));
+		}
 	}
 
-	ILenum Error;
-	while ((Error = ilGetError()) != IL_NO_ERROR) {
-		LOG("%d: %s", Error, iluErrorString(Error));
-	}
+	//Bind DevIL to OpenGL texture buffer
+	textureID = ilutGLBindTexImage();
 
-	//ilDeleteImages(1, &image_id);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	ilDeleteImages(1, &image_id);
 }
 
 void ModuleImport::SaveDebugData(geo_info &m)

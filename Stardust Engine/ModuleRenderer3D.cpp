@@ -340,7 +340,7 @@ void ModuleRenderer3D::DrawModel() {
 	while (m != m_list.end())
 	{
 		//Model mesh
-		glBindTexture(GL_TEXTURE_2D, ImgId);
+		glBindTexture(GL_TEXTURE_2D, App->importer->textureID);
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
