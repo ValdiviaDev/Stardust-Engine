@@ -5,19 +5,11 @@
 #include "Globals.h"
 #include "glmath.h"
 #include "Light.h"
-//TEST-----------------------------------------------------------------
-#include "Glew/include/glew.h"
-#include "SDL\include\SDL_opengl.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
-//TEST-----------------------------------------------------------------
+
 #define MAX_LIGHTS 8
+
 #define CHECKERS_HEIGHT 128
 #define CHECKERS_WIDTH 128
-
-
-struct geo_info;
-
 
 struct GPU_Info {
 	const char* GPU_vendor = nullptr;
@@ -39,6 +31,13 @@ struct GL_Caps {
 	bool wireframe = false;
 };
 
+struct Render_Debug {
+	bool draw_vert_normals = false;
+	bool draw_face_normals = false;
+	bool draw_tex = true;
+	bool draw_checkers_tex = false;
+};
+
 class ModuleRenderer3D : public Module
 {
 public:
@@ -53,7 +52,7 @@ public:
 	void OnResize(int width, int height);
 
 	void SaveGPUInfo();
-	GPU_Info GetGPUInfo();
+	GPU_Info GetGPUInfo() const;
 
 	void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;
@@ -68,6 +67,7 @@ public:
 	void SetWireframe();
 	void SetVsync(bool value);
 
+	void CreateCheckersTex();
 	void SetDefaultConfig();
 	
 	void DrawModel();
@@ -79,17 +79,14 @@ public:
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-	GL_Caps gl_caps;
 	bool vsync = true;
 
-	//Debug
-	bool draw_vert_normals = false;
-	bool draw_face_normals = false;
+	Render_Debug render_deb;
+	GL_Caps gl_caps;
 
 private:
 	GPU_Info gpu_info;
-
-	GLuint ImgId;
+	uint checkersImgId;
 
 };
 

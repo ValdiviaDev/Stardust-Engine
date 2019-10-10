@@ -116,31 +116,8 @@ bool ModuleRenderer3D::Init(ConfigEditor* config)
 	OnResize(App->window->win_width, App->window->win_height);
 
 
-	//TEST-----------------------------------------------------------------
-
-	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
-	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
-		for (int j = 0; j < CHECKERS_WIDTH; j++) {
-			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = (GLubyte)255;
-		}
-	}
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &ImgId);
-	glBindTexture(GL_TEXTURE_2D, ImgId);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_HEIGHT, CHECKERS_WIDTH,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	//TEST-----------------------------------------------------------------
+	//Debug tex
+	CreateCheckersTex();
 
 	return ret;
 }
@@ -208,7 +185,7 @@ void ModuleRenderer3D::SaveGPUInfo()
 	gpu_info.GPU_vendor = (const char*)glGetString(GL_VENDOR);
 }
 
-GPU_Info ModuleRenderer3D::GetGPUInfo()
+GPU_Info ModuleRenderer3D::GetGPUInfo() const
 {
 	return gpu_info;
 }
@@ -319,7 +296,36 @@ void ModuleRenderer3D::SetVsync(bool value)
 }
 
 
+void ModuleRenderer3D::CreateCheckersTex()
+{
+	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
+	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
+		for (int j = 0; j < CHECKERS_WIDTH; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &checkersImgId);
+	glBindTexture(GL_TEXTURE_2D, checkersImgId);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_HEIGHT, CHECKERS_WIDTH,
+				0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+				glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 void ModuleRenderer3D::SetDefaultConfig() {
+	render_deb.draw_checkers_tex = false;
+	render_deb.draw_face_normals = false;
+	render_deb.draw_tex = true;
+	render_deb.draw_checkers_tex = false;
 
 	gl_caps.alpha_test = true;
 	gl_caps.depth_test = true;
@@ -339,9 +345,14 @@ void ModuleRenderer3D::DrawModel() {
 
 	while (m != m_list.end())
 	{
-		//Model mesh
-		glBindTexture(GL_TEXTURE_2D, App->importer->textureID);
-
+		//Texture
+		if (render_deb.draw_tex) { //Draw texture
+			if(render_deb.draw_checkers_tex) //Checkers
+				glBindTexture(GL_TEXTURE_2D, checkersImgId);
+			else
+				glBindTexture(GL_TEXTURE_2D, App->importer->textureID);
+		}
+		//Mesh
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -351,10 +362,8 @@ void ModuleRenderer3D::DrawModel() {
 		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_index);
-
 		
 		glDrawElements(GL_TRIANGLES, m->num_index * 3, GL_UNSIGNED_INT, NULL);
-
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -365,7 +374,7 @@ void ModuleRenderer3D::DrawModel() {
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		//Vertex normals
-		if (draw_vert_normals) {
+		if (render_deb.draw_vert_normals) {
 			glBegin(GL_LINES);
 			glColor3f(255.0f, 255.0f, 0.0f); //Yellow
 			for (int i = 0; i < m->num_normal * 3; i++) {
@@ -391,7 +400,7 @@ void ModuleRenderer3D::DrawModelDebug()
 	while (deb != m_debug.end())
 	{
 		//Face normals
-		if (draw_face_normals) {
+		if (render_deb.draw_face_normals) {
 
 			glBegin(GL_LINES);
 
