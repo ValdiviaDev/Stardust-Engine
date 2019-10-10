@@ -186,7 +186,7 @@ void ModuleImport::LoadImg()
 	ilGenImages(1, &image_id);
 	ilBindImage(image_id);
 
-	const char *path = "Assets/Textures/Lenna.PNG";
+	const char *path = "Assets/Textures/Lenna.png";
 
 	if (ilLoad(IL_TYPE_UNKNOWN, path)) {
 		LOG("LOAD LENAA AAAAAAAAAAAAAAAAAAAAA");
@@ -197,7 +197,7 @@ void ModuleImport::LoadImg()
 
 	ILenum Error;
 	while ((Error = ilGetError()) != IL_NO_ERROR) {
-		LOG("%d: %s/n", Error, iluErrorString(Error));
+		LOG("%d: %s", Error, iluErrorString(Error));
 	}
 
 	//ilDeleteImages(1, &image_id);

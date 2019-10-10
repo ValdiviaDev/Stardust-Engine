@@ -12,6 +12,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleGui.h"
 #include "ModuleImport.h"
+#include "ModuleFileSystem.h"
 
 using namespace std;
 
@@ -45,6 +46,7 @@ public:
 	ModuleCamera3D* camera;
 	ModuleGui* gui;
 	ModuleImport* importer;
+	ModuleFileSystem* fs;
 
 private:
 
@@ -59,6 +61,10 @@ private:
 	list<Module*> list_modules;
 
 	Hardware_Info h_info;
+
+public:
+	string organization_name;
+	string app_name;
 
 public:
 
@@ -85,6 +91,7 @@ public:
 
 	void SetAllConfigToDefault();
 
+	
 private:
 
 	void AddModule(Module* mod);
