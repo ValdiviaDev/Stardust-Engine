@@ -17,7 +17,7 @@ public:
 	~GameObject();
 
 	void Update(); //TODO
-	Component* CreateComponent(ComponentType type, const char* path = "");
+	Component* CreateComponent(ComponentType type, const char* path = "", int num_mesh = 0);
 
 	bool GetActive() const;
 	void SetActive(bool active);

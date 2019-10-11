@@ -1,7 +1,7 @@
 #include "ComponentMesh.h"
 #include "Globals.h"
 
-ComponentMesh::ComponentMesh(GameObject* parent, const char* path) : Component(parent), path(path)
+ComponentMesh::ComponentMesh(GameObject* parent, const char* path, int num_mesh) : Component(parent), path(path)
 {
 	type = Comp_Mesh;
 
@@ -12,7 +12,7 @@ ComponentMesh::ComponentMesh(GameObject* parent, const char* path) : Component(p
 	strcat(full_path, path);
 
 	//Import mesh and bind buffers
-	App->importer->ImportMesh((char*)full_path, m_info);
+	App->importer->ImportMesh((char*)full_path, path, m_info, this->p_GameObject, num_mesh);
 	App->importer->BindBuffers(m_info);
 }
 

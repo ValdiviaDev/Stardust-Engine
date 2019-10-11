@@ -14,7 +14,7 @@ class Component
 {
 public:
 	Component(GameObject* parent);
-	~Component();
+	virtual ~Component();
 
 	virtual void Enable(){} //TODO
 	virtual void Update(){} //TODO

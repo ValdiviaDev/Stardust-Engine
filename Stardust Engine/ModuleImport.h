@@ -56,7 +56,7 @@ public:
 	
 	void BindBuffers(geo_info &m);
 	void ImportFile(char* path);
-	void ImportMesh(char* path, geo_info& info);
+	void ImportMesh(char* path, const char* inc_path, geo_info& info, GameObject* go, int num_mesh);
 
 	void LoadImg();
 

@@ -11,6 +11,8 @@
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
 
+#include "GameObject.h"
+#include "Component.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
@@ -209,13 +211,13 @@ void ModuleImport::LoadImg()
 	ilDeleteImages(1, &image_id);
 }
 
-void ModuleImport::ImportMesh(char* path, geo_info& mesh) {
+void ModuleImport::ImportMesh(char* path, const char* inc_path, geo_info& mesh, GameObject* go, int num_mesh) {
 
-		RELEASE_ARRAY(mesh.index);
-		RELEASE_ARRAY(mesh.vertex);
-		RELEASE_ARRAY(mesh.normal);
-		RELEASE_ARRAY(mesh.uv);
-		RELEASE_ARRAY(mesh.color);
+	RELEASE_ARRAY(mesh.index);
+	RELEASE_ARRAY(mesh.vertex);
+	RELEASE_ARRAY(mesh.normal);
+	RELEASE_ARRAY(mesh.uv);
+	RELEASE_ARRAY(mesh.color);
 		
 	//If there's previous data for a mesh, delete it (temporary)
 
@@ -234,104 +236,107 @@ void ModuleImport::ImportMesh(char* path, geo_info& mesh) {
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
-		for (int j = 0; j < scene->mNumMeshes; j++) {
+		aiMesh* new_mesh = scene->mMeshes[num_mesh];
 
-			aiMesh* new_mesh = scene->mMeshes[j];
+		// copy vertices
+		mesh.num_vertex = new_mesh->mNumVertices;
+		mesh.vertex = new float[mesh.num_vertex * 3];
+		memcpy(mesh.vertex, new_mesh->mVertices, sizeof(float) * mesh.num_vertex * 3);
+		LOG("New mesh with %d vertices", mesh.num_vertex);
 
-			// copy vertices
-			mesh.num_vertex = new_mesh->mNumVertices;
-			mesh.vertex = new float[mesh.num_vertex * 3];
-			memcpy(mesh.vertex, new_mesh->mVertices, sizeof(float) * mesh.num_vertex * 3);
-			LOG("New mesh with %d vertices", mesh.num_vertex);
+		if (mesh.vertex)
+			App->gui->AddLogToConsole("Mesh vertices loaded correctly");
+		else
+			App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
 
-			if (mesh.vertex)
-				App->gui->AddLogToConsole("Mesh vertices loaded correctly");
+		//copy normals
+		if (new_mesh->HasNormals()) {
+			mesh.num_normal = new_mesh->mNumVertices;
+			mesh.normal = new float[mesh.num_normal * 3];
+			memcpy(mesh.normal, new_mesh->mNormals, sizeof(float) * mesh.num_normal * 3);
+			LOG("New mesh with %d normals", mesh.num_normal);
+
+			if (mesh.normal)
+				App->gui->AddLogToConsole("Normals loaded correctly");
 			else
-				App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
-
-			//copy normals
-			if (new_mesh->HasNormals()) {
-				mesh.num_normal = new_mesh->mNumVertices;
-				mesh.normal = new float[mesh.num_normal * 3];
-				memcpy(mesh.normal, new_mesh->mNormals, sizeof(float) * mesh.num_normal * 3);
-				LOG("New mesh with %d normals", mesh.num_normal);
-
-				if (mesh.normal)
-					App->gui->AddLogToConsole("Normals loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
-			}
-
-			//copy color
-			if (new_mesh->HasVertexColors(0)) {
-				mesh.num_color = new_mesh->mNumVertices;
-				mesh.color = new float[mesh.num_color * 4];
-				for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
-					memcpy(&mesh.color[i], &new_mesh->mColors[0][i].r, sizeof(float));
-					memcpy(&mesh.color[i + 1], &new_mesh->mColors[0][i].g, sizeof(float));
-					memcpy(&mesh.color[i + 2], &new_mesh->mColors[0][i].b, sizeof(float));
-					memcpy(&mesh.color[i + 3], &new_mesh->mColors[0][i].a, sizeof(float));
-				}
-
-				if (mesh.color)
-					App->gui->AddLogToConsole("Color vertex loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Color vertex not loaded correctly");
-			}
-
-			//copy uvs
-			if (new_mesh->HasTextureCoords(0)) {
-				mesh.num_uv = new_mesh->mNumVertices;
-				mesh.uv = new float[mesh.num_uv * 2];
-				for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
-					memcpy(&mesh.uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
-					memcpy(&mesh.uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
-
-				}
-
-				if (mesh.uv)
-					App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
-			}
-
-
-			// copy faces
-			if (new_mesh->HasFaces())
-			{
-				mesh.num_index = new_mesh->mNumFaces * 3;
-				mesh.index = new uint[mesh.num_index]; // assume each face is a triangle
-				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
-				{
-					if (new_mesh->mFaces[i].mNumIndices != 3) {
-						LOG("WARNING, geometry face with != 3 indices!");
-						mesh.has_no_triangle = true;
-
-						if (new_mesh->mFaces[i].mNumIndices < 3)
-							App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
-
-						if (new_mesh->mFaces[i].mNumIndices > 3)
-							App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
-					}
-					else
-						memcpy(&mesh.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
-				}
-
-				if (mesh.index)
-					App->gui->AddLogToConsole("Mesh indexes loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
-			}
-
-
-
-			if (!mesh.has_no_triangle) //Check if theres a face that isn't a triangle
-				SaveDebugData(mesh);
+				App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
 		}
-	}
 
+		//copy color
+		if (new_mesh->HasVertexColors(0)) {
+			mesh.num_color = new_mesh->mNumVertices;
+			mesh.color = new float[mesh.num_color * 4];
+			for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
+				memcpy(&mesh.color[i], &new_mesh->mColors[0][i].r, sizeof(float));
+				memcpy(&mesh.color[i + 1], &new_mesh->mColors[0][i].g, sizeof(float));
+				memcpy(&mesh.color[i + 2], &new_mesh->mColors[0][i].b, sizeof(float));
+				memcpy(&mesh.color[i + 3], &new_mesh->mColors[0][i].a, sizeof(float));
+			}
+
+			if (mesh.color)
+				App->gui->AddLogToConsole("Color vertex loaded correctly");
+			else
+				App->gui->AddLogToConsole("ERROR: Color vertex not loaded correctly");
+		}
+
+		//copy uvs
+		if (new_mesh->HasTextureCoords(0)) {
+			mesh.num_uv = new_mesh->mNumVertices;
+			mesh.uv = new float[mesh.num_uv * 2];
+			for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
+				memcpy(&mesh.uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
+				memcpy(&mesh.uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
+
+			}
+
+			if (mesh.uv)
+				App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
+			else
+				App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
+		}
+
+
+		// copy faces
+		if (new_mesh->HasFaces())
+		{
+			mesh.num_index = new_mesh->mNumFaces * 3;
+			mesh.index = new uint[mesh.num_index]; // assume each face is a triangle
+			for (uint i = 0; i < new_mesh->mNumFaces; ++i)
+			{
+				if (new_mesh->mFaces[i].mNumIndices != 3) {
+					LOG("WARNING, geometry face with != 3 indices!");
+					mesh.has_no_triangle = true;
+
+					if (new_mesh->mFaces[i].mNumIndices < 3)
+						App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
+
+					if (new_mesh->mFaces[i].mNumIndices > 3)
+						App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
+				}
+				else
+					memcpy(&mesh.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+			}
+
+			if (mesh.index)
+				App->gui->AddLogToConsole("Mesh indexes loaded correctly");
+			else
+				App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
+		}
+
+
+
+		if (!mesh.has_no_triangle) //Check if theres a face that isn't a triangle
+			SaveDebugData(mesh);
+
+		//Will Probably have to change
+		if (scene->mNumMeshes != 1 && num_mesh < (scene->mNumMeshes - 1)) {
+			num_mesh++;
+			GameObject* childGO = App->scene->CreateGameObject(go);
+			childGO->CreateComponent(Comp_Mesh, inc_path, num_mesh);
+		}
+	
+	}
 
 	aiReleaseImport(scene);
 

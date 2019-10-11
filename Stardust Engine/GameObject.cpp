@@ -26,7 +26,7 @@ void GameObject::Update()
 {
 }
 
-Component* GameObject::CreateComponent(ComponentType type, const char* path)
+Component* GameObject::CreateComponent(ComponentType type, const char* path, int num_mesh)
 {
 	Component* component = nullptr;
 
@@ -36,7 +36,7 @@ Component* GameObject::CreateComponent(ComponentType type, const char* path)
 		component = transform;
 		break;
 	case Comp_Mesh:
-		mesh = new ComponentMesh(this, path);
+		mesh = new ComponentMesh(this, path, num_mesh);
 		component = mesh;
 		break;
 	case Comp_Material:
