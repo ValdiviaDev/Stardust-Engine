@@ -13,6 +13,7 @@
 #include "Parson/parson.h"
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "GameObject.h"
+#include "Component.h"
 
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
@@ -36,6 +37,20 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 	
 
+	//TESTING, DELETE LATER
+	root_object = CreateGameObject(nullptr);
+	test = CreateGameObject(root_object);
+
+	test->CreateComponent(Comp_Transform);
+	root_object->CreateComponent(Comp_Transform);
+
+	test->transform->SetPosition(float3(2, 0, 0));
+	root_object->transform->SetPosition(float3(1, 0, 0));
+	
+	test->transform->SetRotation(float3(45,0,0));
+	root_object->transform->SetRotation(float3(45, 0, 0));
+
+
 	return true;
 }
 
@@ -43,7 +58,6 @@ bool ModuleScene::Start()
 update_status ModuleScene::Update(float dt)
 {
 	
-
 	return UPDATE_CONTINUE;
 }
 
@@ -56,9 +70,9 @@ bool ModuleScene::CleanUp()
 	return true;
 }
 
-GameObject* ModuleScene::CreateGameObject()
+GameObject* ModuleScene::CreateGameObject(GameObject* parent)
 {
-	GameObject* game_object = new GameObject();
+	GameObject* game_object = new GameObject(parent);
 	game_objects.push_back(game_object);
 
 	return game_object;

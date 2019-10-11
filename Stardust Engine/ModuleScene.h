@@ -20,13 +20,17 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	GameObject* CreateGameObject();
+	GameObject* CreateGameObject(GameObject* parent);
 
 	void Draw();
 	void DrawGrid();
 
 private:
 	std::vector<GameObject*> game_objects;
+
+public:
+	GameObject* root_object = nullptr;
+	GameObject* test; //Delete after testing
 };
 
 #endif

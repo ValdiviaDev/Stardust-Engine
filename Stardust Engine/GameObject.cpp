@@ -3,11 +3,22 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
-#include "Globals.h"
+//#include "ModuleScene.h"
+//#include "Application.h"
+//
+//GameObject::GameObject() {
+//	this->parent = App->scene->root_object;
+//}
 
 
-GameObject::GameObject()
+GameObject::GameObject(GameObject* parent)
 {
+	this->parent = parent;
+
+	if (parent != nullptr) {
+		parent->childs.push_back(this);
+	}
+	name = "Default GO name";
 }
 
 
@@ -28,7 +39,8 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 	switch (type) {
 	case Comp_Transform:
-		component = new ComponentTransform(this);
+		transform = new ComponentTransform(this);
+		component = transform;
 		break;
 	case Comp_Mesh:
 		component = new ComponentMesh(this);
@@ -53,4 +65,20 @@ bool GameObject::GetActive() const
 void GameObject::SetActive(bool active)
 {
 	this->active = active;
+}
+
+
+uint GameObject::GetNumChilds() const
+{
+	return childs.size();
+}
+
+GameObject* GameObject::GetAChild(uint i) 
+{
+	return childs[i];
+
+}
+
+GameObject* GameObject::GetParent() {
+	return parent;
 }

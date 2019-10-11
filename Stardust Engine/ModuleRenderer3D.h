@@ -73,6 +73,8 @@ public:
 	void DrawModel();
 	void DrawModelDebug();
 
+	void UpdateGOMatrix(GameObject* go);
+
 public:
 
 	Light lights[MAX_LIGHTS];
