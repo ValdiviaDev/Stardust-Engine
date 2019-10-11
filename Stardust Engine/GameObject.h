@@ -2,9 +2,11 @@
 #define __GameObject__H__
 
 #include "Globals.h"
-#include "ComponentTransform.h"
 #include <vector>
 class Component;
+class ComponentTransform;
+class ComponentMesh;
+class ComponentMaterial;
 enum ComponentType;
 
 class GameObject
@@ -15,7 +17,7 @@ public:
 	~GameObject();
 
 	void Update(); //TODO
-	Component* CreateComponent(ComponentType type);
+	Component* CreateComponent(ComponentType type, const char* path = "");
 
 	bool GetActive() const;
 	void SetActive(bool active);
@@ -34,6 +36,8 @@ private:
 
 public:
 	ComponentTransform* transform = nullptr;
+	ComponentMesh* mesh = nullptr;
+	ComponentMaterial* material = nullptr;
 };
 
 #endif

@@ -3,13 +3,6 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
-//#include "ModuleScene.h"
-//#include "Application.h"
-//
-//GameObject::GameObject() {
-//	this->parent = App->scene->root_object;
-//}
-
 
 GameObject::GameObject(GameObject* parent)
 {
@@ -33,7 +26,7 @@ void GameObject::Update()
 {
 }
 
-Component* GameObject::CreateComponent(ComponentType type)
+Component* GameObject::CreateComponent(ComponentType type, const char* path)
 {
 	Component* component = nullptr;
 
@@ -43,10 +36,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		component = transform;
 		break;
 	case Comp_Mesh:
-		component = new ComponentMesh(this);
+		mesh = new ComponentMesh(this, path);
+		component = mesh;
 		break;
 	case Comp_Material:
-		component = new ComponentMaterial(this);
+		material = new ComponentMaterial(this);
+		component = material;
 		break;
 	case Comp_Default:
 		component = new Component(this);

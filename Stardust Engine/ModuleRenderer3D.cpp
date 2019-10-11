@@ -3,6 +3,7 @@
 #include "ModuleRenderer3D.h"
 #include "ConfigEditor.h"
 #include "GameObject.h"
+#include "ComponentTransform.h"
 
 #include "Glew/include/glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -426,7 +427,6 @@ void ModuleRenderer3D::DrawModelDebug()
 		deb++;
 	}
 }
-
 
 
 void ModuleRenderer3D::UpdateGOMatrix(GameObject* go) {
