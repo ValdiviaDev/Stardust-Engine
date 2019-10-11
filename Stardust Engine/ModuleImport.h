@@ -56,6 +56,8 @@ public:
 	
 	void BindBuffers(geo_info &m);
 	void ImportFile(char* path);
+	void ImportMesh(char* path, geo_info& info);
+
 	void LoadImg();
 
 	void SaveDebugData(geo_info &m);
