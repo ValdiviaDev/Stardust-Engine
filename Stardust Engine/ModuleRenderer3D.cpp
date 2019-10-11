@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "ConfigEditor.h"
+#include "GameObject.h"
 
 #include "Glew/include/glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -130,6 +131,10 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetViewMatrix());
+
+
+	UpdateGOMatrix(App->scene->root_object);
+
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
@@ -419,5 +424,17 @@ void ModuleRenderer3D::DrawModelDebug()
 		}
 
 		deb++;
+	}
+}
+
+
+
+void ModuleRenderer3D::UpdateGOMatrix(GameObject* go) {
+	
+	if (go->transform != nullptr)
+		go->transform->UpdateMatrix();
+
+	for (int i = 0; i < go->GetNumChilds(); i++) {
+		UpdateGOMatrix(go->GetAChild(i));
 	}
 }
