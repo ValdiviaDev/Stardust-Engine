@@ -181,6 +181,21 @@
     <ClCompile Include="ModuleFileSystem.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Sources\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMesh.cpp">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTransform.cpp">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -471,6 +486,21 @@
     <ClInclude Include="ModuleFileSystem.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Sources\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMesh.h">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTransform.h">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -520,6 +550,12 @@
     </Filter>
     <Filter Include="Sources\Tools\mmgr">
       <UniqueIdentifier>{a09da4eb-efc7-416c-856b-7869d669fee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Game Object">
+      <UniqueIdentifier>{2164f975-f6e8-4b8c-b8c0-79752e22405e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Game Object\Components">
+      <UniqueIdentifier>{7a23fc3b-9a71-4cca-89e5-34800e0826e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

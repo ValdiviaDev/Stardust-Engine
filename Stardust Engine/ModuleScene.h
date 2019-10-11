@@ -4,8 +4,11 @@
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
+#include <vector>
 
-#include "Par/par_shapes.h"
+//#include "Par/par_shapes.h"
+
+class GameObject;
 
 class ModuleScene : public Module
 {
@@ -17,11 +20,13 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	GameObject* CreateGameObject();
+
 	void Draw();
 	void DrawGrid();
 
 private:
-
+	std::vector<GameObject*> game_objects;
 };
 
 #endif

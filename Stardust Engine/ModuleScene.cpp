@@ -12,7 +12,7 @@
 #include "ModuleRenderer3D.h"
 #include "Parson/parson.h"
 #include "MathGeoLib/include/MathGeoLib.h"
-
+#include "GameObject.h"
 
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
@@ -49,8 +49,19 @@ update_status ModuleScene::Update(float dt)
 
 bool ModuleScene::CleanUp()
 {
+	//Delete GameObjects
+	for (int i = 0; i < game_objects.size(); ++i)
+		RELEASE(game_objects[i]);
 
 	return true;
+}
+
+GameObject* ModuleScene::CreateGameObject()
+{
+	GameObject* game_object = new GameObject();
+	game_objects.push_back(game_object);
+
+	return game_object;
 }
 
 

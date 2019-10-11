@@ -189,7 +189,7 @@ void ModuleImport::LoadImg()
 	ilBindImage(image_id);
 
 	//Load image
-	const char *path = "Assets/Textures/Lenna.png";
+	const char *path = "Assets/Textures/Baker_house.png";
 	if (ilLoad(IL_TYPE_UNKNOWN, path)) {
 		LOG("LOADING LENNA");
 
