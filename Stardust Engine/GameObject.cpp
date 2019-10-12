@@ -3,6 +3,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "imgui/imgui.h"
 
 GameObject::GameObject(GameObject* parent)
 {
@@ -63,6 +64,11 @@ void GameObject::SetActive(bool active)
 }
 
 
+void GameObject::SetName(const char* new_name) {
+	name = new_name;
+	LOG("name = %s", name);
+}
+
 uint GameObject::GetNumChilds() const
 {
 	return childs.size();
@@ -76,4 +82,43 @@ GameObject* GameObject::GetAChild(uint i)
 
 GameObject* GameObject::GetParent() {
 	return parent;
+}
+
+
+
+void GameObject::GUIHierarchyPrint(int& i) {
+
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+
+	if (GetNumChilds() == 0)
+		flags |= ImGuiTreeNodeFlags_Leaf;
+/*
+	if (ImGui::TreeNodeEx(name, flags)) {
+
+		LOG("AAAAAAAAAAAAAAA %s", name);
+		for (int i = 0; i < GetNumChilds(); i++) {
+			GetAChild(i)->GUIHierarchyPrint();
+		}
+
+	}
+*/
+	bool tree_open = false;
+
+	if (ImGui::TreeNodeEx((void*)(intptr_t)i, flags, name))
+		tree_open = true;
+
+
+	if (tree_open) {
+
+		LOG("AAAAAAAAAAAAAAA %s", name);
+		for (int j = 0; j < GetNumChilds(); j++) {
+			ImGui::PushID(i);
+			i++;
+			GetAChild(j)->GUIHierarchyPrint(i);
+			ImGui::PopID();
+		}
+	}
+
+
+
 }

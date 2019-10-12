@@ -46,6 +46,9 @@ bool ModuleScene::Start()
 	test->CreateComponent(Comp_Transform);
 	test->CreateComponent(Comp_Mesh, "BakerHouse.fbx");
 
+	root_object->SetName("root");
+	test->SetName("test");
+
 	root_object->CreateComponent(Comp_Transform);
 
 	test->transform->SetPosition(float3(2, 0, 0));
@@ -87,6 +90,12 @@ update_status ModuleScene::Update(float dt)
 			}
 	}
 	//TEST--------------------------------------------------------------
+
+	
+	//root_object->GUIHierarchyPrint(i);
+
+
+
 	return UPDATE_CONTINUE;
 }
 

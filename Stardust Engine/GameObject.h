@@ -26,6 +26,9 @@ public:
 	GameObject* GetAChild(uint i);
 	GameObject* GetParent();
 
+	void SetName(const char* new_name);
+
+	void GUIHierarchyPrint(int& i);
 
 private:
 	bool active = true;
@@ -33,6 +36,8 @@ private:
 	std::vector<Component*> components;
 	GameObject* parent = nullptr;
 	std::vector<GameObject*> childs;
+
+
 
 public:
 	ComponentTransform* transform = nullptr;

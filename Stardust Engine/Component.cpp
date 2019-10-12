@@ -23,3 +23,4 @@ GameObject* Component::GetParentGO() const
 {
 	return p_GameObject;
 }
+
