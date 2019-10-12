@@ -11,12 +11,14 @@ public:
 	ComponentMesh(GameObject* parent, const char* path, int num_mesh);
 	~ComponentMesh();
 
+	void AssignMesh();
+
 	geo_info GetInfo() const;
 
 private:
 	geo_info m_info;
 	const char* path = nullptr;
-
+	int num_mesh = 0; //Ambiguous name and maybe not necessary TODO
 };
 
 #endif

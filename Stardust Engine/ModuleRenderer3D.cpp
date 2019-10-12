@@ -134,7 +134,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadMatrixf(App->camera->GetViewMatrix());
 
 
-	UpdateGOMatrix(App->scene->root_object);
+	UpdateGOMatrix(App->scene->GetRootGameObject());
 
 
 	// light 0 on cam pos
@@ -151,10 +151,11 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->scene->Draw();
 
-	if (!App->importer->GetModel().empty()) {
+	if (!App->importer->GetModel().empty())
 		DrawModel();
-		DrawModelDebug();
-	}
+
+	DrawModelDebug();
+
 	App->gui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);
@@ -435,6 +436,6 @@ void ModuleRenderer3D::UpdateGOMatrix(GameObject* go) {
 		go->transform->UpdateMatrix();
 
 	for (int i = 0; i < go->GetNumChilds(); i++) {
-		UpdateGOMatrix(go->GetAChild(i));
+		UpdateGOMatrix(go->GetChild(i));
 	}
 }
