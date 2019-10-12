@@ -23,6 +23,7 @@ public:
 	GameObject* CreateGameObject(GameObject* parent);
 
 	void Draw();
+	void DrawGameObjects();
 	void DrawGrid();
 
 private:

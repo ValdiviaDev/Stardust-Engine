@@ -151,10 +151,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->scene->Draw();
 
-	if (!App->importer->GetModel().empty()) {
+	if (!App->importer->GetModel().empty())
 		DrawModel();
-		DrawModelDebug();
-	}
+
+	DrawModelDebug();
+
+
 	App->gui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);

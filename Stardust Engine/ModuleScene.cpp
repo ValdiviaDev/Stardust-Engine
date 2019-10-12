@@ -48,6 +48,9 @@ bool ModuleScene::Start()
 	test->CreateComponent(Comp_Mesh, "BakerHouse.fbx");
 	if (test->material)
 		test->material->AssignTexture("Baker_house.png");
+	for (int i = 0; i < test->GetNumChilds(); ++i)
+		if (test->GetAChild(i)->material)
+			test->GetAChild(i)->material->AssignTexture("Baker_house.png");
 
 	root_object->SetName("root");
 	test->SetName("test");
@@ -67,43 +70,6 @@ bool ModuleScene::Start()
 // Update
 update_status ModuleScene::Update(float dt)
 {
-
-	//TEST--------------------------------------------------------------
-	for (int i = 0; i < game_objects.size(); ++i) {
-
-			if (game_objects[i]->mesh) { //Texture
-				if (game_objects[i]->material && game_objects[i]->material->GetIfTex())
-					glBindTexture(GL_TEXTURE_2D, game_objects[i]->material->GetTexId());
-
-				geo_info mesh = game_objects[i]->mesh->GetInfo();
-
-				glEnableClientState(GL_VERTEX_ARRAY);
-				glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
-				glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
-				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);
-
-				glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_INT, NULL);
-
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-				glDisableClientState(GL_VERTEX_ARRAY);
-
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-	}
-	//TEST--------------------------------------------------------------
-
-	
-	//root_object->GUIHierarchyPrint(i);
-
-
 
 	return UPDATE_CONTINUE;
 }
@@ -128,6 +94,44 @@ GameObject* ModuleScene::CreateGameObject(GameObject* parent)
 
 void ModuleScene::Draw() {
 	DrawGrid();
+	DrawGameObjects();
+}
+
+void ModuleScene::DrawGameObjects()
+{
+	for (int i = 0; i < game_objects.size(); ++i) {
+
+		if (game_objects[i]->mesh) { //Texture
+			if (game_objects[i]->material && game_objects[i]->material->GetIfTex())
+				glBindTexture(GL_TEXTURE_2D, game_objects[i]->material->GetTexId());
+
+			geo_info mesh = game_objects[i]->mesh->GetInfo();
+
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
+			glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);
+
+			glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_INT, NULL);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+	}
+
+
+	//root_object->GUIHierarchyPrint(i);
+
 }
 
 void ModuleScene::DrawGrid()

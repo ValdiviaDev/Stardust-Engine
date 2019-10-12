@@ -70,7 +70,7 @@ public:
 	void CreateCheckersTex();
 	void SetDefaultConfig();
 	
-	void DrawModel();
+	void DrawModel(); //Soon deprecated TODO
 	void DrawModelDebug();
 
 	void UpdateGOMatrix(GameObject* go);
