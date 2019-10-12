@@ -134,7 +134,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadMatrixf(App->camera->GetViewMatrix());
 
 
-	UpdateGOMatrix(App->scene->root_object);
+	UpdateGOMatrix(App->scene->GetRootGameObject());
 
 
 	// light 0 on cam pos
@@ -436,6 +436,6 @@ void ModuleRenderer3D::UpdateGOMatrix(GameObject* go) {
 		go->transform->UpdateMatrix();
 
 	for (int i = 0; i < go->GetNumChilds(); i++) {
-		UpdateGOMatrix(go->GetAChild(i));
+		UpdateGOMatrix(go->GetChild(i));
 	}
 }

@@ -21,17 +21,16 @@ public:
 	bool CleanUp();
 
 	GameObject* CreateGameObject(GameObject* parent);
+	GameObject* GetRootGameObject() const;
 
 	void Draw();
-	void DrawGameObjects();
+	void DrawGameObjects(GameObject* go);
 	void DrawGrid();
 
 private:
-	std::vector<GameObject*> game_objects;
-
-public:
 	GameObject* root_object = nullptr;
 	GameObject* test; //Delete after testing
+
 };
 
 #endif

@@ -52,8 +52,8 @@ void ComponentTransform::UpdateMatrix() {
 	
 	local_matrix = math::float4x4::FromTRS(position, quaternion_rot, scale);
 
-	GameObject* parent_aux = p_GameObject->GetParent();
-	if (parent_aux != nullptr){// && parent_aux->GetParent() != nullptr) {  //UNCOMMENT THIS WHEN WE STOP USING THE ROOT GAME OBJECT FOR TEST
+	GameObject* parent_aux = gameObject->GetParent();
+	if (parent_aux != nullptr && parent_aux->GetParent() != nullptr) {  //UNCOMMENT THIS WHEN WE STOP USING THE ROOT GAME OBJECT FOR TEST
 		ComponentTransform* p_transform = parent_aux->transform;
 
 		if (p_transform != nullptr) {

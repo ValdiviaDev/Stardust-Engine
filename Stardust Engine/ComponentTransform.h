@@ -30,9 +30,6 @@ private:
 	math::Quat quaternion_rot = math::Quat::identity;
 	math::float3 scale = math::float3::one;
 	
-
-
-	
 };
 
 #endif

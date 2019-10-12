@@ -40,18 +40,19 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 	
 
-	//TESTING, DELETE LATER
+	//Initialize root GameObject
 	root_object = CreateGameObject(nullptr);
 	root_object->SetName("root");
 
+	//Baker house test
 	test = CreateGameObject(root_object);
-	test->SetName("test");
+	test->SetName("BakerHouse");
 	test->CreateComponent(Comp_Mesh, "BakerHouse.fbx");
 	if (test->material)
 		test->material->AssignTexture("Baker_house.png");
 	for (int i = 0; i < test->GetNumChilds(); ++i)
-		if (test->GetAChild(i)->material)
-			test->GetAChild(i)->material->AssignTexture("Baker_house.png");
+		if (test->GetChild(i)->material)
+			test->GetChild(i)->material->AssignTexture("Baker_house.png");
 
 	//TEST-------------------------------------------------
 	test->transform->SetPosition(float3(0.0f, 0.0f, 0.0f));
@@ -71,8 +72,8 @@ update_status ModuleScene::Update(float dt)
 bool ModuleScene::CleanUp()
 {
 	//Delete GameObjects
-	for (int i = 0; i < game_objects.size(); ++i)
-		RELEASE(game_objects[i]);
+	//Releasing the root_object releases all GameObjects, as they are organized as a tree
+	RELEASE(root_object);
 
 	return true;
 }
@@ -80,54 +81,63 @@ bool ModuleScene::CleanUp()
 GameObject* ModuleScene::CreateGameObject(GameObject* parent)
 {
 	GameObject* game_object = new GameObject(parent);
-	game_objects.push_back(game_object);
 
 	return game_object;
+}
+
+GameObject * ModuleScene::GetRootGameObject() const
+{
+	return root_object;
 }
 
 
 void ModuleScene::Draw() {
 	DrawGrid();
-	DrawGameObjects();
+	DrawGameObjects(root_object);
 }
 
-void ModuleScene::DrawGameObjects()
+void ModuleScene::DrawGameObjects(GameObject* go)
 {
-	for (int i = 0; i < game_objects.size(); ++i) {
-		if (game_objects[i]->mesh) { 
-			glPushMatrix();
-			float4x4 matrix = game_objects[i]->transform->GetGlobalMatrix();
-			glMultMatrixf((GLfloat*)matrix.Transposed().ptr());
-			
-			//Texture
-			if (game_objects[i]->material && game_objects[i]->material->GetIfTex())
-				glBindTexture(GL_TEXTURE_2D, game_objects[i]->material->GetTexId());
+	if (go->mesh && go->mesh->IsActive()) { 
+		//Matrix
+		glPushMatrix();
+		float4x4 matrix = go->transform->GetGlobalMatrix();
+		glMultMatrixf((GLfloat*)matrix.Transposed().ptr());
+		
+		//Texture
+		if (go->material && go->material->GetIfTex())
+			glBindTexture(GL_TEXTURE_2D, go->material->GetTexId());
 
-			geo_info mesh = game_objects[i]->mesh->GetInfo();
+		//Model
+		geo_info mesh = go->mesh->GetInfo();
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
-			glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);
 
-			glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_INT, NULL);
+		glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_INT, NULL);
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
 
-			glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
-			glPopMatrix();
-		}
+		glPopMatrix();
 	}
+
+	for (uint i = 0; i < go->GetNumChilds(); i++)
+		if(go->GetChild(i)->IsActive())
+			DrawGameObjects(go->GetChild(i));
+
 	//root_object->GUIHierarchyPrint(i);
 }
 
@@ -147,5 +157,4 @@ void ModuleScene::DrawGrid()
 
 	}
 	glEnd();
-
 }

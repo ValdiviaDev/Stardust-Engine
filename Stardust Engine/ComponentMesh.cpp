@@ -26,7 +26,7 @@ void ComponentMesh::AssignMesh()
 	strcat(full_path, path);
 
 	//Import mesh and bind buffers
-	App->importer->ImportMesh((char*)full_path, path, m_info, this->p_GameObject, num_mesh);
+	App->importer->ImportMesh((char*)full_path, path, m_info, this->gameObject, num_mesh);
 	App->importer->BindBuffers(m_info);
 }
 

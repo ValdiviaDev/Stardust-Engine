@@ -20,9 +20,13 @@ GameObject::GameObject(GameObject* parent)
 
 GameObject::~GameObject()
 {
-	//Delete Components
-	for (int i = 0; i < components.size(); ++i)
-		RELEASE(components[i]);
+	for (int i = 0; i < GetNumChilds(); i++)
+		RELEASE(childs[i]);
+	childs.clear();
+	
+	RELEASE(transform);
+	RELEASE(mesh);
+	RELEASE(material);
 }
 
 void GameObject::Update()
@@ -35,27 +39,32 @@ Component* GameObject::CreateComponent(ComponentType type, const char* path, int
 
 	switch (type) {
 	case Comp_Transform:
-		transform = new ComponentTransform(this);
-		component = transform;
+		if (transform == nullptr) {
+			transform = new ComponentTransform(this);
+			component = transform;
+		}
 		break;
 	case Comp_Mesh:
-		mesh = new ComponentMesh(this, path, num_mesh);
-		component = mesh;
+		if (mesh == nullptr) {
+			mesh = new ComponentMesh(this, path, num_mesh);
+			component = mesh;
+		}
 		break;
 	case Comp_Material:
-		material = new ComponentMaterial(this);
-		component = material;
+		if (material == nullptr) {
+			material = new ComponentMaterial(this);
+			component = material;
+		}
 		break;
 	case Comp_Default:
-		component = new Component(this);
+		return nullptr;
 		break;
 	}
-	components.push_back(component);
 
 	return component;
 }
 
-bool GameObject::GetActive() const
+bool GameObject::IsActive() const
 {
 	return active;
 }
@@ -76,7 +85,7 @@ uint GameObject::GetNumChilds() const
 	return childs.size();
 }
 
-GameObject* GameObject::GetAChild(uint i) 
+GameObject* GameObject::GetChild(uint i) 
 {
 	return childs[i];
 
@@ -99,7 +108,7 @@ void GameObject::GUIHierarchyPrint(int& i) {
 
 		LOG("AAAAAAAAAAAAAAA %s", name);
 		for (int i = 0; i < GetNumChilds(); i++) {
-			GetAChild(i)->GUIHierarchyPrint();
+			GetChild(i)->GUIHierarchyPrint();
 		}
 
 	}
@@ -116,7 +125,7 @@ void GameObject::GUIHierarchyPrint(int& i) {
 		for (int j = 0; j < GetNumChilds(); j++) {
 			ImGui::PushID(i);
 			i++;
-			GetAChild(j)->GUIHierarchyPrint(i);
+			GetChild(j)->GUIHierarchyPrint(i);
 			ImGui::PopID();
 		}
 	}

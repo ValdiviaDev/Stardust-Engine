@@ -20,18 +20,15 @@ public:
 	virtual void Update(){} //TODO
 	virtual void Disable(){} //TODO
 
-
-
-	bool GetActive() const;
+	bool IsActive() const;
 	void SetActive(bool active);
 
-	GameObject* GetParentGO() const;
-	
+	GameObject* GetGameObject() const;
 
 protected:
 	ComponentType type = Comp_Default;
 	bool active = true;
-	GameObject* p_GameObject;
+	GameObject* gameObject;
 };
 
 #endif
