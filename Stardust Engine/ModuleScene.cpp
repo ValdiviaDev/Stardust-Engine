@@ -42,9 +42,10 @@ bool ModuleScene::Start()
 
 	//TESTING, DELETE LATER
 	root_object = CreateGameObject(nullptr);
-	test = CreateGameObject(root_object);
+	root_object->SetName("root");
 
-	test->CreateComponent(Comp_Transform);
+	test = CreateGameObject(root_object);
+	test->SetName("test");
 	test->CreateComponent(Comp_Mesh, "BakerHouse.fbx");
 	if (test->material)
 		test->material->AssignTexture("Baker_house.png");
@@ -52,17 +53,10 @@ bool ModuleScene::Start()
 		if (test->GetAChild(i)->material)
 			test->GetAChild(i)->material->AssignTexture("Baker_house.png");
 
-	root_object->SetName("root");
-	test->SetName("test");
-
-	root_object->CreateComponent(Comp_Transform);
-
-	test->transform->SetPosition(float3(2, 0, 0));
-	root_object->transform->SetPosition(float3(1, 0, 0));
-	
-	test->transform->SetRotation(float3(45,0,0));
-	root_object->transform->SetRotation(float3(45, 0, 0));
-
+	//TEST-------------------------------------------------
+	test->transform->SetPosition(float3(0.0f, 0.0f, 0.0f));
+	test->transform->SetRotation(float3(0.0f, 0.0f, 0.0f));
+	test->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
 
 	return true;
 }
@@ -100,8 +94,12 @@ void ModuleScene::Draw() {
 void ModuleScene::DrawGameObjects()
 {
 	for (int i = 0; i < game_objects.size(); ++i) {
-
-		if (game_objects[i]->mesh) { //Texture
+		if (game_objects[i]->mesh) { 
+			glPushMatrix();
+			float4x4 matrix = game_objects[i]->transform->GetGlobalMatrix();
+			glMultMatrixf((GLfloat*)matrix.Transposed().ptr());
+			
+			//Texture
 			if (game_objects[i]->material && game_objects[i]->material->GetIfTex())
 				glBindTexture(GL_TEXTURE_2D, game_objects[i]->material->GetTexId());
 
@@ -126,12 +124,11 @@ void ModuleScene::DrawGameObjects()
 			glDisableClientState(GL_VERTEX_ARRAY);
 
 			glBindTexture(GL_TEXTURE_2D, 0);
+
+			glPopMatrix();
 		}
 	}
-
-
 	//root_object->GUIHierarchyPrint(i);
-
 }
 
 void ModuleScene::DrawGrid()

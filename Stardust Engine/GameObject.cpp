@@ -8,10 +8,12 @@
 GameObject::GameObject(GameObject* parent)
 {
 	this->parent = parent;
-
-	if (parent != nullptr) {
+	if (parent != nullptr)
 		parent->childs.push_back(this);
-	}
+	
+	//Always create transform
+	CreateComponent(Comp_Transform);
+
 	name = "Default GO name";
 }
 
