@@ -16,6 +16,7 @@
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
@@ -45,6 +46,8 @@ bool ModuleScene::Start()
 
 	test->CreateComponent(Comp_Transform);
 	test->CreateComponent(Comp_Mesh, "BakerHouse.fbx");
+	if (test->material)
+		test->material->AssignTexture("Baker_house.png");
 
 	root_object->SetName("root");
 	test->SetName("test");
@@ -67,7 +70,11 @@ update_status ModuleScene::Update(float dt)
 
 	//TEST--------------------------------------------------------------
 	for (int i = 0; i < game_objects.size(); ++i) {
-			if (game_objects[i]->mesh != nullptr) {
+
+			if (game_objects[i]->mesh) { //Texture
+				if (game_objects[i]->material && game_objects[i]->material->GetIfTex())
+					glBindTexture(GL_TEXTURE_2D, game_objects[i]->material->GetTexId());
+
 				geo_info mesh = game_objects[i]->mesh->GetInfo();
 
 				glEnableClientState(GL_VERTEX_ARRAY);
@@ -87,6 +94,8 @@ update_status ModuleScene::Update(float dt)
 
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 				glDisableClientState(GL_VERTEX_ARRAY);
+
+				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 	}
 	//TEST--------------------------------------------------------------

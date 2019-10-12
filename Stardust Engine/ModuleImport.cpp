@@ -103,21 +103,21 @@ void ModuleImport::ImportFile(char* path) {
 			}
 
 			//copy color
-			if (new_mesh->HasVertexColors(0)) {
-				m.num_color = new_mesh->mNumVertices;
-				m.color = new float[m.num_color * 4];
-				for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
-					memcpy(&m.color[i], &new_mesh->mColors[0][i].r, sizeof(float));
-					memcpy(&m.color[i + 1], &new_mesh->mColors[0][i].g, sizeof(float));
-					memcpy(&m.color[i + 2], &new_mesh->mColors[0][i].b, sizeof(float));
-					memcpy(&m.color[i + 3], &new_mesh->mColors[0][i].a, sizeof(float));
-				}
-
-				if (m.color)
-					App->gui->AddLogToConsole("Color vertex loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Color vertex not loaded correctly");
-			}
+			//if (new_mesh->HasVertexColors(0)) {
+			//	m.num_color = new_mesh->mNumVertices;
+			//	m.color = new float[m.num_color * 4];
+			//	for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
+			//		memcpy(&m.color[i], &new_mesh->mColors[0][i].r, sizeof(float));
+			//		memcpy(&m.color[i + 1], &new_mesh->mColors[0][i].g, sizeof(float));
+			//		memcpy(&m.color[i + 2], &new_mesh->mColors[0][i].b, sizeof(float));
+			//		memcpy(&m.color[i + 3], &new_mesh->mColors[0][i].a, sizeof(float));
+			//	}
+			//
+			//	if (m.color)
+			//		App->gui->AddLogToConsole("Color vertex loaded correctly");
+			//	else
+			//		App->gui->AddLogToConsole("ERROR: Color vertex not loaded correctly");
+			//}
 
 			//copy uvs
 			if (new_mesh->HasTextureCoords(0)) {
@@ -179,11 +179,6 @@ void ModuleImport::ImportFile(char* path) {
 
 void ModuleImport::LoadImg()
 {
-	//Init DevIL
-	ilInit();
-	iluInit();
-	ilutInit();
-	ilutRenderer(ILUT_OPENGL);
 
 	//Bind DevIL image
 	uint image_id = 0;
@@ -239,6 +234,15 @@ void ModuleImport::ImportMesh(char* path, const char* inc_path, geo_info& mesh, 
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		aiMesh* new_mesh = scene->mMeshes[num_mesh];
 
+		//Material
+		aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
+		if (material != nullptr) {
+			uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
+			aiString path;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+
+			go->CreateComponent(Comp_Material);
+		}
 		// copy vertices
 		mesh.num_vertex = new_mesh->mNumVertices;
 		mesh.vertex = new float[mesh.num_vertex * 3];
@@ -261,23 +265,6 @@ void ModuleImport::ImportMesh(char* path, const char* inc_path, geo_info& mesh, 
 				App->gui->AddLogToConsole("Normals loaded correctly");
 			else
 				App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
-		}
-
-		//copy color
-		if (new_mesh->HasVertexColors(0)) {
-			mesh.num_color = new_mesh->mNumVertices;
-			mesh.color = new float[mesh.num_color * 4];
-			for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
-				memcpy(&mesh.color[i], &new_mesh->mColors[0][i].r, sizeof(float));
-				memcpy(&mesh.color[i + 1], &new_mesh->mColors[0][i].g, sizeof(float));
-				memcpy(&mesh.color[i + 2], &new_mesh->mColors[0][i].b, sizeof(float));
-				memcpy(&mesh.color[i + 3], &new_mesh->mColors[0][i].a, sizeof(float));
-			}
-
-			if (mesh.color)
-				App->gui->AddLogToConsole("Color vertex loaded correctly");
-			else
-				App->gui->AddLogToConsole("ERROR: Color vertex not loaded correctly");
 		}
 
 		//copy uvs
@@ -329,7 +316,7 @@ void ModuleImport::ImportMesh(char* path, const char* inc_path, geo_info& mesh, 
 		if (!mesh.has_no_triangle) //Check if theres a face that isn't a triangle
 			SaveDebugData(mesh);
 
-		//Will Probably have to change
+		//Will Probably have to change TODO
 		if (scene->mNumMeshes != 1 && num_mesh < (scene->mNumMeshes - 1)) {
 			num_mesh++;
 			GameObject* childGO = App->scene->CreateGameObject(go);
@@ -340,6 +327,38 @@ void ModuleImport::ImportMesh(char* path, const char* inc_path, geo_info& mesh, 
 
 	aiReleaseImport(scene);
 
+}
+
+bool ModuleImport::ImportTexture(char* path, uint& tex_id)
+{
+	//Bind DevIL image
+	uint image_id = 0;
+	ilGenImages(1, &image_id);
+	ilBindImage(image_id);
+
+	//Load image
+	if (ilLoad(IL_TYPE_UNKNOWN, path)) {
+		LOG("Texture Loaded Correctly");
+		App->gui->AddLogToConsole("Texture Loaded Correctly");
+	}
+	else {
+		LOG("Error: Couldn't load texture");
+		App->gui->AddLogToConsole("Error: Couldn't load texture");
+		ILenum Error;
+		while ((Error = ilGetError()) != IL_NO_ERROR) {
+			LOG("%d: %s", Error, iluErrorString(Error));
+		}
+		ilDeleteImages(1, &image_id);
+		return false;
+	}
+
+	//Bind DevIL to OpenGL texture buffer
+	tex_id = ilutGLBindTexImage();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	ilDeleteImages(1, &image_id);
+
+	return true;
 }
 
 
@@ -395,6 +414,13 @@ bool ModuleImport::Start() {
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
+	
+	//Init DevIL
+	ilInit();
+	iluInit();
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
+	
 	LoadImg();
 
 	return true;
@@ -444,11 +470,11 @@ void ModuleImport::BindBuffers(geo_info &m) {
 		}
 
 		//Color coordinates
-		if (m.color != nullptr) {
-			glGenBuffers(1, (GLuint*) &(m.id_color));
-			glBindBuffer(GL_ARRAY_BUFFER, m.id_color);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * m.num_color, m.color, GL_STATIC_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
+		//if (m.color != nullptr) {
+		//	glGenBuffers(1, (GLuint*) &(m.id_color));
+		//	glBindBuffer(GL_ARRAY_BUFFER, m.id_color);
+		//	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * m.num_color, m.color, GL_STATIC_DRAW);
+		//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//}
 	}
 }

@@ -37,9 +37,8 @@ private:
 	GameObject* parent = nullptr;
 	std::vector<GameObject*> childs;
 
-
-
 public:
+	//There can be only one component of each type
 	ComponentTransform* transform = nullptr;
 	ComponentMesh* mesh = nullptr;
 	ComponentMaterial* material = nullptr;
