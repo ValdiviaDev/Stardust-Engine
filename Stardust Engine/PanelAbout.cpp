@@ -1,5 +1,15 @@
 #include "PanelAbout.h"
 #include "imgui/imgui.h"
+#include "Application.h"
+#include "Assimp/include/version.h"
+
+#include "Glew/include/glew.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
+#include "DevIL/include/il.h"
+#include "DevIL/include/ilu.h"
+#include "DevIL/include/ilut.h"
 
 PanelAbout::PanelAbout()
 {
@@ -24,17 +34,42 @@ void PanelAbout::Draw()
 
 	//Window
 	ImGui::Begin("About", &active, window_flags);
-	ImGui::Text("Stardust Engine v0.1"); //TODO
+	ImGui::Text("Stardust Engine v0.3"); //TODO
 	ImGui::Separator();
+
+	//Description
 	ImGui::Text("3D engine student project.");
 	ImGui::Text("Made by Ricardo Gutierrez & David Valdivia.");
 	ImGui::Text("\n");
+
+	//3rd party libraries
 	ImGui::Text("3rd party libraries used:");
-	ImGui::Text("	* SDL 2.0.4"); //TODO
-	ImGui::Text("	* ImGui 1.72b"); //TODO
-	ImGui::Text("	* MathGeoLib 1.5"); //TODO
-	ImGui::Text("	* LGC RNG 1.5"); //TODO
-	ImGui::Text("	* Glew 2.1.0"); //TODO
+	
+	//SDL
+	static SDL_version sdl_version;
+	SDL_VERSION(&sdl_version); //Linked version
+	ImGui::Text("	* SDL %i.%i.%i", sdl_version.major, sdl_version.minor, sdl_version.patch);
+
+	//OpenGL
+	static int gl_maj_ver, gl_min_ver;
+	glGetIntegerv(GL_MAJOR_VERSION, &gl_maj_ver);
+	glGetIntegerv(GL_MINOR_VERSION, &gl_min_ver);
+	ImGui::Text("	* OpenGL %i.%i", gl_maj_ver, gl_min_ver);
+
+	//Assimp
+	static uint asmp_maj_ver = aiGetVersionMajor();
+	static uint asmp_min_ver = aiGetVersionMinor();
+	static uint asmp_rev_ver = aiGetVersionRevision();
+	ImGui::Text("	* Assimp %i.%i.%i", asmp_maj_ver, asmp_min_ver, asmp_rev_ver);
+
+	//DevIL
+	ImGui::Text("	* DevIL 1.7.8"); //TODO
+
+	//Others
+	ImGui::Text("	* ImGui 1.72b");
+	ImGui::Text("	* MathGeoLib 1.5");
+	ImGui::Text("	* LGC RNG 1.5");
+	ImGui::Text("	* Glew 2.1.0");
 	ImGui::Text("\n");
 
 	//License
@@ -44,11 +79,24 @@ void PanelAbout::Draw()
 	ImGui::Text("\n");
 	ImGui::Text("Copyright (c) 2019 Ricardo Gutirrez & David Valdivia");
 	ImGui::Text("\n");
-	ImGui::Text("Permission is hereby granted, free of charge, to any person \nobtaining a copy of this software and associated documentation \nfiles(the 'Software'), to deal in the Software without restriction, \nincluding without limitation the rights to use, copy, modify, merge,\npublish, distribute, sublicense, and/or sell copies of the Software, \nand to permit persons to whom the Software is furnished to do so, \nsubject to the following conditions : ");
+	ImGui::Text("Permission is hereby granted, free of charge, to any person \n"
+		"obtaining a copy of this software and associated documentation \n"
+		"files(the 'Software'), to deal in the Software without restriction, \n"
+		"including without limitation the rights to use, copy, modify, merge,\n"
+		"publish, distribute, sublicense, and/or sell copies of the Software, \n"
+		"and to permit persons to whom the Software is furnished to do so, \n"
+		"subject to the following conditions : ");
 	ImGui::Text("\n");
-	ImGui::Text("The above copyright notice and this permission notice shall be \nincluded in all copies or substantial portions of the Software.");
+	ImGui::Text("The above copyright notice and this permission notice shall be \n"
+		"included in all copies or substantial portions of the Software.");
 	ImGui::Text("\n");
-	ImGui::Text("THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, \nEXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF \nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\nIN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY \nCLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, \nTORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE \nSOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
+	ImGui::Text("THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, \n"
+		"EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF \n"
+		"MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\n"
+		"IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY \n"
+		"CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, \n"
+		"TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE \n"
+		"SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
 
 	ImGui::End();
 }
