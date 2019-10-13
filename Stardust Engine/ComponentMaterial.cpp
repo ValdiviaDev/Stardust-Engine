@@ -16,17 +16,17 @@ ComponentMaterial::~ComponentMaterial()
 void ComponentMaterial::AssignTexture(const char * path)
 {
 	//Path
-	char* path_source = "Assets/Textures/";
-	char full_path[100];
-	strcpy(full_path, path_source);
-	strcat(full_path, path);
+	//char* path_source = "Assets/Textures/";
+	//char full_path[100];
+	//strcpy(full_path, path_source);
+	//strcat(full_path, path);
 
 	//Import texture with DevIL
-	bool charged = App->importer->ImportTexture((char*)full_path, tex_id);
+	bool charged = App->importer->ImportTexture((char*)path, tex_id);
 
 	if (charged) {
 		has_tex = true;
-		this->tex_path = full_path;
+		this->tex_path = path;
 	}
 }
 

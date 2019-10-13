@@ -17,7 +17,7 @@ public:
 	virtual ~GameObject();
 
 	void Update(); //TODO
-	Component* CreateComponent(ComponentType type, const char* path = "", int num_mesh = 0);
+	Component* CreateComponent(ComponentType type, char* path = "", int num_mesh = 0);
 
 	bool IsActive() const;
 	void SetActive(bool active);
@@ -27,14 +27,15 @@ public:
 	GameObject* GetParent();
 
 	void SetName(const char* new_name);
+	const char* GetName()const;
 
 	void GUIHierarchyPrint(int& i);
-
+	std::vector<GameObject*> childs;
 private:
 	bool active = true;
 	const char* name;
 	GameObject* parent = nullptr;
-	std::vector<GameObject*> childs;
+
 
 public:
 	//There can be only one component of each type

@@ -117,11 +117,12 @@ update_status ModuleInput::PreUpdate(float dt)
 				switch (ft) {
 				case File_Mesh:
 					App->gui->AddLogToConsole("Charging 3D model");
-					App->importer->ImportFile(e.drop.file);
+					App->scene->ChangeGameObjectMesh(e.drop.file);
 					break;
 				case File_Material:
 					App->gui->AddLogToConsole("Charging texture");
-					App->importer->LoadImg(e.drop.file);
+					App->scene->ChangeGameObjectTexture(e.drop.file);
+					//App->importer->LoadImg(e.drop.file);
 					break;
 				case File_Unknown:
 					App->gui->AddLogToConsole("ERROR: Couldn't charge file");

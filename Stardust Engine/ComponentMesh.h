@@ -8,10 +8,10 @@
 class ComponentMesh : public Component //TODO
 {
 public:
-	ComponentMesh(GameObject* parent, const char* path, int num_mesh);
+	ComponentMesh(GameObject* parent, char* path, int num_mesh);
 	~ComponentMesh();
 
-	void AssignMesh();
+	void AssignMesh(char* path);
 
 	geo_info GetInfo() const;
 

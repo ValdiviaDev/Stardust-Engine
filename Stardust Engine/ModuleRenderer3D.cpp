@@ -432,10 +432,13 @@ void ModuleRenderer3D::DrawModelDebug()
 
 void ModuleRenderer3D::UpdateGOMatrix(GameObject* go) {
 	
-	if (go->transform != nullptr)
+	if (go)
 		go->transform->UpdateMatrix();
 
-	for (int i = 0; i < go->GetNumChilds(); i++) {
-		UpdateGOMatrix(go->GetChild(i));
+	if (go) {
+		for (int i = 0; i < go->GetNumChilds(); i++) {
+			if (go->GetChild(i) != nullptr)
+				UpdateGOMatrix(go->GetChild(i));
+		}
 	}
 }

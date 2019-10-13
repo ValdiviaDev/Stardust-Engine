@@ -27,9 +27,12 @@ public:
 	void DrawGameObjects(GameObject* go);
 	void DrawGrid();
 
+	void ChangeGameObjectMesh(char* mesh_path);
+	void ChangeGameObjectTexture(char* tex_path);
+
 private:
 	GameObject* root_object = nullptr;
-	GameObject* test; //Delete after testing
+	GameObject* scene_gameobject = nullptr; //Change after first assignment
 
 };
 

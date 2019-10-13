@@ -205,15 +205,14 @@ void ModuleImport::LoadImg(const char* path)
 	ilDeleteImages(1, &image_id);
 }
 
-void ModuleImport::ImportMesh(char* path, const char* inc_path, geo_info& mesh, GameObject* go, int num_mesh) {
+bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int num_mesh) {
 
+	//If there's previous data for a mesh, delete it
 	RELEASE_ARRAY(mesh.index);
 	RELEASE_ARRAY(mesh.vertex);
 	RELEASE_ARRAY(mesh.normal);
 	RELEASE_ARRAY(mesh.uv);
 	RELEASE_ARRAY(mesh.color);
-		
-	//If there's previous data for a mesh, delete it (temporary)
 
 
 	uint flags = 0;
@@ -225,8 +224,10 @@ void ModuleImport::ImportMesh(char* path, const char* inc_path, geo_info& mesh, 
 	const aiScene* scene = aiImportFile(path, flags);
 	if (scene)
 		App->gui->AddLogToConsole("Assimp scene loaded correctly");
-	else
+	else {
 		App->gui->AddLogToConsole("ERROR: Assimp scene not loaded correctly");
+		return false;
+	}
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -237,8 +238,8 @@ void ModuleImport::ImportMesh(char* path, const char* inc_path, geo_info& mesh, 
 		aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 		if (material != nullptr) {
 			uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
-			aiString path;
-			material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+			aiString mat_path;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &mat_path);
 
 			go->CreateComponent(Comp_Material);
 		}
@@ -319,13 +320,14 @@ void ModuleImport::ImportMesh(char* path, const char* inc_path, geo_info& mesh, 
 		if (scene->mNumMeshes != 1 && num_mesh < (scene->mNumMeshes - 1)) {
 			num_mesh++;
 			GameObject* childGO = App->scene->CreateGameObject(go);
-			childGO->CreateComponent(Comp_Mesh, inc_path, num_mesh);
+			childGO->CreateComponent(Comp_Mesh, path, num_mesh);
 		}
 	
 	}
 
 	aiReleaseImport(scene);
-
+	
+	return true;
 }
 
 bool ModuleImport::ImportTexture(char* path, uint& tex_id)

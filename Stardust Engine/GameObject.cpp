@@ -23,17 +23,19 @@ GameObject::~GameObject()
 	for (int i = 0; i < GetNumChilds(); i++)
 		RELEASE(childs[i]);
 	childs.clear();
-	
+
 	RELEASE(transform);
 	RELEASE(mesh);
 	RELEASE(material);
+
+	parent = nullptr;
 }
 
 void GameObject::Update()
 {
 }
 
-Component* GameObject::CreateComponent(ComponentType type, const char* path, int num_mesh)
+Component* GameObject::CreateComponent(ComponentType type, char* path, int num_mesh)
 {
 	Component* component = nullptr;
 
@@ -78,6 +80,11 @@ void GameObject::SetActive(bool active)
 void GameObject::SetName(const char* new_name) {
 	name = new_name;
 	LOG("name = %s", name);
+}
+
+const char * GameObject::GetName() const
+{
+	return name;
 }
 
 uint GameObject::GetNumChilds() const

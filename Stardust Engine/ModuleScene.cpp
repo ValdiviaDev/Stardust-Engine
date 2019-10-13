@@ -45,19 +45,19 @@ bool ModuleScene::Start()
 	root_object->SetName("root");
 
 	//Baker house test
-	test = CreateGameObject(root_object);
-	test->SetName("BakerHouse");
-	test->CreateComponent(Comp_Mesh, "BakerHouse.fbx");
-	if (test->material)
-		test->material->AssignTexture("Baker_house.png");
-	for (int i = 0; i < test->GetNumChilds(); ++i)
-		if (test->GetChild(i)->material)
-			test->GetChild(i)->material->AssignTexture("Baker_house.png");
-
-	//TEST-------------------------------------------------
-	test->transform->SetPosition(float3(0.0f, 0.0f, 0.0f));
-	test->transform->SetRotation(float3(0.0f, 0.0f, 0.0f));
-	test->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
+	//scene_gameobject = CreateGameObject(root_object);
+	//scene_gameobject->SetName("BakerHouse");
+	//scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
+	//if (scene_gameobject->material)
+	//	scene_gameobject->material->AssignTexture("Baker_house.png");
+	//for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
+	//	if (scene_gameobject->GetChild(i)->material)
+	//		scene_gameobject->GetChild(i)->material->AssignTexture("Baker_house.png");
+	//
+	////TEST-------------------------------------------------
+	//scene_gameobject->transform->SetPosition(float3(0.0f, 0.0f, 0.0f));
+	//scene_gameobject->transform->SetRotation(float3(0.0f, 0.0f, 0.0f));
+	//scene_gameobject->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
 
 	return true;
 }
@@ -98,7 +98,7 @@ void ModuleScene::Draw() {
 
 void ModuleScene::DrawGameObjects(GameObject* go)
 {
-	if (go->mesh && go->mesh->IsActive()) { 
+	if (go && go->mesh && go->mesh->IsActive()) { 
 		//Matrix
 		glPushMatrix();
 		float4x4 matrix = go->transform->GetGlobalMatrix();
@@ -134,10 +134,11 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glPopMatrix();
 	}
 
-	for (uint i = 0; i < go->GetNumChilds(); i++)
-		if(go->GetChild(i)->IsActive())
-			DrawGameObjects(go->GetChild(i));
-
+	if (go) {
+		for (uint i = 0; i < go->GetNumChilds(); i++)
+			if (go->GetChild(i) && go->GetChild(i)->IsActive())
+				DrawGameObjects(go->GetChild(i));
+	}
 	//root_object->GUIHierarchyPrint(i);
 }
 
@@ -157,4 +158,37 @@ void ModuleScene::DrawGrid()
 
 	}
 	glEnd();
+}
+
+void ModuleScene::ChangeGameObjectMesh(char* mesh_path)
+{
+	if (scene_gameobject) {
+		//Erase the GameObject from the root vector before deleting the GameObject
+		const char* name = scene_gameobject->GetName();
+		if (root_object) {
+			for (std::vector<GameObject*>::const_iterator it = root_object->childs.begin(); it < root_object->childs.end(); it++)
+				if ((*it)->GetName() == name) {
+					root_object->childs.erase(it);
+					break;
+				}
+		}
+	}
+	RELEASE(scene_gameobject);
+
+	scene_gameobject = CreateGameObject(root_object);
+	scene_gameobject->CreateComponent(Comp_Mesh, mesh_path);
+
+}
+
+void ModuleScene::ChangeGameObjectTexture(char* tex_path)
+{
+	if (scene_gameobject && scene_gameobject->mesh) {
+		if(!scene_gameobject->material)
+			scene_gameobject->CreateComponent(Comp_Material);
+
+		scene_gameobject->material->AssignTexture(tex_path);
+		for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
+				if (scene_gameobject->GetChild(i)->material)
+					scene_gameobject->GetChild(i)->material->AssignTexture(tex_path);
+	}
 }

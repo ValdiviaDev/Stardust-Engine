@@ -261,10 +261,12 @@ FileType ModuleFileSystem::DetermineFileType(char* file_name)
 	string extension = file_name;
 	extension = extension.erase(NULL, extension.find_last_of("."));
 
-	if (extension == ".fbx" || extension == ".obj" || extension == ".dae")
+	if (extension == ".fbx" || extension == ".FBX" || extension == ".obj"
+		|| extension == ".OBJ" || extension == ".dae" || extension == ".DAE")
 		return File_Mesh;
 
-	else if (extension == ".dds" || extension == ".png" || extension == ".jpg"
+	else if (extension == ".dds" || extension == ".DDS" || extension == ".png" 
+		|| extension == ".PNG" || extension == ".jpg" || extension == ".JPG"
 		|| extension == ".tga" || extension == ".bmp")
 		return File_Material;
 	else
