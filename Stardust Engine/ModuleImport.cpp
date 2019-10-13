@@ -177,7 +177,7 @@ void ModuleImport::ImportFile(char* path) {
 	aiReleaseImport(scene);
 }
 
-void ModuleImport::LoadImg()
+void ModuleImport::LoadImg(const char* path)
 {
 
 	//Bind DevIL image
@@ -186,13 +186,12 @@ void ModuleImport::LoadImg()
 	ilBindImage(image_id);
 
 	//Load image
-	const char *path = "Assets/Textures/Baker_house.png";
 	if (ilLoad(IL_TYPE_UNKNOWN, path)) {
-		LOG("LOADING LENNA");
+		LOG("LOADING TEXTURE");
 
 	}
 	else {
-		LOG("CANNOT LOAD LENNA");
+		LOG("CANNOT LOAD TEXTURE");
 		ILenum Error;
 		while ((Error = ilGetError()) != IL_NO_ERROR) {
 			LOG("%d: %s", Error, iluErrorString(Error));
@@ -354,6 +353,10 @@ bool ModuleImport::ImportTexture(char* path, uint& tex_id)
 
 	//Bind DevIL to OpenGL texture buffer
 	tex_id = ilutGLBindTexImage();
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	ilDeleteImages(1, &image_id);
@@ -420,8 +423,6 @@ bool ModuleImport::Start() {
 	iluInit();
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
-	
-	LoadImg();
 
 	return true;
 }
@@ -446,7 +447,6 @@ bool ModuleImport::CleanUp() {
 }
 
 void ModuleImport::BindBuffers(geo_info &m) {
-
 	
 	if (m.index != nullptr && m.vertex != nullptr) {
 		//Vertex

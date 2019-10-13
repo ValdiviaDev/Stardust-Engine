@@ -61,7 +61,7 @@ public:
 	void ImportMesh(char* path, const char* inc_path, geo_info& info, GameObject* go, int num_mesh);
 	bool ImportTexture(char* path, uint& tex_id);
 
-	void LoadImg();
+	void LoadImg(const char* path);
 
 	void SaveDebugData(geo_info &m);
 
@@ -75,9 +75,5 @@ private:
 	list<geo_debug> m_debug;
 
 };
-
-
-
-
 
 #endif

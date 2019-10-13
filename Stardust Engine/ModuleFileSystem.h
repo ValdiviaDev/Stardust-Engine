@@ -11,6 +11,12 @@ struct aiFileIO;
 
 //struct BASS_FILEPROCS;
 
+enum FileType {
+	File_Unknown,
+	File_Mesh,
+	File_Material,
+};
+
 class ModuleFileSystem : public Module
 {
 public:
@@ -37,6 +43,7 @@ public:
 	void SplitFilePath(const char* full_path, std::string* path, std::string* file = nullptr, std::string* extension = nullptr) const;
 	void NormalizePath(char* full_path) const;
 	void NormalizePath(std::string& full_path) const;
+	FileType DetermineFileType(char* file_name);
 
 	// Open for Read/Write
 	unsigned int Load(const char* path, const char* file, char** buffer) const;

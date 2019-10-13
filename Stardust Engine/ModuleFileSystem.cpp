@@ -256,6 +256,22 @@ void ModuleFileSystem::NormalizePath(std::string & full_path) const
 	}
 }
 
+FileType ModuleFileSystem::DetermineFileType(char* file_name)
+{
+	string extension = file_name;
+	extension = extension.erase(NULL, extension.find_last_of("."));
+
+	if (extension == ".fbx" || extension == ".obj" || extension == ".dae")
+		return File_Mesh;
+
+	else if (extension == ".dds" || extension == ".png" || extension == ".jpg"
+		|| extension == ".tga" || extension == ".bmp")
+		return File_Material;
+	else
+		return File_Unknown;
+
+}
+
 unsigned int ModuleFileSystem::Load(const char * path, const char * file, char ** buffer) const
 {
 	string full_path(path);

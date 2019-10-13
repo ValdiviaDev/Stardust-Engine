@@ -3,6 +3,7 @@
 #include "ModuleInput.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
+#include "ModuleFileSystem.h"
 
 #define MAX_KEYS 300
 
@@ -110,9 +111,23 @@ update_status ModuleInput::PreUpdate(float dt)
 			break;
 
 			case SDL_DROPFILE:
+			{
 				LOG("File Drop!");
-				App->importer->ImportFile(e.drop.file);
-				
+				FileType ft = App->fs->DetermineFileType(e.drop.file);
+				switch (ft) {
+				case File_Mesh:
+					App->gui->AddLogToConsole("Charging 3D model");
+					App->importer->ImportFile(e.drop.file);
+					break;
+				case File_Material:
+					App->gui->AddLogToConsole("Charging texture");
+					App->importer->LoadImg(e.drop.file);
+					break;
+				case File_Unknown:
+					App->gui->AddLogToConsole("ERROR: Couldn't charge file");
+					break;
+				}
+			}
 			break;
 
 			case SDL_WINDOWEVENT:

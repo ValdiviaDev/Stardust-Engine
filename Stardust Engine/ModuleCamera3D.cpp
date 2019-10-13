@@ -41,7 +41,7 @@ update_status ModuleCamera3D::Update(float dt)
 {
 	// Keys motion ----------------
 	vec3 newPos(0, 0, 0);
-	float wheel_speed = 15.0f * dt;
+	float wheel_speed = 1.0f /** dt*/;
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{

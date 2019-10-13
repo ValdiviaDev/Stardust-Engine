@@ -127,11 +127,18 @@ void ModuleGui::HandleMainMenuBar()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			ImGui::MenuItem("Quit", "ESC", &quit_engine);
+			ImGui::MenuItem("Exit", "ESC", &quit_engine);
 
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("View"))
+		if (ImGui::BeginMenu("GameObject"))
+		{
+			if (ImGui::MenuItem("Create empty"))
+				App->scene->CreateGameObject(App->scene->GetRootGameObject()); //TODO: not tested
+
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Window"))
 		{
 			if(ImGui::MenuItem("Console", "1", p_console->IsActive()))
 				p_console->ToggleActive(); 
@@ -176,7 +183,3 @@ void ModuleGui::AddLogToConsole(const char * log)
 	if(p_console != nullptr)
 		p_console->AddLog(log);
 }
-
-
-
-

@@ -7,9 +7,10 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
-#include "DevIL/include/il.h"
-#include "DevIL/include/ilu.h"
-#include "DevIL/include/ilut.h"
+//#include "DevIL/include/il.h"
+//#include "DevIL/include/ilu.h"
+//#include "DevIL/include/ilut.h"
+#include "PhysFS/include/physfs.h"
 
 PanelAbout::PanelAbout()
 {
@@ -70,6 +71,11 @@ void PanelAbout::Draw()
 	ImGui::Text("	* MathGeoLib 1.5");
 	ImGui::Text("	* LGC RNG 1.5");
 	ImGui::Text("	* Glew 2.1.0");
+
+	//PhysFS
+	static PHYSFS_Version fs_ver;
+	PHYSFS_getLinkedVersion(&fs_ver);
+	ImGui::Text("	* PhysFS %i.%i.%i", fs_ver.major, fs_ver.minor, fs_ver.patch);
 	ImGui::Text("\n");
 
 	//License
