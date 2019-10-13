@@ -102,6 +102,16 @@ GameObject* GameObject::GetParent() {
 	return parent;
 }
 
+void GameObject::DeleteFromParentList()
+{
+	if (parent) {
+		for (std::vector<GameObject*>::const_iterator it = parent->childs.begin(); it < parent->childs.end(); it++)
+			if ((*it)->GetName() == name) { //Change name for Uuid later on development
+				parent->childs.erase(it);
+				break;
+			}
+	}
+}
 
 
 void GameObject::GUIHierarchyPrint(int& i) {

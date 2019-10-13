@@ -25,17 +25,18 @@ public:
 	uint GetNumChilds() const;
 	GameObject* GetChild(uint i);
 	GameObject* GetParent();
+	void DeleteFromParentList();
 
 	void SetName(const char* new_name);
 	const char* GetName()const;
 
 	void GUIHierarchyPrint(int& i);
-	std::vector<GameObject*> childs;
+
 private:
 	bool active = true;
 	const char* name;
 	GameObject* parent = nullptr;
-
+	std::vector<GameObject*> childs;
 
 public:
 	//There can be only one component of each type

@@ -164,31 +164,26 @@ void ModuleScene::ChangeGameObjectMesh(char* mesh_path)
 {
 	if (scene_gameobject) {
 		//Erase the GameObject from the root vector before deleting the GameObject
-		const char* name = scene_gameobject->GetName();
-		if (root_object) {
-			for (std::vector<GameObject*>::const_iterator it = root_object->childs.begin(); it < root_object->childs.end(); it++)
-				if ((*it)->GetName() == name) {
-					root_object->childs.erase(it);
-					break;
-				}
-		}
+		scene_gameobject->DeleteFromParentList();
+		RELEASE(scene_gameobject);
 	}
-	RELEASE(scene_gameobject);
 
 	scene_gameobject = CreateGameObject(root_object);
 	scene_gameobject->CreateComponent(Comp_Mesh, mesh_path);
+	scene_gameobject->SetName("SceneObj");
 
 }
 
-void ModuleScene::ChangeGameObjectTexture(char* tex_path)
+void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
 {
-	if (scene_gameobject && scene_gameobject->mesh) {
-		if(!scene_gameobject->material)
-			scene_gameobject->CreateComponent(Comp_Material);
+	if (go && go->mesh) {
+		if (!go->material)
+			go->CreateComponent(Comp_Material);
 
-		scene_gameobject->material->AssignTexture(tex_path);
-		for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
-				if (scene_gameobject->GetChild(i)->material)
-					scene_gameobject->GetChild(i)->material->AssignTexture(tex_path);
+		go->material->AssignTexture(tex_path);
+
+		for (int i = 0; i < go->GetNumChilds(); ++i)
+			ChangeGameObjectTexture(tex_path, go->GetChild(i));
+
 	}
 }

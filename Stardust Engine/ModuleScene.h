@@ -28,11 +28,11 @@ public:
 	void DrawGrid();
 
 	void ChangeGameObjectMesh(char* mesh_path);
-	void ChangeGameObjectTexture(char* tex_path);
+	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
 
+	GameObject* scene_gameobject = nullptr; //Change after first assignment
 private:
 	GameObject* root_object = nullptr;
-	GameObject* scene_gameobject = nullptr; //Change after first assignment
 
 };
 
