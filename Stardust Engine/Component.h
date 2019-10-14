@@ -20,6 +20,7 @@ public:
 	virtual void Update(){} //TODO
 	virtual void Disable(){} //TODO
 
+	virtual void  DrawInspector() {}
 	bool IsActive() const;
 	void SetActive(bool active);
 

@@ -147,6 +147,28 @@ void GameObject::GUIHierarchyPrint(int& i) {
 		}
 	}
 
+	//ImGui::TreeNodePop(); //???
+
+}
 
 
+void GameObject::DrawComponentsInspector() {
+
+	if (transform) {
+		ImGui::PushID(0);
+		transform->DrawInspector();
+		ImGui::PopID();
+	}
+
+	//if (mesh) {
+	//	ImGui::PushID(1);
+	//	mesh->DrawInspector();
+	//	ImGui::PopID();
+	//}
+
+	//if (material) {
+	//	ImGui::PushID(2);
+	//	material->DrawInspector();
+	//	ImGui::PopID();
+	//}
 }

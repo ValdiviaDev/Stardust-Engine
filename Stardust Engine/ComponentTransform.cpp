@@ -1,6 +1,8 @@
 #include "ComponentTransform.h"
 #include "Globals.h"
 #include "GameObject.h"
+#include "imgui/imgui.h"
+#include "MathGeoLib/include/MathGeoLib.h"
 
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 {
@@ -11,6 +13,24 @@ ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 
 ComponentTransform::~ComponentTransform()
 {
+}
+
+
+void ComponentTransform::DrawInspector() {
+
+	if (ImGui::TreeNodeEx("Transform")) {
+
+		ImGui::Text("Position");
+		ImGui::SameLine();
+
+		ImGui::DragFloat3("", &position[0], 0.1f);
+
+
+	
+
+		ImGui::TreePop();
+	}
+	
 }
 
 
@@ -53,7 +73,7 @@ void ComponentTransform::UpdateMatrix() {
 	local_matrix = math::float4x4::FromTRS(position, quaternion_rot, scale);
 
 	GameObject* parent_aux = gameObject->GetParent();
-	if (parent_aux != nullptr && parent_aux->GetParent() != nullptr) {  //UNCOMMENT THIS WHEN WE STOP USING THE ROOT GAME OBJECT FOR TEST
+	if (parent_aux != nullptr && parent_aux->GetParent() != nullptr) {  
 		ComponentTransform* p_transform = parent_aux->transform;
 
 		if (p_transform != nullptr) {

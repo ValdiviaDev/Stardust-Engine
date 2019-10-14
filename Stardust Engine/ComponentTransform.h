@@ -10,6 +10,8 @@ public:
 	ComponentTransform(GameObject* parent);
 	~ComponentTransform();
 
+	void  DrawInspector();
+
 	void SetPosition(math::float3 pos);
 	math::float3 GetPosition();
 	void SetRotation(math::float3 rot);

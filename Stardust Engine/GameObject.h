@@ -32,6 +32,8 @@ public:
 
 	void GUIHierarchyPrint(int& i);
 
+	void DrawComponentsInspector();
+
 private:
 	bool active = true;
 	const char* name;
