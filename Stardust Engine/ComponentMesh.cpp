@@ -1,5 +1,6 @@
 #include "ComponentMesh.h"
 #include "Globals.h"
+#include "imgui/imgui.h"
 
 ComponentMesh::ComponentMesh(GameObject* parent, char* path, int num_mesh) : Component(parent), path(path), num_mesh(num_mesh)
 {
@@ -38,4 +39,20 @@ void ComponentMesh::AssignMesh(char* path)
 geo_info ComponentMesh::GetInfo() const
 {
 	return m_info;
+}
+
+void ComponentMesh::DrawInspector() {
+
+	if (ImGui::CollapsingHeader("Mesh")) {
+		ImGui::Text("Mesh path: ");
+		ImGui::SameLine();
+
+		if(path)
+			ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), path);
+		else
+			ImGui::TextColored(ImVec4(1.0f, 0.7f, 0.0f, 1.0f), "null");
+
+
+	}
+
 }

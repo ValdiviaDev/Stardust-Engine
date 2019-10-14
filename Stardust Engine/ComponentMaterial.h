@@ -15,6 +15,8 @@ public:
 	uint GetTexId()const;
 	bool GetIfTex()const;
 
+	void  DrawInspector();
+
 private:
 	const char* tex_path;
 	bool has_tex = false;

@@ -15,6 +15,8 @@ public:
 
 	geo_info GetInfo() const;
 
+	void  DrawInspector();
+
 private:
 	geo_info m_info;
 	const char* path = nullptr;
