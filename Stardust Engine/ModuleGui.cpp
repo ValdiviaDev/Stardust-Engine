@@ -4,6 +4,7 @@
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_impl_opengl3.h"
 #include "ConfigEditor.h"
+#include "GameObject.h"
 
 #include "Panel.h"
 #include "PanelAbout.h"
@@ -113,6 +114,13 @@ void ModuleGui::Draw()
 
 	HandleMainMenuBar();
 	
+
+	//Draw inspector of Game Object
+	ImGui::Begin("Inspector");
+	App->scene->scene_gameobject->DrawComponentsInspector();
+	ImGui::End();
+
+
 	//Render
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
