@@ -66,7 +66,7 @@ bool ModuleScene::Start()
 update_status ModuleScene::Update(float dt)
 {
 	
-	scene_gameobject->DrawComponentsInspector();
+	
 	return UPDATE_CONTINUE;
 }
 
