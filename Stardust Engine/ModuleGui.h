@@ -25,6 +25,7 @@ public:
 	bool CleanUp();
 
 	void Draw();
+	void DrawGOHierarchy(GameObject* go, int &node_index);
 
 	void HandleMainMenuBar();
 	void AddLogToConsole(const char* log);

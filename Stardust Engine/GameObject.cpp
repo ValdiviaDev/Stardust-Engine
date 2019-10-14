@@ -106,7 +106,7 @@ void GameObject::DeleteFromParentList()
 {
 	if (parent) {
 		for (std::vector<GameObject*>::const_iterator it = parent->childs.begin(); it < parent->childs.end(); it++)
-			if ((*it)->GetName() == name) { //Change name for Uuid later on development
+			if ((*it)->GetName() == name) { //Change name for Uuid later on development TODO
 				parent->childs.erase(it);
 				break;
 			}
@@ -115,40 +115,24 @@ void GameObject::DeleteFromParentList()
 
 
 void GameObject::GUIHierarchyPrint(int& i) {
+	//Pop ID for each tree node
+	ImGui::PushID(i);
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
 
 	if (GetNumChilds() == 0)
 		flags |= ImGuiTreeNodeFlags_Leaf;
-/*
-	if (ImGui::TreeNodeEx(name, flags)) {
 
-		LOG("AAAAAAAAAAAAAAA %s", name);
-		for (int i = 0; i < GetNumChilds(); i++) {
-			GetChild(i)->GUIHierarchyPrint();
-		}
-
-	}
-*/
-	bool tree_open = false;
-
-	if (ImGui::TreeNodeEx((void*)(intptr_t)i, flags, name))
-		tree_open = true;
-
-
-	if (tree_open) {
-
-		LOG("AAAAAAAAAAAAAAA %s", name);
+	if (ImGui::TreeNodeEx((void*)(intptr_t)i, flags, name)) {
+		//Print each child of the gameobject
 		for (int j = 0; j < GetNumChilds(); j++) {
-			ImGui::PushID(i);
 			i++;
 			GetChild(j)->GUIHierarchyPrint(i);
-			ImGui::PopID();
 		}
+		ImGui::TreePop();
 	}
 
-	//ImGui::TreeNodePop(); //???
-
+	ImGui::PopID();
 }
 
 
