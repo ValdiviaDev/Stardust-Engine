@@ -11,6 +11,8 @@
 #include "PanelConsole.h"
 #include "PanelConfig.h"
 
+#include "GameObject.h"
+
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, "Gui", start_enabled)
 {
 }
@@ -112,6 +114,13 @@ void ModuleGui::Draw()
 		panel++;
 	}
 
+	//HIERARCHY
+	static bool hierarchy = true;
+	ImGui::Begin("Hierarchy", &hierarchy, ImGuiWindowFlags_None);
+	int node_index = 0;
+	DrawGOHierarchy(App->scene->GetRootGameObject(), node_index);
+	ImGui::End();
+
 	HandleMainMenuBar();
 	
 
@@ -124,6 +133,19 @@ void ModuleGui::Draw()
 	//Render
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void ModuleGui::DrawGOHierarchy(GameObject* go, int& node_index)
+{
+	if (go != App->scene->GetRootGameObject()) {
+		
+		go->GUIHierarchyPrint(node_index);
+		node_index++;
+	}
+	else {
+		for (uint i = 0; i < go->GetNumChilds(); ++i)
+			DrawGOHierarchy(go->GetChild(i), node_index);
+	}
 }
 
 void ModuleGui::HandleMainMenuBar()
