@@ -23,8 +23,19 @@ void ComponentTransform::DrawInspector() {
 		ImGui::Text("Position");
 		ImGui::SameLine();
 
-		ImGui::DragFloat3("", &position[0], 0.1f);
+		ImGui::DragFloat3("p", &position[0], 0.1f);
 
+		ImGui::Text("Rotation");
+		ImGui::SameLine();
+
+		if (ImGui::DragFloat3("r", &rotation[0], 0.1f)) {
+			SetRotation(rotation);
+		}
+
+		ImGui::Text("Scale   ");
+		ImGui::SameLine();
+
+		ImGui::DragFloat3("s", &scale[0], 0.1f);
 
 	
 

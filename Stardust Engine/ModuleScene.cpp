@@ -56,8 +56,8 @@ bool ModuleScene::Start()
 	
 	////TEST-------------------------------------------------
 	scene_gameobject->transform->SetPosition(float3(0.0f, 5.0f, 0.0f));
-	//scene_gameobject->transform->SetRotation(float3(0.0f, 0.0f, 0.0f));
-	//scene_gameobject->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
+	scene_gameobject->transform->SetRotation(float3(90.0f, 0.0f, 0.0f));
+	scene_gameobject->transform->SetScale(float3(5.0f, 5.0f, 5.0f));
 
 	return true;
 }
