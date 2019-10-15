@@ -85,10 +85,11 @@ public:
 
 	Render_Debug render_deb;
 	GL_Caps gl_caps;
+	uint checkersImgId;
 
 private:
 	GPU_Info gpu_info;
-	uint checkersImgId;
+
 
 };
 

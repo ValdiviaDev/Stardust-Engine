@@ -213,7 +213,7 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 	RELEASE_ARRAY(mesh.normal);
 	RELEASE_ARRAY(mesh.uv);
 	RELEASE_ARRAY(mesh.color);
-
+	//m_debug.clear();
 
 	uint flags = 0;
 	flags |= aiProcessPreset_TargetRealtime_MaxQuality;
@@ -393,6 +393,12 @@ void ModuleImport::SaveDebugData(geo_info &m)
 		float Nx = U.y*V.z - U.z*V.y;
 		float Ny = U.z*V.x - U.x*V.z;
 		float Nz = U.x*V.y - U.y*V.x;
+
+
+		float  mod = sqrt(Nx * Nx + Ny * Ny + Nz * Nz);
+		Nx = (Nx / mod) * 0.5;
+		Ny = (Ny / mod) * 0.5;
+		Nz = (Nz / mod) * 0.5;
 
 		deb.tri_center.push_back({ C1, C2, C3 });
 		deb.tri_normal.push_back({ Nx, Ny, Nz });

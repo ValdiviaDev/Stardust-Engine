@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleCamera3D.h"
 #include "ModuleGui.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, "Camera3D", start_enabled)
 {
@@ -120,7 +122,15 @@ update_status ModuleCamera3D::Update(float dt)
 		int dy = -App->input->GetMouseYMotion();
 
 		float Sensitivity = 0.35f;
-		Reference = vec3(0, 0, 0); //TODO: Put GO center here to rotate around
+
+		//Reference is the GameObject we are pointing to
+		if (App->scene->scene_gameobject) {
+			float3 GO_pos = App->scene->scene_gameobject->transform->GetPosition();
+			Reference = { GO_pos.x, GO_pos.y, GO_pos.z };
+		}
+		else
+			Reference = vec3(0, 0, 0);
+
 		Position -= Reference;
 
 		if (dx != 0)

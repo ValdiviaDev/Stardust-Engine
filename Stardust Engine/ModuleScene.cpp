@@ -106,8 +106,14 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glMultMatrixf((GLfloat*)matrix.Transposed().ptr());
 		
 		//Texture
-		if (go->material && go->material->GetIfTex())
-			glBindTexture(GL_TEXTURE_2D, go->material->GetTexId());
+		if (App->renderer3D->render_deb.draw_tex) { //Draw texture
+			if (App->renderer3D->render_deb.draw_checkers_tex) //Checkers
+				glBindTexture(GL_TEXTURE_2D, App->renderer3D->checkersImgId);
+
+			else if(go->material && go->material->GetIfTex()) //Charged texture
+				glBindTexture(GL_TEXTURE_2D, go->material->GetTexId());
+
+		}
 
 		//Model
 		geo_info mesh = go->mesh->GetInfo();
@@ -133,6 +139,24 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glPopMatrix();
+
+
+		// Vertex normals
+		if (App->renderer3D->render_deb.draw_vert_normals) {
+			glBegin(GL_LINES);
+			glColor3f(255.0f, 255.0f, 0.0f); //Yellow
+			geo_info m = go->mesh->GetInfo();
+
+			for (int i = 0; i < m.num_normal * 3; i++) {
+
+				glVertex3f(m.vertex[i], m.vertex[i + 1], m.vertex[i + 2]);
+				glVertex3f(m.vertex[i] + m.normal[i], m.vertex[i + 1] + m.normal[i + 1], m.vertex[i + 2] + m.normal[i + 2]);
+
+				i += 2;
+			}
+			glColor3f(255.0f, 255.0f, 255.0f); //White
+			glEnd();
+		}
 	}
 
 	if (go) {
@@ -140,6 +164,8 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 			if (go->GetChild(i) && go->GetChild(i)->IsActive())
 				DrawGameObjects(go->GetChild(i));
 	}
+
+	
 
 }
 
