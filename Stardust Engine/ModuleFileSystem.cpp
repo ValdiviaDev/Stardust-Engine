@@ -267,7 +267,7 @@ FileType ModuleFileSystem::DetermineFileType(char* file_name)
 
 	else if (extension == ".dds" || extension == ".DDS" || extension == ".png" 
 		|| extension == ".PNG" || extension == ".jpg" || extension == ".JPG"
-		|| extension == ".tga" || extension == ".bmp")
+		|| extension == ".jpeg" || extension == ".JPEG" || extension == ".tga" || extension == ".bmp")
 		return File_Material;
 	else
 		return File_Unknown;

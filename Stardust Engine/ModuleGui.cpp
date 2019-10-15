@@ -10,6 +10,8 @@
 #include "PanelAbout.h"
 #include "PanelConsole.h"
 #include "PanelConfig.h"
+#include "PanelHierarchy.h"
+#include "PanelInspector.h"
 
 #include "GameObject.h"
 
@@ -41,6 +43,10 @@ bool ModuleGui::Init(ConfigEditor* config)
 	panels.push_back(p_console);
 	p_config = new PanelConfig();
 	panels.push_back(p_config);
+	p_hierarchy = new PanelHierarchy();
+	panels.push_back(p_hierarchy);
+	p_inspector = new PanelInspector();
+	panels.push_back(p_inspector);
 	
 	AddLogToConsole("Initializing ImGui");
 
@@ -99,6 +105,8 @@ bool ModuleGui::CleanUp()
 	p_about = nullptr;
 	p_console = nullptr;
 	p_config = nullptr;
+	p_hierarchy = nullptr;
+	p_inspector = nullptr;
 
 	return true;
 }
@@ -114,38 +122,12 @@ void ModuleGui::Draw()
 		panel++;
 	}
 
-	//HIERARCHY
-	static bool hierarchy = true;
-	ImGui::Begin("Hierarchy", &hierarchy, ImGuiWindowFlags_None);
-	int node_index = 0;
-	DrawGOHierarchy(App->scene->GetRootGameObject(), node_index);
-	ImGui::End();
-
 	HandleMainMenuBar();
-	
-
-	//Draw inspector of Game Object
-	ImGui::Begin("Inspector");
-	App->scene->scene_gameobject->DrawComponentsInspector();
-	ImGui::End();
 
 
 	//Render
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-}
-
-void ModuleGui::DrawGOHierarchy(GameObject* go, int& node_index)
-{
-	if (go != App->scene->GetRootGameObject()) {
-		
-		go->GUIHierarchyPrint(node_index);
-		node_index++;
-	}
-	else {
-		for (uint i = 0; i < go->GetNumChilds(); ++i)
-			DrawGOHierarchy(go->GetChild(i), node_index);
-	}
 }
 
 void ModuleGui::HandleMainMenuBar()
@@ -175,6 +157,12 @@ void ModuleGui::HandleMainMenuBar()
 
 			if (ImGui::MenuItem("Configuration", "4", p_config->IsActive()))
 				p_config->ToggleActive();
+
+			if (ImGui::MenuItem("Hierarchy", "", p_hierarchy->IsActive()))
+				p_hierarchy->ToggleActive();
+
+			if (ImGui::MenuItem("Inspector", "", p_inspector->IsActive()))
+				p_inspector->ToggleActive();
 
 			ImGui::EndMenu();
 		}

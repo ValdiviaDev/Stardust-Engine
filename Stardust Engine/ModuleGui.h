@@ -9,6 +9,8 @@ class PanelAbout;
 class PanelConsole;
 class PanelConfig;
 class ModuleGui;
+class PanelHierarchy;
+class PanelInspector;
 
 using namespace std;
 
@@ -25,7 +27,6 @@ public:
 	bool CleanUp();
 
 	void Draw();
-	void DrawGOHierarchy(GameObject* go, int &node_index);
 
 	void HandleMainMenuBar();
 	void AddLogToConsole(const char* log);
@@ -39,6 +40,8 @@ private:
 	PanelAbout* p_about;
 	PanelConsole* p_console;
 	PanelConfig* p_config;
+	PanelHierarchy* p_hierarchy;
+	PanelInspector* p_inspector;
 
 	update_status decide_if_update = UPDATE_CONTINUE;
 };

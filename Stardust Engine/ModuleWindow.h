@@ -27,6 +27,7 @@ public:
 	void ChangeWindowHeight(int height);
 
 	int GetScreenRefreshRate();
+	void GetWinSize(int& x, int& y) const;
 
 	void SetFullscreen(bool fullscreen);
 	void SetResizable(bool resizable);

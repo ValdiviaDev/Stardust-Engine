@@ -1,5 +1,6 @@
 #include "PanelConsole.h"
 #include "imgui/imgui.h"
+#include "Application.h"
 
 PanelConsole::PanelConsole()
 {
@@ -15,8 +16,10 @@ PanelConsole::~PanelConsole()
 void PanelConsole::Draw()
 {
 	//Set window position and size
-	ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Once);
+	int x, y;
+	App->window->GetWinSize(x, y);
+	ImGui::SetNextWindowPos(ImVec2(0, y - height), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(x, height), ImGuiCond_Always);
 	
 	static bool autom_scroll = true;
 
@@ -24,7 +27,7 @@ void PanelConsole::Draw()
 	ImGui::Begin("Console", &active, ImGuiWindowFlags_None);
 	
 	//Clear button
-	ImGui::BeginChild(1, { (float)width, (float)(40) }, true);
+	ImGui::BeginChild(1, { (float)x - 20, (float)(40) }, true);
 	//Automatic scroll
 	ImGui::Checkbox("Automatic scroll", &autom_scroll);
 	ImGui::SameLine();
@@ -34,7 +37,7 @@ void PanelConsole::Draw()
 	
 	ImGui::EndChild();
 
-	ImGui::BeginChild(2, { (float)width, (float)(160) });
+	ImGui::BeginChild(2, { (float)x - 20, (float)(160) });
 
 	//Scrolling Logs
 	ImGui::TextUnformatted(buff.begin());

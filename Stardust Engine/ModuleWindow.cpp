@@ -120,6 +120,11 @@ int ModuleWindow::GetScreenRefreshRate()
 	return Mode.refresh_rate;
 }
 
+void ModuleWindow::GetWinSize(int& x, int& y) const
+{
+	SDL_GetWindowSize(window, &x, &y);
+}
+
 void ModuleWindow::SetFullscreen(bool fullscreen)
 {
 	this->fullscreen = fullscreen;
