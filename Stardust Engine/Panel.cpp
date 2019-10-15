@@ -17,3 +17,8 @@ bool Panel::IsActive()
 {
 	return active;
 }
+
+void Panel::ResizePanel()
+{
+	resize = true;
+}

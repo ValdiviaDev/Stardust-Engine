@@ -201,3 +201,15 @@ void ModuleGui::AddLogToConsole(const char * log)
 	if(p_console != nullptr)
 		p_console->AddLog(log);
 }
+
+void ModuleGui::ResizePanels()
+{
+	//Resize panels
+	list<Panel*>::const_iterator panel = panels.begin();
+	while (panel != panels.end())
+	{
+		if ((*panel)->IsActive())
+			(*panel)->ResizePanel();
+		panel++;
+	}
+}

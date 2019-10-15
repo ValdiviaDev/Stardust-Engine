@@ -17,8 +17,13 @@ PanelHierarchy::~PanelHierarchy()
 
 void PanelHierarchy::Draw()
 {
-	ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Once);
+	if (resize) {
+		int x, y;
+		App->window->GetWinSize(x, y);
+		ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(width, y - 270), ImGuiCond_Always);
+		resize = false;
+	}
 
 	ImGui::Begin("Hierarchy", &active, ImGuiWindowFlags_None);
 	int node_index = 0;

@@ -18,9 +18,13 @@ void PanelConsole::Draw()
 	//Set window position and size
 	int x, y;
 	App->window->GetWinSize(x, y);
-	ImGui::SetNextWindowPos(ImVec2(0, y - height), ImGuiCond_Always);
-	ImGui::SetNextWindowSize(ImVec2(x, height), ImGuiCond_Always);
-	
+	if (resize) {
+		ImGui::SetNextWindowPos(ImVec2(0, y - height), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(x, height), ImGuiCond_Always);
+		resize = false;
+	}
+
+
 	static bool autom_scroll = true;
 
 	//Window

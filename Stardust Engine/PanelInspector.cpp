@@ -7,7 +7,7 @@ PanelInspector::PanelInspector()
 {
 	name = "inspector";
 	active = true;
-	pos_x = 1261, pos_y = 14, width = 303, height = 794;
+	pos_x = 1261, pos_y = 20, width = 303, height = 794;
 }
 
 
@@ -17,8 +17,13 @@ PanelInspector::~PanelInspector()
 
 void PanelInspector::Draw()
 {
-	ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Once);
+	if (resize) {
+		int x, y;
+		App->window->GetWinSize(x, y);
+		ImGui::SetNextWindowPos(ImVec2(x - width, pos_y), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(width, y - 270), ImGuiCond_Always);
+		resize = false;
+	}
 
 	ImGui::Begin("Inspector");
 	if(App->scene->scene_gameobject)

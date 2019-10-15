@@ -30,6 +30,7 @@ public:
 
 	void HandleMainMenuBar();
 	void AddLogToConsole(const char* log);
+	void ResizePanels();
 
 	/*void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;*/

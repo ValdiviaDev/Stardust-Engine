@@ -122,7 +122,6 @@ update_status ModuleInput::PreUpdate(float dt)
 				case File_Material:
 					App->gui->AddLogToConsole("Charging texture");
 					App->scene->ChangeGameObjectTexture(e.drop.file, App->scene->scene_gameobject);
-					//App->importer->LoadImg(e.drop.file);
 					break;
 				case File_Unknown:
 					App->gui->AddLogToConsole("ERROR: Couldn't charge file");
@@ -133,8 +132,10 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			case SDL_WINDOWEVENT:
 			{
-				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
+				if (e.window.event == SDL_WINDOWEVENT_RESIZED || e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
 					App->renderer3D->OnResize(e.window.data1, e.window.data2);
+					App->gui->ResizePanels();
+				}
 			}
 
 			

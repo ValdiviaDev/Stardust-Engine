@@ -9,6 +9,7 @@ public:
 
 	void ToggleActive();
 	bool IsActive();
+	void ResizePanel();
 
 	virtual void Draw() {};
 
@@ -16,6 +17,7 @@ protected:
 	bool active = true;
 	char* name = nullptr;
 	int pos_x, pos_y, width, height;
+	bool resize = true;
 };
 
 #endif
