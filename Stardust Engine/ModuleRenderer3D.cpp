@@ -151,10 +151,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->scene->Draw();
 
-	if (!App->importer->GetModel().empty())
-		DrawModel();
-
-	DrawModelDebug();
+	DrawModelDebug(); //DEBUG
 
 	App->gui->Draw();
 
@@ -345,60 +342,6 @@ void ModuleRenderer3D::SetDefaultConfig() {
 	vsync = true;
 }
 
-void ModuleRenderer3D::DrawModel() {
-
-	list<geo_info> m_list = App->importer->GetModel();
-	list<geo_info>::const_iterator m = m_list.begin();
-
-	while (m != m_list.end())
-	{
-		//Texture
-		if (render_deb.draw_tex) { //Draw texture
-			if(render_deb.draw_checkers_tex) //Checkers
-				glBindTexture(GL_TEXTURE_2D, checkersImgId);
-			else
-				glBindTexture(GL_TEXTURE_2D, App->importer->textureID);
-		}
-		//Mesh
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, m->id_vertex);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, m->id_uv);
-		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->id_index);
-		
-		glDrawElements(GL_TRIANGLES, m->num_index * 3, GL_UNSIGNED_INT, NULL);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-
-		//Vertex normals
-		if (render_deb.draw_vert_normals) {
-			glBegin(GL_LINES);
-			glColor3f(255.0f, 255.0f, 0.0f); //Yellow
-			for (int i = 0; i < m->num_normal * 3; i++) {
-
-				glVertex3f(m->vertex[i], m->vertex[i + 1], m->vertex[i + 2]);
-				glVertex3f(m->vertex[i] + m->normal[i], m->vertex[i + 1] + m->normal[i + 1], m->vertex[i + 2] + m->normal[i + 2]);
-
-				i += 2;
-			}
-			glColor3f(255.0f, 255.0f, 255.0f); //White
-			glEnd();
-		}
-
-		m++;
-	}
-}
-
 void ModuleRenderer3D::DrawModelDebug()
 {
 	list<geo_debug> m_debug = App->importer->GetDebugInfo();
@@ -406,6 +349,24 @@ void ModuleRenderer3D::DrawModelDebug()
 
 	while (deb != m_debug.end())
 	{
+
+		// Vertex normals
+		if (App->renderer3D->render_deb.draw_vert_normals) {
+			glBegin(GL_LINES);
+			glColor3f(255.0f, 255.0f, 0.0f); //Yellow
+			//geo_info m = go->mesh->GetInfo();
+
+			for (int i = 0; i < deb->vert_normal.size(); i++) {
+
+				glVertex3f(deb->vert_point[i].x, deb->vert_point[i].y, deb->vert_point[i].z);
+				glVertex3f(deb->vert_normal[i].x, deb->vert_normal[i].y, deb->vert_normal[i].z);
+
+			}
+			glColor3f(255.0f, 255.0f, 255.0f); //White
+			glEnd();
+		}
+
+
 		//Face normals
 		if (render_deb.draw_face_normals) {
 

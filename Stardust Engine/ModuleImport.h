@@ -35,8 +35,12 @@ struct geo_info {
 
 struct geo_debug {
 
+	vector<float3> vert_point;
+	vector<float3> vert_normal;
+	
 	vector<float3> tri_center;
 	vector<float3> tri_normal;
+
 
 };
 
@@ -55,23 +59,14 @@ public:
 	bool CleanUp();
 	
 	void BindBuffers(geo_info &m);
-	void ImportFile(char* path);
 	
 	//Methods that will stay for the GameObject system
 	bool ImportMesh(char* path, geo_info& info, GameObject* go, int num_mesh);
 	bool ImportTexture(char* path, uint& tex_id);
 
-	void LoadImg(const char* path);
-
 	void SaveDebugData(geo_info &m);
 
-	list<geo_info> GetModel();
 	list<geo_debug> GetDebugInfo();
-
-	uint textureID = 0;
-
-private:
-	list<geo_info> m_list;
 	list<geo_debug> m_debug;
 
 };

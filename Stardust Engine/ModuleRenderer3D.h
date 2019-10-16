@@ -70,8 +70,7 @@ public:
 	void CreateCheckersTex();
 	void SetDefaultConfig();
 	
-	void DrawModel(); //Soon deprecated TODO
-	void DrawModelDebug();
+	void DrawModelDebug(); //DEBUG
 
 	void UpdateGOMatrix(GameObject* go);
 
@@ -89,7 +88,6 @@ public:
 
 private:
 	GPU_Info gpu_info;
-
 
 };
 

@@ -140,23 +140,6 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 
 		glPopMatrix();
 
-
-		// Vertex normals
-		if (App->renderer3D->render_deb.draw_vert_normals) {
-			glBegin(GL_LINES);
-			glColor3f(255.0f, 255.0f, 0.0f); //Yellow
-			geo_info m = go->mesh->GetInfo();
-
-			for (int i = 0; i < m.num_normal * 3; i++) {
-
-				glVertex3f(m.vertex[i], m.vertex[i + 1], m.vertex[i + 2]);
-				glVertex3f(m.vertex[i] + m.normal[i], m.vertex[i + 1] + m.normal[i + 1], m.vertex[i + 2] + m.normal[i + 2]);
-
-				i += 2;
-			}
-			glColor3f(255.0f, 255.0f, 255.0f); //White
-			glEnd();
-		}
 	}
 
 	if (go) {
@@ -193,6 +176,7 @@ void ModuleScene::ChangeGameObjectMesh(char* mesh_path)
 		//Erase the GameObject from the root vector before deleting the GameObject
 		scene_gameobject->DeleteFromParentList();
 		RELEASE(scene_gameobject);
+		App->importer->m_debug.clear(); //DEBUG
 	}
 
 	scene_gameobject = CreateGameObject(root_object);
