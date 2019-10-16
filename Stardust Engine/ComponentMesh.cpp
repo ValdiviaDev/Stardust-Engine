@@ -62,6 +62,14 @@ void ComponentMesh::DrawInspector() {
 		else
 			ImGui::TextColored(ImVec4(1.0f, 0.7f, 0.0f, 1.0f), "null");
 
+		ImGui::Separator();
+
+		ImGui::Text("Debug Options");
+
+		ImGui::Checkbox("Vertex Normals", &debug_v_norm);
+		ImGui::SameLine();
+		ImGui::Checkbox("Face Normals", &debug_f_norm);
+
 
 	}
 

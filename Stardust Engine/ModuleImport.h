@@ -18,6 +18,7 @@ struct geo_info {
 	uint* index = nullptr;
 
 	//Normals info
+	uint id_normal = 0;
 	uint num_normal = 0;
 	float* normal = nullptr;
 

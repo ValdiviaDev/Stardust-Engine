@@ -152,10 +152,10 @@ void ModuleGui::HandleMainMenuBar()
 				App->scene->CreateCubePrimitive();
 			
 			if (ImGui::MenuItem("Create sphere"))
-				App->scene->CreateSpherePrimitive(3); //TODO: not tested
+				App->scene->CreateSpherePrimitive(3);
 
 			if (ImGui::MenuItem("Create plane"))
-				App->scene->CreatePlanePrimitive(5,5); //TODO: not tested
+				App->scene->CreatePlanePrimitive(5,5);
 
 
 			ImGui::EndMenu();

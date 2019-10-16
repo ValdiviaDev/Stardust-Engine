@@ -31,13 +31,6 @@ struct GL_Caps {
 	bool wireframe = false;
 };
 
-struct Render_Debug {
-	bool draw_vert_normals = false;
-	bool draw_face_normals = false;
-	bool draw_tex = true;
-	bool draw_checkers_tex = false;
-};
-
 class ModuleRenderer3D : public Module
 {
 public:
@@ -82,7 +75,6 @@ public:
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	bool vsync = true;
 
-	Render_Debug render_deb;
 	GL_Caps gl_caps;
 	uint checkersImgId;
 

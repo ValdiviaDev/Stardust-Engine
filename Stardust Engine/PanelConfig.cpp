@@ -253,14 +253,6 @@ void PanelConfig::HardwareMenu()
 void PanelConfig::RendererMenu()
 {
 	ImGui::Text("Debug painting:");
-	ImGui::Checkbox("Vertex normals", &App->renderer3D->render_deb.draw_vert_normals);
-	ImGui::Checkbox("Face normals", &App->renderer3D->render_deb.draw_face_normals);
-
-	ImGui::Checkbox("Draw Texture", &App->renderer3D->render_deb.draw_tex);
-	if (App->renderer3D->render_deb.draw_tex)
-		ImGui::Checkbox("Checkers", &App->renderer3D->render_deb.draw_checkers_tex);
-
-	ImGui::Separator();
 
 	if (ImGui::Checkbox("GL_DEPTH_TEST", &App->renderer3D->gl_caps.depth_test))
 		App->renderer3D->SetDepthTest();

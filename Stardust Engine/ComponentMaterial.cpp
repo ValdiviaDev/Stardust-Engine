@@ -15,12 +15,6 @@ ComponentMaterial::~ComponentMaterial()
 
 void ComponentMaterial::AssignTexture(const char * path)
 {
-	//Path
-	//char* path_source = "Assets/Textures/";
-	//char full_path[100];
-	//strcpy(full_path, path_source);
-	//strcat(full_path, path);
-
 	//Import texture with DevIL
 	bool charged = App->importer->ImportTexture((char*)path, tex_id);
 
@@ -43,7 +37,7 @@ bool ComponentMaterial::GetIfTex() const
 
 void ComponentMaterial::DrawInspector() {
 
-	if (ImGui::CollapsingHeader("Texture")) {
+	if (ImGui::CollapsingHeader("Material")) {
 		ImGui::Text("Texture path: ");
 		ImGui::SameLine();
 
@@ -52,6 +46,13 @@ void ComponentMaterial::DrawInspector() {
 		else
 			ImGui::TextColored(ImVec4(1.0f, 0.7f, 0.0f, 1.0f), "null");
 
+		ImGui::Separator();
+
+		ImGui::Text("Debug Options");
+
+		ImGui::Checkbox("Draw Texture", &debug_tex_draw);
+		ImGui::SameLine();
+		ImGui::Checkbox("Draw Checkers", &debug_checkers);
 
 	}
 

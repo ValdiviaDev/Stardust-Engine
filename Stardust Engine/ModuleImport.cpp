@@ -314,6 +314,12 @@ void ModuleImport::BindBuffers(geo_info &m) {
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_vertex, m.vertex, GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+		//Normal
+		glGenBuffers(1, (GLuint*) &(m.id_normal));
+		glBindBuffer(GL_ARRAY_BUFFER, m.id_normal);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m.num_normal, m.normal, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 		//Index
 		glGenBuffers(1, (GLuint*) &(m.id_index));
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_index);
@@ -349,6 +355,6 @@ void ModuleImport::BindBuffersPrimitive(geo_info &a)
 	//Index
 	glGenBuffers(1, (GLuint*) &(a.id_index));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, a.id_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 3 * a.num_index, a.index, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(PAR_SHAPES_T) * 3 * a.num_index, a.index, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

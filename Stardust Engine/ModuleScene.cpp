@@ -177,8 +177,8 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glMultMatrixf((GLfloat*)matrix.Transposed().ptr());
 		
 		//Texture
-		if (App->renderer3D->render_deb.draw_tex) { //Draw texture
-			if (App->renderer3D->render_deb.draw_checkers_tex) //Checkers
+		if (go->material && go->material->debug_tex_draw) { //Draw texture
+			if (go->material->debug_checkers) //Checkers
 				glBindTexture(GL_TEXTURE_2D, App->renderer3D->checkersImgId);
 
 			else if(go->material && go->material->GetIfTex()) //Charged texture
@@ -192,6 +192,8 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_normal);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)mesh.num_normal);
 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
@@ -221,8 +223,6 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 			if (go->GetChild(i) && go->GetChild(i)->IsActive())
 				DrawGameObjects(go->GetChild(i));
 	}
-
-	
 
 }
 

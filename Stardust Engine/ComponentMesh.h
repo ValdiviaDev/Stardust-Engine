@@ -20,6 +20,10 @@ public:
 
 	void FillPrimitiveDrawInfo(geo_info info);
 
+public:
+	bool debug_v_norm = false;
+	bool debug_f_norm = false;
+
 private:
 	geo_info m_info;
 	const char* path = nullptr;

@@ -17,6 +17,10 @@ public:
 
 	void  DrawInspector();
 
+public:
+	bool debug_tex_draw = true;
+	bool debug_checkers = false;
+
 private:
 	const char* tex_path;
 	bool has_tex = false;

@@ -4,6 +4,7 @@
 #include "ConfigEditor.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
 
 #include "Glew/include/glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -326,11 +327,6 @@ void ModuleRenderer3D::CreateCheckersTex()
 }
 
 void ModuleRenderer3D::SetDefaultConfig() {
-	render_deb.draw_checkers_tex = false;
-	render_deb.draw_face_normals = false;
-	render_deb.draw_tex = true;
-	render_deb.draw_checkers_tex = false;
-
 	gl_caps.alpha_test = true;
 	gl_caps.depth_test = true;
 	gl_caps.cull_face = true;
@@ -351,7 +347,7 @@ void ModuleRenderer3D::DrawModelDebug()
 	{
 
 		// Vertex normals
-		if (App->renderer3D->render_deb.draw_vert_normals) {
+		if (App->scene->scene_gameobject->mesh->debug_v_norm) {
 			glBegin(GL_LINES);
 			glColor3f(255.0f, 255.0f, 0.0f); //Yellow
 			//geo_info m = go->mesh->GetInfo();
@@ -368,7 +364,7 @@ void ModuleRenderer3D::DrawModelDebug()
 
 
 		//Face normals
-		if (render_deb.draw_face_normals) {
+		if (App->scene->scene_gameobject->mesh->debug_f_norm) {
 
 			glBegin(GL_LINES);
 
