@@ -60,20 +60,24 @@ bool ModuleScene::Start()
 	//scene_gameobject->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
 
 
-
 	//Sphere
 	sphere = par_shapes_create_subdivided_sphere(2);
-	par_shapes_translate(sphere, 0, 4.0, 0);
+	par_shapes_translate(sphere, 0, 0.0, 0);
 	geo_info a;
-	a.vertex = sphere->points;
+
 	a.num_vertex = (uint)sphere->npoints;
-	a.index = (uint*)sphere->triangles;
+	a.vertex = sphere->points;
+
 	a.num_index = (uint)sphere->ntriangles;
+	a.index = (uint*)sphere->triangles;
 
+	GameObject* sss = CreateGameObject(root_object);
+	scene_gameobject->SetName("Sphere");
+	sss->CreateComponent(Comp_Mesh, "", 0, true);
+	sss->mesh->FillPrimitiveDrawInfo(a);
 
-	App->importer->BindBuffersPrimitive(a);
 	par_shapes_free_mesh(sphere);
-	
+	sss->transform->SetPosition(float3(2.0f, 2.0f, 2.0f));
 
 	return true;
 }
@@ -109,18 +113,6 @@ GameObject * ModuleScene::GetRootGameObject() const
 
 
 void ModuleScene::Draw() {
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-
-	glBindBuffer(GL_ARRAY_BUFFER, sph_v_id);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sph_i_id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glDrawElements(GL_TRIANGLES, 320 * 3, GL_UNSIGNED_SHORT, NULL);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
 	DrawGrid();
 	DrawGameObjects(root_object);
 }
@@ -156,7 +148,10 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);
 
-		glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_INT, NULL);
+		if(!go->mesh->IsPrimitive())
+			glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_INT, NULL);
+		else
+			glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_SHORT, NULL);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

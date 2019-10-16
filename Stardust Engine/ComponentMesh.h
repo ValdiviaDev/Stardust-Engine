@@ -8,19 +8,23 @@
 class ComponentMesh : public Component //TODO
 {
 public:
-	ComponentMesh(GameObject* parent, char* path, int num_mesh);
+	ComponentMesh(GameObject* parent, char* path, int num_mesh, bool is_primitive);
 	~ComponentMesh();
 
 	void AssignMesh(char* path);
 
 	geo_info GetInfo() const;
+	bool IsPrimitive() const;
 
 	void  DrawInspector();
+
+	void FillPrimitiveDrawInfo(geo_info info);
 
 private:
 	geo_info m_info;
 	const char* path = nullptr;
 	int num_mesh = 0; //Ambiguous name and maybe not necessary TODO
+	int is_primitive = false;
 };
 
 #endif

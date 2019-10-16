@@ -33,10 +33,6 @@ public:
 
 	GameObject* scene_gameobject = nullptr; //Change after first assignment
 
-	uint sph_v_id = 0;
-	uint sph_i_id = 0;
-
-
 private:
 	GameObject* root_object = nullptr;
 	par_shapes_mesh* sphere;
