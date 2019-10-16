@@ -223,7 +223,17 @@ void GameObject::CenterCameraOnGO() const {
 	//d = (s/2) / tan(a/2)
 	dist = z_length + ( (dist / 2) / math::Tan(DEGTORAD * 30));
 	LOG("formula = %f", dist);
-	App->camera->Look(vec3(0, 0, dist), vec3(0, 0, 0));
-	App->camera->LookAt(vec3(0, 0, 0));
+
+	if (transform) {
+		float3 pos = transform->GetPosition();
+		float3 scale = transform->GetScale();
+		App->camera->Look(vec3(pos.x * scale.x, pos.y * scale.y, (pos.z + dist)*scale.z), vec3(pos.x, pos.y, pos.z));
+	}
+	else {
+		App->camera->Look(vec3(0, 0, dist), vec3(0, 0, 0));
+	}
+
+	
+	
 
 }
