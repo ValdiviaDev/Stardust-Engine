@@ -30,7 +30,7 @@ public:
 	void SetName(const char* new_name);
 	const char* GetName()const;
 
-	void GUIHierarchyPrint(int& i);
+	void GUIHierarchyPrint(int& i, bool& clicked);//Send false on clicked bool
 
 	void DrawComponentsInspector();
 
@@ -40,7 +40,7 @@ private:
 	bool active = true;
 	const char* name;
 	GameObject* parent = nullptr;
-	std::vector<GameObject*> childs;
+	
 
 public:
 	//There can be only one component of each type
@@ -48,6 +48,8 @@ public:
 	ComponentMesh* mesh = nullptr;
 	ComponentMaterial* material = nullptr;
 
+	std::vector<GameObject*> childs;
+	bool focused = false;
 };
 
 #endif

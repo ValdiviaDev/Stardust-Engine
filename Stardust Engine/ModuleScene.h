@@ -31,6 +31,10 @@ public:
 	void ChangeGameObjectMesh(char* mesh_path);
 	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
 
+	void FocusGameObject(GameObject* focused, GameObject* root);
+
+
+public:
 	GameObject* scene_gameobject = nullptr; //Change after first assignment
 
 private:

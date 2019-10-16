@@ -3,6 +3,8 @@
 
 #include "Panel.h"
 
+class GameObject;
+
 class PanelInspector : public Panel
 {
 public:
@@ -13,6 +15,7 @@ public:
 
 private:
 
+	GameObject* GetFocusedGameObject(GameObject* root);
 
 };
 

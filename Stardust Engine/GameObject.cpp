@@ -114,44 +114,81 @@ void GameObject::DeleteFromParentList()
 }
 
 
-void GameObject::GUIHierarchyPrint(int& i) {
+void GameObject::GUIHierarchyPrint(int& i, bool& clicked) {
 	//Pop ID for each tree node
 	ImGui::PushID(i);
 
-	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanFullWidth;
+
+	if (focused)
+		flags |= ImGuiTreeNodeFlags_Selected;
 
 	if (GetNumChilds() == 0)
 		flags |= ImGuiTreeNodeFlags_Leaf;
 
+	
+
 	if (ImGui::TreeNodeEx((void*)(intptr_t)i, flags, name)) {
+		
+		//Set focused to print Inspector
+		if (ImGui::IsItemClicked() && !clicked) {
+			LOG("%s node clicked", name);
+			clicked = true;
+			App->scene->GetRootGameObject()->focused = false;
+			App->scene->FocusGameObject(this, App->scene->GetRootGameObject());
+		}
+		
+		
 		//Print each child of the gameobject
+		
+
+
 		for (int j = 0; j < GetNumChilds(); j++) {
 			i++;
-			GetChild(j)->GUIHierarchyPrint(i);
+			GetChild(j)->GUIHierarchyPrint(i,clicked);
+			
 		}
+		
 		ImGui::TreePop();
 	}
-
+	//Set focused to print Inspector
+	if (ImGui::IsItemClicked() && !clicked) {
+		LOG("%s node clicked", name);
+		clicked = true;
+		App->scene->GetRootGameObject()->focused = false;
+		App->scene->FocusGameObject(this, App->scene->GetRootGameObject());
+	}
 	ImGui::PopID();
 }
 
 
 void GameObject::DrawComponentsInspector() {
 
-	if (transform) {
+
+
+	
+	if (ImGui::CollapsingHeader("GameObject")) {
 		ImGui::PushID(0);
+		ImGui::Text("Name:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), name);
+		ImGui::PopID();
+	}
+
+	if (transform) {
+		ImGui::PushID(1);
 		transform->DrawInspector();
 		ImGui::PopID();
 	}
 
 	if (mesh) {
-		ImGui::PushID(1);
+		ImGui::PushID(2);
 		mesh->DrawInspector();
 		ImGui::PopID();
 	}
 
 	if (material) {
-		ImGui::PushID(2);
+		ImGui::PushID(3);
 		material->DrawInspector();
 		ImGui::PopID();
 	}

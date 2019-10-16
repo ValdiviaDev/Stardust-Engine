@@ -34,11 +34,13 @@ void PanelHierarchy::Draw()
 void PanelHierarchy::DrawGOHierarchy(GameObject * go, int & node_index)
 {
 	if (go != App->scene->GetRootGameObject()) {
-
-		go->GUIHierarchyPrint(node_index);
+		
+		bool click = false;
+		go->GUIHierarchyPrint(node_index, click);
 		node_index++;
 	}
 	else {
+		
 		for (uint i = 0; i < go->GetNumChilds(); ++i)
 			DrawGOHierarchy(go->GetChild(i), node_index);
 	}

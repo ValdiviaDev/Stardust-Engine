@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "imgui/imgui.h"
 #include "Application.h"
+#include "ModuleScene.h"
 
 PanelInspector::PanelInspector()
 {
@@ -26,7 +27,30 @@ void PanelInspector::Draw()
 	}
 
 	ImGui::Begin("Inspector");
-	if(App->scene->scene_gameobject)
-		App->scene->scene_gameobject->DrawComponentsInspector();
+
+	GameObject* focused = GetFocusedGameObject(App->scene->GetRootGameObject());
+	if(focused)
+		focused->DrawComponentsInspector();
 	ImGui::End();
+}
+
+
+GameObject* PanelInspector::GetFocusedGameObject(GameObject* root) {
+
+	GameObject* ret = nullptr;
+
+	for (std::vector<GameObject*>::const_iterator it = root->childs.begin(); it < root->childs.end(); it++) {
+
+		if ((*it)->focused)
+			return (*it);
+		else
+			ret = GetFocusedGameObject((*it));
+
+		if (ret) {
+			if (ret->focused)
+				break;
+		}
+	}
+
+	return ret;
 }

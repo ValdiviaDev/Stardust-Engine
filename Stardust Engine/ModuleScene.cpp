@@ -61,7 +61,7 @@ bool ModuleScene::Start()
 
 
 	//Sphere
-	sphere = par_shapes_create_subdivided_sphere(2);
+	/*sphere = par_shapes_create_subdivided_sphere(2);
 	par_shapes_translate(sphere, 0, 0.0, 0);
 	geo_info a;
 
@@ -77,7 +77,7 @@ bool ModuleScene::Start()
 	sss->mesh->FillPrimitiveDrawInfo(a);
 
 	par_shapes_free_mesh(sphere);
-	sss->transform->SetPosition(float3(2.0f, 2.0f, 2.0f));
+	sss->transform->SetPosition(float3(2.0f, 2.0f, 2.0f));*/
 
 	return true;
 }
@@ -85,7 +85,10 @@ bool ModuleScene::Start()
 // Update
 update_status ModuleScene::Update(float dt)
 {
-	
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) {
+		root_object->focused = false;
+		FocusGameObject(scene_gameobject, root_object);
+	}
 	
 	return UPDATE_CONTINUE;
 }
@@ -221,3 +224,27 @@ void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
 
 	}
 }
+
+
+void ModuleScene::FocusGameObject(GameObject* focused, GameObject* root) {
+
+	if (root->GetNumChilds() > 0) {
+
+		for (std::vector<GameObject*>::const_iterator it = root->childs.begin(); it < root->childs.end(); it++) {
+
+			if ((*it) == focused) {
+				(*it)->focused = true;
+				LOG("%s focused", (*it)->GetName());
+			}
+			else {
+				(*it)->focused = false;
+				LOG("%s NOT focused", (*it)->GetName());
+			}
+			FocusGameObject(focused, (*it));
+		}
+	}
+}
+
+
+
+
