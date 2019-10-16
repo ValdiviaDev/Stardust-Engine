@@ -4,6 +4,7 @@
 #include "ModuleGui.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, "Camera3D", start_enabled)
 {
@@ -161,14 +162,16 @@ update_status ModuleCamera3D::Update(float dt)
 
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) {
-		Look(Position, vec3(0, 0, 0));
+		//Look(Position, vec3(0, 0, 0));
+		//CenterCameraOnGO(App->scene->scene_gameobject);
+		App->scene->scene_gameobject->CenterCameraOnGO();
 	}
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 
 
-	LOG("Reference: %f, %f, %f", Reference.x, Reference.y, Reference.z);
+	//LOG("Reference: %f, %f, %f", Reference.x, Reference.y, Reference.z);
 
 	return UPDATE_CONTINUE;
 }
@@ -226,3 +229,5 @@ void ModuleCamera3D::CalculateViewMatrix()
 	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
 	ViewMatrixInverse = inverse(ViewMatrix);
 }
+
+

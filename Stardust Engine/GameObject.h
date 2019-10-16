@@ -34,6 +34,8 @@ public:
 
 	void DrawComponentsInspector();
 
+	void CenterCameraOnGO() const;
+
 private:
 	bool active = true;
 	const char* name;

@@ -53,11 +53,11 @@ bool ModuleScene::Start()
 	for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
 		if (scene_gameobject->GetChild(i)->material)
 			scene_gameobject->GetChild(i)->material->AssignTexture("Assets/Textures/Baker_house.png");
-	
+	 
 	////TEST-------------------------------------------------
-	scene_gameobject->transform->SetPosition(float3(0.0f, 0.0f, 0.0f));
-	scene_gameobject->transform->SetRotation(float3(0.0f, 0.0f, 0.0f));
-	scene_gameobject->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
+	//scene_gameobject->transform->SetPosition(float3(0.0f, 0.0f, 0.0f));
+	//scene_gameobject->transform->SetRotation(float3(0.0f, 0.0f, 0.0f));
+	//scene_gameobject->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
 
 
 
