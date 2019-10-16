@@ -31,6 +31,8 @@ struct geo_info {
 	float* color = nullptr;
 	
 	bool has_no_triangle = false;
+
+	geo_info() {}
 };
 
 struct geo_debug {

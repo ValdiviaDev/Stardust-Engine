@@ -5,7 +5,7 @@
 ComponentMesh::ComponentMesh(GameObject* parent, char* path, int num_mesh) : Component(parent), path(path), num_mesh(num_mesh)
 {
 	type = Comp_Mesh;
-
+	m_info = geo_info();
 	AssignMesh(path);
 }
 
@@ -38,6 +38,7 @@ void ComponentMesh::AssignMesh(char* path)
 
 geo_info ComponentMesh::GetInfo() const
 {
+	
 	return m_info;
 }
 

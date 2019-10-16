@@ -156,3 +156,74 @@ void GameObject::DrawComponentsInspector() {
 		ImGui::PopID();
 	}
 }
+
+
+
+void GameObject::CenterCameraOnGO() const {
+
+	geo_info info = mesh->GetInfo();
+	int num_vertex = info.num_vertex;
+
+	float max_x = 0, min_x = 0, max_y = 0, min_y = 0, max_z = 0, min_z = 0;
+
+	for (int i = 0; i < num_vertex; i+=3) {
+		if (i == 0)
+		{
+			max_x = min_x = info.vertex[0];
+			max_y = min_y = info.vertex[1];
+			max_z = min_z = info.vertex[2];
+		}
+
+		if (info.vertex[i] > max_x) {
+			LOG("MaxX %f > %f", info.vertex[i], max_x)
+			max_x = info.vertex[i];
+			
+		}
+		if (info.vertex[i] < min_x) {
+			LOG("minX %f < %f", info.vertex[i], min_x)
+			min_x = info.vertex[i];
+
+		}
+
+		if (info.vertex[i + 1] > max_y) {
+			LOG("MaxY %f > %f", info.vertex[i+1], max_y)
+			max_y = info.vertex[i + 1];
+
+		}
+		if (info.vertex[i + 1] < min_y) {
+			LOG("minY %f < %f", info.vertex[i+1], min_y)
+			min_y = info.vertex[i + 1];
+
+		}
+
+		if (info.vertex[i + 2] > max_z) {
+			LOG("MaxZ %f > %f", info.vertex[i + 2], max_z)
+				max_z = info.vertex[i + 2];
+
+		}
+		if (info.vertex[i + 2] < min_z) {
+			LOG("minZ %f > %f", info.vertex[i + 2], min_z)
+				min_z = info.vertex[i + 2];
+
+		}
+	}
+
+	
+
+	float dist;
+	if (max_x - min_x > max_y - min_y)
+		dist = max_x - min_x;
+	else
+		dist = max_y - min_y;
+
+	float z_length = max_z - min_z;
+
+	LOG("MAX(%f, %f, %f), min(%f, %f, %f). Dist = %f, Z = %f", max_x, max_y, max_z, min_x, min_y, min_z, dist, z_length);
+
+	//d = (s/2) / tan(a/2)
+	dist = z_length + ( (dist / 2) / math::Tan(DEGTORAD * 30));
+	LOG("formula = %f", dist);
+	App->camera->Look(vec3(0, 0, dist), vec3(0, 0, 0));
+	App->camera->LookAt(vec3(0, 0, 0));
+
+}

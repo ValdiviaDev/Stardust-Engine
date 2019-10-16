@@ -45,15 +45,15 @@ bool ModuleScene::Start()
 	root_object->SetName("root");
 
 	//Baker house test
-	//scene_gameobject = CreateGameObject(root_object);
-	//scene_gameobject->SetName("BakerHouse");
-	//scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	//if (scene_gameobject->material)
-	//	scene_gameobject->material->AssignTexture("Baker_house.png");
-	//for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
-	//	if (scene_gameobject->GetChild(i)->material)
-	//		scene_gameobject->GetChild(i)->material->AssignTexture("Baker_house.png");
-	//
+	scene_gameobject = CreateGameObject(root_object);
+	scene_gameobject->SetName("BakerHouse");
+	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
+	if (scene_gameobject->material)
+		scene_gameobject->material->AssignTexture("Assets/Textures/Baker_house.png");
+	for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
+		if (scene_gameobject->GetChild(i)->material)
+			scene_gameobject->GetChild(i)->material->AssignTexture("Assets/Textures/Baker_house.png");
+	
 	//////TEST-------------------------------------------------
 	//scene_gameobject->transform->SetPosition(float3(0.0f, 5.0f, 0.0f));
 	//scene_gameobject->transform->SetRotation(float3(90.0f, 0.0f, 0.0f));
