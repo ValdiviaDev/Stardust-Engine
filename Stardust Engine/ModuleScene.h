@@ -6,7 +6,8 @@
 #include "MathGeoLib/include/MathGeoLib.h"
 #include <vector>
 
-//#include "Par/par_shapes.h"
+#include "Par/par_shapes.h"
+
 
 class GameObject;
 
@@ -31,8 +32,14 @@ public:
 	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
 
 	GameObject* scene_gameobject = nullptr; //Change after first assignment
+
+	uint sph_v_id = 0;
+	uint sph_i_id = 0;
+
+
 private:
 	GameObject* root_object = nullptr;
+	par_shapes_mesh* sphere;
 
 };
 
