@@ -60,25 +60,6 @@ bool ModuleScene::Start()
 	//scene_gameobject->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
 
 
-	//Sphere
-	/*sphere = par_shapes_create_subdivided_sphere(2);
-	par_shapes_translate(sphere, 0, 0.0, 0);
-	geo_info a;
-
-	a.num_vertex = (uint)sphere->npoints;
-	a.vertex = sphere->points;
-
-	a.num_index = (uint)sphere->ntriangles;
-	a.index = (uint*)sphere->triangles;
-
-	GameObject* sss = CreateGameObject(root_object);
-	scene_gameobject->SetName("Sphere");
-	sss->CreateComponent(Comp_Mesh, "", 0, true);
-	sss->mesh->FillPrimitiveDrawInfo(a);
-
-	par_shapes_free_mesh(sphere);
-	sss->transform->SetPosition(float3(2.0f, 2.0f, 2.0f));*/
-
 	return true;
 }
 
@@ -112,6 +93,73 @@ GameObject* ModuleScene::CreateGameObject(GameObject* parent)
 GameObject * ModuleScene::GetRootGameObject() const
 {
 	return root_object;
+}
+
+GameObject* ModuleScene::CreateCubePrimitive()
+{
+	par_shapes_mesh* cube = par_shapes_create_cube();
+
+	geo_info info;
+
+	info.num_vertex = (uint)cube->npoints;
+	info.vertex = cube->points;
+
+	info.num_index = (uint)cube->ntriangles;
+	info.index = (uint*)cube->triangles;
+
+	GameObject* cubeGO = CreateGameObject(root_object);
+	cubeGO->SetName("Cube");
+	cubeGO->CreateComponent(Comp_Mesh, "", 0, true);
+	cubeGO->mesh->FillPrimitiveDrawInfo(info);
+
+	par_shapes_free_mesh(cube);
+
+	return cubeGO;
+}
+
+GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
+{
+	par_shapes_mesh* sphere = par_shapes_create_subdivided_sphere(subdivisions);
+
+	geo_info info;
+
+	info.num_vertex = (uint)sphere->npoints;
+	info.vertex = sphere->points;
+
+	info.num_index = (uint)sphere->ntriangles;
+	info.index = (uint*)sphere->triangles;
+
+	GameObject* sphereGO = CreateGameObject(root_object);
+	sphereGO->SetName("Sphere");
+	sphereGO->CreateComponent(Comp_Mesh, "", 0, true);
+	sphereGO->mesh->FillPrimitiveDrawInfo(info);
+
+	par_shapes_free_mesh(sphere);
+
+	return sphereGO;
+}
+
+GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
+{
+	par_shapes_mesh* plane = par_shapes_create_plane(slices, stacks);
+	par_shapes_translate(plane, 0.0f, 0.0f, 0.0f);
+
+	geo_info info;
+
+	info.num_vertex = (uint)plane->npoints;
+	info.vertex = plane->points;
+
+	info.num_index = (uint)plane->ntriangles;
+	info.index = (uint*)plane->triangles;
+
+	GameObject* planeGO = CreateGameObject(root_object);
+	planeGO->SetName("Plane");
+	planeGO->CreateComponent(Comp_Mesh, "", 0, true);
+	planeGO->mesh->FillPrimitiveDrawInfo(info);
+
+	par_shapes_free_mesh(plane);
+
+	return planeGO;
 }
 
 

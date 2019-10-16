@@ -24,6 +24,10 @@ public:
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* GetRootGameObject() const;
 
+	GameObject* CreateCubePrimitive();
+	GameObject* CreateSpherePrimitive(int subdivisions);
+	GameObject* CreatePlanePrimitive(int slices, int stacks);
+
 	void Draw();
 	void DrawGameObjects(GameObject* go);
 	void DrawGrid();
@@ -39,7 +43,6 @@ public:
 
 private:
 	GameObject* root_object = nullptr;
-	par_shapes_mesh* sphere;
 
 };
 
