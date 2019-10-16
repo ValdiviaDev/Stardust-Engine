@@ -45,19 +45,35 @@ bool ModuleScene::Start()
 	root_object->SetName("root");
 
 	//Baker house test
-	//scene_gameobject = CreateGameObject(root_object);
-	//scene_gameobject->SetName("BakerHouse");
-	//scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	//if (scene_gameobject->material)
-	//	scene_gameobject->material->AssignTexture("Baker_house.png");
-	//for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
-	//	if (scene_gameobject->GetChild(i)->material)
-	//		scene_gameobject->GetChild(i)->material->AssignTexture("Baker_house.png");
-	//
-	//////TEST-------------------------------------------------
-	//scene_gameobject->transform->SetPosition(float3(0.0f, 5.0f, 0.0f));
-	//scene_gameobject->transform->SetRotation(float3(90.0f, 0.0f, 0.0f));
-	//scene_gameobject->transform->SetScale(float3(5.0f, 5.0f, 5.0f));
+	scene_gameobject = CreateGameObject(root_object);
+	scene_gameobject->SetName("BakerHouse");
+	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
+	if (scene_gameobject->material)
+		scene_gameobject->material->AssignTexture("Assets/Textures/Baker_house.png");
+	for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
+		if (scene_gameobject->GetChild(i)->material)
+			scene_gameobject->GetChild(i)->material->AssignTexture("Assets/Textures/Baker_house.png");
+	
+	////TEST-------------------------------------------------
+	scene_gameobject->transform->SetPosition(float3(0.0f, 0.0f, 0.0f));
+	scene_gameobject->transform->SetRotation(float3(0.0f, 0.0f, 0.0f));
+	scene_gameobject->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
+
+
+
+	//Sphere
+	sphere = par_shapes_create_subdivided_sphere(2);
+	par_shapes_translate(sphere, 0, 4.0, 0);
+	geo_info a;
+	a.vertex = sphere->points;
+	a.num_vertex = (uint)sphere->npoints;
+	a.index = (uint*)sphere->triangles;
+	a.num_index = (uint)sphere->ntriangles;
+
+
+	App->importer->BindBuffersPrimitive(a);
+	par_shapes_free_mesh(sphere);
+	
 
 	return true;
 }
@@ -93,6 +109,18 @@ GameObject * ModuleScene::GetRootGameObject() const
 
 
 void ModuleScene::Draw() {
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(GL_ARRAY_BUFFER, sph_v_id);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sph_i_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glDrawElements(GL_TRIANGLES, 320 * 3, GL_UNSIGNED_SHORT, NULL);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
 	DrawGrid();
 	DrawGameObjects(root_object);
 }

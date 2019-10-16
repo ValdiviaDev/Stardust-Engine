@@ -13,6 +13,7 @@
 
 #include "GameObject.h"
 #include "Component.h"
+#include "Par/par_shapes.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
@@ -335,4 +336,19 @@ void ModuleImport::BindBuffers(geo_info &m) {
 		//	glBindBuffer(GL_ARRAY_BUFFER, 0);
 		//}
 	}
+}
+
+void ModuleImport::BindBuffersPrimitive(geo_info &a)
+{
+	//Vertex
+	glGenBuffers(1, (GLuint*) &(App->scene->sph_v_id));
+	glBindBuffer(GL_ARRAY_BUFFER, App->scene->sph_v_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * a.num_vertex, a.vertex, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Index
+	glGenBuffers(1, (GLuint*) &(App->scene->sph_i_id));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->scene->sph_i_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 3 * a.num_index, a.index, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

@@ -3,6 +3,7 @@
 
 
 #include "Module.h"
+#include "Par/par_shapes.h"
 
 struct geo_info {
 
@@ -59,6 +60,7 @@ public:
 	bool CleanUp();
 	
 	void BindBuffers(geo_info &m);
+	void BindBuffersPrimitive(geo_info &a);
 	
 	//Methods that will stay for the GameObject system
 	bool ImportMesh(char* path, geo_info& info, GameObject* go, int num_mesh);
