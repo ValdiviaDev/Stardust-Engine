@@ -146,7 +146,17 @@ void ModuleGui::HandleMainMenuBar()
 		if (ImGui::BeginMenu("GameObject"))
 		{
 			if (ImGui::MenuItem("Create empty"))
-				App->scene->CreateGameObject(App->scene->GetRootGameObject()); //TODO: not tested
+				App->scene->CreateGameObject(App->scene->GetRootGameObject());
+			
+			if (ImGui::MenuItem("Create cube"))
+				App->scene->CreateCubePrimitive();
+			
+			if (ImGui::MenuItem("Create sphere"))
+				App->scene->CreateSpherePrimitive(3); //TODO: not tested
+
+			if (ImGui::MenuItem("Create plane"))
+				App->scene->CreatePlanePrimitive(5,5); //TODO: not tested
+
 
 			ImGui::EndMenu();
 		}
