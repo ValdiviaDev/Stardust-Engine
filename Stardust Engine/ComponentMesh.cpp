@@ -7,6 +7,7 @@ ComponentMesh::ComponentMesh(GameObject* parent, char* path, int num_mesh, bool 
 {
 	type = Comp_Mesh;
 	m_info = geo_info();
+
 	if(!is_primitive)
 		AssignMesh(path);
 }
@@ -64,12 +65,13 @@ void ComponentMesh::DrawInspector() {
 
 		ImGui::Separator();
 
+		if (!is_primitive) {
 		ImGui::Text("Debug Options");
 
-		ImGui::Checkbox("Vertex Normals", &debug_v_norm);
-		ImGui::SameLine();
-		ImGui::Checkbox("Face Normals", &debug_f_norm);
-
+			ImGui::Checkbox("Vertex Normals", &debug_v_norm);
+			ImGui::SameLine();
+			ImGui::Checkbox("Face Normals", &debug_f_norm);
+		}
 
 	}
 

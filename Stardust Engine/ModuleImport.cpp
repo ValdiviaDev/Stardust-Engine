@@ -164,8 +164,8 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 				App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
 		}
 
-		if (!mesh.has_no_triangle) //Check if theres a face that isn't a triangle
-			SaveDebugData(mesh);
+		//if (!mesh.has_no_triangle) //TODO will be deprecated soon
+		//	SaveDebugData(mesh);
 
 		//Will Probably have to change TODO
 		if (scene->mNumMeshes != 1 && num_mesh < (scene->mNumMeshes - 1)) {
@@ -218,7 +218,7 @@ bool ModuleImport::ImportTexture(char* path, uint& tex_id)
 }
 
 
-void ModuleImport::SaveDebugData(geo_info &m)
+void ModuleImport::SaveDebugData(geo_info &m) //TODO: Soon to be deprecated
 {
 	geo_debug deb;
 

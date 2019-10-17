@@ -109,7 +109,7 @@ GameObject* ModuleScene::CreateCubePrimitive()
 
 	GameObject* cubeGO = CreateGameObject(root_object);
 	cubeGO->SetName("Cube");
-	cubeGO->CreateComponent(Comp_Mesh, "", 0, true);
+	cubeGO->CreateComponent(Comp_Mesh, nullptr, 0, true);
 	cubeGO->mesh->FillPrimitiveDrawInfo(info);
 
 	par_shapes_free_mesh(cube);
@@ -131,7 +131,7 @@ GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
 
 	GameObject* sphereGO = CreateGameObject(root_object);
 	sphereGO->SetName("Sphere");
-	sphereGO->CreateComponent(Comp_Mesh, "", 0, true);
+	sphereGO->CreateComponent(Comp_Mesh, nullptr, 0, true);
 	sphereGO->mesh->FillPrimitiveDrawInfo(info);
 
 	par_shapes_free_mesh(sphere);
@@ -154,7 +154,7 @@ GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
 
 	GameObject* planeGO = CreateGameObject(root_object);
 	planeGO->SetName("Plane");
-	planeGO->CreateComponent(Comp_Mesh, "", 0, true);
+	planeGO->CreateComponent(Comp_Mesh, nullptr, 0, true);
 	planeGO->mesh->FillPrimitiveDrawInfo(info);
 
 	par_shapes_free_mesh(plane);
@@ -187,6 +187,7 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		}
 
 		//Model
+		ComponentMesh* c_mesh = go->mesh;
 		geo_info mesh = go->mesh->GetInfo();
 
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -214,16 +215,87 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
+		if(c_mesh->debug_v_norm || c_mesh->debug_f_norm)
+			DrawGameObjectsDebug(go);
+
 		glPopMatrix();
 
 	}
 
+	//Look for every other GameObject to draw
 	if (go) {
 		for (uint i = 0; i < go->GetNumChilds(); i++)
 			if (go->GetChild(i) && go->GetChild(i)->IsActive())
 				DrawGameObjects(go->GetChild(i));
 	}
 
+}
+
+void ModuleScene::DrawGameObjectsDebug(GameObject* go)
+{
+	//Vertex normals
+	geo_info m = go->mesh->GetInfo();
+	if (go->mesh->debug_v_norm) {
+		glBegin(GL_LINES);
+		glColor3f(255.0f, 255.0f, 0.0f); //Yellow
+
+		for (int i = 0; i < m.num_normal * 3; i += 3) {
+
+			//Normalize the vertex normals
+			float3 norm = { m.normal[i], m.normal[i + 1], m.normal[i + 2] };
+			float  mod = sqrt(norm.x * norm.x + norm.y * norm.y + norm.z * norm.z);
+			norm = (norm / mod) * 0.5;
+
+			glVertex3f(m.vertex[i], m.vertex[i + 1], m.vertex[i + 2]);
+			glVertex3f(m.vertex[i] + norm.x, m.vertex[i + 1] + norm.y, m.vertex[i + 2] + norm.z);
+
+		}
+		glColor3f(255.0f, 255.0f, 255.0f); //White
+		glEnd();
+	}
+	if (go->mesh->debug_f_norm) {
+
+
+		for (int i = 0; i < m.num_index; i += 3) {
+			//Triangle points
+			uint index_01 = m.index[i] * 3;
+			uint index_02 = m.index[i + 1] * 3;
+			uint index_03 = m.index[i + 2] * 3;
+
+			float3 p1 = { m.vertex[index_01], m.vertex[index_01 + 1], m.vertex[index_01 + 2] };
+			float3 p2 = { m.vertex[index_02], m.vertex[index_02 + 1], m.vertex[index_02 + 2] };
+			float3 p3 = { m.vertex[index_03], m.vertex[index_03 + 1], m.vertex[index_03 + 2] };
+
+			//Calculate face center
+			float C1 = (p1.x + p2.x + p3.x) / 3;
+			float C2 = (p1.y + p2.y + p3.y) / 3;
+			float C3 = (p1.z + p2.z + p3.z) / 3;
+
+			//Calculate Face Normal
+			float3 U = { p2 - p1 };
+			float3 V = { p3 - p1 };
+
+			float Nx = U.y*V.z - U.z*V.y;
+			float Ny = U.z*V.x - U.x*V.z;
+			float Nz = U.x*V.y - U.y*V.x;
+
+			//Normalize the face normals
+			float  mod = sqrt(Nx * Nx + Ny * Ny + Nz * Nz);
+			Nx = (Nx / mod) * 0.5;
+			Ny = (Ny / mod) * 0.5;
+			Nz = (Nz / mod) * 0.5;
+
+			glBegin(GL_LINES);
+			glColor3f(255.0f, 0.0f, 0.0f); //Red
+
+			glVertex3f(C1, C2, C3);
+			glVertex3f(C1 + Nx, C2 + Ny, C3 + Nz);
+
+			glColor3f(255.0f, 255.0f, 255.0f); //White
+			glEnd();
+		}
+
+	}
 }
 
 void ModuleScene::DrawGrid()

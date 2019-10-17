@@ -152,8 +152,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->scene->Draw();
 
-	DrawModelDebug(); //DEBUG
-
 	App->gui->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);
@@ -336,54 +334,6 @@ void ModuleRenderer3D::SetDefaultConfig() {
 	gl_caps.line_smooth = true;
 	gl_caps.wireframe = false;
 	vsync = true;
-}
-
-void ModuleRenderer3D::DrawModelDebug()
-{
-	list<geo_debug> m_debug = App->importer->GetDebugInfo();
-	list<geo_debug>::const_iterator deb = m_debug.begin();
-
-	while (deb != m_debug.end())
-	{
-
-		// Vertex normals
-		if (App->scene->scene_gameobject->mesh->debug_v_norm) {
-			glBegin(GL_LINES);
-			glColor3f(255.0f, 255.0f, 0.0f); //Yellow
-			//geo_info m = go->mesh->GetInfo();
-
-			for (int i = 0; i < deb->vert_normal.size(); i++) {
-
-				glVertex3f(deb->vert_point[i].x, deb->vert_point[i].y, deb->vert_point[i].z);
-				glVertex3f(deb->vert_normal[i].x, deb->vert_normal[i].y, deb->vert_normal[i].z);
-
-			}
-			glColor3f(255.0f, 255.0f, 255.0f); //White
-			glEnd();
-		}
-
-
-		//Face normals
-		if (App->scene->scene_gameobject->mesh->debug_f_norm) {
-
-			glBegin(GL_LINES);
-
-			glColor3f(255.0f, 0.0f, 0.0f); //Red
-
-			for (int i = 0; i < deb->tri_normal.size(); i++) {
-
-			glVertex3f(deb->tri_center[i].x, deb->tri_center[i].y, deb->tri_center[i].z);
-			glVertex3f(deb->tri_center[i].x + deb->tri_normal[i].x, deb->tri_center[i].y + deb->tri_normal[i].y,
-					   deb->tri_center[i].z + deb->tri_normal[i].z);
-
-			}
-			glColor3f(255.0f, 255.0f, 255.0f); //White
-
-			glEnd();
-		}
-
-		deb++;
-	}
 }
 
 

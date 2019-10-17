@@ -30,6 +30,8 @@ public:
 
 	void Draw();
 	void DrawGameObjects(GameObject* go);
+	void DrawGameObjectsDebug(GameObject* go);
+
 	void DrawGrid();
 
 	void ChangeGameObjectMesh(char* mesh_path);

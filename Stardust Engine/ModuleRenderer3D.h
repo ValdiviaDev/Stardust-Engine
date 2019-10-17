@@ -62,8 +62,6 @@ public:
 
 	void CreateCheckersTex();
 	void SetDefaultConfig();
-	
-	void DrawModelDebug(); //DEBUG
 
 	void UpdateGOMatrix(GameObject* go);
 
