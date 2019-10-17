@@ -181,7 +181,7 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 	return true;
 }
 
-bool ModuleImport::ImportTexture(char* path, uint& tex_id)
+bool ModuleImport::ImportTexture(char* path, uint& tex_id, int& w, int& h)
 {
 	//Bind DevIL image
 	uint image_id = 0;
@@ -203,6 +203,10 @@ bool ModuleImport::ImportTexture(char* path, uint& tex_id)
 		ilDeleteImages(1, &image_id);
 		return false;
 	}
+
+	//Get width and height
+	w = ilGetInteger(IL_IMAGE_WIDTH);
+	h = ilGetInteger(IL_IMAGE_HEIGHT);
 
 	//Bind DevIL to OpenGL texture buffer
 	tex_id = ilutGLBindTexImage();

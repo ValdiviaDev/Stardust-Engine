@@ -25,6 +25,7 @@ private:
 	const char* tex_path;
 	bool has_tex = false;
 	uint tex_id = 0;
+	int tex_width, tex_height;
 
 };
 

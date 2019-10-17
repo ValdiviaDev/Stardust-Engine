@@ -16,7 +16,7 @@ ComponentMaterial::~ComponentMaterial()
 void ComponentMaterial::AssignTexture(const char * path)
 {
 	//Import texture with DevIL
-	bool charged = App->importer->ImportTexture((char*)path, tex_id);
+	bool charged = App->importer->ImportTexture((char*)path, tex_id, tex_width, tex_height);
 
 	if (charged) {
 		has_tex = true;
@@ -41,8 +41,14 @@ void ComponentMaterial::DrawInspector() {
 		ImGui::Text("Texture path: ");
 		ImGui::SameLine();
 
-		if(has_tex)
+		if (has_tex) {
 			ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), tex_path);
+
+			ImGui::Text("Texture size: ");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), "%i x %i", tex_width, tex_height);
+
+		}
 		else
 			ImGui::TextColored(ImVec4(1.0f, 0.7f, 0.0f, 1.0f), "null");
 
