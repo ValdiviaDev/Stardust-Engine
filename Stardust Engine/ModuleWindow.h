@@ -39,6 +39,7 @@ public:
 
 	void SetDefaultConfig();
 
+	void SetIcon();
 
 public:
 	//The window we'll be rendering to
@@ -57,7 +58,7 @@ public:
 	int win_height = SCREEN_HEIGHT;
 
 private:
-	
+	SDL_Surface* icon;
 
 
 };

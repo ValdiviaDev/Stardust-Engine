@@ -53,6 +53,9 @@ bool ModuleWindow::Init(ConfigEditor* config)
 		}
 		else
 		{
+			//Icon
+			SetIcon();
+
 			//Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
 		}
@@ -69,6 +72,8 @@ bool ModuleWindow::Init(ConfigEditor* config)
 bool ModuleWindow::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems");
+	
+	SDL_FreeSurface(icon);
 
 	//Destroy window
 	if(window != NULL)
@@ -202,4 +207,10 @@ void ModuleWindow::SetDefaultConfig() {
 	win_height = SCREEN_HEIGHT;
 
 	
+}
+
+void ModuleWindow::SetIcon()
+{
+	icon = SDL_LoadBMP("config/icon.bmp");
+	SDL_SetWindowIcon(window, icon);
 }
