@@ -37,6 +37,8 @@ enum update_status
 #define WIN_FULLSCREEN_DESKTOP false
 #define TITLE "Stardust Engine"
 #define ORGANIZATION "Speedwagon Foundation"
+#define ENGINE_VER_SUP 0
+#define ENGINE_VER_INF 3
 
 
 #define RELEASE(x)\

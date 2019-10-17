@@ -66,9 +66,13 @@ update_status ModuleGui::PreUpdate(float dt)
 update_status ModuleGui::Update(float dt)
 {
 	//Shortcuts
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_KP_1) == KEY_DOWN)
 		p_console->ToggleActive();
-	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
+		p_hierarchy->ToggleActive();
+	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN)
+		p_inspector->ToggleActive();
+	if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN)
 		p_config->ToggleActive();
 
 	//Debug REMOVE LATER
@@ -162,16 +166,16 @@ void ModuleGui::HandleMainMenuBar()
 		}
 		if (ImGui::BeginMenu("Window"))
 		{
-			if(ImGui::MenuItem("Console", "1", p_console->IsActive()))
+			if(ImGui::MenuItem("Console", "KP 1", p_console->IsActive()))
 				p_console->ToggleActive(); 
 
-			if (ImGui::MenuItem("Configuration", "4", p_config->IsActive()))
+			if (ImGui::MenuItem("Configuration", "KP 4", p_config->IsActive()))
 				p_config->ToggleActive();
 
-			if (ImGui::MenuItem("Hierarchy", "", p_hierarchy->IsActive()))
+			if (ImGui::MenuItem("Hierarchy", "KP 2", p_hierarchy->IsActive()))
 				p_hierarchy->ToggleActive();
 
-			if (ImGui::MenuItem("Inspector", "", p_inspector->IsActive()))
+			if (ImGui::MenuItem("Inspector", "KP 3", p_inspector->IsActive()))
 				p_inspector->ToggleActive();
 
 			ImGui::EndMenu();
@@ -182,7 +186,7 @@ void ModuleGui::HandleMainMenuBar()
 				show_demo_window = !show_demo_window;
 
 			if (ImGui::MenuItem("Documentation"))
-				App->RequestBrowser("https://github.com/ValdiviaDev/Stardust-Engine/wiki");
+				App->RequestBrowser("https://github.com/ValdiviaDev/Stardust-Engine/blob/master/README.md");
 			
 			if (ImGui::MenuItem("Download latest"))
 				App->RequestBrowser("https://github.com/ValdiviaDev/Stardust-Engine/releases");

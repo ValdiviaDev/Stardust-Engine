@@ -1,6 +1,7 @@
 #include "PanelAbout.h"
 #include "imgui/imgui.h"
 #include "Application.h"
+#include "Globals.h"
 #include "Assimp/include/version.h"
 
 #include "Glew/include/glew.h"
@@ -35,7 +36,8 @@ void PanelAbout::Draw()
 
 	//Window
 	ImGui::Begin("About", &active, window_flags);
-	ImGui::Text("Stardust Engine v0.3"); //TODO
+
+	ImGui::Text("Stardust Engine v%i.%i", ENGINE_VER_SUP, ENGINE_VER_INF);
 	ImGui::Separator();
 
 	//Description
