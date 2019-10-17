@@ -1,8 +1,9 @@
 # Stardust Engine
  3D Game Engine
-3D engine student project, made by Ricardo Gutiérrez & David Valdivia, students at the CITM university (UPC affiliate) at Terrassa (Barcelona).
+3D engine student project, made by [Ricardo GutiÃ©rrez](https://twitter.com/reRikarudo) & [David Valdivia](https://twitter.com/ValdiviaDev), students at the CITM university (UPC affiliate) at Terrassa (Barcelona).
 
-3rd party libraries used:
+## 3rd party libraries used:
+	
 	* SDL 2.0.4
 	* OpenGL 4.6
 	* Assimp 3.3.0
@@ -13,11 +14,26 @@
 	* Glew 2.1.0
 	* PhysPS 2.0.3
 
+## Instalation Instructions
+Open the "Stardust Engine.exe" file that you'll find inside this folder.
+
+## Features
+	- Basic GameObject structure
+	- Functioning transform, mesh and material components
+	- Creating cube, sphere and plane primitives as GameObjects
+	- Mesh charge by dragging .fbx, .obj and .dae files into the engine
+	- Texture charge by dragging, .png, .jpg, .jpeg, .dds, .bmp and .tga files into the engine
+	- Config window that includes options for the application, window and renderer
+	- Save and load for the config options
+	- Console that notifies the user of the state of loading geometry, and textures
+
+## [Github repository](https://github.com/ValdiviaDev/Stardust-Engine)
+
 License:
 
 MIT License
 
-Copyright (c) 2019 Ricardo Gutiérrez & David Valdivia
+Copyright (c) 2019 Ricardo GutiÃ©rrez & David Valdivia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
