@@ -169,14 +169,14 @@ void ModuleGui::HandleMainMenuBar()
 			if(ImGui::MenuItem("Console", "KP 1", p_console->IsActive()))
 				p_console->ToggleActive(); 
 
-			if (ImGui::MenuItem("Configuration", "KP 4", p_config->IsActive()))
-				p_config->ToggleActive();
-
 			if (ImGui::MenuItem("Hierarchy", "KP 2", p_hierarchy->IsActive()))
 				p_hierarchy->ToggleActive();
 
 			if (ImGui::MenuItem("Inspector", "KP 3", p_inspector->IsActive()))
 				p_inspector->ToggleActive();
+
+			if (ImGui::MenuItem("Configuration", "KP 4", p_config->IsActive()))
+				p_config->ToggleActive();
 
 			ImGui::EndMenu();
 		}

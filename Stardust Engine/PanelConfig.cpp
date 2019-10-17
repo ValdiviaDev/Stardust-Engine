@@ -9,7 +9,7 @@
 PanelConfig::PanelConfig()
 {
 	name = "config";
-	active = true;
+	active = false;
 	pos_x = 800, pos_y = 70, width = 400, height = 700;
 }
 
