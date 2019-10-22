@@ -202,6 +202,15 @@
     <ClCompile Include="PanelInspector.cpp">
       <Filter>Sources\Panels</Filter>
     </ClCompile>
+    <ClCompile Include="Importer.cpp">
+      <Filter>Sources\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshImporter.cpp">
+      <Filter>Sources\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialImporter.cpp">
+      <Filter>Sources\Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -513,6 +522,15 @@
     <ClInclude Include="PanelInspector.h">
       <Filter>Sources\Panels</Filter>
     </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>Sources\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshImporter.h">
+      <Filter>Sources\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialImporter.h">
+      <Filter>Sources\Importers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -568,6 +586,9 @@
     </Filter>
     <Filter Include="Sources\Game Object\Components">
       <UniqueIdentifier>{7a23fc3b-9a71-4cca-89e5-34800e0826e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Importers">
+      <UniqueIdentifier>{bbd316f7-4e5c-4da8-b43f-792796435363}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
