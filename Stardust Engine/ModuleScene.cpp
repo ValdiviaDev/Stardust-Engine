@@ -48,17 +48,15 @@ bool ModuleScene::Start()
 	scene_gameobject = CreateGameObject(root_object);
 	scene_gameobject->SetName("BakerHouse");
 	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	if (scene_gameobject->material)
-		scene_gameobject->material->AssignTexture("Assets/Textures/baker_house.dds");
+	
+	/*if (scene_gameobject->material)
+		scene_gameobject->material->AssignTexture("Assets/Textures/baker_house_dds.dds");
 	for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
 		if (scene_gameobject->GetChild(i)->material)
-			scene_gameobject->GetChild(i)->material->AssignTexture("Assets/Textures/baker_house.dds");
+			scene_gameobject->GetChild(i)->material->AssignTexture("Assets/Textures/baker_house_dds.dds");*/
 	 
-	////TEST-------------------------------------------------
-	//scene_gameobject->transform->SetPosition(float3(0.0f, 0.0f, 0.0f));
-	//scene_gameobject->transform->SetRotation(float3(0.0f, 0.0f, 0.0f));
-	//scene_gameobject->transform->SetScale(float3(1.0f, 1.0f, 1.0f));
-
+	string output_file;
+	App->importer->ImportTextureToDDS("baker_house_dds.dds", "Assets/Textures/", output_file);
 
 	return true;
 }
@@ -369,7 +367,7 @@ void ModuleScene::FocusGameObject(GameObject* focused, GameObject* root) {
 
 GameObject* ModuleScene::GetFocusedGameObject(GameObject* root) const {
 
-	GameObject* ret;
+	GameObject* ret = nullptr;
 
 	if (root && root->GetNumChilds() > 0) {
 
