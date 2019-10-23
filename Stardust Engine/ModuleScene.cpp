@@ -339,8 +339,8 @@ void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
 
 		go->material->AssignTexture(tex_path);
 
-		for (int i = 0; i < go->GetNumChilds(); ++i)
-			ChangeGameObjectTexture(tex_path, go->GetChild(i));
+		//for (int i = 0; i < go->GetNumChilds(); ++i)
+			//ChangeGameObjectTexture(tex_path, go->GetChild(i));
 
 	}
 }
@@ -367,4 +367,28 @@ void ModuleScene::FocusGameObject(GameObject* focused, GameObject* root) {
 
 
 
+GameObject* ModuleScene::GetFocusedGameObject(GameObject* root) const {
 
+	GameObject* ret;
+
+	if (root && root->GetNumChilds() > 0) {
+
+		for (std::vector<GameObject*>::const_iterator it = root->childs.begin(); it < root->childs.end(); it++) {
+
+			if ((*it)->focused == true) {
+				LOG("%s is the focused GO", (*it)->GetName());
+				return *it;
+
+			}
+			else {
+				LOG("%s isn't the focused GO", (*it)->GetName());
+				ret = GetFocusedGameObject(*it);
+			}
+
+		}
+
+
+	}
+
+	return ret;
+}

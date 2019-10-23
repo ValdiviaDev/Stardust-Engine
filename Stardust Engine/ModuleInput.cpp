@@ -121,7 +121,8 @@ update_status ModuleInput::PreUpdate(float dt)
 					break;
 				case File_Material:
 					App->gui->AddLogToConsole("Charging texture");
-					App->scene->ChangeGameObjectTexture(e.drop.file, App->scene->scene_gameobject);
+
+					App->scene->ChangeGameObjectTexture(e.drop.file, App->scene->GetFocusedGameObject(App->scene->GetRootGameObject()));
 					break;
 				case File_Unknown:
 					App->gui->AddLogToConsole("ERROR: Couldn't charge file");

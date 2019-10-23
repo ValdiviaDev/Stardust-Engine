@@ -38,6 +38,7 @@ public:
 	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
 
 	void FocusGameObject(GameObject* focused, GameObject* root);
+	GameObject* GetFocusedGameObject(GameObject* root) const;
 
 
 public:
