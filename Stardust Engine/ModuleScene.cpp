@@ -57,7 +57,11 @@ bool ModuleScene::Start()
 	 
 	string output_file;
 	App->importer->ImportTextureToDDS("baker_house_dds.dds", "Assets/Textures/", output_file);
-
+	
+	//MeshImporter imp;
+	//string out_f;
+	//imp.Import("Assets/Meshes/BakerHouse.fbx", "Assets/Meshes/BakerHouse.fbx", out_f);
+	
 	return true;
 }
 
@@ -191,8 +195,11 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		
+		glEnableClientState(GL_NORMAL_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_normal);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)mesh.num_normal);
+		glNormalPointer(GL_FLOAT, 0, NULL);
+		//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)mesh.num_normal);
 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
@@ -209,6 +216,7 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
