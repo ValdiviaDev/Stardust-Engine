@@ -48,19 +48,15 @@ bool ModuleScene::Start()
 	scene_gameobject = CreateGameObject(root_object);
 	scene_gameobject->SetName("BakerHouse");
 	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	
-	/*if (scene_gameobject->material)
+	//scene_gameobject->mesh->ChargePreLoadedMesh();
+	if (scene_gameobject->material)
 		scene_gameobject->material->AssignTexture("Assets/Textures/baker_house_dds.dds");
 	for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)
 		if (scene_gameobject->GetChild(i)->material)
-			scene_gameobject->GetChild(i)->material->AssignTexture("Assets/Textures/baker_house_dds.dds");*/
+			scene_gameobject->GetChild(i)->material->AssignTexture("Assets/Textures/baker_house_dds.dds");
 	 
 	string output_file;
 	App->importer->ImportTextureToDDS("baker_house_dds.dds", "Assets/Textures/", output_file);
-	
-	//MeshImporter imp;
-	//string out_f;
-	//imp.Import("Assets/Meshes/BakerHouse.fbx", "Assets/Meshes/BakerHouse.fbx", out_f);
 	
 	return true;
 }

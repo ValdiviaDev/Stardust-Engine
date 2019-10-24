@@ -1,6 +1,7 @@
 #include "ComponentMesh.h"
 #include "Globals.h"
 #include "imgui/imgui.h"
+#include "MeshImporter.h"
 
 ComponentMesh::ComponentMesh(GameObject* parent, char* path, int num_mesh, bool is_primitive) 
 	: Component(parent), path(path), num_mesh(num_mesh), is_primitive(is_primitive)
@@ -90,4 +91,14 @@ void ComponentMesh::FillPrimitiveDrawInfo(par_shapes_mesh* shape)
 
 	App->importer->BindBuffersPrimitive(m_info);
 
+}
+
+void ComponentMesh::ChargePreLoadedMesh()
+{
+	MeshImporter imp;
+	string out_f;
+	imp.Import("Assets/Meshes/BakerHouse.fbx", "Assets/Meshes/BakerHouse.fbx", out_f);
+	imp.Load("own_file_baker.stdtmesh", m_info);
+
+	App->importer->BindBuffers(m_info);
 }

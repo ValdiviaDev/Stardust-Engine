@@ -167,10 +167,6 @@ bool MeshImporter::Import(const char* file, const char* path, std::string& outpu
 
 	ret = App->fs->SaveUnique(output_file, data, size, "Library/Meshes/", "own_file_baker", "stdtmesh");
 
-	ComponentMesh* m = nullptr;
-
-	Load("own_file_baker_1.stdtmesh", m);
-
 	RELEASE_ARRAY(data);
 	RELEASE_ARRAY(mesh.vertex);
 	RELEASE_ARRAY(mesh.index);
@@ -180,24 +176,25 @@ bool MeshImporter::Import(const char* file, const char* path, std::string& outpu
 	return ret;
 }
 
-bool MeshImporter::Import(const void * buffer, uint size, std::string& output_file)
+bool MeshImporter::Import(const void* buffer, uint size, std::string& output_file)
 {
 	return false;
 }
 
-bool MeshImporter::Load(const char* exported_file, ComponentMesh* resource)
+bool MeshImporter::Load(const char* exported_file, geo_info& mesh)
 {
+	bool ret = false;
 
 	char* buffer;
-	App->fs->Load("Library/Meshes/", exported_file, &buffer);
+	if (App->fs->Load("Library/Meshes/", exported_file, &buffer) != 0)
+		ret = true;
+
 	char* cursor = buffer;
 
 	// amount of indices / vertices / texture_coords / normals
 	uint ranges[4];
 	uint bytes = sizeof(ranges);
 	memcpy(ranges, cursor, bytes);
-	
-	geo_info mesh;
 
 	mesh.num_index = ranges[0];
 	mesh.num_vertex = ranges[1];
@@ -228,7 +225,6 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* resource)
 	mesh.normal = new float[mesh.num_normal * 3];
 	memcpy(mesh.normal, cursor, bytes);
 
-	//TODO --------------------------------- TO FINISH
 
-	return false;
+	return ret;
 }
