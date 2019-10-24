@@ -210,6 +210,24 @@ bool MeshImporter::Load(const char* exported_file, ComponentMesh* resource)
 	mesh.index = new uint[mesh.num_index];
 	memcpy(mesh.index, cursor, bytes);
 
+	// Load vertex
+	cursor += bytes;
+	bytes = sizeof(float) * mesh.num_vertex * 3;
+	mesh.vertex = new float[mesh.num_vertex * 3];
+	memcpy(mesh.vertex, cursor, bytes);
+
+	// Load UVs
+	cursor += bytes;
+	bytes = sizeof(float) * mesh.num_uv * 2;
+	mesh.uv = new float[mesh.num_uv * 2];
+	memcpy(mesh.uv, cursor, bytes);
+
+	// Load Normal
+	cursor += bytes;
+	bytes = sizeof(float) * mesh.num_normal * 3;
+	mesh.normal = new float[mesh.num_normal * 3];
+	memcpy(mesh.normal, cursor, bytes);
+
 	//TODO --------------------------------- TO FINISH
 
 	return false;

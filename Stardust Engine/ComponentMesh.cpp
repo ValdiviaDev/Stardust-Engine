@@ -8,19 +8,19 @@ ComponentMesh::ComponentMesh(GameObject* parent, char* path, int num_mesh, bool 
 	type = Comp_Mesh;
 	m_info = geo_info();
 
-	if(!is_primitive)
+	if(path)
 		AssignMesh(path);
 }
 
 ComponentMesh::~ComponentMesh()
 {
-	if (!is_primitive) {
-		RELEASE_ARRAY(m_info.index);
-		RELEASE_ARRAY(m_info.vertex);
-		RELEASE_ARRAY(m_info.normal);
-		RELEASE_ARRAY(m_info.uv);
-		RELEASE_ARRAY(m_info.color);
-	}
+
+	RELEASE_ARRAY(m_info.index);
+	RELEASE_ARRAY(m_info.vertex);
+	RELEASE_ARRAY(m_info.normal);
+	RELEASE_ARRAY(m_info.uv);
+	RELEASE_ARRAY(m_info.color);
+
 }
 
 void ComponentMesh::AssignMesh(char* path)
@@ -77,20 +77,16 @@ void ComponentMesh::DrawInspector() {
 
 }
 
-void ComponentMesh::FillPrimitiveDrawInfo(geo_info info)
+void ComponentMesh::FillPrimitiveDrawInfo(par_shapes_mesh* shape)
 {
-	m_info = info;
-	//m_info.num_vertex = info.num_vertex;
-	//m_info.num_index = info.num_index;
-	//m_info.vertex = new float[m_info.num_vertex];
-	//for (uint i = 0; i < m_info.num_vertex; ++i)
-	//	memcpy(&m_info.vertex[i], &info.vertex[i], sizeof(float)  * m_info.num_vertex);
-	//
-	//
-	//m_info.index = new uint[m_info.num_index];
-	//for (uint i = 0; i < m_info.num_index; ++i)
-	//	memcpy(&m_info.index[i], &info.index[i], sizeof(uint) * m_info.num_index);
 
+	m_info.num_vertex = (uint)shape->npoints;
+	m_info.vertex = new float[m_info.num_vertex * 3];
+	memcpy(m_info.vertex, shape->points, sizeof(float) * m_info.num_vertex * 3);
+
+	m_info.num_index = (uint)shape->ntriangles;
+	m_info.index = new uint[m_info.num_index * 3];
+	memcpy(m_info.index, shape->triangles, sizeof(PAR_SHAPES_T) * m_info.num_index * 3);
 
 	App->importer->BindBuffersPrimitive(m_info);
 

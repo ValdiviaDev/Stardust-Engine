@@ -101,18 +101,10 @@ GameObject* ModuleScene::CreateCubePrimitive()
 {
 	par_shapes_mesh* cube = par_shapes_create_cube();
 
-	geo_info info;
-
-	info.num_vertex = (uint)cube->npoints;
-	info.vertex = cube->points;
-
-	info.num_index = (uint)cube->ntriangles;
-	info.index = (uint*)cube->triangles;
-
 	GameObject* cubeGO = CreateGameObject(root_object);
 	cubeGO->SetName("Cube");
 	cubeGO->CreateComponent(Comp_Mesh, nullptr, 0, true);
-	cubeGO->mesh->FillPrimitiveDrawInfo(info);
+	cubeGO->mesh->FillPrimitiveDrawInfo(cube);
 
 	par_shapes_free_mesh(cube);
 
@@ -123,18 +115,10 @@ GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
 {
 	par_shapes_mesh* sphere = par_shapes_create_subdivided_sphere(subdivisions);
 
-	geo_info info;
-
-	info.num_vertex = (uint)sphere->npoints;
-	info.vertex = sphere->points;
-
-	info.num_index = (uint)sphere->ntriangles;
-	info.index = (uint*)sphere->triangles;
-
 	GameObject* sphereGO = CreateGameObject(root_object);
 	sphereGO->SetName("Sphere");
 	sphereGO->CreateComponent(Comp_Mesh, nullptr, 0, true);
-	sphereGO->mesh->FillPrimitiveDrawInfo(info);
+	sphereGO->mesh->FillPrimitiveDrawInfo(sphere);
 
 	par_shapes_free_mesh(sphere);
 
@@ -144,20 +128,11 @@ GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
 GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
 {
 	par_shapes_mesh* plane = par_shapes_create_plane(slices, stacks);
-	par_shapes_translate(plane, 0.0f, 0.0f, 0.0f);
-
-	geo_info info;
-
-	info.num_vertex = (uint)plane->npoints;
-	info.vertex = plane->points;
-
-	info.num_index = (uint)plane->ntriangles;
-	info.index = (uint*)plane->triangles;
 
 	GameObject* planeGO = CreateGameObject(root_object);
 	planeGO->SetName("Plane");
 	planeGO->CreateComponent(Comp_Mesh, nullptr, 0, true);
-	planeGO->mesh->FillPrimitiveDrawInfo(info);
+	planeGO->mesh->FillPrimitiveDrawInfo(plane);
 
 	par_shapes_free_mesh(plane);
 
@@ -196,13 +171,15 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 		
-		glEnableClientState(GL_NORMAL_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_normal);
-		glNormalPointer(GL_FLOAT, 0, NULL);
+		if (!go->mesh->IsPrimitive()) {
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_normal);
+			glNormalPointer(GL_FLOAT, 0, NULL);
 
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
-		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		}
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);
 

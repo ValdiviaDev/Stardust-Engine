@@ -18,7 +18,7 @@ public:
 
 	void  DrawInspector();
 
-	void FillPrimitiveDrawInfo(geo_info info);
+	void FillPrimitiveDrawInfo(par_shapes_mesh* info);
 
 public:
 	bool debug_v_norm = false;
