@@ -60,6 +60,9 @@ void ComponentMaterial::DrawInspector() {
 		ImGui::SameLine();
 		ImGui::Checkbox("Draw Checkers", &debug_checkers);
 
+		if (has_tex)
+			ImGui::Image((ImTextureID)tex_id, { 250,250 });
+
 	}
 
 }

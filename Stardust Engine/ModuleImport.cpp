@@ -57,6 +57,9 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 	flags |= aiProcess_SortByPType | aiPrimitiveType_LINE | aiPrimitiveType_POINT;
 
 
+	string mesh_str = "Opening file: " + (string)path;
+	App->gui->AddLogToConsole(mesh_str.c_str());
+
 	const aiScene* scene = aiImportFile(path, flags);
 	if (scene)
 		App->gui->AddLogToConsole("Assimp scene loaded correctly");
@@ -69,6 +72,8 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 	{
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		aiMesh* new_mesh = scene->mMeshes[num_mesh];
+		string str = "TO LOAD on the file: mesh number: " + std::to_string(num_mesh);
+		App->gui->AddLogToConsole(str.c_str());
 
 		//Material
 		aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
@@ -85,8 +90,11 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 		memcpy(mesh.vertex, new_mesh->mVertices, sizeof(float) * mesh.num_vertex * 3);
 		LOG("New mesh with %d vertices", mesh.num_vertex);
 
-		if (mesh.vertex)
+		if (mesh.vertex) {
 			App->gui->AddLogToConsole("Mesh vertices loaded correctly");
+			string str = "Mesh Vertices num: " + std::to_string(mesh.num_vertex);
+			App->gui->AddLogToConsole(str.c_str());
+		}
 		else
 			App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
 
@@ -97,8 +105,11 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 			memcpy(mesh.normal, new_mesh->mNormals, sizeof(float) * mesh.num_normal * 3);
 			LOG("New mesh with %d normals", mesh.num_normal);
 
-			if (mesh.normal)
+			if (mesh.normal) {
 				App->gui->AddLogToConsole("Normals loaded correctly");
+				string str = "Mesh Normals num: " + std::to_string(mesh.num_normal);
+				App->gui->AddLogToConsole(str.c_str());
+			}
 			else
 				App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
 		}
@@ -130,8 +141,11 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 
 			}
 
-			if (mesh.uv)
+			if (mesh.uv) {
 				App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
+				string str = "Mesh UVs num: " + std::to_string(mesh.num_uv);
+				App->gui->AddLogToConsole(str.c_str());
+			}
 			else
 				App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
 		}
@@ -158,8 +172,11 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 					memcpy(&mesh.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 			}
 
-			if (mesh.index)
+			if (mesh.index) {
 				App->gui->AddLogToConsole("Mesh indexes loaded correctly");
+				string str = "Mesh index num: " + std::to_string(mesh.num_index);
+				App->gui->AddLogToConsole(str.c_str());
+			}
 			else
 				App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
 		}
@@ -188,6 +205,9 @@ bool ModuleImport::ImportTexture(char* path, uint& tex_id, int& w, int& h)
 	ilGenImages(1, &image_id);
 	ilBindImage(image_id);
 
+	string tex_str = "Loading texture: " + (string)path;
+	App->gui->AddLogToConsole(tex_str.c_str());
+
 	//Load image
 	if (ilLoad(IL_TYPE_UNKNOWN, path)) {
 		LOG("Texture Loaded Correctly");
@@ -204,12 +224,11 @@ bool ModuleImport::ImportTexture(char* path, uint& tex_id, int& w, int& h)
 		return false;
 	}
 
-
-
-
 	//Get width and height
 	w = ilGetInteger(IL_IMAGE_WIDTH);
 	h = ilGetInteger(IL_IMAGE_HEIGHT);
+	string size_str = "Texture size: " + std::to_string(w) + " x " + std::to_string(h);
+	App->gui->AddLogToConsole(size_str.c_str());
 
 	//Bind DevIL to OpenGL texture buffer
 	tex_id = ilutGLBindTexImage();

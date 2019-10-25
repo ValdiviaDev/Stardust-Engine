@@ -52,13 +52,17 @@ bool ModuleGui::Init(ConfigEditor* config)
 
 	return true;
 }
-
 update_status ModuleGui::PreUpdate(float dt)
 {
 	//Stablish new frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
+
+	//if (!txt_log_init) {
+	//	ImGui::LogToFile();
+	//	txt_log_init = true;
+	//}
 
 	return UPDATE_CONTINUE;
 }
@@ -76,8 +80,10 @@ update_status ModuleGui::Update(float dt)
 		p_config->ToggleActive();
 
 	//Debug REMOVE LATER
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
 		AddLogToConsole("SAMPLE LOG");
+
+	}
 
 	return decide_if_update;
 }

@@ -262,13 +262,17 @@ FileType ModuleFileSystem::DetermineFileType(char* file_name)
 	extension = extension.erase(NULL, extension.find_last_of("."));
 
 	if (extension == ".fbx" || extension == ".FBX" || extension == ".obj"
-		|| extension == ".OBJ" || extension == ".dae" || extension == ".DAE")
+		|| extension == ".OBJ" || extension == ".dae" || extension == ".DAE") {
 		return File_Mesh;
 
-	else if (extension == ".dds" || extension == ".DDS" || extension == ".png" 
+	}
+
+	else if (extension == ".dds" || extension == ".DDS" || extension == ".png"
 		|| extension == ".PNG" || extension == ".jpg" || extension == ".JPG"
-		|| extension == ".jpeg" || extension == ".JPEG" || extension == ".tga" || extension == ".bmp")
+		|| extension == ".jpeg" || extension == ".JPEG" || extension == ".tga" || extension == ".bmp") {
 		return File_Material;
+
+	}
 	else
 		return File_Unknown;
 

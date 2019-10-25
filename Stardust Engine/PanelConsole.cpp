@@ -6,7 +6,8 @@ PanelConsole::PanelConsole()
 {
 	name = "console";
 	active = true;
-	pos_x = 10, pos_y = 770, width = 700, height = 250;
+	pos_x = 10, pos_y = 770, width = 900, height = 250;
+
 }
 
 PanelConsole::~PanelConsole()
@@ -20,7 +21,8 @@ void PanelConsole::Draw()
 	App->window->GetWinSize(x, y);
 	if (resize) {
 		ImGui::SetNextWindowPos(ImVec2(0, y - height), ImGuiCond_Always);
-		ImGui::SetNextWindowSize(ImVec2(x - 303, height), ImGuiCond_Always);
+		width = x - 303;
+		ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
 		resize = false;
 	}
 
@@ -31,7 +33,7 @@ void PanelConsole::Draw()
 	ImGui::Begin("Console", &active, ImGuiWindowFlags_None);
 	
 	//Clear button
-	ImGui::BeginChild(1, { (float)x - 20, (float)(40) }, true);
+	ImGui::BeginChild(1, { (float)width - 20, (float)(40) }, true);
 	//Automatic scroll
 	ImGui::Checkbox("Automatic scroll", &autom_scroll);
 	ImGui::SameLine();
@@ -41,7 +43,7 @@ void PanelConsole::Draw()
 	
 	ImGui::EndChild();
 
-	ImGui::BeginChild(2, { (float)x - 20, (float)(160) });
+	ImGui::BeginChild(2, { (float)width - 20, (float)(160) });
 
 	//Scrolling Logs
 	ImGui::TextUnformatted(buff.begin());
@@ -59,6 +61,10 @@ void PanelConsole::AddLog(const char* log)
 	buff.appendf(log);
 	buff.appendf("\n");
 	scroll = true;
+
+	//if(App->gui->txt_log_init)
+	//	ImGui::LogToFile();
+	//ImGui::LogText(log);
 }
 
 void PanelConsole::ConsoleClear()
