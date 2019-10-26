@@ -126,3 +126,25 @@ math::float3 ComponentTransform::GetGlobalPos() const {
 
 	return ret;
 }
+
+
+
+math::float3 ComponentTransform::GetGlobalScale() const {
+
+	math::float3 ret = scale;
+
+	GameObject* aux = gameObject->GetParent();
+
+
+	while (aux != nullptr) {
+
+		if (aux->transform != nullptr) {
+			ret.x *= aux->transform->GetScale().x;
+			ret.y *= aux->transform->GetScale().y;
+			ret.z *= aux->transform->GetScale().z;
+		}
+		aux = aux->GetParent();
+	}
+
+	return ret;
+}

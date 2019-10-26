@@ -21,6 +21,7 @@ public:
 	math::float4x4 GetGlobalMatrix() const;
 	
 	math::float3 GetGlobalPos() const;
+	math::float3 GetGlobalScale() const;
 
 	void UpdateMatrix();
 
