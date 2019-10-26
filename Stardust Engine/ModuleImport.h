@@ -5,6 +5,9 @@
 #include "Module.h"
 #include "Par/par_shapes.h"
 
+struct aiScene;
+struct aiNode;
+
 struct geo_info {
 
 	//Vertex info
@@ -67,6 +70,8 @@ public:
 	
 	//Methods that will stay for the GameObject system
 	bool ImportMesh(char* path, geo_info& info, GameObject* go, int num_mesh);
+	bool LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent);
+
 	bool ImportTexture(char* path, uint& tex_id, int& w, int& h);
 	void SaveDebugData(geo_info &m);
 

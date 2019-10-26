@@ -38,7 +38,7 @@ public:
 
 private:
 	bool active = true;
-	const char* name;
+	char name[100];
 	GameObject* parent = nullptr;
 	
 

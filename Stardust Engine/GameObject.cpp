@@ -14,7 +14,8 @@ GameObject::GameObject(GameObject* parent)
 	//Always create transform
 	CreateComponent(Comp_Transform);
 
-	name = "Default GO name";
+	SetName("Default GO name");
+
 }
 
 
@@ -78,7 +79,9 @@ void GameObject::SetActive(bool active)
 
 
 void GameObject::SetName(const char* new_name) {
-	name = new_name;
+	
+	strcpy_s(name, 100, new_name);
+	//name = (char)new_name;
 	LOG("name = %s", name);
 }
 

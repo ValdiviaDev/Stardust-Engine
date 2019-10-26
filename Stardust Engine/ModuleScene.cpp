@@ -57,8 +57,8 @@ bool ModuleScene::Start()
 	 
 	string output_file;
 
-	MaterialImporter a;
-	a.Import("baker_house_dds.dds", "Assets/Textures/", output_file);
+//MaterialImporter a;
+//a.Import("baker_house_dds.dds", "Assets/Textures/", output_file);
 	//App->importer->ImportTextureToDDS("baker_house_dds.dds", "Assets/Textures/", output_file);
 	
 	return true;

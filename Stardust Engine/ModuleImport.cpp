@@ -13,6 +13,7 @@
 
 #include "GameObject.h"
 #include "Component.h"
+#include "ComponentMesh.h"
 #include "Par/par_shapes.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
@@ -61,6 +62,8 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 	App->gui->AddLogToConsole(mesh_str.c_str());
 
 	const aiScene* scene = aiImportFile(path, flags);
+	const aiNode* root = scene->mRootNode;
+
 	if (scene)
 		App->gui->AddLogToConsole("Assimp scene loaded correctly");
 	else {
@@ -70,10 +73,33 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		// Use scene->mNumMeshes to iterate on scene->mMeshes array
-		aiMesh* new_mesh = scene->mMeshes[num_mesh];
-		string str = "TO LOAD on the file: mesh number: " + std::to_string(num_mesh);
-		App->gui->AddLogToConsole(str.c_str());
+		LoadMesh(scene, root, go);
+	}
+
+	aiReleaseImport(scene);
+
+	return true;
+}
+
+bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent)
+{
+	static int invalid_position = std::string::npos;
+	std::string name = node->mName.C_Str();
+	GameObject* go = nullptr;
+	ComponentMesh* mesh = nullptr;
+
+	if (name.find("$_") == invalid_position && node != scene->mRootNode) {
+
+		go = App->scene->CreateGameObject(parent);
+		mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh, nullptr);
+		go->SetName(name.c_str());
+		
+		parent = go;
+	}
+
+	if (node->mNumMeshes > 0) {
+
+		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
 		//Material
 		aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
@@ -85,14 +111,14 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 			go->CreateComponent(Comp_Material);
 		}
 		// copy vertices
-		mesh.num_vertex = new_mesh->mNumVertices;
-		mesh.vertex = new float[mesh.num_vertex * 3];
-		memcpy(mesh.vertex, new_mesh->mVertices, sizeof(float) * mesh.num_vertex * 3);
-		LOG("New mesh with %d vertices", mesh.num_vertex);
+		mesh->m_info.num_vertex = new_mesh->mNumVertices;
+		mesh->m_info.vertex = new float[mesh->m_info.num_vertex * 3];
+		memcpy(mesh->m_info.vertex, new_mesh->mVertices, sizeof(float) * mesh->m_info.num_vertex * 3);
+		LOG("New mesh with %d vertices", mesh->m_info.num_vertex);
 
-		if (mesh.vertex) {
+		if (mesh->m_info.vertex) {
 			App->gui->AddLogToConsole("Mesh vertices loaded correctly");
-			string str = "Mesh Vertices num: " + std::to_string(mesh.num_vertex);
+			string str = "Mesh Vertices num: " + std::to_string(mesh->m_info.num_vertex);
 			App->gui->AddLogToConsole(str.c_str());
 		}
 		else
@@ -100,50 +126,33 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 
 		//copy normals
 		if (new_mesh->HasNormals()) {
-			mesh.num_normal = new_mesh->mNumVertices;
-			mesh.normal = new float[mesh.num_normal * 3];
-			memcpy(mesh.normal, new_mesh->mNormals, sizeof(float) * mesh.num_normal * 3);
-			LOG("New mesh with %d normals", mesh.num_normal);
+			mesh->m_info.num_normal = new_mesh->mNumVertices;
+			mesh->m_info.normal = new float[mesh->m_info.num_normal * 3];
+			memcpy(mesh->m_info.normal, new_mesh->mNormals, sizeof(float) * mesh->m_info.num_normal * 3);
+			LOG("New mesh with %d normals", mesh->m_info.num_normal);
 
-			if (mesh.normal) {
+			if (mesh->m_info.normal) {
 				App->gui->AddLogToConsole("Normals loaded correctly");
-				string str = "Mesh Normals num: " + std::to_string(mesh.num_normal);
+				string str = "Mesh Normals num: " + std::to_string(mesh->m_info.num_normal);
 				App->gui->AddLogToConsole(str.c_str());
 			}
 			else
 				App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
 		}
 
-		//copy color
-			//if (new_mesh->HasVertexColors(0)) {
-			//	m.num_color = new_mesh->mNumVertices;
-			//	m.color = new float[m.num_color * 4];
-			//	for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
-			//		memcpy(&m.color[i], &new_mesh->mColors[0][i].r, sizeof(float));
-			//		memcpy(&m.color[i + 1], &new_mesh->mColors[0][i].g, sizeof(float));
-			//		memcpy(&m.color[i + 2], &new_mesh->mColors[0][i].b, sizeof(float));
-			//		memcpy(&m.color[i + 3], &new_mesh->mColors[0][i].a, sizeof(float));
-			//	}
-			//
-			//	if (m.color)
-			//		App->gui->AddLogToConsole("Color vertex loaded correctly");
-			//	else
-			//		App->gui->AddLogToConsole("ERROR: Color vertex not loaded correctly");
-			//}
-
 		//copy uvs
 		if (new_mesh->HasTextureCoords(0)) {
-			mesh.num_uv = new_mesh->mNumVertices;
-			mesh.uv = new float[mesh.num_uv * 2];
+			mesh->m_info.num_uv = new_mesh->mNumVertices;
+			mesh->m_info.uv = new float[mesh->m_info.num_uv * 2];
 			for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
-				memcpy(&mesh.uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
-				memcpy(&mesh.uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
+				memcpy(&mesh->m_info.uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
+				memcpy(&mesh->m_info.uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
 
 			}
 
-			if (mesh.uv) {
+			if (mesh->m_info.uv) {
 				App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
-				string str = "Mesh UVs num: " + std::to_string(mesh.num_uv);
+				string str = "Mesh UVs num: " + std::to_string(mesh->m_info.num_uv);
 				App->gui->AddLogToConsole(str.c_str());
 			}
 			else
@@ -154,13 +163,13 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 		// copy faces
 		if (new_mesh->HasFaces())
 		{
-			mesh.num_index = new_mesh->mNumFaces * 3;
-			mesh.index = new uint[mesh.num_index]; // assume each face is a triangle
+			mesh->m_info.num_index = new_mesh->mNumFaces * 3;
+			mesh->m_info.index = new uint[mesh->m_info.num_index]; // assume each face is a triangle
 			for (uint i = 0; i < new_mesh->mNumFaces; ++i)
 			{
 				if (new_mesh->mFaces[i].mNumIndices != 3) {
 					LOG("WARNING, geometry face with != 3 indices!");
-					mesh.has_no_triangle = true;
+					mesh->m_info.has_no_triangle = true;
 
 					if (new_mesh->mFaces[i].mNumIndices < 3)
 						App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
@@ -169,32 +178,25 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 						App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
 				}
 				else
-					memcpy(&mesh.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+					memcpy(&mesh->m_info.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 			}
 
-			if (mesh.index) {
+			if (mesh->m_info.index) {
 				App->gui->AddLogToConsole("Mesh indexes loaded correctly");
-				string str = "Mesh index num: " + std::to_string(mesh.num_index);
+				string str = "Mesh index num: " + std::to_string(mesh->m_info.num_index);
 				App->gui->AddLogToConsole(str.c_str());
 			}
 			else
 				App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
 		}
-
-		//if (!mesh.has_no_triangle) //TODO will be deprecated soon
-		//	SaveDebugData(mesh);
-
-		//Will Probably have to change TODO
-		if (scene->mNumMeshes != 1 && num_mesh < (scene->mNumMeshes - 1)) {
-			num_mesh++;
-			GameObject* childGO = App->scene->CreateGameObject(go);
-			childGO->CreateComponent(Comp_Mesh, path, num_mesh);
-		}
-	
+		BindBuffers(mesh->m_info);
 	}
 
-	aiReleaseImport(scene);
-	
+	for (int i = 0; i < node->mNumChildren; ++i) {
+
+		LoadMesh(scene, node->mChildren[i], parent);
+	}
+
 	return true;
 }
 
