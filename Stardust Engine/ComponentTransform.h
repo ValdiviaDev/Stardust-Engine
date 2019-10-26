@@ -13,13 +13,14 @@ public:
 	void  DrawInspector();
 
 	void SetPosition(math::float3 pos);
-	math::float3 GetPosition();
+	math::float3 GetPosition() const;
 	void SetRotation(math::float3 rot);
-	math::float3 GetRotation();
+	math::float3 GetRotation() const;
 	void SetScale(math::float3 scale);
-	math::float3 GetScale();
+	math::float3 GetScale() const;
 	math::float4x4 GetGlobalMatrix() const;
 	
+	math::float3 GetGlobalPos() const;
 
 	void UpdateMatrix();
 

@@ -162,9 +162,9 @@ update_status ModuleCamera3D::Update(float dt)
 
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) {
-		//Look(Position, vec3(0, 0, 0));
-		//CenterCameraOnGO(App->scene->scene_gameobject);
-		App->scene->scene_gameobject->CenterCameraOnGO();
+		GameObject* focus = App->scene->GetFocusedGameObject(App->scene->GetRootGameObject());
+		if (focus != nullptr)
+			focus->CenterCameraOnGO();
 	}
 
 	// Recalculate matrix -------------

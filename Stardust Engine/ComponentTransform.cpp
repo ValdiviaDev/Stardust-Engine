@@ -57,17 +57,17 @@ void ComponentTransform::SetRotation(math::float3 rot) {
 	quaternion_rot = math::Quat::FromEulerXYZ(rotation.x * DEGTORAD, rotation.y * DEGTORAD, rotation.z * DEGTORAD);
 }
 
-math::float3 ComponentTransform::GetPosition() {
+math::float3 ComponentTransform::GetPosition() const{
 
 	return position;
 }
 
-math::float3 ComponentTransform::GetRotation() {
+math::float3 ComponentTransform::GetRotation() const{
 
 	return rotation;
 }
 
-math::float3 ComponentTransform::GetScale() {
+math::float3 ComponentTransform::GetScale() const{
 
 	return scale;
 }
@@ -105,4 +105,24 @@ void ComponentTransform::UpdateMatrix() {
 math::float4x4 ComponentTransform::GetGlobalMatrix() const {
 
 	return global_matrix;
+}
+
+
+math::float3 ComponentTransform::GetGlobalPos() const {
+
+	math::float3 ret = position;
+
+	GameObject* aux = gameObject->GetParent();
+	
+
+	while (aux != nullptr) {
+		
+		if (aux->transform != nullptr) {
+			ret += aux->transform->GetPosition();
+
+		}
+		aux = aux->GetParent();
+	}
+
+	return ret;
 }
