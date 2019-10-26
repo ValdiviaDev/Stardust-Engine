@@ -202,9 +202,6 @@
     <ClCompile Include="PanelInspector.cpp">
       <Filter>Sources\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="Importer.cpp">
-      <Filter>Sources\Importers</Filter>
-    </ClCompile>
     <ClCompile Include="MeshImporter.cpp">
       <Filter>Sources\Importers</Filter>
     </ClCompile>
@@ -521,9 +518,6 @@
     </ClInclude>
     <ClInclude Include="PanelInspector.h">
       <Filter>Sources\Panels</Filter>
-    </ClInclude>
-    <ClInclude Include="Importer.h">
-      <Filter>Sources\Importers</Filter>
     </ClInclude>
     <ClInclude Include="MeshImporter.h">
       <Filter>Sources\Importers</Filter>

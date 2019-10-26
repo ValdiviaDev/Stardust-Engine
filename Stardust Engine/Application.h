@@ -13,6 +13,8 @@
 #include "ModuleGui.h"
 #include "ModuleImport.h"
 #include "ModuleFileSystem.h"
+#include "MeshImporter.h"
+#include "MaterialImporter.h"
 
 using namespace std;
 
@@ -47,6 +49,8 @@ public:
 	ModuleGui* gui;
 	ModuleImport* importer;
 	ModuleFileSystem* fs;
+	MaterialImporter* mat_import;
+	MeshImporter* mesh_import;
 
 private:
 

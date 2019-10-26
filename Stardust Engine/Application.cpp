@@ -17,6 +17,8 @@ Application::Application()
 	gui = new ModuleGui(this);
 	fs = new ModuleFileSystem(this);
 	importer = new ModuleImport(this);
+	mat_import = new MaterialImporter();
+	mesh_import = new MeshImporter();
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -28,6 +30,7 @@ Application::Application()
 	AddModule(input);
 	AddModule(fs);
 	AddModule(importer);
+
 
 	// Scene
 	AddModule(scene);

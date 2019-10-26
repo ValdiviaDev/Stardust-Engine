@@ -1,22 +1,24 @@
 #ifndef __MaterialImporter__H__
 #define __MaterialImporter__H__
 
-#include "Importer.h"
+#include "Globals.h"
+#include <string>
 
 class ComponentMaterial;
 
-class MaterialImporter : public Importer
+class MaterialImporter
 {
 public:
 	MaterialImporter();
 	~MaterialImporter();
 
 	bool Import(const char* file, const char* path, std::string& output_file);
-	bool Import(const void* buffer, uint size, std::string& output_file);
+	//bool Import(const void* buffer, uint size, std::string& output_file);
 
-	bool Load(const char* exported_file, ComponentMaterial* resource);
+	bool LoadMaterial(const char* exported_file, ComponentMaterial* resource);
 	bool LoadCheckers(ComponentMaterial* resource);
 
+	bool IsFileDDS(const char* file_name);
 };
 
 #endif

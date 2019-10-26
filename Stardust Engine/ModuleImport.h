@@ -68,8 +68,6 @@ public:
 	//Methods that will stay for the GameObject system
 	bool ImportMesh(char* path, geo_info& info, GameObject* go, int num_mesh);
 	bool ImportTexture(char* path, uint& tex_id, int& w, int& h);
-	bool ImportTextureToDDS(const char* file, const char* path, string& output_file);
-	bool IsFileDDS(const char* file_name);
 	void SaveDebugData(geo_info &m);
 
 	list<geo_debug> GetDebugInfo();

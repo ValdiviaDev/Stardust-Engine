@@ -8,9 +8,11 @@
 #include "Assimp/include/cfileio.h"
 
 
+
 MeshImporter::MeshImporter()
 {
 }
+
 
 
 MeshImporter::~MeshImporter()
@@ -181,7 +183,7 @@ bool MeshImporter::Import(const void* buffer, uint size, std::string& output_fil
 	return false;
 }
 
-bool MeshImporter::Load(const char* exported_file, geo_info& mesh)
+bool MeshImporter::LoadMesh(const char* exported_file, geo_info& mesh)
 {
 	bool ret = false;
 

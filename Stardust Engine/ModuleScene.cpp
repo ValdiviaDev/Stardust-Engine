@@ -17,7 +17,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
-
+#include "MaterialImporter.h"
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
 
@@ -56,7 +56,10 @@ bool ModuleScene::Start()
 			scene_gameobject->GetChild(i)->material->AssignTexture("Assets/Textures/baker_house_dds.dds");
 	 
 	string output_file;
-	App->importer->ImportTextureToDDS("baker_house_dds.dds", "Assets/Textures/", output_file);
+
+	MaterialImporter a;
+	a.Import("baker_house_dds.dds", "Assets/Textures/", output_file);
+	//App->importer->ImportTextureToDDS("baker_house_dds.dds", "Assets/Textures/", output_file);
 	
 	return true;
 }

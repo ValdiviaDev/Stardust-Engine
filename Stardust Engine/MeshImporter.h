@@ -1,11 +1,12 @@
 #ifndef __MeshImporter__H__
 #define __MeshImporter__H__
 
-#include "Importer.h"
+#include "Globals.h"
+#include <string>
 
-class ComponentMesh;
+struct geo_info;
 
-class MeshImporter : public Importer
+class MeshImporter
 {
 public:
 	MeshImporter();
@@ -14,7 +15,7 @@ public:
 	bool Import(const char* file, const char* path, std::string& output_file);
 	bool Import(const void* buffer, uint size, std::string& output_file);
 
-	bool Load(const char* exported_file, geo_info& mesh);
+	bool LoadMesh(const char* exported_file, geo_info& mesh);
 
 };
 

@@ -95,10 +95,10 @@ void ComponentMesh::FillPrimitiveDrawInfo(par_shapes_mesh* shape)
 
 void ComponentMesh::ChargePreLoadedMesh()
 {
-	MeshImporter imp;
+
 	string out_f;
-	imp.Import("Assets/Meshes/BakerHouse.fbx", "Assets/Meshes/BakerHouse.fbx", out_f);
-	imp.Load("own_file_baker.stdtmesh", m_info);
+	App->mesh_import->Import("Assets/Meshes/BakerHouse.fbx", "Assets/Meshes/BakerHouse.fbx", out_f);
+	App->mesh_import->LoadMesh("own_file_baker.stdtmesh", m_info);
 
 	App->importer->BindBuffers(m_info);
 }
