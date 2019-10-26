@@ -21,6 +21,8 @@ public:
 	void FillPrimitiveDrawInfo(par_shapes_mesh* info);
 	void ChargePreLoadedMesh();
 
+	void SetPath(const char* path);
+
 public:
 	bool debug_v_norm = false;
 	bool debug_f_norm = false;

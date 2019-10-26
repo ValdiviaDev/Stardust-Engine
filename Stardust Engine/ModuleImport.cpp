@@ -44,14 +44,6 @@ bool ModuleImport::Init(ConfigEditor* config)
 
 bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int num_mesh) {
 
-	//If there's previous data for a mesh, delete it
-	RELEASE_ARRAY(mesh.index);
-	RELEASE_ARRAY(mesh.vertex);
-	RELEASE_ARRAY(mesh.normal);
-	RELEASE_ARRAY(mesh.uv);
-	RELEASE_ARRAY(mesh.color);
-	//m_debug.clear();
-
 	uint flags = 0;
 	flags |= aiProcessPreset_TargetRealtime_MaxQuality;
 	flags |= aiProcess_Triangulate;
@@ -73,7 +65,7 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		LoadMesh(scene, root, go);
+		LoadMesh(scene, root, go, path);
 	}
 
 	aiReleaseImport(scene);
@@ -81,7 +73,7 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 	return true;
 }
 
-bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent)
+bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent, char* path)
 {
 	static int invalid_position = std::string::npos;
 	std::string name = node->mName.C_Str();
@@ -92,8 +84,10 @@ bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject
 
 		go = App->scene->CreateGameObject(parent);
 		mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh, nullptr);
-		go->SetName(name.c_str());
 		
+		go->SetName(name.c_str());
+		mesh->SetPath(path);
+
 		parent = go;
 	}
 
@@ -194,7 +188,7 @@ bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject
 
 	for (int i = 0; i < node->mNumChildren; ++i) {
 
-		LoadMesh(scene, node->mChildren[i], parent);
+		LoadMesh(scene, node->mChildren[i], parent, path);
 	}
 
 	return true;

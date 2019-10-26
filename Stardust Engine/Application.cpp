@@ -153,6 +153,9 @@ bool Application::CleanUp()
 		ret = (*item)->CleanUp();
 		item++;
 	}
+	RELEASE(mat_import);
+	RELEASE(mesh_import);
+
 	return ret;
 }
 

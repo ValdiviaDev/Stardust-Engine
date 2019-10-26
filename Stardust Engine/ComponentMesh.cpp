@@ -102,3 +102,8 @@ void ComponentMesh::ChargePreLoadedMesh()
 
 	App->importer->BindBuffers(m_info);
 }
+
+void ComponentMesh::SetPath(const char* path)
+{
+	this->path = path;
+}
