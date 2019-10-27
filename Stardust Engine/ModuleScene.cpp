@@ -356,6 +356,10 @@ GameObject* ModuleScene::GetFocusedGameObject(GameObject* root) const {
 
 		for (std::vector<GameObject*>::const_iterator it = root->childs.begin(); it < root->childs.end(); it++) {
 
+			if (ret != nullptr)
+				return ret;
+			
+
 			if ((*it)->focused == true) {
 				LOG("%s is the focused GO", (*it)->GetName());
 				return *it;
