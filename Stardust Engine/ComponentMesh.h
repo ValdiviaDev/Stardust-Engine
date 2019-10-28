@@ -8,7 +8,7 @@
 class ComponentMesh : public Component //TODO
 {
 public:
-	ComponentMesh(GameObject* parent, char* path, int num_mesh, bool is_primitive);
+	ComponentMesh(GameObject* parent, char* path, bool is_primitive);
 	~ComponentMesh();
 
 	void AssignMesh(char* path);
@@ -30,7 +30,6 @@ public:
 
 private:
 	const char* path = nullptr;
-	int num_mesh = 0; //Ambiguous name and maybe not necessary TODO
 	int is_primitive = false;
 };
 

@@ -107,6 +107,24 @@ math::float4x4 ComponentTransform::GetGlobalMatrix() const {
 	return global_matrix;
 }
 
+void ComponentTransform::SumPosition(math::float3 pos)
+{
+	position += pos;
+}
+
+void ComponentTransform::SumRotation(math::float3 rot)
+{
+	quaternion_rot = quaternion_rot * Quat::FromEulerXYZ(rot.x * DEGTORAD, rot.y * DEGTORAD, rot.z * DEGTORAD);
+	rotation = quaternion_rot.ToEulerXYZ() * RADTODEG;
+}
+
+void ComponentTransform::SumScale(math::float3 scale)
+{
+	this->scale.x *= scale.x;
+	this->scale.y *= scale.y;
+	this->scale.z *= scale.z;
+}
+
 
 math::float3 ComponentTransform::GetGlobalPos() const {
 

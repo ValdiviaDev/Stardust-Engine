@@ -1,12 +1,12 @@
 #ifndef __ModuleImport__H__
 #define __ModuleImport__H__
 
-
 #include "Module.h"
 #include "Par/par_shapes.h"
 
 struct aiScene;
 struct aiNode;
+class ComponentTransform;
 
 struct geo_info {
 
@@ -69,8 +69,8 @@ public:
 	void BindBuffersPrimitive(geo_info &a);
 	
 	//Methods that will stay for the GameObject system
-	bool ImportMesh(char* path, geo_info& info, GameObject* go, int num_mesh);
-	bool LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent, char* path);
+	bool ImportMesh(char* path, geo_info& info, GameObject* go);
+	bool LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform,  char* path);
 
 	bool ImportTexture(char* path, uint& tex_id, int& w, int& h);
 	void SaveDebugData(geo_info &m);

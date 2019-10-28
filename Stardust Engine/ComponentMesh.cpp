@@ -3,8 +3,8 @@
 #include "imgui/imgui.h"
 #include "MeshImporter.h"
 
-ComponentMesh::ComponentMesh(GameObject* parent, char* path, int num_mesh, bool is_primitive) 
-	: Component(parent), path(path), num_mesh(num_mesh), is_primitive(is_primitive)
+ComponentMesh::ComponentMesh(GameObject* parent, char* path, bool is_primitive) 
+	: Component(parent), path(path), is_primitive(is_primitive)
 {
 	type = Comp_Mesh;
 	m_info = geo_info();
@@ -35,7 +35,7 @@ void ComponentMesh::AssignMesh(char* path)
 	bool charged = false;
 
 	//Import mesh and bind buffers
-	charged = App->importer->ImportMesh(path, m_info, this->gameObject, num_mesh);
+	charged = App->importer->ImportMesh(path, m_info, this->gameObject);
 	if (charged) {
 		App->importer->BindBuffers(m_info);
 		this->path = path;

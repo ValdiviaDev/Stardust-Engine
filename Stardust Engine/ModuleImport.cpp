@@ -13,6 +13,7 @@
 
 #include "GameObject.h"
 #include "Component.h"
+#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "Par/par_shapes.h"
 
@@ -42,7 +43,7 @@ bool ModuleImport::Init(ConfigEditor* config)
 	return true;
 }
 
-bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int num_mesh) {
+bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go) {
 
 	uint flags = 0;
 	flags |= aiProcessPreset_TargetRealtime_MaxQuality;
@@ -65,7 +66,7 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		LoadMesh(scene, root, go, path);
+		LoadMesh(scene, root, go, go->transform, path);
 	}
 
 	aiReleaseImport(scene);
@@ -73,24 +74,53 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go, int nu
 	return true;
 }
 
-bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent, char* path)
+bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path)
 {
-	static int invalid_position = std::string::npos;
+	static int invalid_pos = std::string::npos;
 	std::string name = node->mName.C_Str();
 	GameObject* go = nullptr;
 	ComponentMesh* mesh = nullptr;
 
-	if (name.find("$_") == invalid_position && node != scene->mRootNode) {
+	//Transform of the GameObjects loaded from assimp
+	//Have to sum the transform of every node because of ghost nodes
+	if (node != scene->mRootNode) {
+		aiVector3D position;
+		aiVector3D scale;
+		aiQuaternion rotation;
+		node->mTransformation.Decompose(scale, rotation, position);
+
+		float3 go_pos = { position.x, position.y, position.z };
+		Quat go_rot = { rotation.x, rotation.y, rotation.z, rotation.w };
+		float3 go_scale = { scale.x, scale.y, scale.z };
+
+		transform->SumPosition(go_pos);
+		transform->SumRotation(go_rot.ToEulerXYZ() * RADTODEG);
+		transform->SumScale(go_scale);
+	}
+
+	if (name.find("$_") == invalid_pos && node != scene->mRootNode) {
 
 		go = App->scene->CreateGameObject(parent);
 		mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh, nullptr);
+		mesh->SetPath(path);
 		
 		go->SetName(name.c_str());
-		mesh->SetPath(path);
+
+		//If the gameobject is a visible gameobject set the position that
+		//the invalid non printable transform nodes have
+		go->transform->SetPosition(transform->GetPosition());
+		go->transform->SetRotation(transform->GetRotation());
+		go->transform->SetScale(transform->GetScale());
+
+		//Reset the translation for the next gameobject that can be visible
+		transform->SetPosition({ 0.0f, 0.0f, 0.0f });
+		transform->SetRotation({ 0.0f, 0.0f, 0.0f });
+		transform->SetScale({ 1.0f, 1.0f, 1.0f });
 
 		parent = go;
 	}
 
+	//Saving everything for the mesh info
 	if (node->mNumMeshes > 0) {
 
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
@@ -183,13 +213,12 @@ bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject
 			else
 				App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
 		}
+
 		BindBuffers(mesh->m_info);
 	}
 
-	for (int i = 0; i < node->mNumChildren; ++i) {
-
-		LoadMesh(scene, node->mChildren[i], parent, path);
-	}
+	for (int i = 0; i < node->mNumChildren; ++i)
+		LoadMesh(scene, node->mChildren[i], parent, transform, path);
 
 	return true;
 }

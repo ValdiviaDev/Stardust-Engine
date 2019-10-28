@@ -36,7 +36,7 @@ void GameObject::Update()
 {
 }
 
-Component* GameObject::CreateComponent(ComponentType type, char* path, int num_mesh, bool is_primitive)
+Component* GameObject::CreateComponent(ComponentType type, char* path, bool is_primitive)
 {
 	Component* component = nullptr;
 
@@ -49,7 +49,7 @@ Component* GameObject::CreateComponent(ComponentType type, char* path, int num_m
 		break;
 	case Comp_Mesh:
 		if (mesh == nullptr) {
-			mesh = new ComponentMesh(this, path, num_mesh, is_primitive);
+			mesh = new ComponentMesh(this, path, is_primitive);
 			component = mesh;
 		}
 		break;

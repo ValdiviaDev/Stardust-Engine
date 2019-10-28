@@ -102,7 +102,7 @@ GameObject* ModuleScene::CreateCubePrimitive()
 
 	GameObject* cubeGO = CreateGameObject(root_object);
 	cubeGO->SetName("Cube");
-	cubeGO->CreateComponent(Comp_Mesh, nullptr, 0, true);
+	cubeGO->CreateComponent(Comp_Mesh, nullptr, true);
 	cubeGO->mesh->FillPrimitiveDrawInfo(cube);
 
 	par_shapes_free_mesh(cube);
@@ -116,7 +116,7 @@ GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
 
 	GameObject* sphereGO = CreateGameObject(root_object);
 	sphereGO->SetName("Sphere");
-	sphereGO->CreateComponent(Comp_Mesh, nullptr, 0, true);
+	sphereGO->CreateComponent(Comp_Mesh, nullptr, true);
 	sphereGO->mesh->FillPrimitiveDrawInfo(sphere);
 
 	par_shapes_free_mesh(sphere);
@@ -130,7 +130,7 @@ GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
 
 	GameObject* planeGO = CreateGameObject(root_object);
 	planeGO->SetName("Plane");
-	planeGO->CreateComponent(Comp_Mesh, nullptr, 0, true);
+	planeGO->CreateComponent(Comp_Mesh, nullptr, true);
 	planeGO->mesh->FillPrimitiveDrawInfo(plane);
 
 	par_shapes_free_mesh(plane);
@@ -175,9 +175,12 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_normal);
 			glNormalPointer(GL_FLOAT, 0, NULL);
 
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+			if (mesh.uv != nullptr) {
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
+				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+			}
+
 		}
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);

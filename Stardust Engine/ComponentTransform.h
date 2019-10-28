@@ -20,6 +20,10 @@ public:
 	math::float3 GetScale() const;
 	math::float4x4 GetGlobalMatrix() const;
 	
+	void SumPosition(math::float3 pos);
+	void SumRotation(math::float3 rot);
+	void SumScale(math::float3 scale);
+
 	math::float3 GetGlobalPos() const;
 	math::float3 GetGlobalScale() const;
 

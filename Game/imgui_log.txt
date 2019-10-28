@@ -1,6 +1,0 @@
-Initializing ImGui
-Setting up the camera
-Initializing ImGui
-Setting up the camera
-Initializing ImGui
-Setting up the camera
