@@ -101,9 +101,6 @@ bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject
 	if (name.find("$_") == invalid_pos && node != scene->mRootNode) {
 
 		go = App->scene->CreateGameObject(parent);
-		mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh, nullptr);
-		mesh->SetPath(path);
-		
 		go->SetName(name.c_str());
 
 		//If the gameobject is a visible gameobject set the position that
@@ -113,15 +110,15 @@ bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject
 		go->transform->SetScale(transform->GetScale());
 
 		//Reset the translation for the next gameobject that can be visible
-		transform->SetPosition({ 0.0f, 0.0f, 0.0f });
-		transform->SetRotation({ 0.0f, 0.0f, 0.0f });
-		transform->SetScale({ 1.0f, 1.0f, 1.0f });
+		transform->Reset();
 
 		parent = go;
 	}
 
 	//Saving everything for the mesh info
 	if (node->mNumMeshes > 0) {
+		mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh, nullptr);
+		mesh->SetPath(path);
 
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 

@@ -11,13 +11,6 @@
 #include "DevIL/include/ilut.h"
 
 
-
-
-
-
-
-
-
 MaterialImporter::MaterialImporter()
 {
 }
@@ -35,7 +28,7 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 	std::string path_string(path);
 	std::string file_string(file);
 
-	std::string lib_tex = "/library/textures/";
+	std::string lib_tex = "Library/Textures/";
 
 
 	if (IsFileDDS(file)) { //If file is already DDS just copy it to library

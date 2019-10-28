@@ -95,10 +95,9 @@ void ComponentMesh::FillPrimitiveDrawInfo(par_shapes_mesh* shape)
 
 void ComponentMesh::ChargePreLoadedMesh()
 {
-
 	string out_f;
-	App->mesh_import->Import("Assets/Meshes/BakerHouse.fbx", "Assets/Meshes/BakerHouse.fbx", out_f);
-	App->mesh_import->LoadMesh("own_file_baker.stdtmesh", m_info);
+	App->mesh_import->ImportScene("Assets/Meshes/BakerHouse.fbx", "Assets/Meshes/BakerHouse.fbx", out_f);
+	App->mesh_import->LoadMesh("baker_house.stdtmesh", m_info);
 
 	App->importer->BindBuffers(m_info);
 }

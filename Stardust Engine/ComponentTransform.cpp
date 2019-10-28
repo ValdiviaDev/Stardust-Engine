@@ -125,6 +125,13 @@ void ComponentTransform::SumScale(math::float3 scale)
 	this->scale.z *= scale.z;
 }
 
+void ComponentTransform::Reset()
+{
+	SetPosition({ 0.0f, 0.0f, 0.0f });
+	SetRotation({ 0.0f, 0.0f, 0.0f });
+	SetScale({ 1.0f, 1.0f, 1.0f });
+}
+
 
 math::float3 ComponentTransform::GetGlobalPos() const {
 

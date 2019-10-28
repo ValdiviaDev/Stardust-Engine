@@ -23,6 +23,7 @@ public:
 	void SumPosition(math::float3 pos);
 	void SumRotation(math::float3 rot);
 	void SumScale(math::float3 scale);
+	void Reset();
 
 	math::float3 GetGlobalPos() const;
 	math::float3 GetGlobalScale() const;
