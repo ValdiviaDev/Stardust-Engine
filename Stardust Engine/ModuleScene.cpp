@@ -48,7 +48,6 @@ bool ModuleScene::Start()
 	scene_gameobject = CreateGameObject(root_object);
 	scene_gameobject->SetName("BakerHouse");
 	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	//scene_gameobject->mesh->ChargePreLoadedMesh();
 	if (scene_gameobject->material)
 		scene_gameobject->material->AssignTexture("Assets/Textures/baker_house_dds.dds");
 	for (int i = 0; i < scene_gameobject->GetNumChilds(); ++i)

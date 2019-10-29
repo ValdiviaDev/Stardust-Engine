@@ -115,9 +115,15 @@ update_status ModuleInput::PreUpdate(float dt)
 				LOG("File Drop!");
 				FileType ft = App->fs->DetermineFileType(e.drop.file);
 				switch (ft) {
-				case File_Mesh:
+				case File_Mesh: {
+					//TODO: have to delete
 					App->gui->AddLogToConsole("Charging 3D model");
 					App->scene->ChangeGameObjectMesh(e.drop.file);
+
+					//TODO will stay
+					string out_f;
+					App->mesh_import->ImportScene(e.drop.file, e.drop.file, out_f);
+					}
 					break;
 				case File_Material:
 					App->gui->AddLogToConsole("Charging texture");

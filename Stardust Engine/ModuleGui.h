@@ -34,7 +34,8 @@ public:
 
 	/*void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;*/
-	bool txt_log_init = false;
+	vector<string> loaded_meshes;
+
 private:
 	//Panels
 	list<Panel*> panels;
@@ -45,7 +46,6 @@ private:
 	PanelInspector* p_inspector;
 
 	update_status decide_if_update = UPDATE_CONTINUE;
-
 
 };
 

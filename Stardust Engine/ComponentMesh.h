@@ -19,7 +19,7 @@ public:
 	void  DrawInspector();
 
 	void FillPrimitiveDrawInfo(par_shapes_mesh* info);
-	void ChargePreLoadedMesh();
+	void LoadMesh(string name);
 
 	void SetPath(const char* path);
 

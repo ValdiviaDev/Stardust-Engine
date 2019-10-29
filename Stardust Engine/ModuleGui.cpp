@@ -5,6 +5,8 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include "ConfigEditor.h"
 #include "GameObject.h"
+#include "Component.h"
+#include "ComponentMesh.h"
 
 #include "Panel.h"
 #include "PanelAbout.h"
@@ -12,8 +14,6 @@
 #include "PanelConfig.h"
 #include "PanelHierarchy.h"
 #include "PanelInspector.h"
-
-#include "GameObject.h"
 
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, "Gui", start_enabled)
 {
@@ -78,12 +78,6 @@ update_status ModuleGui::Update(float dt)
 		p_inspector->ToggleActive();
 	if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN)
 		p_config->ToggleActive();
-
-	//Debug REMOVE LATER
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-		AddLogToConsole("SAMPLE LOG");
-
-	}
 
 	return decide_if_update;
 }
@@ -170,6 +164,19 @@ void ModuleGui::HandleMainMenuBar()
 
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Mehses")) {
+			for (int i = 0; i < loaded_meshes.size(); ++i)
+				if (ImGui::MenuItem(loaded_meshes[i].c_str()))
+				{
+					GameObject* go = App->scene->CreateGameObject(App->scene->GetRootGameObject());
+					go->SetName(loaded_meshes[i].c_str());
+					go->CreateComponent(Comp_Mesh, nullptr);
+					go->mesh->LoadMesh(loaded_meshes[i]);
+				}
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Window"))
 		{
 			if(ImGui::MenuItem("Console", "KP 1", p_console->IsActive()))

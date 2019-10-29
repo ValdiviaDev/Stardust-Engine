@@ -163,7 +163,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) {
 		GameObject* focus = App->scene->GetFocusedGameObject(App->scene->GetRootGameObject());
-		if (focus != nullptr)
+		if (focus != nullptr && focus->mesh != nullptr)
 			focus->CenterCameraOnGO();
 	}
 

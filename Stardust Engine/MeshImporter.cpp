@@ -239,6 +239,10 @@ bool MeshImporter::SaveMesh(ComponentMesh* mesh, const char* file_name, std::str
 
 	App->fs->SaveUnique(output_file, data, size, LIBRARY_MESH_FOLDER, file_name, MESH_EXTENSION);
 
+	//Send the string to the gui to print in a menu
+	string mesh_name = file_name;
+	App->gui->loaded_meshes.push_back(mesh_name);
+
 	RELEASE_ARRAY(data);
 
 	return true;
@@ -288,6 +292,7 @@ bool MeshImporter::LoadMesh(const char* exported_file, geo_info& mesh)
 	mesh.normal = new float[mesh.num_normal * 3];
 	memcpy(mesh.normal, cursor, bytes);
 
+	RELEASE_ARRAY(buffer);
 
 	return ret;
 }
