@@ -126,8 +126,13 @@ update_status ModuleCamera3D::Update(float dt)
 
 		//Reference is the GameObject we are pointing to
 		if (App->scene->scene_gameobject) {
-			float3 GO_pos = App->scene->scene_gameobject->transform->GetPosition();
-			Reference = { GO_pos.x, GO_pos.y, GO_pos.z };
+			GameObject* focus = App->scene->GetFocusedGameObject(App->scene->GetRootGameObject());
+			if (focus && focus->transform) {
+				float3 GO_pos = focus->transform->GetGlobalPos();
+				Reference = { GO_pos.x, GO_pos.y, GO_pos.z };
+			}
+			else
+				Reference = vec3(0, 0, 0);
 		}
 		else
 			Reference = vec3(0, 0, 0);
