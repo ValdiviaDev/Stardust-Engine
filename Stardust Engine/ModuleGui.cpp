@@ -177,6 +177,21 @@ void ModuleGui::HandleMainMenuBar()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Materials")) {
+			for (int i = 0; i < loaded_materials.size(); ++i)
+				if (ImGui::MenuItem(loaded_materials[i].c_str()))
+				{
+					GameObject* go = App->scene->GetFocusedGameObject(App->scene->GetRootGameObject());
+					if (go) {
+						if(!go->material)
+							go->CreateComponent(Comp_Material, nullptr);
+						App->mat_import->LoadMaterial(loaded_materials[i].c_str(), go->material);
+					}
+				}
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Window"))
 		{
 			if(ImGui::MenuItem("Console", "KP 1", p_console->IsActive()))

@@ -19,7 +19,7 @@ public:
 	~MeshImporter();
 
 	bool ImportScene(const char* file, const char* path, std::string& output_file);
-	bool Import(const void* buffer, uint size, std::string& output_file);
+	bool Import(const void* buffer, uint size, std::string& output_file); //TODO not used yet
 	bool ImportNode(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::string& output_file);
 	bool SaveMesh(ComponentMesh* mesh, const char* file_name, std::string& output_file);
 

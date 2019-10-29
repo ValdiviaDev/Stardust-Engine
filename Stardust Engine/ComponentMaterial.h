@@ -21,12 +21,12 @@ public:
 	bool debug_tex_draw = true;
 	bool debug_checkers = false;
 
-private:
-	const char* tex_path;
-	bool has_tex = false;
 	uint tex_id = 0;
 	int tex_width, tex_height;
 
+private:
+	const char* tex_path;
+	bool has_tex = false;
 };
 
 #endif

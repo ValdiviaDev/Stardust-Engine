@@ -24,11 +24,10 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 {
 	bool ret = false;
 
-
 	std::string path_string(path);
 	std::string file_string(file);
 
-	std::string lib_tex = "Library/Textures/";
+	std::string lib_tex = LIBRARY_MAT_FOLDER;
 
 
 	if (IsFileDDS(file)) { //If file is already DDS just copy it to library
@@ -79,16 +78,71 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 
 	}
 
-	if (ret == false) {
-		LOG("Can't load texture %s from path %s", file, path);
+	if (ret) {
+		LOG("Texture imported correctly: %s from path %s", file, path);
+		string str = "Texture imported correctly: " + (string)file + " from path: " + path;
+		App->gui->AddLogToConsole(str.c_str());
+
+		string file_no_ext = file;
+		file_no_ext = file_no_ext.substr(0, file_no_ext.find_last_of("."));
+		App->gui->loaded_materials.push_back((string)file_no_ext);
 	}
+	else {
+		LOG("Can't import texture %s from path %s", file, path);
+		string str = "Can't import texture: " + (string)file + " from path: " + path;
+		App->gui->AddLogToConsole(str.c_str());
+	}
+
+
 	return ret;
 }
 
 
-bool MaterialImporter::LoadMaterial(const char * exported_file, ComponentMaterial * resource)
+bool MaterialImporter::LoadMaterial(const char* file_name, ComponentMaterial* mat)
 {
-	return false;
+	string exported_file = LIBRARY_MAT_FOLDER + (string)file_name + ".dds";
+
+	//Bind DevIL image
+	uint image_id = 0;
+	ilGenImages(1, &image_id);
+	ilBindImage(image_id);
+
+	string tex_str = "Loading texture: " + (string)exported_file;
+	App->gui->AddLogToConsole(tex_str.c_str());
+
+	//Load image
+	if (ilLoad(IL_TYPE_UNKNOWN, exported_file.c_str())) {
+		LOG("Texture Loaded Correctly");
+		App->gui->AddLogToConsole("Texture Loaded Correctly");
+	}
+	else {
+		LOG("Error: Couldn't load texture");
+		App->gui->AddLogToConsole("Error: Couldn't load texture");
+		ILenum Error;
+		while ((Error = ilGetError()) != IL_NO_ERROR) {
+			LOG("%d: %s", Error, iluErrorString(Error));
+		}
+		ilDeleteImages(1, &image_id);
+		return false;
+	}
+
+	//Get width and height
+	mat->tex_width = ilGetInteger(IL_IMAGE_WIDTH);
+	mat->tex_height = ilGetInteger(IL_IMAGE_HEIGHT);
+	string size_str = "Texture size: " + std::to_string(mat->tex_width) + " x " + std::to_string(mat->tex_height);
+	App->gui->AddLogToConsole(size_str.c_str());
+
+	//Bind DevIL to OpenGL texture buffer
+	mat->tex_id = ilutGLBindTexImage();
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	ilDeleteImages(1, &image_id);
+
+	return true;
 }
 
 bool MaterialImporter::LoadCheckers(ComponentMaterial * resource)

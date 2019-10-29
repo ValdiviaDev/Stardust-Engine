@@ -35,6 +35,7 @@ public:
 	/*void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;*/
 	vector<string> loaded_meshes;
+	vector<string> loaded_materials;
 
 private:
 	//Panels
