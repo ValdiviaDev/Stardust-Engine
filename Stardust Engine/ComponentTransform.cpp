@@ -98,6 +98,7 @@ void ComponentTransform::UpdateMatrix() {
 		global_matrix = local_matrix;
 	}
 
+	gameObject->UpdateBoundingBox();
 }
 
 

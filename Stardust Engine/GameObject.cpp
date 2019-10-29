@@ -4,6 +4,8 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "imgui/imgui.h"
+#include "Glew/include/glew.h"
+
 
 GameObject::GameObject(GameObject* parent)
 {
@@ -13,6 +15,7 @@ GameObject::GameObject(GameObject* parent)
 	
 	//Always create transform
 	CreateComponent(Comp_Transform);
+	//bounding_box.SetNegativeInfinity();
 
 	SetName("Default GO name");
 
@@ -280,5 +283,52 @@ void GameObject::CenterCameraOnGO() const {
 
 	
 	
+
+}
+
+void GameObject::UpdateBoundingBox() {
+
+	bounding_box.SetNegativeInfinity();
+
+	if (mesh) {
+
+		bounding_box.Enclose((const math::float3*)mesh->m_info.vertex, mesh->m_info.num_vertex);
+	}
+
+	if (transform) {
+		
+		obb.SetFrom(bounding_box);
+		obb.Transform(transform->GetGlobalMatrix());
+		if (obb.IsFinite()) {
+			bounding_box = obb.MinimalEnclosingAABB();
+		}
+	}
+
+	for (uint i = 0; i < childs.size(); ++i){
+
+		childs[i]->UpdateBoundingBox();
+	}
+
+}
+
+
+
+void GameObject::DrawBoundingBox()
+{
+	glBegin(GL_LINES);
+	glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+
+	for (uint i = 0; i < bounding_box.NumEdges(); i++)
+	{
+		glVertex3f(bounding_box.Edge(i).a.x, bounding_box.Edge(i).a.y, bounding_box.Edge(i).a.z);
+		glVertex3f(bounding_box.Edge(i).b.x, bounding_box.Edge(i).b.y, bounding_box.Edge(i).b.z);
+	}
+	glEnd();
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	for (uint i = 0; i < childs.size(); ++i)
+	{
+		childs[i]->DrawBoundingBox();
+	}
 
 }

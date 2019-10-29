@@ -3,6 +3,9 @@
 
 #include "Globals.h"
 #include <vector>
+#include "MathGeoLib/include/Geometry/AABB.h"
+#include "MathGeoLib/include/Geometry/OBB.h"
+
 
 class Component;
 class ComponentTransform;
@@ -36,6 +39,9 @@ public:
 
 	void CenterCameraOnGO() const;
 
+	void UpdateBoundingBox();
+	void DrawBoundingBox();
+
 private:
 	bool active = true;
 	char name[100];
@@ -47,7 +53,8 @@ public:
 	ComponentTransform* transform = nullptr;
 	ComponentMesh* mesh = nullptr;
 	ComponentMaterial* material = nullptr;
-
+	math::AABB bounding_box;
+	math::OBB obb;
 	std::vector<GameObject*> childs;
 	bool focused = false;
 };
