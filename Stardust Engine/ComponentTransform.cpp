@@ -135,21 +135,23 @@ void ComponentTransform::Reset()
 
 math::float3 ComponentTransform::GetGlobalPos() const {
 
-	math::float3 ret = position;
+	//math::float3 ret = position;
 
-	GameObject* aux = gameObject->GetParent();
-	
+	//GameObject* aux = gameObject->GetParent();
+	//
 
-	while (aux != nullptr) {
-		
-		if (aux->transform != nullptr) {
-			ret += aux->transform->GetPosition();
+	//while (aux != nullptr) {
+	//	
+	//	if (aux->transform != nullptr) {
+	//		ret += aux->transform->GetPosition();
 
-		}
-		aux = aux->GetParent();
-	}
+	//	}
+	//	aux = aux->GetParent();
+	//}
 
-	return ret;
+	//return ret;
+
+	return global_matrix.TranslatePart();
 }
 
 
