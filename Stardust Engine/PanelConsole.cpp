@@ -21,7 +21,7 @@ void PanelConsole::Draw()
 	App->window->GetWinSize(x, y);
 	if (resize) {
 		ImGui::SetNextWindowPos(ImVec2(0, y - height), ImGuiCond_Always);
-		width = x - 303;
+		width = x - 360;
 		ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
 		resize = false;
 	}

@@ -37,7 +37,7 @@ bool ComponentMaterial::GetIfTex() const
 
 void ComponentMaterial::DrawInspector() {
 
-	if (ImGui::CollapsingHeader("Material")) {
+	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen)) {
 		ImGui::Text("Texture path: ");
 		ImGui::SameLine();
 

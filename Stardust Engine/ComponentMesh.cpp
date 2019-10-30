@@ -55,7 +55,7 @@ bool ComponentMesh::IsPrimitive() const
 
 void ComponentMesh::DrawInspector() {
 
-	if (ImGui::CollapsingHeader("Mesh")) {
+	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen)) {
 		ImGui::Text("Mesh path: ");
 		ImGui::SameLine();
 

@@ -44,6 +44,7 @@ public:
 
 private:
 	bool active = true;
+	bool static_go = false;
 	char name[100];
 	GameObject* parent = nullptr;
 	

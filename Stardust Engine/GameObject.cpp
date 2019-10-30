@@ -170,34 +170,23 @@ void GameObject::GUIHierarchyPrint(int& i, bool& clicked) {
 
 void GameObject::DrawComponentsInspector() {
 
+	//GameObject main properties
+	ImGui::Checkbox(" ", &active);
+	ImGui::SameLine();
+	ImGui::InputText("", name, IM_ARRAYSIZE(name));
+	ImGui::SameLine();
+	ImGui::Checkbox("Static", &static_go);
+	//TODO Tag and Layer maybe?
 
-
-	
-	if (ImGui::CollapsingHeader("GameObject")) {
-		ImGui::PushID(0);
-		ImGui::Text("Name:");
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), name);
-		ImGui::PopID();
-	}
-
-	if (transform) {
-		ImGui::PushID(1);
+	if (transform)
 		transform->DrawInspector();
-		ImGui::PopID();
-	}
 
-	if (mesh) {
-		ImGui::PushID(2);
+	if (mesh)
 		mesh->DrawInspector();
-		ImGui::PopID();
-	}
 
-	if (material) {
-		ImGui::PushID(3);
+	if (material)
 		material->DrawInspector();
-		ImGui::PopID();
-	}
+
 }
 
 
