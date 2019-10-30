@@ -34,8 +34,9 @@ public:
 	const char* GetName()const;
 
 	void GUIHierarchyPrint(int& i, bool& clicked);//Send false on clicked bool
-
 	void DrawComponentsInspector();
+
+	bool IsObjectInHierarchy(GameObject* target, GameObject* curr_node);
 
 	void CenterCameraOnGO() const;
 

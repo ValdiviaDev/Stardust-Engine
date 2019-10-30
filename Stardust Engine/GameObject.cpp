@@ -143,12 +143,36 @@ void GameObject::GUIHierarchyPrint(int& i, bool& clicked) {
 			App->scene->GetRootGameObject()->focused = false;
 			App->scene->FocusGameObject(this, App->scene->GetRootGameObject());
 		}
-		
-		
+
+		//The GameObject that has begun to be dragged
+		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+		{
+			GameObject* go = this;
+			ImGui::SetDragDropPayload("Hierarchy", &go, sizeof(GameObject));
+			
+			ImGui::EndDragDropSource();
+		}
+
+		//Where the user is dropping the Source object
+		if (ImGui::BeginDragDropTarget()) {
+			
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Hierarchy")) {
+				
+				GameObject* source = *(GameObject**)payload->Data;
+
+				if (!source->IsObjectInHierarchy(this, source)) { //Looks that the source GO isn't higher in the hierarchy than the target
+					source->DeleteFromParentList();
+					childs.push_back(source);
+					source->parent = this;
+				}
+				else
+					App->gui->AddLogToConsole("ERROR: You cannot make a GameObject the child of a GameObject lower on the hierarchy.");
+			}
+
+			ImGui::EndDragDropTarget();
+		}
+
 		//Print each child of the gameobject
-		
-
-
 		for (int j = 0; j < GetNumChilds(); j++) {
 			i++;
 			GetChild(j)->GUIHierarchyPrint(i,clicked);
@@ -187,6 +211,18 @@ void GameObject::DrawComponentsInspector() {
 	if (material)
 		material->DrawInspector();
 
+}
+
+bool GameObject::IsObjectInHierarchy(GameObject * target, GameObject* curr_node)
+{
+	if (target == curr_node)
+		return true;
+
+	for (int i = 0; i < curr_node->GetNumChilds(); ++i)
+		if (IsObjectInHierarchy(target, curr_node->childs[i]))
+			return true;
+
+	return false;
 }
 
 
