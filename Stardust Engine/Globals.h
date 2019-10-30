@@ -64,6 +64,6 @@ enum update_status
 //#define SETTINGS_FOLDER "/Settings/"
 #define LIBRARY_FOLDER "/Library/"
 #define LIBRARY_MESH_FOLDER "/Library/Meshes/"
-#define LIBRARY_MAT_FOLDER "/Library/Materials/"
+#define LIBRARY_MAT_FOLDER "Library/Materials/"
 
 #define MESH_EXTENSION "stdtmesh"
