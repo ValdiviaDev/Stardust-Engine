@@ -34,6 +34,8 @@ private:
 	math::float4x4 local_matrix = math::float4x4::identity;
 	math::float4x4 global_matrix = math::float4x4::identity;
 
+	math::float4x4 last_global_matrix = math::float4x4::identity;
+
 	math::float3 position = math::float3::zero;
 	math::float3 rotation = math::float3::zero;
 	math::Quat quaternion_rot = math::Quat::identity;

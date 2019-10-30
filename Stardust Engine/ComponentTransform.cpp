@@ -79,6 +79,8 @@ void ComponentTransform::UpdateMatrix() {
 	
 	local_matrix = math::float4x4::FromTRS(position, quaternion_rot, scale);
 
+	last_global_matrix = global_matrix;
+
 	GameObject* parent_aux = gameObject->GetParent();
 	if (parent_aux != nullptr && parent_aux->GetParent() != nullptr) {  
 		ComponentTransform* p_transform = parent_aux->transform;
@@ -98,7 +100,9 @@ void ComponentTransform::UpdateMatrix() {
 		global_matrix = local_matrix;
 	}
 
-	gameObject->UpdateBoundingBox();
+
+	if(!last_global_matrix.Equals(global_matrix))
+		gameObject->UpdateBoundingBox();
 }
 
 

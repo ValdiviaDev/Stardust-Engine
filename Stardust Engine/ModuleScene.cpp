@@ -137,6 +137,12 @@ GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
 void ModuleScene::Draw() {
 	DrawGrid();
 	DrawGameObjects(root_object);
+
+
+	//Draw bounding boxes
+	for (uint i = 0; i < root_object->GetNumChilds(); i++) {
+		root_object->GetChild(i)->DrawBoundingBox();
+	}
 }
 
 void ModuleScene::DrawGameObjects(GameObject* go)
