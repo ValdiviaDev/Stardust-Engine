@@ -34,7 +34,7 @@ void ComponentCamera::Update() {
 
 		frustum.pos = transform->GetGlobalPos();
 		frustum.front = global_mat.WorldZ().Normalized();
-		
+		frustum.up = global_mat.WorldY().Normalized();
 	}
 }
 
