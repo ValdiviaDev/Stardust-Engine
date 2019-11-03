@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "imgui/imgui.h"
 #include "MeshImporter.h"
+#include "GameObject.h"
 
 ComponentMesh::ComponentMesh(GameObject* parent, char* path, bool is_primitive) 
 	: Component(parent), path(path), is_primitive(is_primitive)
@@ -40,6 +41,8 @@ void ComponentMesh::AssignMesh(char* path)
 		App->importer->BindBuffers(m_info);
 		this->path = path;
 	}
+
+	gameObject->UpdateBoundingBox();
 }
 
 geo_info ComponentMesh::GetInfo() const

@@ -9,6 +9,12 @@
 
 class GameObject;
 
+enum Intersection {
+	INSIDE = 0,
+	INTERSECT = 1,
+	OUTSIDE = 2
+};
+
 class ComponentCamera : public Component
 {
 public:
@@ -28,11 +34,13 @@ public:
 
 	void DrawFrustum();
 
+	void CameraCulling(GameObject* go); //send root 1st time
+	int ContainsAABB(const AABB& refBox) const;
 private:
 
 	math::Frustum frustum;
 	float aspect_ratio = 0.0f;
-
+	bool culling = false;
 
 };
 
