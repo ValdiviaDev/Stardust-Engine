@@ -17,6 +17,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
 #include "MaterialImporter.h"
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
@@ -54,6 +55,10 @@ bool ModuleScene::Start()
 		if (scene_gameobject->GetChild(i)->material)
 			scene_gameobject->GetChild(i)->material->AssignTexture("Assets/Textures/baker_house_dds.dds");
 	 
+
+	GameObject* camera = new GameObject(root_object);
+	camera->CreateComponent(Comp_Camera);
+
 	string output_file;
 	
 	return true;

@@ -11,6 +11,7 @@ class Component;
 class ComponentTransform;
 class ComponentMesh;
 class ComponentMaterial;
+class ComponentCamera;
 enum ComponentType;
 
 class GameObject
@@ -55,6 +56,7 @@ public:
 	ComponentTransform* transform = nullptr;
 	ComponentMesh* mesh = nullptr;
 	ComponentMaterial* material = nullptr;
+	ComponentCamera* camera = nullptr;
 	math::AABB bounding_box;
 	math::OBB obb;
 	std::vector<GameObject*> childs;

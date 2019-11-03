@@ -1,5 +1,5 @@
-#ifndef __ComponentMesh__H__
-#define __ComponentMesh__H__
+#ifndef __ComponentCamera__H__
+#define __ComponentCamera__H__
 
 
 #include "Globals.h"
@@ -15,10 +15,20 @@ public:
 	ComponentCamera(GameObject* game_object = nullptr);
 	~ComponentCamera();
 
+	void DrawInspector();
+
+	float GetFOV() const;
+	void SetFOV(float fov);
+	void SetNearPlane(float near_plane);
+	float GetNearPlane() const;
+	void SetFarPlane(float far_plane);
+	float GetFarPlane() const;
+
 
 private:
 
-	
+	math::Frustum frustum;
+	float aspect_ratio = 0.0f;
 
 
 };

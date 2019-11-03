@@ -3,6 +3,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
 #include "imgui/imgui.h"
 #include "Glew/include/glew.h"
 
@@ -60,6 +61,12 @@ Component* GameObject::CreateComponent(ComponentType type, char* path, bool is_p
 		if (material == nullptr) {
 			material = new ComponentMaterial(this);
 			component = material;
+		}
+		break;
+	case Comp_Camera:
+		if (camera == nullptr) {
+			camera = new ComponentCamera(this);
+			component = camera;
 		}
 		break;
 	case Comp_Default:
@@ -210,6 +217,9 @@ void GameObject::DrawComponentsInspector() {
 
 	if (material)
 		material->DrawInspector();
+
+	if (camera)
+		camera->DrawInspector();
 
 }
 

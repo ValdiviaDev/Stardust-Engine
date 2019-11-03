@@ -7,7 +7,8 @@ enum ComponentType {
 	Comp_Default,
 	Comp_Transform,
 	Comp_Mesh,
-	Comp_Material
+	Comp_Material,
+	Comp_Camera
 };
 
 class Component
@@ -29,7 +30,7 @@ public:
 protected:
 	ComponentType type = Comp_Default;
 	bool active = true;
-	GameObject* gameObject;
+	GameObject* gameObject = nullptr;
 };
 
 #endif
