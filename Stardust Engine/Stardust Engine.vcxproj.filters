@@ -208,6 +208,9 @@
     <ClCompile Include="MaterialImporter.cpp">
       <Filter>Sources\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentCamera.cpp">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -524,6 +527,9 @@
     </ClInclude>
     <ClInclude Include="MaterialImporter.h">
       <Filter>Sources\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCamera.h">
+      <Filter>Sources\Game Object\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
