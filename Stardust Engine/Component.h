@@ -20,8 +20,9 @@ public:
 	virtual void Enable(){} //TODO
 	virtual void Update(){} //TODO
 	virtual void Disable(){} //TODO
-
+	virtual void Update(float dt) {}
 	virtual void  DrawInspector() {}
+
 	bool IsActive() const;
 	void SetActive(bool active);
 

@@ -38,6 +38,13 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
+
+	for (uint i = 0; i < childs.size(); i++) {
+		childs[i]->Update();
+	}
+
+	if (camera)
+		camera->Update();
 }
 
 Component* GameObject::CreateComponent(ComponentType type, char* path, bool is_primitive)

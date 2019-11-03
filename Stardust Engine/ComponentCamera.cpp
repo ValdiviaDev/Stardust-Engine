@@ -1,8 +1,10 @@
 
 #include "ComponentCamera.h"
+#include "ComponentTransform.h"
 #include "Application.h"
 #include "imgui/imgui.h"
-
+#include "GameObject.h"
+#include "Glew/include/glew.h"
 
 
 ComponentCamera::ComponentCamera(GameObject* game_object) :Component(game_object) {
@@ -23,6 +25,19 @@ ComponentCamera::ComponentCamera(GameObject* game_object) :Component(game_object
 ComponentCamera::~ComponentCamera() {
 
 }
+
+void ComponentCamera::Update() {
+
+	if (gameObject && gameObject->transform) {
+		ComponentTransform* transform = gameObject->transform;
+		math::float4x4 global_mat = transform->GetGlobalMatrix();
+
+		frustum.pos = transform->GetGlobalPos();
+		frustum.front = global_mat.WorldZ().Normalized();
+		
+	}
+}
+
 
 float ComponentCamera::GetFOV() const {
 
@@ -103,39 +118,23 @@ void ComponentCamera::DrawInspector() {
 		}
 		
 	}
-	/*
-
-	ImGui::Text("Rotation");
-		ImGui::SameLine();
-		if (ImGui::DragFloat3("  ", &rotation[0], 0.1f)) {
-			SetRotation(rotation);
-		}
-
-
-
-	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen)) {
-		ImGui::Text("Mesh path: ");
-		ImGui::SameLine();
-
-		if(path)
-			ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), path);
-		else
-			ImGui::TextColored(ImVec4(1.0f, 0.7f, 0.0f, 1.0f), "null");
-
-		ImGui::Separator();
-
-		if (!is_primitive) {
-		ImGui::Text("Debug Options");
-
-			ImGui::Checkbox("Vertex Normals", &debug_v_norm);
-			ImGui::SameLine();
-			ImGui::Checkbox("Face Normals", &debug_f_norm);
-		}
-
-	}
-
-	*/
+	
 
 }
 
 
+void ComponentCamera::DrawFrustum() {
+
+	glBegin(GL_LINES);
+	glLineWidth(2.0f);
+	glColor4f(1.0f, 0.5f, 0.0f, 1.0f);
+
+	for (uint i = 0; i < frustum.NumEdges(); i++){
+
+		glVertex3f(frustum.Edge(i).a.x, frustum.Edge(i).a.y, frustum.Edge(i).a.z);
+		glVertex3f(frustum.Edge(i).b.x, frustum.Edge(i).b.y, frustum.Edge(i).b.z);
+	}
+
+	glEnd();
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+}

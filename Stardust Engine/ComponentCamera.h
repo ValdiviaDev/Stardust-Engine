@@ -14,6 +14,8 @@ class ComponentCamera : public Component
 public:
 	ComponentCamera(GameObject* game_object = nullptr);
 	~ComponentCamera();
+	
+	void Update();
 
 	void DrawInspector();
 
@@ -24,6 +26,7 @@ public:
 	void SetFarPlane(float far_plane);
 	float GetFarPlane() const;
 
+	void DrawFrustum();
 
 private:
 

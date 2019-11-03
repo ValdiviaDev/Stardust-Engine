@@ -72,6 +72,8 @@ update_status ModuleScene::Update(float dt)
 		FocusGameObject(scene_gameobject, root_object);
 	}
 	
+	root_object->Update();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -145,9 +147,11 @@ void ModuleScene::Draw() {
 
 
 	//Draw bounding boxes
+	glDisable(GL_LIGHTING);
 	for (uint i = 0; i < root_object->GetNumChilds(); i++) {
 		root_object->GetChild(i)->DrawBoundingBox();
 	}
+	glEnable(GL_LIGHTING);
 }
 
 void ModuleScene::DrawGameObjects(GameObject* go)
