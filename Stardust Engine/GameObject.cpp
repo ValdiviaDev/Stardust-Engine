@@ -32,6 +32,7 @@ GameObject::~GameObject()
 	RELEASE(transform);
 	RELEASE(mesh);
 	RELEASE(material);
+	RELEASE(camera);
 
 	parent = nullptr;
 }
