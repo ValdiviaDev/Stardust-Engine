@@ -127,7 +127,7 @@ void GameObject::DeleteFromParentList()
 {
 	if (parent) {
 		for (std::vector<GameObject*>::const_iterator it = parent->childs.begin(); it < parent->childs.end(); it++)
-			if ((*it)->GetName() == name) { //Change name for Uuid later on development TODO
+			if ((*it) == this) { //TODO: probably wont have to change this
 				parent->childs.erase(it);
 				break;
 			}
