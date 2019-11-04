@@ -182,6 +182,7 @@
     <ClInclude Include="PanelInspector.h" />
     <ClInclude Include="Parson\parson.h" />
     <ClInclude Include="Par\par_shapes.h" />
+    <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +255,7 @@
     <ClCompile Include="PanelHierarchy.cpp" />
     <ClCompile Include="PanelInspector.cpp" />
     <ClCompile Include="Parson\parson.c" />
+    <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
