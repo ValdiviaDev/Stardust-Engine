@@ -26,11 +26,12 @@ void QuadtreeNode::Insert(GameObject * go)
 				objects.push_back(go);
 			}
 			else {
-				//TODO: Create children for the node
+				//Create children for the node
 				CreateChilds();
 
-				//TODO: Reorganize the node
-
+				//Reorganize the GameObjects
+				objects.push_back(go);
+				ReorganizeObjects();
 			}
 		}
 	}
@@ -43,8 +44,10 @@ void QuadtreeNode::Insert(GameObject * go)
 void QuadtreeNode::Remove(GameObject* go)
 {
 	for (std::vector<GameObject*>::const_iterator it = objects.begin(); it != objects.end(); ++it)
-		if ((*it) == go)
+		if ((*it) == go) {
 			objects.erase(it);
+			break;
+		}
 
 	if (!IsLeaf()) {
 		for (int i = 0; i < 4; ++i)
@@ -73,6 +76,36 @@ void QuadtreeNode::CreateChilds()
 	child_center = { box_center.x + box.Size().x / 4.0f, box_center.y, box_center.z - box.Size().z / 4.0f };
 	child_box.SetFromCenterAndSize(child_center, child_size);
 	childs[3] = new QuadtreeNode(child_box, this); //Down Right
+}
+
+void QuadtreeNode::ReorganizeObjects()
+{
+	std::vector<GameObject*>::const_iterator it = objects.begin();
+
+	while (it != objects.end()) {
+
+		bool all_intersect = true;
+		for (int i = 0; i < 4; ++i)
+			if (!childs[i]->box.Intersects((*it)->bounding_box))
+				all_intersect = false;
+
+		//If all the childs intersect keep the GameObject on the parent
+		if (all_intersect)
+			it++;
+		//If they don't, put the GO on its appropiate child
+		else {
+			it = objects.erase(it);
+			for (int j = 0; j < objects.size(); ++j)
+				for (int i = 0; i < 4; ++i)
+					childs[i]->Insert(objects[j]);
+		}
+
+	}
+
+	
+
+	
+
 }
 
 bool QuadtreeNode::IsLeaf()

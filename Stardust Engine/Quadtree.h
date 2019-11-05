@@ -1,7 +1,7 @@
 #ifndef __QuadTree__H__
 #define __Quadtree__H__
 
-#define QUADTREE_MAX_ITEMS 2
+#define QUADTREE_MAX_ITEMS 1
 
 #include "MathGeoLib/include/MathGeoLib.h"
 #include <vector>
@@ -21,6 +21,7 @@ public:
 	inline void Intersect(vector<GameObject*>& objects, const TYPE& primitive);
 
 	void CreateChilds();
+	void ReorganizeObjects();
 
 	bool IsLeaf();
 	void DebugDraw();

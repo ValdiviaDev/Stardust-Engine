@@ -229,8 +229,8 @@ void GameObject::DrawComponentsInspector() {
 	if (ImGui::Checkbox("Static", &static_go)) {
 		if (static_go == true)
 			App->scene->quadtree->Insert(this);
-		//else
-		//	App->scene->quadtree->Remove(this);
+		else
+			App->scene->quadtree->Remove(this);
 	}
 	
 	//TODO Tag and Layer maybe?

@@ -1,8 +1,13 @@
 #include "ComponentTransform.h"
 #include "Globals.h"
+#include "Application.h"
+#include "Quadtree.h"
 #include "GameObject.h"
 #include "imgui/imgui.h"
 #include "MathGeoLib/include/MathGeoLib.h"
+
+
+
 
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 {
@@ -101,7 +106,10 @@ void ComponentTransform::UpdateMatrix() {
 	//If the transform propieties have changed in this frame
 	if (!last_global_matrix.Equals(global_matrix)) {
 		gameObject->UpdateBoundingBox();
-		gameObject->SetStatic(false);
+		if (gameObject->IsStatic()) {
+			gameObject->SetStatic(false);
+			App->scene->quadtree->Remove(gameObject);
+		}
 	}
 }
 
