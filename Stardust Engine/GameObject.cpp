@@ -4,6 +4,8 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "Quadtree.h"
+
 #include "imgui/imgui.h"
 #include "Glew/include/glew.h"
 
@@ -93,6 +95,16 @@ bool GameObject::IsActive() const
 void GameObject::SetActive(bool active)
 {
 	this->active = active;
+}
+
+bool GameObject::IsStatic() const
+{
+	return static_go;
+}
+
+void GameObject::SetStatic(bool staticGO)
+{
+	static_go = staticGO;
 }
 
 
@@ -214,7 +226,13 @@ void GameObject::DrawComponentsInspector() {
 	ImGui::SameLine();
 	ImGui::InputText("", name, IM_ARRAYSIZE(name));
 	ImGui::SameLine();
-	ImGui::Checkbox("Static", &static_go);
+	if (ImGui::Checkbox("Static", &static_go)) {
+		if (static_go == true)
+			App->scene->quadtree->Insert(this);
+		//else
+		//	App->scene->quadtree->Remove(this);
+	}
+	
 	//TODO Tag and Layer maybe?
 
 	if (transform)

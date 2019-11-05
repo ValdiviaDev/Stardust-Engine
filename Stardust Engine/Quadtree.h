@@ -16,11 +16,14 @@ public:
 	~QuadtreeNode();
 
 	void Insert(GameObject* go);
-	void Erase(GameObject* go);
+	void Remove(GameObject* go);
 	template<typename TYPE>
 	inline void Intersect(vector<GameObject*>& objects, const TYPE& primitive);
 
+	void CreateChilds();
+
 	bool IsLeaf();
+	void DebugDraw();
 
 private:
 	math::AABB box;
@@ -41,6 +44,8 @@ public:
 	void Remove(GameObject* go);
 	template<typename TYPE>
 	inline void Intersect(vector<GameObject*>& objects, const TYPE& primitive);
+
+	void DebugDraw();
 
 private:
 	QuadtreeNode* root = nullptr;

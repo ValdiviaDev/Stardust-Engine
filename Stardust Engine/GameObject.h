@@ -25,6 +25,8 @@ public:
 
 	bool IsActive() const;
 	void SetActive(bool active);
+	bool IsStatic() const;
+	void SetStatic(bool staticGO);
 
 	uint GetNumChilds() const;
 	GameObject* GetChild(uint i);

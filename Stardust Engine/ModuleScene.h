@@ -10,6 +10,7 @@
 
 
 class GameObject;
+class Quadtree;
 
 class ModuleScene : public Module
 {
@@ -43,6 +44,8 @@ public:
 
 public:
 	GameObject* scene_gameobject = nullptr; //Change after first assignment
+
+	Quadtree* quadtree = nullptr;
 
 private:
 	GameObject* root_object = nullptr;

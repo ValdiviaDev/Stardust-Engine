@@ -6,6 +6,7 @@
 
 #include <time.h>
 
+#include "Quadtree.h"
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleScene.h"
@@ -45,6 +46,11 @@ bool ModuleScene::Start()
 	root_object = CreateGameObject(nullptr);
 	root_object->SetName("root");
 
+	//Quadtree init TODO test
+	quadtree = new Quadtree();
+	AABB root_quad_node = AABB({ -20,-20,-20 }, { 20,20,20 });
+	quadtree->Create(root_quad_node);
+
 	//Baker house create
 	scene_gameobject = CreateGameObject(root_object);
 	scene_gameobject->SetName("BakerHouse");
@@ -59,7 +65,6 @@ bool ModuleScene::Start()
 	GameObject* camera = new GameObject(root_object);
 	camera->CreateComponent(Comp_Camera);
 
-	string output_file;
 	
 	return true;
 }
@@ -82,6 +87,7 @@ bool ModuleScene::CleanUp()
 	//Delete GameObjects
 	//Releasing the root_object releases all GameObjects, as they are organized as a tree
 	RELEASE(root_object);
+	RELEASE(quadtree);
 
 	return true;
 }
@@ -146,11 +152,14 @@ void ModuleScene::Draw() {
 	DrawGameObjects(root_object);
 
 
-	//Draw bounding boxes
+	//Draw bounding boxes and Quadtree
 	glDisable(GL_LIGHTING);
 	for (uint i = 0; i < root_object->GetNumChilds(); i++) {
 		root_object->GetChild(i)->DrawBoundingBox();
 	}
+
+	quadtree->DebugDraw();
+
 	glEnable(GL_LIGHTING);
 }
 

@@ -98,9 +98,11 @@ void ComponentTransform::UpdateMatrix() {
 		global_matrix = local_matrix;
 	}
 
-
-	if(!last_global_matrix.Equals(global_matrix))
+	//If the transform propieties have changed in this frame
+	if (!last_global_matrix.Equals(global_matrix)) {
 		gameObject->UpdateBoundingBox();
+		gameObject->SetStatic(false);
+	}
 }
 
 

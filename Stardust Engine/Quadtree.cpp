@@ -1,9 +1,10 @@
 #include "Quadtree.h"
 #include "GameObject.h"
 
+#include <gl/GL.h>
 
 
-QuadtreeNode::QuadtreeNode(AABB box, QuadtreeNode* parent)
+QuadtreeNode::QuadtreeNode(AABB box, QuadtreeNode* parent): box(box), parent(parent)
 {
 	for (int i = 0; i < 4; ++i)
 		childs[i] = nullptr;
@@ -25,11 +26,10 @@ void QuadtreeNode::Insert(GameObject * go)
 				objects.push_back(go);
 			}
 			else {
-
 				//TODO: Create children for the node
+				CreateChilds();
 
 				//TODO: Reorganize the node
-
 
 			}
 		}
@@ -40,7 +40,7 @@ void QuadtreeNode::Insert(GameObject * go)
 	}
 }
 
-void QuadtreeNode::Erase(GameObject* go)
+void QuadtreeNode::Remove(GameObject* go)
 {
 	for (std::vector<GameObject*>::const_iterator it = objects.begin(); it != objects.end(); ++it)
 		if ((*it) == go)
@@ -48,10 +48,31 @@ void QuadtreeNode::Erase(GameObject* go)
 
 	if (!IsLeaf()) {
 		for (int i = 0; i < 4; ++i)
-			childs[i]->Erase(go);
-
+			childs[i]->Remove(go);
 	}
+}
 
+void QuadtreeNode::CreateChilds()
+{
+	AABB child_box;
+	float3 box_center = box.CenterPoint();
+	float3 child_size = { box.Size().x / 2.0f, box.Size().y, box.Size().z / 2.0f };
+	
+	float3 child_center = { box_center.x - box.Size().x / 4.0f, box_center.y, box_center.z + box.Size().z / 4.0f };
+	child_box.SetFromCenterAndSize(child_center, child_size);
+	childs[0] = new QuadtreeNode(child_box, this); //Up Left
+	
+	child_center = { box_center.x + box.Size().x / 4.0f, box_center.y, box_center.z + box.Size().z / 4.0f };
+	child_box.SetFromCenterAndSize(child_center, child_size);
+	childs[1] = new QuadtreeNode(child_box, this); //Up Right
+	
+	child_center = { box_center.x - box.Size().x / 4.0f, box_center.y, box_center.z - box.Size().z / 4.0f };
+	child_box.SetFromCenterAndSize(child_center, child_size);
+	childs[2] = new QuadtreeNode(child_box, this); //Down Left
+	
+	child_center = { box_center.x + box.Size().x / 4.0f, box_center.y, box_center.z - box.Size().z / 4.0f };
+	child_box.SetFromCenterAndSize(child_center, child_size);
+	childs[3] = new QuadtreeNode(child_box, this); //Down Right
 }
 
 bool QuadtreeNode::IsLeaf()
@@ -60,6 +81,19 @@ bool QuadtreeNode::IsLeaf()
 		return true;
 	else
 		return false;
+}
+
+void QuadtreeNode::DebugDraw()
+{
+	for (uint i = 0; i < box.NumEdges(); i++)
+	{
+		glVertex3f(box.Edge(i).a.x, box.Edge(i).a.y, box.Edge(i).a.z);
+		glVertex3f(box.Edge(i).b.x, box.Edge(i).b.y, box.Edge(i).b.z);
+	}
+
+	if (!IsLeaf())
+		for (int i = 0; i < 4; ++i)
+			childs[i]->DebugDraw();
 }
 
 
@@ -94,5 +128,18 @@ void Quadtree::Insert(GameObject* go) // enclose
 void Quadtree::Remove(GameObject * go)
 {
 	if (root)
-		root->Insert(go);
+		root->Remove(go);
+}
+
+void Quadtree::DebugDraw()
+{
+	glBegin(GL_LINES);
+	glColor4f(0.0f, 1.0f, 0.0f, 1.0f); //Green
+
+	if(root)
+		root->DebugDraw();
+
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glEnd();
+
 }
