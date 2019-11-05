@@ -164,8 +164,9 @@ void ComponentCamera::CameraCulling(GameObject* go) {
 			if (refBox.IsFinite() && go->mesh && go->mesh->m_info.num_vertex > 0) {
 
 				
-				//if (!frustum.Intersects(refBox)) {
+				//if (!frustum.Intersects(refBox)) {    //MathGeoLib func. Slow but works better
 				if (ContainsAABB(refBox) == OUTSIDE) {
+				
 					go->SetActive(false);
 				}
 				else
@@ -178,6 +179,7 @@ void ComponentCamera::CameraCulling(GameObject* go) {
 		}
 	}
 }
+
 
 
 // tests if a AaBox is within the frustrum
@@ -198,7 +200,7 @@ int ComponentCamera::ContainsAABB(const AABB& refBox) const
 		for (int i = 0; i < 8; ++i) {
 			// test this point against the planes
 			
-			if (m_plane->IsOnPositiveSide(vCorner[i])){//m_plane[p].SideOfPlane(vCorner[i]) == BEHIND) {
+			if (m_plane[p].IsOnPositiveSide(vCorner[i])){//m_plane[p].SideOfPlane(vCorner[i]) == BEHIND) {
 				iPtIn = 0;
 				--iInCount;
 			}
