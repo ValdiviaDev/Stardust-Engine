@@ -55,7 +55,7 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go) {
 	App->gui->AddLogToConsole(mesh_str.c_str());
 
 	const aiScene* scene = aiImportFile(path, flags);
-	const aiNode* root = scene->mRootNode;
+
 
 	if (scene)
 		App->gui->AddLogToConsole("Assimp scene loaded correctly");
@@ -66,6 +66,7 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go) {
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		const aiNode* root = scene->mRootNode;
 		LoadMesh(scene, root, go, go->transform, path);
 	}
 
