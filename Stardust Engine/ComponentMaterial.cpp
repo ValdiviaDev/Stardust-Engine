@@ -13,7 +13,7 @@ ComponentMaterial::~ComponentMaterial()
 {
 }
 
-void ComponentMaterial::AssignTexture(const char * path)
+void ComponentMaterial::AssignTexture(const char* path)
 {
 	//Import texture with DevIL
 	bool charged = App->importer->ImportTexture((char*)path, tex_id, tex_width, tex_height);

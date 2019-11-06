@@ -15,6 +15,7 @@
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 #include "Par/par_shapes.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
@@ -126,11 +127,23 @@ bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject
 		//Material
 		aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 		if (material != nullptr) {
+			//Get texture path
 			uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
 			aiString mat_path;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &mat_path);
+			string mat_path_s = (string)mat_path.C_Str();
+			
+			//Find the texture by its name in the textures folder
+			if(mat_path_s.find("\\") != string::npos)
+				mat_path_s = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
+			mat_path_s = ASSETS_TEX_FOLDER + mat_path_s;
+			App->fs->NormalizePath(mat_path_s);
 
-			go->CreateComponent(Comp_Material);
+			//Create the material if the texture is found
+			if (App->fs->Exists(mat_path_s.c_str())) {
+				go->CreateComponent(Comp_Material);
+				go->material->AssignTexture(mat_path_s.c_str());
+			}
 		}
 		// copy vertices
 		mesh->m_info.num_vertex = new_mesh->mNumVertices;
