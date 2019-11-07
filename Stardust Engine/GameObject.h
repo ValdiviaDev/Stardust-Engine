@@ -12,6 +12,7 @@ class ComponentTransform;
 class ComponentMesh;
 class ComponentMaterial;
 class ComponentCamera;
+class ConfigEditor;
 enum ComponentType;
 
 class GameObject
@@ -45,6 +46,9 @@ public:
 
 	void UpdateBoundingBox();
 	void DrawBoundingBox();
+
+	void Load(ConfigEditor* config);
+	void Save(ConfigEditor* config) const;
 
 private:
 	bool active = true;

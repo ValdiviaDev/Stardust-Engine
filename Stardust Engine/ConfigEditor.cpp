@@ -3,9 +3,9 @@
 
 
 
-ConfigEditor::ConfigEditor()
+ConfigEditor::ConfigEditor(const char* file_name)
 {
-	root_value = json_parse_file("config.json");
+	root_value = json_parse_file(file_name);
 	
 	if (root_value == NULL) { 
 		LOG("JSON not found, creating new file");
@@ -17,8 +17,8 @@ ConfigEditor::ConfigEditor()
 }
 
 
-ConfigEditor::ConfigEditor(const char* module_name) {
-	root_value = json_parse_file("config.json");
+ConfigEditor::ConfigEditor(const char* file_name, const char* module_name) {
+	root_value = json_parse_file(file_name);
 
 	if (root_value == NULL) {
 		LOG("JSON not found, creating new file");
@@ -34,6 +34,12 @@ ConfigEditor::~ConfigEditor()
 	//Need to json_value_free
 }
 
+
+void ConfigEditor::SaveFile(const char* file_name) {
+	json_serialize_to_file(root_value, file_name);
+}
+
+
 ConfigEditor ConfigEditor::GetModuleLocation(const char* name) {
 	
 	
@@ -48,7 +54,7 @@ ConfigEditor ConfigEditor::GetModuleLocation(const char* name) {
 void ConfigEditor::WriteBool(const char* name, bool value){
 	LOG("Writing bool");
 	json_object_set_boolean(module_object, name, value);
-	json_serialize_to_file(root_value, "config.json"); //MIRAR SI ESTO SE TIENE QE HACER CADA VZ O UNA VEZ al fiNAL Y YA
+	//json_serialize_to_file(root_value, "config.json");
 }
 
 
@@ -69,9 +75,14 @@ bool ConfigEditor::ReadBool(const char* name, bool default) const {
 void ConfigEditor::WriteInt(const char* name, int value) {
 	LOG("Writing int");
 	json_object_set_number(module_object, name, (double)value);
-	json_serialize_to_file(root_value, "config.json");
+	//json_serialize_to_file(root_value, "config.json");
 }
 
+void ConfigEditor::WriteUint(const char* name, uint value) {
+	LOG("Writing uint");
+	json_object_set_number(module_object, name, (double)value);
+	//json_serialize_to_file(root_value, "config.json");
+}
 
 int ConfigEditor::ReadInt(const char* name, int default) const {
 	LOG("Int is %i", (int)json_object_get_number(module_object, name));
@@ -85,7 +96,7 @@ int ConfigEditor::ReadInt(const char* name, int default) const {
 void ConfigEditor::WriteFloat(const char* name, float value) {
 	LOG("Writing float");
 	json_object_set_number(module_object, name, (float)value);
-	json_serialize_to_file(root_value, "config.json");
+	//json_serialize_to_file(root_value, "config.json");
 }
 
 
