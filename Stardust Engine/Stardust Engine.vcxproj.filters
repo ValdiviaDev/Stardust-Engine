@@ -216,6 +216,9 @@
     </ClCompile>
     <ClCompile Include="SceneSerialization.cpp">
       <Filter>Sources\Importers</Filter>
+	</ClCompile>
+    <ClCompile Include="PanelAssets.cpp">
+      <Filter>Sources\Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,6 +545,9 @@
     </ClInclude>
     <ClInclude Include="SceneSerialization.h">
       <Filter>Sources\Importers</Filter>
+	</ClInclude>
+    <ClInclude Include="PanelAssets.h">
+      <Filter>Sources\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -150,7 +150,7 @@ void GameObject::DeleteFromParentList()
 
 
 void GameObject::GUIHierarchyPrint(int& i, bool& clicked) {
-	//Pop ID for each tree node
+	//Push ID for each tree node
 	ImGui::PushID(i);
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanFullWidth;
