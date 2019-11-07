@@ -11,6 +11,7 @@ class PanelConfig;
 class ModuleGui;
 class PanelHierarchy;
 class PanelInspector;
+class PanelAssets;
 
 using namespace std;
 
@@ -40,11 +41,12 @@ public:
 private:
 	//Panels
 	list<Panel*> panels;
-	PanelAbout* p_about;
-	PanelConsole* p_console;
-	PanelConfig* p_config;
-	PanelHierarchy* p_hierarchy;
-	PanelInspector* p_inspector;
+	PanelAbout* p_about = nullptr;
+	PanelConsole* p_console = nullptr;
+	PanelConfig* p_config = nullptr;
+	PanelHierarchy* p_hierarchy = nullptr;
+	PanelInspector* p_inspector = nullptr;
+	PanelAssets* p_assets = nullptr;
 
 	update_status decide_if_update = UPDATE_CONTINUE;
 

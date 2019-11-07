@@ -31,6 +31,7 @@ void PanelInspector::Draw()
 	GameObject* focused = GetFocusedGameObject(App->scene->GetRootGameObject());
 	if(focused)
 		focused->DrawComponentsInspector();
+
 	ImGui::End();
 }
 

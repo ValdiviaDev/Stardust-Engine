@@ -14,6 +14,7 @@
 #include "PanelConfig.h"
 #include "PanelHierarchy.h"
 #include "PanelInspector.h"
+#include "PanelAssets.h"
 
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, "Gui", start_enabled)
 {
@@ -47,6 +48,9 @@ bool ModuleGui::Init(ConfigEditor* config)
 	panels.push_back(p_hierarchy);
 	p_inspector = new PanelInspector();
 	panels.push_back(p_inspector);
+	p_assets = new PanelAssets();
+	panels.push_back(p_assets);
+
 	
 	AddLogToConsole("Initializing ImGui");
 
@@ -77,6 +81,8 @@ update_status ModuleGui::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_KP_3) == KEY_DOWN)
 		p_inspector->ToggleActive();
 	if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_DOWN)
+		p_assets->ToggleActive();
+	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 		p_config->ToggleActive();
 
 	return decide_if_update;
@@ -111,6 +117,7 @@ bool ModuleGui::CleanUp()
 	p_config = nullptr;
 	p_hierarchy = nullptr;
 	p_inspector = nullptr;
+	p_assets = nullptr;
 
 	return true;
 }
@@ -203,7 +210,10 @@ void ModuleGui::HandleMainMenuBar()
 			if (ImGui::MenuItem("Inspector", "KP 3", p_inspector->IsActive()))
 				p_inspector->ToggleActive();
 
-			if (ImGui::MenuItem("Configuration", "KP 4", p_config->IsActive()))
+			if (ImGui::MenuItem("Console", "KP 4", p_assets->IsActive()))
+				p_assets->ToggleActive();
+
+			if (ImGui::MenuItem("Configuration", "KP 5", p_config->IsActive()))
 				p_config->ToggleActive();
 
 			ImGui::EndMenu();

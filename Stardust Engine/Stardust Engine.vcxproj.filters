@@ -214,6 +214,9 @@
     <ClCompile Include="Quadtree.cpp">
       <Filter>Sources\Containers</Filter>
     </ClCompile>
+    <ClCompile Include="PanelAssets.cpp">
+      <Filter>Sources\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -536,6 +539,9 @@
     </ClInclude>
     <ClInclude Include="Quadtree.h">
       <Filter>Sources\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelAssets.h">
+      <Filter>Sources\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

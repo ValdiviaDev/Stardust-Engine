@@ -26,12 +26,14 @@ void PanelHierarchy::Draw()
 	}
 
 	ImGui::Begin("Hierarchy", &active, ImGuiWindowFlags_None);
+	
 	int node_index = 0;
 	DrawGOHierarchy(App->scene->GetRootGameObject(), node_index);
+	
 	ImGui::End();
 }
 
-void PanelHierarchy::DrawGOHierarchy(GameObject * go, int & node_index)
+void PanelHierarchy::DrawGOHierarchy(GameObject* go, int & node_index)
 {
 	if (go != App->scene->GetRootGameObject()) {
 		
