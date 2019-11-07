@@ -41,6 +41,11 @@ void ComponentCamera::Update() {
 	if (App->scene->GetRootGameObject()) {
 		CameraCulling(App->scene->GetRootGameObject());
 	}
+	
+	glDisable(GL_LIGHTING);
+	DrawFrustum();
+	glEnable(GL_LIGHTING);
+	
 }
 
 

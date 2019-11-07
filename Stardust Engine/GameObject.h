@@ -63,6 +63,7 @@ public:
 	math::OBB obb;
 	std::vector<GameObject*> childs;
 	bool focused = false;
+	uint uuid = 0;
 };
 
 #endif

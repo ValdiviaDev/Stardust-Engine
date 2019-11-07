@@ -15,10 +15,12 @@
 #include "ModuleFileSystem.h"
 #include "MeshImporter.h"
 #include "MaterialImporter.h"
+//#include "MathGeoLib/include/Algorithm/Random/LCG.h"
 
 using namespace std;
 
 class ConfigEditor;
+
 
 struct Hardware_Info {
 	int CPU_core_num = 0;
@@ -66,9 +68,12 @@ private:
 
 	Hardware_Info h_info;
 
+	LCG lcg;
+
 public:
 	string organization_name;
 	string app_name;
+
 
 public:
 
@@ -95,6 +100,7 @@ public:
 
 	void SetAllConfigToDefault();
 
+	u32 GenerateUUID();
 	
 private:
 

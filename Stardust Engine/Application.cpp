@@ -65,7 +65,7 @@ bool Application::Init()
 	ConfigEditor config;
 	ConfigEditor module_location("App");
 
-	
+	LCG::LCG();
 
 	for (item; item != list_modules.end() && ret; item++) 
 	{
@@ -268,3 +268,8 @@ void Application::AddModule(Module* mod)
 }
 
 
+u32 Application::GenerateUUID() {
+	
+	//random between 0 and max_int
+	return lcg.Int();
+}

@@ -21,7 +21,8 @@ GameObject::GameObject(GameObject* parent)
 	//bounding_box.SetNegativeInfinity();
 
 	SetName("Default GO name");
-
+	uuid = App->GenerateUUID();
+	LOG("%i", uuid);
 }
 
 
