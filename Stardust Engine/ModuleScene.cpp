@@ -20,6 +20,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 #include "MaterialImporter.h"
+#include "SceneSerialization.h"
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
 
@@ -72,7 +73,25 @@ update_status ModuleScene::Update(float dt)
 		FocusGameObject(scene_gameobject, root_object);
 	}
 	
+	if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
+		want_to_save = true;
+
+
+	
+
 	root_object->Update();
+
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleScene::PostUpdate(float dt) {
+
+	if (want_to_save) {
+		want_to_save = false;
+		SceneSerialization s;
+		s.SaveScene("scene1.json");
+	}
+
 
 	return UPDATE_CONTINUE;
 }

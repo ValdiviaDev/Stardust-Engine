@@ -20,6 +20,7 @@ public:
 
 	bool Start();
 	update_status Update(float dt);
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	GameObject* CreateGameObject(GameObject* parent);
@@ -49,6 +50,7 @@ public:
 
 private:
 	GameObject* root_object = nullptr;
+	bool want_to_save = false;
 
 };
 
