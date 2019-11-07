@@ -405,5 +405,5 @@ void GameObject::Load(ConfigEditor* config)
 
 void GameObject::Save(ConfigEditor* config) const{
 
-
+	config->WriteInt("uid", uuid);
 }

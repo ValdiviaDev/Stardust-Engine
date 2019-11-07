@@ -17,8 +17,8 @@ class ConfigEditor {
 
 public:
 
-	ConfigEditor();
-	ConfigEditor(const char* module_name);
+	ConfigEditor(const char* file_name);
+	ConfigEditor(const char* file_name, const char* module_name);
 	~ConfigEditor();
 	
 
@@ -28,11 +28,13 @@ public:
 	bool ReadBool(const char* name, bool default) const;
 
 	void WriteInt(const char* name, int value);
+	void WriteUint(const char* name, uint value);
 	int ReadInt(const char* name, int default) const;
 
 	void WriteFloat(const char* name, float value);
 	float ReadFloat(const char* name, float default) const;
 
+	void SaveFile(const char* file_name);
 private:
 
 	JSON_Value* root_value = nullptr;

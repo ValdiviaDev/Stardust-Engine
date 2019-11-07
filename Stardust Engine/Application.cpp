@@ -62,8 +62,8 @@ bool Application::Init()
 
 
 
-	ConfigEditor config;
-	ConfigEditor module_location("App");
+	
+	ConfigEditor module_location("config.json", "App");
 
 	LCG::LCG();
 
@@ -162,20 +162,22 @@ bool Application::CleanUp()
 void Application::SaveConfig() const {
 
 	
-	ConfigEditor config;
-	ConfigEditor module_location("App");
+	
+	ConfigEditor module_location("config.json", "App");
 
 	for (list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); item++) {
 		
 		module_location = module_location.GetModuleLocation((*item)->GetName());
 		(*item)->Save(&module_location);
+		
 	}
+	module_location.SaveFile("config.json");
 }
 
 void Application:: LoadConfig() {
 
-	ConfigEditor config;
-	ConfigEditor module_location("App");
+	
+	ConfigEditor module_location("config.json", "App");
 
 	for (list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); item++) {
 		
@@ -186,8 +188,8 @@ void Application:: LoadConfig() {
 
 void Application::SetAllConfigToDefault() {
 
-	ConfigEditor config;
-	ConfigEditor module_location("App");
+	
+	ConfigEditor module_location("config.json", "App");
 
 	for (list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); item++) {
 
@@ -195,6 +197,7 @@ void Application::SetAllConfigToDefault() {
 		(*item)->SetDefaultConfig();
 		(*item)->Save(&module_location);
 	}
+	module_location.SaveFile("config.json");
 
 	LoadConfig();
 }
