@@ -5,8 +5,8 @@
 PanelAssets::PanelAssets()
 {
 	name = "assets";
-	active = true;
-	pos_x = 70, pos_y = 70, width = 500, height = 700;
+	active = false;
+	pos_x = 70, pos_y = 70, width = 500, height = 500;
 }
 
 
@@ -35,14 +35,26 @@ void PanelAssets::Draw()
 	//Window
 	ImGui::Begin("Assets", &active, ImGuiWindowFlags_None);
 
+	//Directory tree
+	ImGui::BeginChild(1, { (float)width - 15, (float)height - 70 }, true);
+
 	vector<string> file_list;
 	vector<string> dir_list;
 
 	App->fs->DiscoverFiles(ASSETS_FOLDER, file_list, dir_list);
-
 	GestionDirectoryTree(dir_list);
 
+	ImGui::EndChild();
+
+
+
+	//ImGui::BeginChild(2, { (float)width - 15, (float)50 });
+	ImGui::Button("Open", { 50, 20 });
+	//ImGui::EndChild();
+
+
 	ImGui::End();
+
 
 }
 
@@ -74,6 +86,14 @@ void PanelAssets::DrawAssetTree(vector<string> files, string name, int id, bool 
 
 	if (ImGui::TreeNodeEx((void*)(intptr_t)id, flags, name.c_str())) {
 	
+		if (!is_directory) {
+			if (ImGui::IsItemClicked()) {
+				//TODO: TEMPORARY. Open file
+
+			}
+		}
+
+
 		if (is_directory) {
 			for (int i = 0; i < files.size(); ++i) {
 				id++;
