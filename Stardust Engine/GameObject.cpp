@@ -5,6 +5,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 #include "Quadtree.h"
+#include "ConfigEditor.h"
 
 #include "imgui/imgui.h"
 #include "Glew/include/glew.h"
@@ -392,5 +393,17 @@ void GameObject::DrawBoundingBox()
 	{
 		childs[i]->DrawBoundingBox();
 	}
+
+}
+
+
+void GameObject::Load(ConfigEditor* config)
+{
+
+
+}
+
+void GameObject::Save(ConfigEditor* config) const{
+
 
 }
