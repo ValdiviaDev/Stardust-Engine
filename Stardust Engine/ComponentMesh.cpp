@@ -94,6 +94,8 @@ void ComponentMesh::FillPrimitiveDrawInfo(par_shapes_mesh* shape)
 
 	App->importer->BindBuffersPrimitive(m_info);
 
+	gameObject->UpdateBoundingBox();
+
 }
 
 void ComponentMesh::LoadMesh(string name)

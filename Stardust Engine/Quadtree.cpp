@@ -49,6 +49,8 @@ void QuadtreeNode::Remove(GameObject* go)
 			break;
 		}
 
+	//TODO: Look if we have to delete a node maybe?
+
 	if (!IsLeaf()) {
 		for (int i = 0; i < 4; ++i)
 			childs[i]->Remove(go);
@@ -84,14 +86,20 @@ void QuadtreeNode::ReorganizeObjects()
 
 	while (it != objects.end()) {
 
-		bool all_intersect = true;
+		uint boxes_intersection = 0;
 		for (int i = 0; i < 4; ++i)
-			if (!childs[i]->box.Intersects((*it)->bounding_box))
-				all_intersect = false;
+			if (childs[i]->box.Intersects((*it)->bounding_box))
+				boxes_intersection++;
 
-		//If all the childs intersect keep the GameObject on the parent
-		if (all_intersect)
+		//If two or more childs intersect keep the GO on the parent
+		if (boxes_intersection > 1) {
 			it++;
+			//RELEASE(childs[0]);
+			//RELEASE(childs[1]);
+			//RELEASE(childs[2]);
+			//RELEASE(childs[3]);
+			//break;
+		}
 		//If they don't, put the GO on its appropiate child
 		else {
 			it = objects.erase(it);
