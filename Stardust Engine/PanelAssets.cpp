@@ -30,8 +30,6 @@ void PanelAssets::Draw()
 	}
 
 
-	static bool autom_scroll = true;
-
 	//Window
 	ImGui::Begin("Assets", &active, ImGuiWindowFlags_None);
 
@@ -46,16 +44,15 @@ void PanelAssets::Draw()
 
 	ImGui::EndChild();
 
-
-
-	//ImGui::BeginChild(2, { (float)width - 15, (float)50 });
-	ImGui::Button("Open", { 50, 20 });
-	//ImGui::EndChild();
-
+	if (ImGui::Button("Open Scene", { 80, 20 })) {
+		//Todo Ricardo
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Import", { 80, 20 })) {
+		ImportFromAssets();
+	}
 
 	ImGui::End();
-
-
 }
 
 void PanelAssets::GestionDirectoryTree(vector<string> dir)
@@ -75,7 +72,7 @@ void PanelAssets::GestionDirectoryTree(vector<string> dir)
 
 }
 
-void PanelAssets::DrawAssetTree(vector<string> files, string name, int id, bool is_directory)
+void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool is_directory)
 {
 	ImGui::PushID(id);
 
@@ -84,12 +81,15 @@ void PanelAssets::DrawAssetTree(vector<string> files, string name, int id, bool 
 	if (!is_directory) //TODO change later
 		flags |= ImGuiTreeNodeFlags_Leaf;
 
+	if (id == focused_node)
+		flags |= ImGuiTreeNodeFlags_Selected;
+
 	if (ImGui::TreeNodeEx((void*)(intptr_t)id, flags, name.c_str())) {
 	
 		if (!is_directory) {
 			if (ImGui::IsItemClicked()) {
-				//TODO: TEMPORARY. Open file
-
+				focused_node = id;
+				foc_node_name = name;
 			}
 		}
 
@@ -106,4 +106,28 @@ void PanelAssets::DrawAssetTree(vector<string> files, string name, int id, bool 
 	}
 
 	ImGui::PopID();
+}
+
+void PanelAssets::ImportFromAssets()
+{
+	FileType ft = App->fs->DetermineFileType((char*)foc_node_name.c_str());
+	switch (ft) {
+	case File_Mesh: { //TODO import
+		string out_f;
+		string path = ASSETS_MESH_FOLDER + foc_node_name;
+		App->mesh_import->ImportScene(foc_node_name.c_str(), path.c_str(), out_f);
+		}
+		break;
+
+	case File_Material: { //TODO import
+		string out_f;
+		App->mat_import->Import(foc_node_name.c_str(), ASSETS_TEX_FOLDER, out_f);
+		}
+		break;
+
+	case File_Unknown:
+		App->gui->AddLogToConsole("ERROR: Couldn't import file!!");
+		break;
+
+	}
 }

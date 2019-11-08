@@ -171,7 +171,7 @@ void ModuleGui::HandleMainMenuBar()
 
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Mehses")) {
+		if (ImGui::BeginMenu("Meshes")) {
 			for (int i = 0; i < loaded_meshes.size(); ++i)
 				if (ImGui::MenuItem(loaded_meshes[i].c_str()))
 				{
@@ -210,7 +210,7 @@ void ModuleGui::HandleMainMenuBar()
 			if (ImGui::MenuItem("Inspector", "KP 3", p_inspector->IsActive()))
 				p_inspector->ToggleActive();
 
-			if (ImGui::MenuItem("Console", "KP 4", p_assets->IsActive()))
+			if (ImGui::MenuItem("Assets", "KP 4", p_assets->IsActive()))
 				p_assets->ToggleActive();
 
 			if (ImGui::MenuItem("Configuration", "KP 5", p_config->IsActive()))

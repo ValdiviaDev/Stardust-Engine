@@ -115,27 +115,15 @@ update_status ModuleInput::PreUpdate(float dt)
 				LOG("File Drop!");
 				FileType ft = App->fs->DetermineFileType(e.drop.file);
 				switch (ft) {
-				case File_Mesh: {
+				case File_Mesh:
 					//TODO: have to delete
 					App->gui->AddLogToConsole("Charging 3D model");
 					App->scene->ChangeGameObjectMesh(e.drop.file);
-
-					//TODO will stay
-					string out_f;
-					App->mesh_import->ImportScene(e.drop.file, e.drop.file, out_f);
-					}
 					break;
-				case File_Material: {
+				case File_Material:
 					App->gui->AddLogToConsole("Charging texture");
 					// TODO: have to delete
 					App->scene->ChangeGameObjectTexture(e.drop.file, App->scene->GetFocusedGameObject(App->scene->GetRootGameObject()));
-
-					//TODO will stay
-					string out_f;
-					string file_name = e.drop.file;
-					file_name = file_name.erase(0, file_name.find_last_of("\\") + 1);
-					App->mat_import->Import(file_name.c_str(), "Assets/Textures/", out_f);
-					}
 					break;
 				case File_Unknown:
 					App->gui->AddLogToConsole("ERROR: Couldn't charge file");

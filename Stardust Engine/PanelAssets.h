@@ -15,9 +15,13 @@ public:
 	void Draw();
 
 	void GestionDirectoryTree(vector<string> dir);
-	void DrawAssetTree(vector<string> files, string name, int id, bool is_directory);
+	void DrawAssetTree(vector<string> files, string name, int& id, bool is_directory);
+
+	void ImportFromAssets();
 
 private:
+	int focused_node = -1;
+	string foc_node_name;
 
 };
 
