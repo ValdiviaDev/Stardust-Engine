@@ -2,6 +2,14 @@
 #define __Component__H__
 
 class GameObject;
+struct json_object_t;
+typedef struct json_object_t JSON_Object;
+
+struct json_value_t;
+typedef struct json_value_t  JSON_Value;
+
+struct json_array_t;
+typedef struct json_array_t  JSON_Array;
 
 enum ComponentType {
 	Comp_Default,
@@ -22,6 +30,7 @@ public:
 	virtual void Disable(){} //TODO
 	virtual void Update(float dt) {}
 	virtual void  DrawInspector() {}
+	virtual void Save(JSON_Array* go_array) {}
 
 	bool IsActive() const;
 	void SetActive(bool active);

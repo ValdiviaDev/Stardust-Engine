@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "imgui/imgui.h"
 #include "MathGeoLib/include/MathGeoLib.h"
-
+#include "Parson/parson.h"
 
 
 
@@ -187,4 +187,29 @@ math::float3 ComponentTransform::GetGlobalScale() const {
 	}
 
 	return ret;
+}
+
+
+
+void ComponentTransform::Save(JSON_Array* comp_array) {
+
+
+	JSON_Value* value = json_value_init_object();
+	JSON_Object* obj = json_value_get_object(value);
+
+	json_object_set_number(obj, "Component Type", type);
+
+	json_object_set_number(obj, "PosX", position.x);
+	json_object_set_number(obj, "PosY", position.y);
+	json_object_set_number(obj, "PosZ", position.z);
+	json_object_set_number(obj, "RotX", quaternion_rot.x);
+	json_object_set_number(obj, "RotY", quaternion_rot.y);
+	json_object_set_number(obj, "RotZ", quaternion_rot.z);
+	json_object_set_number(obj, "RotW", quaternion_rot.w);
+	json_object_set_number(obj, "ScaleX", scale.x);
+	json_object_set_number(obj, "ScaleY", scale.y);
+	json_object_set_number(obj, "ScaleZ", scale.z);
+
+	json_array_append_value(comp_array, value);
+
 }

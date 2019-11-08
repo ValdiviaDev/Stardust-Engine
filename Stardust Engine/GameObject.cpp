@@ -419,24 +419,31 @@ void GameObject::Save(JSON_Array* go_array) const{
 	JSON_Value* val = json_value_init_object();
 	JSON_Object* obj = json_value_get_object(val);
 
-	//Save
+	//Save GO info
 
 	json_object_set_string(obj, "Name", name);
 	json_object_set_number(obj, "UUID", uuid);
+	json_object_set_boolean(obj, "Active", active);
+	json_object_set_boolean(obj, "Static", static_go);
 	if (parent)
 		json_object_set_number(obj, "Parent UUID", parent->uuid);
 	else
 		json_object_set_number(obj, "Parent UUID", 0);
 
+	//Save Components
 
+	JSON_Value* value_comps = json_value_init_array();
+	JSON_Array* array_comps = json_value_get_array(value_comps);
+	
+	if (transform)
+		transform->Save(array_comps);
+
+
+
+
+	json_object_set_value(obj, "Components", value_comps);
 	//
 	json_array_append_value(go_array, val);
 
-	
-
-
-
-
-	//module_object = json_object_get_object(root_object, name);
 
 }

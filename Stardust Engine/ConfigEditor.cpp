@@ -114,3 +114,4 @@ void ConfigEditor::WriteString(const char* name, const char* string) {
 	json_object_set_string(module_object, name, string);
 }
 
+	

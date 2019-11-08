@@ -4,6 +4,15 @@
 #include "Component.h"
 #include "MathGeoLib/include/MathGeoLib.h"
 
+struct json_object_t;
+typedef struct json_object_t JSON_Object;
+
+struct json_value_t;
+typedef struct json_value_t  JSON_Value;
+
+struct json_array_t;
+typedef struct json_array_t  JSON_Array;
+
 class ComponentTransform : public Component //TODO
 {
 public:
@@ -30,6 +39,7 @@ public:
 
 	void UpdateMatrix();
 
+	void Save(JSON_Array* comp_array);
 private:
 	math::float4x4 local_matrix = math::float4x4::identity;
 	math::float4x4 global_matrix = math::float4x4::identity;
