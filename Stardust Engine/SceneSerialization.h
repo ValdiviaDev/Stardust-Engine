@@ -5,6 +5,14 @@
 #include "Parson/parson.h"
 #include "GameObject.h"
 
+struct json_object_t;
+typedef struct json_object_t JSON_Object;
+
+struct json_value_t;
+typedef struct json_value_t  JSON_Value;
+
+struct json_array_t;
+typedef struct json_array_t  JSON_Array;
 
 class SceneSerialization
 {
@@ -14,7 +22,7 @@ public:
 	~SceneSerialization();
 
 	void SaveScene(const char* scene_name);
-
+	void SceneSerialization::SaveGOs(GameObject* go, JSON_Array* array); //Send root first time
 
 };
 

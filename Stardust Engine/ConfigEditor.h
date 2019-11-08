@@ -28,18 +28,25 @@ public:
 	bool ReadBool(const char* name, bool default) const;
 
 	void WriteInt(const char* name, int value);
-	void WriteUint(const char* name, uint value);
 	int ReadInt(const char* name, int default) const;
+
+	void WriteUint(const char* name, uint value);
+
 
 	void WriteFloat(const char* name, float value);
 	float ReadFloat(const char* name, float default) const;
 
+	void WriteString(const char* name, const char* string);
+
+	
+
 	void SaveFile(const char* file_name);
-private:
+public:
 
 	JSON_Value* root_value = nullptr;
 	JSON_Object* root_object = nullptr;
 	JSON_Object* module_object = nullptr;
+
 
 	
 };

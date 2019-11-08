@@ -6,6 +6,7 @@
 #include "ComponentCamera.h"
 #include "Quadtree.h"
 #include "ConfigEditor.h"
+#include "Parson/parson.h"
 
 #include "imgui/imgui.h"
 #include "Glew/include/glew.h"
@@ -403,7 +404,39 @@ void GameObject::Load(ConfigEditor* config)
 
 }
 
-void GameObject::Save(ConfigEditor* config) const{
+void GameObject::Save(JSON_Array* go_array) const{
 
-	config->WriteInt("uid", uuid);
+	LOG("Saving GameObject: %s", name);
+	std::string uuid_s = std::to_string(uuid);
+
+	
+	//config->WriteUint("uuid", uuid);
+	//config->AddArray("uuid");
+
+	//config->array = json_value_get_array(config->root_value);
+	
+
+	JSON_Value* val = json_value_init_object();
+	JSON_Object* obj = json_value_get_object(val);
+
+	//Save
+
+	json_object_set_string(obj, "Name", name);
+	json_object_set_number(obj, "UUID", uuid);
+	if (parent)
+		json_object_set_number(obj, "Parent UUID", parent->uuid);
+	else
+		json_object_set_number(obj, "Parent UUID", 0);
+
+
+	//
+	json_array_append_value(go_array, val);
+
+	
+
+
+
+
+	//module_object = json_object_get_object(root_object, name);
+
 }

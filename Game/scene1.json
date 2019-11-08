@@ -1,1 +1,20 @@
-{}
+[
+{
+"Name":"BakerHouse",
+"UUID":1671522321,
+"Parent UUID":1706018257
+},
+{
+"Name":"Chimney",
+"UUID":916679411,
+"Parent UUID":1671522321
+},
+{"Name":"Baker_house",
+"UUID":1218251685,
+"Parent UUID":1671522321
+},
+{"Name":"Default GO name",
+"UUID":1033923120,
+"Parent UUID":1706018257
+}
+]

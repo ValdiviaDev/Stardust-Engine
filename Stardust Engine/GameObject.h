@@ -15,6 +15,15 @@ class ComponentCamera;
 class ConfigEditor;
 enum ComponentType;
 
+struct json_object_t;
+typedef struct json_object_t JSON_Object;
+
+struct json_value_t;
+typedef struct json_value_t  JSON_Value;
+
+struct json_array_t;
+typedef struct json_array_t  JSON_Array;
+
 class GameObject
 {
 public:
@@ -48,7 +57,7 @@ public:
 	void DrawBoundingBox();
 
 	void Load(ConfigEditor* config);
-	void Save(ConfigEditor* config) const;
+	void Save(JSON_Array* go_array) const;
 
 private:
 	bool active = true;

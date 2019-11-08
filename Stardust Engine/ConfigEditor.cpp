@@ -46,26 +46,26 @@ ConfigEditor ConfigEditor::GetModuleLocation(const char* name) {
 	module_object = json_object_get_object(root_object, name);
 	
 	return *this;
-
-
 }
 
 
 void ConfigEditor::WriteBool(const char* name, bool value){
 	LOG("Writing bool");
 	json_object_set_boolean(module_object, name, value);
-	//json_serialize_to_file(root_value, "config.json");
 }
 
 
 bool ConfigEditor::ReadBool(const char* name, bool default) const {
 
-	if(json_object_get_boolean(module_object, name) == true)
+	bool ret = json_object_get_boolean(module_object, name);
+	if (ret) {
 		LOG("%s is true", name);
-	if (json_object_get_boolean(module_object, name) == false)
+	}
+	else {
 		LOG("%s is false", name);
+	}
 
-	return json_object_get_boolean(module_object, name);
+	return ret;
 
 	
 	//return default;
@@ -75,14 +75,8 @@ bool ConfigEditor::ReadBool(const char* name, bool default) const {
 void ConfigEditor::WriteInt(const char* name, int value) {
 	LOG("Writing int");
 	json_object_set_number(module_object, name, (double)value);
-	//json_serialize_to_file(root_value, "config.json");
 }
 
-void ConfigEditor::WriteUint(const char* name, uint value) {
-	LOG("Writing uint");
-	json_object_set_number(module_object, name, (double)value);
-	//json_serialize_to_file(root_value, "config.json");
-}
 
 int ConfigEditor::ReadInt(const char* name, int default) const {
 	LOG("Int is %i", (int)json_object_get_number(module_object, name));
@@ -93,10 +87,16 @@ int ConfigEditor::ReadInt(const char* name, int default) const {
 }
 
 
+void ConfigEditor::WriteUint(const char* name, uint value) {
+	LOG("Writing uint %i", value);
+	json_object_set_number(module_object, name, (double)value);
+
+}
+
+
 void ConfigEditor::WriteFloat(const char* name, float value) {
 	LOG("Writing float");
 	json_object_set_number(module_object, name, (float)value);
-	//json_serialize_to_file(root_value, "config.json");
 }
 
 
@@ -107,3 +107,10 @@ float ConfigEditor::ReadFloat(const char* name, float default) const {
 
 	//return default;
 }
+
+
+void ConfigEditor::WriteString(const char* name, const char* string) {
+	LOG("Writing string");
+	json_object_set_string(module_object, name, string);
+}
+

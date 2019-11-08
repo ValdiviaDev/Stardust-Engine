@@ -2,7 +2,7 @@
 #include "ModuleScene.h"
 #include "Component.h"
 #include "ConfigEditor.h"
-
+#include "Application.h"
 
 SceneSerialization::SceneSerialization() {
 
@@ -18,8 +18,47 @@ SceneSerialization::~SceneSerialization() {
 void SceneSerialization::SaveScene(const char* scene_name) {
 
 
-	ConfigEditor config(scene_name);
 
-	config.SaveFile(scene_name);
+	JSON_Value* root_value = json_value_init_array();
+
+	//root_value = json_parse_file("scene1.json");
+
+	//if (root_value == NULL) {
+	//	LOG("JSON not found, creating new file");
+	//	root_value = json_value_init_object();
+	//}
+
+	JSON_Array* array = json_value_get_array(root_value);
+
+	SaveGOs(App->scene->GetRootGameObject(),array);
+
+
+	
+	//int buffer_size = json_serialization_size_pretty(root_value);
+	//char* buffer = new char[buffer_size];
+	//json_serialize_to_buffer_pretty(root_value, buffer, buffer_size);
+
+	json_serialize_to_file(root_value, scene_name);
+
+	//RELEASE_ARRAY(buffer);
+	json_value_free(root_value);
+}
+
+void SceneSerialization::SaveGOs(GameObject* go, JSON_Array* array) {
+
+	
+
+	if (go->GetNumChilds() > 0) {
+
+		for (std::vector<GameObject*>::const_iterator it = go->childs.begin(); it < go->childs.end(); it++) {
+
+
+			(*it)->Save(array);
+			SaveGOs(*it, array);
+		}
+	}
+
+
+	
 
 }
