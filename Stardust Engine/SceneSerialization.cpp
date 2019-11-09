@@ -34,13 +34,9 @@ void SceneSerialization::SaveScene(const char* scene_name) {
 
 
 	
-	//int buffer_size = json_serialization_size_pretty(root_value);
-	//char* buffer = new char[buffer_size];
-	//json_serialize_to_buffer_pretty(root_value, buffer, buffer_size);
+	json_serialize_to_file_pretty(root_value, scene_name);
 
-	json_serialize_to_file(root_value, scene_name);
 
-	//RELEASE_ARRAY(buffer);
 	json_value_free(root_value);
 }
 

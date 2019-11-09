@@ -11,6 +11,8 @@ public:
 	ComponentMesh(GameObject* parent, char* path, bool is_primitive);
 	~ComponentMesh();
 
+	void Save(JSON_Array* comp_array);
+
 	void AssignMesh(char* path);
 
 	geo_info GetInfo() const;
@@ -22,6 +24,8 @@ public:
 	void LoadMesh(string name);
 
 	void SetPath(const char* path);
+
+	
 
 public:
 	bool debug_v_norm = false;

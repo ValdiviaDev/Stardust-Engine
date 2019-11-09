@@ -222,3 +222,18 @@ int ComponentCamera::ContainsAABB(const AABB& refBox) const
 	// we must be partly in then otherwise
 	return(INTERSECT);
 }
+
+
+
+
+void ComponentCamera::Save(JSON_Array* comp_array) {
+
+	JSON_Value* value = json_value_init_object();
+	JSON_Object* obj = json_value_get_object(value);
+
+	json_object_set_number(obj, "Component Type", type);
+	json_object_set_number(obj, "aspect ratio", aspect_ratio);
+	json_object_set_boolean(obj, "culling", culling);
+	
+	
+}

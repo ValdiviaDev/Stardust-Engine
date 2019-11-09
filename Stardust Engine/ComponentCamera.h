@@ -23,6 +23,8 @@ public:
 	
 	void Update();
 
+	void Save(JSON_Array* comp_array);
+
 	void DrawInspector();
 
 	float GetFOV() const;

@@ -1,1 +1,108 @@
-[{"Name":"BakerHouse","UUID":995784087,"Active":true,"Static":false,"Parent UUID":12599203,"Components":[{"Component Type":1,"PosX":0,"PosY":0,"PosZ":0,"RotX":0,"RotY":0,"RotZ":0,"RotW":1,"ScaleX":1,"ScaleY":1,"ScaleZ":1}]},{"Name":"Chimney","UUID":269344926,"Active":true,"Static":false,"Parent UUID":995784087,"Components":[{"Component Type":1,"PosX":0,"PosY":0,"PosZ":0,"RotX":-0.7071068286895752,"RotY":0,"RotZ":0,"RotW":0.70710670948028564,"ScaleX":100,"ScaleY":100,"ScaleZ":100}]},{"Name":"Baker_house","UUID":235887442,"Active":true,"Static":false,"Parent UUID":995784087,"Components":[{"Component Type":1,"PosX":0,"PosY":0,"PosZ":0,"RotX":-0.7071068286895752,"RotY":0,"RotZ":0,"RotW":0.70710670948028564,"ScaleX":100,"ScaleY":100,"ScaleZ":100}]},{"Name":"Default GO name","UUID":912150873,"Active":true,"Static":false,"Parent UUID":12599203,"Components":[{"Component Type":1,"PosX":0,"PosY":0,"PosZ":0,"RotX":0,"RotY":0,"RotZ":0,"RotW":1,"ScaleX":1,"ScaleY":1,"ScaleZ":1}]}]
+[
+    {
+        "Name": "BakerHouse",
+        "UUID": 452455522,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 112777074,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "path": "Assets\/Meshes\/BakerHouse.fbx",
+                "is primitive": false,
+                "TEST": " asd\/\/fgh\/jklzxc\\vbn"
+            }
+        ]
+    },
+    {
+        "Name": "Chimney",
+        "UUID": 1115762966,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 452455522,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": -0.7071068286895752,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 100,
+                "ScaleY": 100,
+                "ScaleZ": 100
+            },
+            {
+                "Component Type": 2,
+                "path": "Assets\/Meshes\/BakerHouse.fbx",
+                "is primitive": false,
+                "TEST": " asd\/\/fgh\/jklzxc\\vbn"
+            }
+        ]
+    },
+    {
+        "Name": "Baker_house",
+        "UUID": 1754976602,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 452455522,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": -0.7071068286895752,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 100,
+                "ScaleY": 100,
+                "ScaleZ": 100
+            },
+            {
+                "Component Type": 2,
+                "path": "Assets\/Meshes\/BakerHouse.fbx",
+                "is primitive": false,
+                "TEST": " asd\/\/fgh\/jklzxc\\vbn"
+            }
+        ]
+    },
+    {
+        "Name": "Default GO name",
+        "UUID": 2143911777,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 112777074,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    }
+]

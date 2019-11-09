@@ -10,6 +10,8 @@ public:
 	ComponentMaterial(GameObject* parent);
 	~ComponentMaterial();
 
+	void Save(JSON_Array* comp_array);
+
 	void AssignTexture(const char* path);
 
 	uint GetTexId()const;

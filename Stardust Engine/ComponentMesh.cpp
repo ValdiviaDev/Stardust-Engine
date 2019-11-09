@@ -110,3 +110,22 @@ void ComponentMesh::SetPath(const char* path)
 {
 	this->path = path;
 }
+
+
+void ComponentMesh::Save(JSON_Array* comp_array) {
+
+
+	JSON_Value* value = json_value_init_object();
+	JSON_Object* obj = json_value_get_object(value);
+
+	json_object_set_number(obj, "Component Type", type);
+
+	json_object_set_string(obj, "path", path);
+	json_object_set_boolean(obj, "is primitive", is_primitive);
+	json_object_set_string(obj, "TEST", " asd//fgh/jkl\zxc\\vbn");
+
+	const char* asd = json_object_get_string(obj, "TEST");
+
+	json_array_append_value(comp_array, value);
+
+}

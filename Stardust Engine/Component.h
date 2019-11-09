@@ -1,6 +1,8 @@
 #ifndef __Component__H__
 #define __Component__H__
 
+#include "Parson/parson.h"
+
 class GameObject;
 struct json_object_t;
 typedef struct json_object_t JSON_Object;

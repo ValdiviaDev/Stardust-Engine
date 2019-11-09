@@ -19,6 +19,8 @@ public:
 	ComponentTransform(GameObject* parent);
 	~ComponentTransform();
 
+	void Save(JSON_Array* comp_array);
+
 	void  DrawInspector();
 
 	void SetPosition(math::float3 pos);
@@ -39,7 +41,6 @@ public:
 
 	void UpdateMatrix();
 
-	void Save(JSON_Array* comp_array);
 private:
 	math::float4x4 local_matrix = math::float4x4::identity;
 	math::float4x4 global_matrix = math::float4x4::identity;

@@ -66,3 +66,15 @@ void ComponentMaterial::DrawInspector() {
 	}
 
 }
+
+
+void ComponentMaterial::Save(JSON_Array* comp_array) {
+
+	JSON_Value* value = json_value_init_object();
+	JSON_Object* obj = json_value_get_object(value);
+
+	json_object_set_number(obj, "Component Type", type);
+
+	json_object_set_string(obj, "path", tex_path);
+
+}
