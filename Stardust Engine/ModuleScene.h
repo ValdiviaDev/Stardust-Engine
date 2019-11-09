@@ -47,10 +47,10 @@ public:
 	GameObject* scene_gameobject = nullptr; //Change after first assignment
 
 	Quadtree* quadtree = nullptr;
-
+	bool want_to_save = false;
 private:
 	GameObject* root_object = nullptr;
-	bool want_to_save = false;
+	
 
 };
 

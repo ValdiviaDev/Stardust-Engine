@@ -145,12 +145,16 @@ void ModuleGui::HandleMainMenuBar()
 {
 	static bool show_demo_window = false;
 	static bool quit_engine = false;
+	static bool save_scene = false;
 
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
 			ImGui::MenuItem("Exit", "ESC", &quit_engine);
+
+			if (ImGui::MenuItem("Save scene", "", &save_scene))
+				App->scene->want_to_save = true;
 
 			ImGui::EndMenu();
 		}

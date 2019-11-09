@@ -73,11 +73,6 @@ update_status ModuleScene::Update(float dt)
 		FocusGameObject(scene_gameobject, root_object);
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
-		want_to_save = true;
-
-
-	
 
 	root_object->Update();
 
