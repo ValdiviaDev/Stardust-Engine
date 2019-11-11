@@ -223,6 +223,21 @@ int ComponentCamera::ContainsAABB(const AABB& refBox) const
 	return(INTERSECT);
 }
 
+float* ComponentCamera::GetViewMatrix()
+{
+	view_mat = frustum.ViewMatrix();
+	view_mat.Transpose();
+
+	return (float*)view_mat.v;
+}
+
+float* ComponentCamera::GetProjectionMatrix()
+{
+	proj_mat = frustum.ProjectionMatrix();
+	//proj_mat.Transpose();
+
+	return (float*)proj_mat.v;
+}
 
 
 
