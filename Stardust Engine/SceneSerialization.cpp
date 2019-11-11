@@ -58,18 +58,31 @@ void SceneSerialization::LoadScene(const char* scene_name) {
 
 	App->scene->CreateRootObject();
 	
-
+	//Create GOs without hierarchy
 	for (uint i = 0; i < array_size; i++) {
 
 		object = json_array_get_object(array, i);
 		GameObject* aux = App->scene->CreateGameObject(App->scene->GetRootGameObject());
 		aux->SetName(json_object_get_string(object, "Name"));
+		aux->uuid = json_object_get_number(object, "UUID");
 
 		go_list.push_back(aux);
 	}
 	
+	//Order GOs with parent UUID
+	for (uint i = 0; i < array_size; i++) {
 
+		object = json_array_get_object(array, i);
+		GameObject* parent = App->scene->GetGameObjectFromUUID(json_object_get_number(object, "Parent UUID"), App->scene->GetRootGameObject());
+		if (parent){
 
+			parent->childs.push_back(go_list[i]);
+			go_list[i]->SetParent(parent);
+
+		}
+	}
+
+	json_value_free(root_value);
 }
 
 

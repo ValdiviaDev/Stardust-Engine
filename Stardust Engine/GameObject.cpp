@@ -138,6 +138,14 @@ GameObject* GameObject::GetParent() {
 	return parent;
 }
 
+void GameObject::SetParent(GameObject* parent)
+{
+	if (this->parent)
+		this->DeleteFromParentList();
+
+	this->parent = parent;
+}
+
 void GameObject::DeleteFromParentList()
 {
 	if (parent) {

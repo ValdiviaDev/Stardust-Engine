@@ -419,6 +419,46 @@ GameObject* ModuleScene::GetFocusedGameObject(GameObject* root) const {
 	return ret;
 }
 
+GameObject * ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) const
+{
+
+	GameObject* ret = nullptr;
+
+
+	if (root) {
+
+		if (root->uuid == UUID)
+			return root;
+
+		else
+		{
+			if (root->GetNumChilds() > 0) {
+
+				for (std::vector<GameObject*>::const_iterator it = root->childs.begin(); it < root->childs.end(); it++) {
+
+					if (ret != nullptr)
+						return ret;
+
+
+					if ((*it)->uuid == UUID) {
+
+						return *it;
+
+					}
+					else {
+
+						ret = GetGameObjectFromUUID(UUID, *it);
+					}
+
+				}
+
+
+			}
+		}
+	}
+	return ret;
+}
+
 void ModuleScene::DestroyGOs() {
 	RELEASE(root_object);
 }

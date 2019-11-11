@@ -41,7 +41,7 @@ public:
 
 	void FocusGameObject(GameObject* focused, GameObject* root);
 	GameObject* GetFocusedGameObject(GameObject* root) const;
-
+	GameObject* GetGameObjectFromUUID(uint UUID, GameObject* root) const; //Send root 1st time
 	void CreateRootObject();
 	void DestroyGOs();
 

@@ -41,6 +41,7 @@ public:
 	uint GetNumChilds() const;
 	GameObject* GetChild(uint i);
 	GameObject* GetParent();
+	void SetParent(GameObject* parent);
 	void DeleteFromParentList();
 
 	void SetName(const char* new_name);
