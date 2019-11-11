@@ -20,12 +20,14 @@ public:
 	~ComponentTransform();
 
 	void Save(JSON_Array* comp_array);
+	void Load(JSON_Object* comp_obj);
 
 	void  DrawInspector();
 
 	void SetPosition(math::float3 pos);
 	math::float3 GetPosition() const;
 	void SetRotation(math::float3 rot);
+	void SetRotationFromQuat();
 	math::float3 GetRotation() const;
 	void SetScale(math::float3 scale);
 	math::float3 GetScale() const;

@@ -78,6 +78,8 @@ void ComponentMaterial::Save(JSON_Array* comp_array) {
 
 	json_object_set_number(obj, "Component Type", type);
 
+
 	json_object_set_string(obj, "path", tex_path);
 
+	json_array_append_value(comp_array, value);
 }

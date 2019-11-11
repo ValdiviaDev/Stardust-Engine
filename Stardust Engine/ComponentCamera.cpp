@@ -253,5 +253,5 @@ void ComponentCamera::Save(JSON_Array* comp_array) {
 	json_object_set_number(obj, "aspect ratio", aspect_ratio);
 	json_object_set_boolean(obj, "culling", culling);
 	
-	
+	json_array_append_value(comp_array, value);
 }

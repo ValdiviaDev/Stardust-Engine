@@ -33,6 +33,7 @@ public:
 	virtual void Update(float dt) {}
 	virtual void  DrawInspector() {}
 	virtual void Save(JSON_Array* go_array) {}
+	virtual void Load(JSON_Object* comp_obj) {}
 
 	bool IsActive() const;
 	void SetActive(bool active);

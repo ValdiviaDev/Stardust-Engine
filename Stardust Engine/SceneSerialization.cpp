@@ -63,9 +63,7 @@ void SceneSerialization::LoadScene(const char* scene_name) {
 
 		object = json_array_get_object(array, i);
 		GameObject* aux = App->scene->CreateGameObject(App->scene->GetRootGameObject());
-		aux->SetName(json_object_get_string(object, "Name"));
-		aux->uuid = json_object_get_number(object, "UUID");
-
+		aux->Load(object);
 		go_list.push_back(aux);
 	}
 	
