@@ -22,6 +22,7 @@ public:
 	~SceneSerialization();
 
 	void SaveScene(const char* scene_name);
+	void LoadScene(const char* scene_name);
 	void SceneSerialization::SaveGOs(GameObject* go, JSON_Array* array); //Send root first time
 
 };
