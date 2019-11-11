@@ -39,8 +39,8 @@ bool ModuleScene::Start()
 	LOG("Loading Intro assets");
 
 	//Camera position
-	App->camera->Move(vec3(3.0f, 3.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
+	//App->camera->Move(vec3(3.0f, 3.0f, 0.0f));
+	//App->camera->LookAt(vec3(0, 0, 0));
 	
 
 	//Initialize root GameObject

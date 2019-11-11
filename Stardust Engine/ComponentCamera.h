@@ -6,6 +6,7 @@
 #include "Component.h"
 #include "MathGeoLib/include/Geometry/Frustum.h"
 #include "MathGeoLib/include/Geometry/AABB.h"
+#include "MathGeoLib/include/Math/float4x4.h"
 
 class GameObject;
 
@@ -38,9 +39,17 @@ public:
 
 	void CameraCulling(GameObject* go); //send root 1st time
 	int ContainsAABB(const AABB& refBox) const;
-private:
 
+	//View matrix and Projection matrix
+	float* GetViewMatrix();
+	float* GetProjectionMatrix();
+
+public:
 	math::Frustum frustum;
+
+private:
+	float4x4 view_mat;
+	float4x4 proj_mat;
 	float aspect_ratio = 0.0f;
 	bool culling = false;
 

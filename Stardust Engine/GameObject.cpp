@@ -347,10 +347,10 @@ void GameObject::CenterCameraOnGO() const {
 		
 		float3 pos = transform->GetGlobalPos();
 		float3 scale = transform->GetGlobalScale();
-		App->camera->Look(vec3(pos.x + (min_x + (max_x - min_x)/2) * scale.x, pos.y + (min_y + (max_y - min_y) / 2) * scale.y , (pos.z + dist) * scale.z), vec3(pos.x + (min_x + (max_x - min_x) / 2)*scale.x, pos.y + (min_y + (max_y - min_y) / 2) * scale.y, pos.z * scale.z));
+		App->camera->Look(float3(pos.x + (min_x + (max_x - min_x)/2) * scale.x, pos.y + (min_y + (max_y - min_y) / 2) * scale.y , (pos.z + dist) * scale.z), float3(pos.x + (min_x + (max_x - min_x) / 2)*scale.x, pos.y + (min_y + (max_y - min_y) / 2) * scale.y, pos.z * scale.z));
 	}
 	else {
-		App->camera->Look(vec3(0, 0, dist), vec3(0, 0, 0));
+		App->camera->Look(float3(0, 0, dist), float3(0, 0, 0));
 	}
 
 	
