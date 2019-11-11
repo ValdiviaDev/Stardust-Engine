@@ -30,6 +30,7 @@ public:
 
 	float GetFOV() const;
 	void SetFOV(float fov);
+	void SetAspectRatio(float AR);
 	void SetNearPlane(float near_plane);
 	float GetNearPlane() const;
 	void SetFarPlane(float far_plane);

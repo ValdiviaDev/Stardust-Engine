@@ -145,7 +145,8 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	float3 cam_pos = App->camera->dummy_cam->frustum.pos;
+	lights[0].SetPos(cam_pos.x, cam_pos.y, cam_pos.z);
 
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
@@ -193,8 +194,8 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	//ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
-	//glLoadMatrixf(&ProjectionMatrix);
+
+	App->camera->dummy_cam->SetAspectRatio((float)width / (float)height);
 	glLoadMatrixf(App->camera->dummy_cam->GetProjectionMatrix());
 
 	glMatrixMode(GL_MODELVIEW);

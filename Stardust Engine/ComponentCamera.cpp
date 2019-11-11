@@ -65,6 +65,12 @@ void ComponentCamera::SetFOV(float fov) {
 
 }
 
+void ComponentCamera::SetAspectRatio(float AR)
+{
+	aspect_ratio = AR;
+	frustum.horizontalFov = 2.0f * atanf(aspect_ratio * tanf(frustum.verticalFov * 0.5f));
+}
+
 
 void ComponentCamera::SetNearPlane(float near_plane) {
 
