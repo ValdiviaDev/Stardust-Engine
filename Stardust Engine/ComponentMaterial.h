@@ -27,7 +27,7 @@ public:
 	int tex_width, tex_height;
 
 private:
-	const char* tex_path;
+	char tex_path[500];
 	bool has_tex = false;
 };
 

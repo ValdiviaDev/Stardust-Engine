@@ -23,7 +23,7 @@ void ComponentMaterial::AssignTexture(const char* path)
 
 	if (charged) {
 		has_tex = true;
-		this->tex_path = path;
+		strcpy_s(tex_path, 500, path);
 	}
 }
 
