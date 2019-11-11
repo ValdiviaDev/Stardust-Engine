@@ -62,6 +62,13 @@ void ComponentTransform::SetRotation(math::float3 rot) {
 	quaternion_rot = math::Quat::FromEulerXYZ(rotation.x * DEGTORAD, rotation.y * DEGTORAD, rotation.z * DEGTORAD);
 }
 
+void ComponentTransform::SetRotationFromQuat() {
+	math::Quat deg_quat_rot = { quaternion_rot.x, quaternion_rot.y, quaternion_rot.z, quaternion_rot.w};
+	rotation = deg_quat_rot.ToEulerXYZ();
+	rotation *= RADTODEG;
+}
+
+
 math::float3 ComponentTransform::GetPosition() const{
 
 	return position;
@@ -214,4 +221,20 @@ void ComponentTransform::Save(JSON_Array* comp_array) {
 
 	json_array_append_value(comp_array, value);
 
+}
+
+void ComponentTransform::Load(JSON_Object* comp_obj) {
+
+	position.x = json_object_get_number(comp_obj, "PosX");
+	position.y = json_object_get_number(comp_obj, "PosY");
+	position.z = json_object_get_number(comp_obj, "PosZ");
+	quaternion_rot.x = json_object_get_number(comp_obj, "RotX");
+	quaternion_rot.y = json_object_get_number(comp_obj, "RotY");
+	quaternion_rot.z = json_object_get_number(comp_obj, "RotZ");
+	quaternion_rot.w = json_object_get_number(comp_obj, "RotW");
+	scale.x = json_object_get_number(comp_obj, "ScaleX");
+	scale.y = json_object_get_number(comp_obj, "ScaleY");
+	scale.z = json_object_get_number(comp_obj, "ScaleZ");
+
+	SetRotationFromQuat();
 }

@@ -406,9 +406,52 @@ void GameObject::DrawBoundingBox()
 }
 
 
-void GameObject::Load(ConfigEditor* config)
+void GameObject::Load(JSON_Object* object)
 {
+	SetName(json_object_get_string(object, "Name"));
+	uuid = json_object_get_number(object, "UUID");
 
+	JSON_Array* array_comps = json_object_get_array(object, "Components");
+	JSON_Object* it;
+
+	for (uint i = 0; i < json_array_get_count(array_comps); i++) {
+		
+		it = json_array_get_object(array_comps, i);
+		
+
+		int comp_type = json_object_get_number(it, "Component Type");
+
+		switch (comp_type) {
+
+		case ComponentType::Comp_Default:
+			break;
+
+		case ComponentType::Comp_Transform:
+
+			CreateComponent((ComponentType)comp_type);
+			transform->Load(it);
+			break;
+
+		case ComponentType::Comp_Mesh:
+
+			//CreateComponent((ComponentType)comp_type);
+
+			break;
+
+		case ComponentType::Comp_Material:
+
+			//CreateComponent((ComponentType)comp_type);
+
+			break;
+
+		case ComponentType::Comp_Camera:
+
+			//CreateComponent((ComponentType)comp_type);
+
+			break;
+
+		}
+	}
 
 }
 
@@ -416,12 +459,6 @@ void GameObject::Save(JSON_Array* go_array) const{
 
 	LOG("Saving GameObject: %s", name);
 	std::string uuid_s = std::to_string(uuid);
-
-	
-	//config->WriteUint("uuid", uuid);
-	//config->AddArray("uuid");
-
-	//config->array = json_value_get_array(config->root_value);
 	
 
 	JSON_Value* val = json_value_init_object();
@@ -461,3 +498,5 @@ void GameObject::Save(JSON_Array* go_array) const{
 
 
 }
+
+

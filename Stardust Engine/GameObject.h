@@ -57,8 +57,9 @@ public:
 	void UpdateBoundingBox();
 	void DrawBoundingBox();
 
-	void Load(ConfigEditor* config);
+	void Load(JSON_Object* object);
 	void Save(JSON_Array* go_array) const;
+
 
 private:
 	bool active = true;
