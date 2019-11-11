@@ -18,7 +18,8 @@ ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 
 ComponentTransform::~ComponentTransform()
 {
-	gameObject->transform = nullptr;
+	if (gameObject)
+		gameObject->transform = nullptr;
 }
 
 

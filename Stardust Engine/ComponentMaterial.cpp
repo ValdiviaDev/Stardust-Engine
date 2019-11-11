@@ -12,7 +12,8 @@ ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 
 ComponentMaterial::~ComponentMaterial()
 {
-	gameObject->material = nullptr;
+	if (gameObject)
+		gameObject->material = nullptr;
 }
 
 void ComponentMaterial::AssignTexture(const char* path)

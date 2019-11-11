@@ -25,7 +25,8 @@ ComponentCamera::ComponentCamera(GameObject* game_object) :Component(game_object
 
 ComponentCamera::~ComponentCamera() {
 
-	gameObject->camera = nullptr;
+	if(gameObject)
+		gameObject->camera = nullptr;
 
 }
 
