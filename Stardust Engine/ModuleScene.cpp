@@ -44,8 +44,7 @@ bool ModuleScene::Start()
 	
 
 	//Initialize root GameObject
-	root_object = CreateGameObject(nullptr);
-	root_object->SetName("root");
+	CreateRootObject();
 
 	//Quadtree init TODO test
 	quadtree = new Quadtree();
@@ -60,9 +59,15 @@ bool ModuleScene::Start()
 
 	GameObject* camera = new GameObject(root_object);
 	camera->CreateComponent(Comp_Camera);
-
+	camera->SetName("cameraobject");
 	
 	return true;
+}
+
+void ModuleScene::CreateRootObject() {
+	root_object = CreateGameObject(nullptr);
+	root_object->SetName("root");
+
 }
 
 // Update
@@ -87,6 +92,11 @@ update_status ModuleScene::PostUpdate(float dt) {
 		s.SaveScene("scene1.json");
 	}
 
+	if (want_to_load) {
+		want_to_load = false;
+		SceneSerialization s;
+		s.LoadScene("scene1.json");
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -407,4 +417,8 @@ GameObject* ModuleScene::GetFocusedGameObject(GameObject* root) const {
 	}
 
 	return ret;
+}
+
+void ModuleScene::DestroyGOs() {
+	RELEASE(root_object);
 }

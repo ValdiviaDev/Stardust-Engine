@@ -42,12 +42,15 @@ public:
 	void FocusGameObject(GameObject* focused, GameObject* root);
 	GameObject* GetFocusedGameObject(GameObject* root) const;
 
+	void CreateRootObject();
+	void DestroyGOs();
 
 public:
 	GameObject* scene_gameobject = nullptr; //Change after first assignment
 
 	Quadtree* quadtree = nullptr;
 	bool want_to_save = false;
+	bool want_to_load = false;
 private:
 	GameObject* root_object = nullptr;
 	

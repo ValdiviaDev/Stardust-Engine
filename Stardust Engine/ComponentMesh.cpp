@@ -22,7 +22,7 @@ ComponentMesh::~ComponentMesh()
 	RELEASE_ARRAY(m_info.normal);
 	RELEASE_ARRAY(m_info.uv);
 	RELEASE_ARRAY(m_info.color);
-
+	gameObject->mesh = nullptr;
 }
 
 void ComponentMesh::AssignMesh(char* path)

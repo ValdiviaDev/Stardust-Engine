@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleImport.h"
 #include "imgui/imgui.h"
+#include "GameObject.h"
 
 ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 {
@@ -11,6 +12,7 @@ ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 
 ComponentMaterial::~ComponentMaterial()
 {
+	gameObject->material = nullptr;
 }
 
 void ComponentMaterial::AssignTexture(const char* path)

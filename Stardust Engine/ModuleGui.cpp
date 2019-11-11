@@ -146,6 +146,8 @@ void ModuleGui::HandleMainMenuBar()
 	static bool show_demo_window = false;
 	static bool quit_engine = false;
 	static bool save_scene = false;
+	static bool load_scene = false;
+
 
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -155,6 +157,9 @@ void ModuleGui::HandleMainMenuBar()
 
 			if (ImGui::MenuItem("Save scene", "", &save_scene))
 				App->scene->want_to_save = true;
+
+			if (ImGui::MenuItem("Load scene", "", &load_scene))
+				App->scene->want_to_load = true;
 
 			ImGui::EndMenu();
 		}
