@@ -8,12 +8,13 @@
 class ComponentMesh : public Component //TODO
 {
 public:
-	ComponentMesh(GameObject* parent, char* path, bool is_primitive);
+	ComponentMesh(GameObject* parent, const char* path, bool is_primitive);
 	~ComponentMesh();
 
 	void Save(JSON_Array* comp_array);
+	void Load(JSON_Object* comp_obj);
 
-	void AssignMesh(char* path);
+	void AssignMesh(const char* path);
 
 	geo_info GetInfo() const;
 	bool IsPrimitive() const;
@@ -21,7 +22,7 @@ public:
 	void  DrawInspector();
 
 	void FillPrimitiveDrawInfo(par_shapes_mesh* info);
-	void LoadMesh(string name);
+	bool LoadMesh(string name);
 
 	void SetPath(const char* path);
 

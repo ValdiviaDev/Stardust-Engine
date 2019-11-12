@@ -44,7 +44,7 @@ bool ModuleImport::Init(ConfigEditor* config)
 	return true;
 }
 
-bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go) {
+bool ModuleImport::ImportMesh(const char* path, geo_info& mesh, GameObject* go) {
 
 	uint flags = 0;
 	flags |= aiProcessPreset_TargetRealtime_MaxQuality;
@@ -76,7 +76,7 @@ bool ModuleImport::ImportMesh(char* path, geo_info& mesh, GameObject* go) {
 	return true;
 }
 
-bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path)
+bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, const char* path)
 {
 	static int invalid_pos = std::string::npos;
 	std::string name = node->mName.C_Str();

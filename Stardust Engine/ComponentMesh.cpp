@@ -4,7 +4,7 @@
 #include "MeshImporter.h"
 #include "GameObject.h"
 
-ComponentMesh::ComponentMesh(GameObject* parent, char* path, bool is_primitive) 
+ComponentMesh::ComponentMesh(GameObject* parent, const char* path, bool is_primitive) 
 	: Component(parent), path(path), is_primitive(is_primitive)
 {
 	type = Comp_Mesh;
@@ -27,7 +27,7 @@ ComponentMesh::~ComponentMesh()
 		gameObject->mesh = nullptr;
 }
 
-void ComponentMesh::AssignMesh(char* path)
+void ComponentMesh::AssignMesh(const char* path)
 {
 	//Path
 	//char* path_source = "Assets/Meshes/";
@@ -100,12 +100,14 @@ void ComponentMesh::FillPrimitiveDrawInfo(par_shapes_mesh* shape)
 
 }
 
-void ComponentMesh::LoadMesh(string name)
+bool ComponentMesh::LoadMesh(string name)
 {
 	string path = name + "." + MESH_EXTENSION;
-	App->mesh_import->LoadMesh(path.c_str(), m_info);
+	bool ret = App->mesh_import->LoadMesh(path.c_str(), m_info);
 	
 	App->importer->BindBuffers(m_info);
+
+	return ret;
 }
 
 void ComponentMesh::SetPath(const char* path)
@@ -128,4 +130,20 @@ void ComponentMesh::Save(JSON_Array* comp_array) {
 
 	json_array_append_value(comp_array, value);
 
+}
+
+
+void ComponentMesh::Load(JSON_Object* comp_obj) {
+
+	is_primitive = json_object_get_boolean(comp_obj, "is primitive");
+
+	const char* p = json_object_get_string(comp_obj, "path");
+	char* ap = (char*)p;
+	std::string fullpath;
+	std::string file;
+	App->fs->SplitFilePath(p, &fullpath, &file);
+
+	if (!LoadMesh(file.c_str())) {
+		AssignMesh(p);
+	}
 }

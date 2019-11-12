@@ -434,14 +434,14 @@ void GameObject::Load(JSON_Object* object)
 
 		case ComponentType::Comp_Mesh:
 
-			//CreateComponent((ComponentType)comp_type);
-
+			CreateComponent((ComponentType)comp_type);
+			mesh->Load(it);
 			break;
 
 		case ComponentType::Comp_Material:
 
-			//CreateComponent((ComponentType)comp_type);
-
+			CreateComponent((ComponentType)comp_type);
+			material->Load(it);
 			break;
 
 		case ComponentType::Comp_Camera:
