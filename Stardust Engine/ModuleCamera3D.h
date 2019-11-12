@@ -17,12 +17,15 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	//Moving camera
 	void Look(const float3 &Position, const float3 &Reference);
 	void LookAt(const float3 &Spot);
 	void Move(const float3 &Movement);
 
+	//Mouse picking
 	void CheckForMousePicking();
-	GameObject* GetNearestPickedGO(math::LineSegment ray);
+	GameObject* GetNearestPickedGO(LineSegment ray);
+	bool GetTrianglePicking(GameObject* object, LineSegment ray);
 
 public:
 

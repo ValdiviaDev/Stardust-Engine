@@ -215,12 +215,17 @@ void ModuleCamera3D::CheckForMousePicking()
 		//Ray that goes from near plane to far plane
 		LineSegment picking = dummy_cam->frustum.UnProjectLineSegment(norm_x, norm_y);
 		
-		//Check if the ray hits any AABB of the objects in scene
+		//Check if the ray hits any AABB of the objects in scene and get the nearest object
 		GameObject* selected_GO = GetNearestPickedGO(picking);
+
+		//Check if the ray hits the mesh of the nearest object and check triangle by triangle
+		bool hit = false;
+		if(selected_GO)
+			hit = GetTrianglePicking(selected_GO, picking);
 
 		//Focus
 		if (!App->gui->IsMouseHoveringWindow()) { //If any ImGui window is being pressed, don't interact with the scene
-			if (selected_GO)
+			if (selected_GO && hit)
 				App->scene->FocusGameObject(selected_GO, App->scene->GetRootGameObject());
 			else
 				App->scene->UnfocusGameObjects();
@@ -229,7 +234,7 @@ void ModuleCamera3D::CheckForMousePicking()
 	}
 }
 
-GameObject * ModuleCamera3D::GetNearestPickedGO(math::LineSegment ray)
+GameObject * ModuleCamera3D::GetNearestPickedGO(LineSegment ray)
 {
 	float min_hit_dist = FLOAT_INF;
 	GameObject* selected_GO = nullptr;
@@ -248,6 +253,45 @@ GameObject * ModuleCamera3D::GetNearestPickedGO(math::LineSegment ray)
 	}
 
 	return selected_GO;
+}
+
+bool ModuleCamera3D::GetTrianglePicking(GameObject* object, LineSegment ray)
+{
+	bool ret = false;
+
+	//TODO: fix primitives !!!!!!!!!
+	if (object->mesh->IsPrimitive())
+		return true;
+
+	//Pass ray to local coordinates
+	LineSegment local_ray = ray;
+	local_ray.Transform(object->transform->GetGlobalMatrix().Inverted());
+
+	//Check every mesh triangle
+	geo_info m = object->mesh->GetInfo();
+
+	for (int i = 0; i < m.num_index; i += 3) {
+		//Triangle points
+		uint index_01 = m.index[i] * 3;
+		uint index_02 = m.index[i + 1] * 3;
+		uint index_03 = m.index[i + 2] * 3;
+
+		float3 p1 = { m.vertex[index_01], m.vertex[index_01 + 1], m.vertex[index_01 + 2] };
+		float3 p2 = { m.vertex[index_02], m.vertex[index_02 + 1], m.vertex[index_02 + 2] };
+		float3 p3 = { m.vertex[index_03], m.vertex[index_03 + 1], m.vertex[index_03 + 2] };
+
+		Triangle tri = { p1, p2, p3 };
+
+		//Check triangle intersection
+		float distance;
+		float3 hit_point;
+		bool hit = local_ray.Intersects(tri, &distance, &hit_point);
+
+		if (hit) //Todo: do stuff with distance
+			ret = true;
+	}
+
+	return ret;
 }
 
 
