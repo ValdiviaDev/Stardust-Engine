@@ -41,8 +41,10 @@ void ComponentCamera::Update() {
 		frustum.up = global_mat.WorldY().Normalized();
 	}
 
-	if (App->scene->GetRootGameObject()) {
-		CameraCulling(App->scene->GetRootGameObject());
+	if (culling) {
+		if (App->scene->GetRootGameObject()) {
+			CameraCulling(App->scene->GetRootGameObject());
+		}
 	}
 	
 	glDisable(GL_LIGHTING);
@@ -145,6 +147,8 @@ void ComponentCamera::DrawInspector() {
 			SetFarPlane(far_plane);
 		}
 		
+		ImGui::Checkbox("Camera Culling", &culling);
+			
 	}
 	
 
@@ -175,7 +179,7 @@ void ComponentCamera::CameraCulling(GameObject* go) {
 
 			AABB refBox = (*it)->bounding_box;
 
-			if (refBox.IsFinite() && go->mesh && go->mesh->m_info.num_vertex > 0) {
+			if (refBox.IsFinite() && (*it)->mesh && (*it)->mesh->m_info.num_vertex > 0) {
 
 				
 				//if (!frustum.Intersects(refBox)) {    //MathGeoLib func. Slow but works better

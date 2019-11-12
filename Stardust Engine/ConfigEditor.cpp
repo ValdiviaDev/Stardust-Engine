@@ -36,7 +36,7 @@ ConfigEditor::~ConfigEditor()
 
 
 void ConfigEditor::SaveFile(const char* file_name) {
-	json_serialize_to_file(root_value, file_name);
+	json_serialize_to_file_pretty(root_value, file_name);
 }
 
 
