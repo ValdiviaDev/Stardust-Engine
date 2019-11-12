@@ -446,8 +446,8 @@ void GameObject::Load(JSON_Object* object)
 
 		case ComponentType::Comp_Camera:
 
-			//CreateComponent((ComponentType)comp_type);
-
+			CreateComponent((ComponentType)comp_type);
+			camera->Load(it);
 			break;
 
 		}

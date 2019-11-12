@@ -1,10 +1,10 @@
 [
     {
         "Name": "BakerHouse",
-        "UUID": 452455522,
-        "Active": true,
+        "UUID": 1304621085,
+        "Active": false,
         "Static": false,
-        "Parent UUID": 112777074,
+        "Parent UUID": 1316621373,
         "Components": [
             {
                 "Component Type": 1,
@@ -22,17 +22,16 @@
             {
                 "Component Type": 2,
                 "path": "Assets\/Meshes\/BakerHouse.fbx",
-                "is primitive": false,
-                "TEST": " asd\/\/fgh\/jklzxc\\vbn"
+                "is primitive": false
             }
         ]
     },
     {
         "Name": "Chimney",
-        "UUID": 1115762966,
+        "UUID": 1203708920,
         "Active": true,
         "Static": false,
-        "Parent UUID": 452455522,
+        "Parent UUID": 1304621085,
         "Components": [
             {
                 "Component Type": 1,
@@ -50,17 +49,20 @@
             {
                 "Component Type": 2,
                 "path": "Assets\/Meshes\/BakerHouse.fbx",
-                "is primitive": false,
-                "TEST": " asd\/\/fgh\/jklzxc\\vbn"
+                "is primitive": false
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/baker_house.png"
             }
         ]
     },
     {
         "Name": "Baker_house",
-        "UUID": 1754976602,
+        "UUID": 16878792,
         "Active": true,
         "Static": false,
-        "Parent UUID": 452455522,
+        "Parent UUID": 1304621085,
         "Components": [
             {
                 "Component Type": 1,
@@ -78,17 +80,20 @@
             {
                 "Component Type": 2,
                 "path": "Assets\/Meshes\/BakerHouse.fbx",
-                "is primitive": false,
-                "TEST": " asd\/\/fgh\/jklzxc\\vbn"
+                "is primitive": false
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/baker_house.png"
             }
         ]
     },
     {
-        "Name": "Default GO name",
-        "UUID": 2143911777,
+        "Name": "cameraobject",
+        "UUID": 444822923,
         "Active": true,
         "Static": false,
-        "Parent UUID": 112777074,
+        "Parent UUID": 1316621373,
         "Components": [
             {
                 "Component Type": 1,
@@ -102,6 +107,14 @@
                 "ScaleX": 1,
                 "ScaleY": 1,
                 "ScaleZ": 1
+            },
+            {
+                "Component Type": 4,
+                "Aspect Ratio": 1.7777999639511108,
+                "FOV": 61.000003814697266,
+                "Far Plane": 63,
+                "Near Plane": 62,
+                "culling": true
             }
         ]
     }

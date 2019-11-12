@@ -25,6 +25,7 @@ public:
 	void Update();
 
 	void Save(JSON_Array* comp_array);
+	void Load(JSON_Object* comp_obj);
 
 	void DrawInspector();
 
