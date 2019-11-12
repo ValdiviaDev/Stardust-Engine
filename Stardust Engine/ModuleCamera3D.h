@@ -21,6 +21,9 @@ public:
 	void LookAt(const float3 &Spot);
 	void Move(const float3 &Movement);
 
+	void CheckForMousePicking();
+	GameObject* GetNearestPickedGO(math::LineSegment ray);
+
 public:
 
 	ComponentCamera* dummy_cam = nullptr;

@@ -38,11 +38,6 @@ bool ModuleScene::Start()
 {
 	LOG("Loading Intro assets");
 
-	//Camera position
-	//App->camera->Move(vec3(3.0f, 3.0f, 0.0f));
-	//App->camera->LookAt(vec3(0, 0, 0));
-	
-
 	//Initialize root GameObject
 	CreateRootObject();
 
@@ -114,6 +109,7 @@ bool ModuleScene::CleanUp()
 GameObject* ModuleScene::CreateGameObject(GameObject* parent)
 {
 	GameObject* game_object = new GameObject(parent);
+	scene_GOs.push_back(game_object);
 
 	return game_object;
 }
@@ -383,6 +379,16 @@ void ModuleScene::FocusGameObject(GameObject* focused, GameObject* root) {
 				LOG("%s NOT focused", (*it)->GetName());
 			}
 			FocusGameObject(focused, (*it));
+		}
+	}
+}
+
+void ModuleScene::UnfocusGameObjects()
+{
+	for (int i = 0; i < scene_GOs.size(); ++i) {
+		if (scene_GOs[i]->focused == true) {
+			scene_GOs[i]->focused = false;
+			break;
 		}
 	}
 }

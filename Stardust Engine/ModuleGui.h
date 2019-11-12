@@ -32,6 +32,7 @@ public:
 	void HandleMainMenuBar();
 	void AddLogToConsole(const char* log);
 	void ResizePanels();
+	bool IsMouseHoveringWindow();
 
 	/*void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;*/

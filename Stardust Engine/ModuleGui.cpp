@@ -274,3 +274,8 @@ void ModuleGui::ResizePanels()
 		panel++;
 	}
 }
+
+bool ModuleGui::IsMouseHoveringWindow()
+{
+	return ImGui::GetIO().WantCaptureMouse;
+}

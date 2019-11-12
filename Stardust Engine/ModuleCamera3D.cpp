@@ -43,6 +43,8 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
+	CheckForMousePicking();
+
 	// Keys motion ----------------
 	float3 newPos(0, 0, 0);
 	float wheel_speed = 1.0f /** dt*/;
@@ -194,6 +196,58 @@ void ModuleCamera3D::LookAt(const float3 &Spot)
 void ModuleCamera3D::Move(const float3 &Movement)
 {
 	dummy_cam->frustum.Translate(Movement);
+}
+
+void ModuleCamera3D::CheckForMousePicking()
+{
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		//Get the screen coords and normalize them
+		int mouse_pos_x = App->input->GetMouseX();
+		int mouse_pos_y = App->input->GetMouseY();
+		int scr_width, scr_height;
+		App->window->GetWinSize(scr_width, scr_height);
+
+		//Normalize between -1 and 1
+		float norm_x = -(1.0f - 2.0f * ((float)mouse_pos_x) / ((float)scr_width));
+		float norm_y = 1.0f - (2.0f * ((float)mouse_pos_y) / ((float)scr_height));
+
+		//Ray that goes from near plane to far plane
+		LineSegment picking = dummy_cam->frustum.UnProjectLineSegment(norm_x, norm_y);
+		
+		//Check if the ray hits any AABB of the objects in scene
+		GameObject* selected_GO = GetNearestPickedGO(picking);
+
+		//Focus
+		if (!App->gui->IsMouseHoveringWindow()) { //If any ImGui window is being pressed, don't interact with the scene
+			if (selected_GO)
+				App->scene->FocusGameObject(selected_GO, App->scene->GetRootGameObject());
+			else
+				App->scene->UnfocusGameObjects();
+		}
+
+	}
+}
+
+GameObject * ModuleCamera3D::GetNearestPickedGO(math::LineSegment ray)
+{
+	float min_hit_dist = FLOAT_INF;
+	GameObject* selected_GO = nullptr;
+
+	for (int i = 0; i < App->scene->scene_GOs.size(); ++i) {
+		if (App->scene->scene_GOs[i]->bounding_box.IsFinite()) {
+			float hit_dist, hit_dist_far;
+			bool hit = ray.Intersects(App->scene->scene_GOs[i]->bounding_box, hit_dist, hit_dist_far);
+			if (hit) {
+				if (hit_dist < min_hit_dist) {
+					min_hit_dist = hit_dist;
+					selected_GO = App->scene->scene_GOs[i];
+				}
+			}
+		}
+	}
+
+	return selected_GO;
 }
 
 
