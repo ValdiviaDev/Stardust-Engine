@@ -47,10 +47,10 @@ bool ModuleScene::Start()
 	quadtree->Create(root_quad_node);
 
 	//Baker house create
-	scene_gameobject = CreateGameObject(root_object);
+	/*scene_gameobject = CreateGameObject(root_object);
 	scene_gameobject->SetName("BakerHouse");
 	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	 
+	 */
 
 	GameObject* camera = new GameObject(root_object);
 	camera->CreateComponent(Comp_Camera);
@@ -68,11 +68,6 @@ void ModuleScene::CreateRootObject() {
 // Update
 update_status ModuleScene::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) {
-		root_object->focused = false;
-		FocusGameObject(scene_gameobject, root_object);
-	}
-	
 
 	root_object->Update();
 

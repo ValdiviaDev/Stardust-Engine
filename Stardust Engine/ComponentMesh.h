@@ -32,6 +32,7 @@ public:
 	bool debug_v_norm = false;
 	bool debug_f_norm = false;
 	geo_info m_info;
+	uint uuid_mesh = 0;
 
 private:
 	const char* path = nullptr;

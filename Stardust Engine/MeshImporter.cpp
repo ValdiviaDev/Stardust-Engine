@@ -82,6 +82,7 @@ bool MeshImporter::ImportNode(const aiScene* scene, const aiNode* node, GameObje
 	std::string name = node->mName.C_Str();
 	GameObject* go = nullptr;
 	ComponentMesh* mesh = nullptr;
+	
 
 	//Transform of the GameObjects loaded from assimp
 	//Have to sum the transform of every node because of ghost nodes
@@ -122,6 +123,7 @@ bool MeshImporter::ImportNode(const aiScene* scene, const aiNode* node, GameObje
 	if (node->mNumMeshes > 0) {
 		mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh, nullptr);
 		mesh->SetPath(path);
+		mesh->uuid_mesh = App->GenerateUUID();
 
 		//Only charge the first mesh for each node
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
@@ -203,8 +205,13 @@ bool MeshImporter::ImportNode(const aiScene* scene, const aiNode* node, GameObje
 				App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
 		}
 	
+		
 		//Save a mesh in own file format
-		SaveMesh(mesh, name.c_str(), output_file);
+		if(mesh)
+			SaveMesh(mesh, std::to_string(mesh->uuid_mesh).c_str(), output_file);
+		else
+			SaveMesh(mesh, name.c_str(), output_file);
+
 
 		RELEASE_ARRAY(mesh->m_info.vertex);
 		RELEASE_ARRAY(mesh->m_info.index);

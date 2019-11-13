@@ -1,10 +1,10 @@
 [
     {
         "Name": "Chimney",
-        "UUID": 115683362,
+        "UUID": 330121339,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1489492445,
+        "Parent UUID": 1701433879,
         "Components": [
             {
                 "Component Type": 1,
@@ -28,10 +28,10 @@
     },
     {
         "Name": "Baker_house",
-        "UUID": 927669552,
+        "UUID": 1007752325,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1489492445,
+        "Parent UUID": 1701433879,
         "Components": [
             {
                 "Component Type": 1,

@@ -123,7 +123,7 @@ void ComponentMesh::Save(JSON_Array* comp_array) {
 	JSON_Object* obj = json_value_get_object(value);
 
 	json_object_set_number(obj, "Component Type", type);
-
+	json_object_set_number(obj, "UUID Mesh", uuid_mesh);
 	json_object_set_string(obj, "path", path);
 	json_object_set_boolean(obj, "is primitive", is_primitive);
 	
@@ -136,14 +136,20 @@ void ComponentMesh::Save(JSON_Array* comp_array) {
 void ComponentMesh::Load(JSON_Object* comp_obj) {
 
 	is_primitive = json_object_get_boolean(comp_obj, "is primitive");
-
+	uuid_mesh = json_object_get_number(comp_obj, "UUID Mesh");
 	const char* p = json_object_get_string(comp_obj, "path");
 	char* ap = (char*)p;
 	std::string fullpath;
 	std::string file;
 	App->fs->SplitFilePath(p, &fullpath, &file);
 
-	if (!LoadMesh(file.c_str())) {
-		AssignMesh(p);
+	if (uuid_mesh != 0) {
+		LoadMesh(std::to_string(uuid_mesh));
+	}
+	else {
+
+		if (!LoadMesh(file.c_str())) {
+			AssignMesh(p);
+		}
 	}
 }

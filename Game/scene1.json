@@ -1,10 +1,154 @@
 [
     {
-        "Name": "BakerHouse",
-        "UUID": 1304621085,
-        "Active": false,
+        "Name": "355059068",
+        "UUID": 1860861763,
+        "Active": true,
         "Static": false,
-        "Parent UUID": 1316621373,
+        "Parent UUID": 652268150,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 5.8000001907348633,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 355059068,
+                "path": "",
+                "is primitive": false
+            },
+            {
+                "Component Type": 3,
+                "path": "C:\\Users\\Ricard\\Documents\\GitHub\\Stardust-Engine\\Game\\Assets\\Textures\\Baker_house.png"
+            }
+        ]
+    },
+    {
+        "Name": "1146112561",
+        "UUID": 1663345607,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 652268150,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -1.1000000238418579,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1146112561,
+                "path": "",
+                "is primitive": false
+            }
+        ]
+    },
+    {
+        "Name": "355059068",
+        "UUID": 728840472,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 652268150,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0.40000000596046448,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 355059068,
+                "path": "",
+                "is primitive": false
+            }
+        ]
+    },
+    {
+        "Name": "355059068",
+        "UUID": 1858889796,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 652268150,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 4.0999999046325684,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 355059068,
+                "path": "",
+                "is primitive": false
+            }
+        ]
+    },
+    {
+        "Name": "355059068",
+        "UUID": 1811984508,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 652268150,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -7.6999998092651367,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 355059068,
+                "path": "",
+                "is primitive": false
+            }
+        ]
+    },
+    {
+        "Name": "355059068",
+        "UUID": 394072100,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1811984508,
         "Components": [
             {
                 "Component Type": 1,
@@ -21,83 +165,22 @@
             },
             {
                 "Component Type": 2,
-                "path": "Assets\/Meshes\/BakerHouse.fbx",
+                "UUID Mesh": 355059068,
+                "path": "",
                 "is primitive": false
             }
         ]
     },
     {
-        "Name": "Chimney",
-        "UUID": 1203708920,
+        "Name": "1146112561",
+        "UUID": 1590083675,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1304621085,
+        "Parent UUID": 1811984508,
         "Components": [
             {
                 "Component Type": 1,
-                "PosX": 0,
-                "PosY": 0,
-                "PosZ": 0,
-                "RotX": -0.7071068286895752,
-                "RotY": 0,
-                "RotZ": 0,
-                "RotW": 0.70710670948028564,
-                "ScaleX": 100,
-                "ScaleY": 100,
-                "ScaleZ": 100
-            },
-            {
-                "Component Type": 2,
-                "path": "Assets\/Meshes\/BakerHouse.fbx",
-                "is primitive": false
-            },
-            {
-                "Component Type": 3,
-                "path": "assets\/textures\/baker_house.png"
-            }
-        ]
-    },
-    {
-        "Name": "Baker_house",
-        "UUID": 16878792,
-        "Active": true,
-        "Static": false,
-        "Parent UUID": 1304621085,
-        "Components": [
-            {
-                "Component Type": 1,
-                "PosX": 0,
-                "PosY": 0,
-                "PosZ": 0,
-                "RotX": -0.7071068286895752,
-                "RotY": 0,
-                "RotZ": 0,
-                "RotW": 0.70710670948028564,
-                "ScaleX": 100,
-                "ScaleY": 100,
-                "ScaleZ": 100
-            },
-            {
-                "Component Type": 2,
-                "path": "Assets\/Meshes\/BakerHouse.fbx",
-                "is primitive": false
-            },
-            {
-                "Component Type": 3,
-                "path": "assets\/textures\/baker_house.png"
-            }
-        ]
-    },
-    {
-        "Name": "cameraobject",
-        "UUID": 444822923,
-        "Active": true,
-        "Static": false,
-        "Parent UUID": 1316621373,
-        "Components": [
-            {
-                "Component Type": 1,
-                "PosX": 0,
+                "PosX": -1.2999999523162842,
                 "PosY": 0,
                 "PosZ": 0,
                 "RotX": 0,
@@ -109,12 +192,10 @@
                 "ScaleZ": 1
             },
             {
-                "Component Type": 4,
-                "Aspect Ratio": 1.7777999639511108,
-                "FOV": 61.000003814697266,
-                "Far Plane": 63,
-                "Near Plane": 62,
-                "culling": true
+                "Component Type": 2,
+                "UUID Mesh": 1146112561,
+                "path": "",
+                "is primitive": false
             }
         ]
     }

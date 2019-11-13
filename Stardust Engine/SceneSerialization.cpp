@@ -56,7 +56,7 @@ void SceneSerialization::SaveSceneFromMesh(const char* scene_name, std::list<Gam
 
 	char folder_and_file[128];
 	strcpy(folder_and_file, "Assets/Scenes/");
-	strcat(folder_and_file, scene_name); //SEGUIR AQUI, MIRAR COMO HACER LA ESTRUCTURA (si guardar 1 json por cada scene, por cada mesh...)**seguramente por scene por lo qe nos ha dicho sandra**
+	strcat(folder_and_file, scene_name); 
 
 	json_serialize_to_file_pretty(root_value, folder_and_file);
 

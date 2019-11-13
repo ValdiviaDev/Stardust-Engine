@@ -187,6 +187,7 @@ void ModuleGui::HandleMainMenuBar()
 					GameObject* go = App->scene->CreateGameObject(App->scene->GetRootGameObject());
 					go->SetName(loaded_meshes[i].c_str());
 					go->CreateComponent(Comp_Mesh, nullptr);
+					go->mesh->uuid_mesh = std::stoi(loaded_meshes[i].c_str());
 					go->mesh->LoadMesh(loaded_meshes[i]);
 				}
 
