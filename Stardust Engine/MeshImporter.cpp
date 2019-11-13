@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 #include "ModuleFileSystem.h"
 #include "SceneSerialization.h"
 
@@ -131,11 +132,27 @@ bool MeshImporter::ImportNode(const aiScene* scene, const aiNode* node, GameObje
 		//Material
 		aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 		if (material != nullptr) {
+			//Get texture path
 			uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
 			aiString mat_path;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &mat_path);
+			string mat_path_name = (string)mat_path.C_Str();
+			string mat_path_s = mat_path_name;
 
-			//go->CreateComponent(Comp_Material);
+			//Find the texture by its name in the textures folder
+			if (mat_path_s.find("\\") != string::npos)
+				mat_path_s = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
+			mat_path_s = ASSETS_TEX_FOLDER + mat_path_s;
+			App->fs->NormalizePath(mat_path_s);
+
+			//Create the material if the texture is found
+			if (App->fs->Exists(mat_path_s.c_str())) {
+				go->CreateComponent(Comp_Material);
+				go->material->AssignTexture(mat_path_s.c_str());
+				//Import material
+				string out_material;
+				App->mat_import->Import(mat_path_name.c_str(), ASSETS_TEX_FOLDER, out_material);
+			}
 		}
 		// copy vertices
 		mesh->m_info.num_vertex = new_mesh->mNumVertices;
@@ -378,11 +395,27 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 		//Material
 		aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 		if (material != nullptr) {
+			//Get texture path
 			uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
 			aiString mat_path;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &mat_path);
+			string mat_path_name = (string)mat_path.C_Str();
+			string mat_path_s = mat_path_name;
 
-			//go->CreateComponent(Comp_Material);
+			//Find the texture by its name in the textures folder
+			if (mat_path_s.find("\\") != string::npos)
+				mat_path_s = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
+			mat_path_s = ASSETS_TEX_FOLDER + mat_path_s;
+			App->fs->NormalizePath(mat_path_s);
+
+			//Create the material if the texture is found
+			if (App->fs->Exists(mat_path_s.c_str())) {
+				go->CreateComponent(Comp_Material);
+				go->material->AssignTexture(mat_path_s.c_str());
+
+				string out_material;
+				App->mat_import->Import(mat_path_name.c_str(), ASSETS_TEX_FOLDER, out_material);
+			}
 		}
 		// copy vertices
 		mesh->m_info.num_vertex = new_mesh->mNumVertices;
