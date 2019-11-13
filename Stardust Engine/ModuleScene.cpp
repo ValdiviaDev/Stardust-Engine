@@ -83,7 +83,7 @@ update_status ModuleScene::PostUpdate(float dt) {
 	if (want_to_save) {
 		want_to_save = false;
 		SceneSerialization s;
-		s.SaveScene("scene1.json");
+		s.SaveScene("scene1.json"); //TODO: Put scenes in Assets/Scenes
 	}
 
 	if (want_to_load) {

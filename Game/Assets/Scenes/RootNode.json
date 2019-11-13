@@ -1,0 +1,56 @@
+[
+    {
+        "Name": "Chimney",
+        "UUID": 115683362,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1489492445,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": -0.7071068286895752,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 100,
+                "ScaleY": 100,
+                "ScaleZ": 100
+            },
+            {
+                "Component Type": 2,
+                "path": "Assets\/Meshes\/BakerHouse.fbx",
+                "is primitive": false
+            }
+        ]
+    },
+    {
+        "Name": "Baker_house",
+        "UUID": 927669552,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1489492445,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": -0.7071068286895752,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 100,
+                "ScaleY": 100,
+                "ScaleZ": 100
+            },
+            {
+                "Component Type": 2,
+                "path": "Assets\/Meshes\/BakerHouse.fbx",
+                "is primitive": false
+            }
+        ]
+    }
+]
