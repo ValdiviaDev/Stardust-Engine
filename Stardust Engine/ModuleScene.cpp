@@ -41,11 +41,6 @@ bool ModuleScene::Start()
 	//Initialize root GameObject
 	CreateRootObject();
 
-	//Quadtree init TODO test
-	quadtree = new Quadtree();
-	AABB root_quad_node = AABB({ -20,-20,-20 }, { 20,20,20 });
-	quadtree->Create(root_quad_node);
-
 	//Baker house create
 	scene_gameobject = CreateGameObject(root_object);
 	scene_gameobject->SetName("BakerHouse");
@@ -56,6 +51,10 @@ bool ModuleScene::Start()
 	camera->CreateComponent(Comp_Camera);
 	camera->SetName("cameraobject");
 	
+	//Quadtree init TODO test
+	BuildQuadtree();
+
+
 	return true;
 }
 
@@ -362,6 +361,37 @@ void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
 			//ChangeGameObjectTexture(tex_path, go->GetChild(i));
 
 	}
+}
+
+void ModuleScene::BuildQuadtree()
+{
+	//If there's quadtree, delete it
+	if (quadtree)
+		RELEASE(quadtree);
+	
+	//Create quadtree TODO
+	quadtree = new Quadtree();
+	AABB root_quad_node = AABB({ -200,-100,-200 }, { 200,100,200 });
+	quadtree->Create(root_quad_node);
+
+	//Get a vector of static GameObjects
+	vector<GameObject*> static_objects;
+	for(int i = 0; i < root_object->GetNumChilds(); ++i)
+		GetStaticObjects(static_objects, root_object->childs[i]);
+
+	//Insert all the static GameObjects to the quadtree
+	for (int i = 0; i < static_objects.size(); ++i)
+		quadtree->Insert(static_objects[i]);
+
+}
+
+void ModuleScene::GetStaticObjects(vector<GameObject*>& static_GOs, GameObject* static_candidate)
+{
+	if (static_candidate->IsStatic())
+		static_GOs.push_back(static_candidate);
+
+	for (int i = 0; i < static_candidate->GetNumChilds(); ++i)
+		GetStaticObjects(static_GOs, static_candidate->childs[i]);
 }
 
 

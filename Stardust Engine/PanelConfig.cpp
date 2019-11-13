@@ -57,6 +57,9 @@ void PanelConfig::Draw()
 	if (ImGui::CollapsingHeader("Renderer"))
 		RendererMenu();
 
+	if (ImGui::Button("Rebuild Quadtree", { 150, 30 }))
+		App->scene->BuildQuadtree();
+
 	ImGui::End();
 }
 

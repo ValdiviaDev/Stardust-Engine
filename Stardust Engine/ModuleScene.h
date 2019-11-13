@@ -33,11 +33,13 @@ public:
 	void Draw();
 	void DrawGameObjects(GameObject* go);
 	void DrawGameObjectsDebug(GameObject* go);
-
 	void DrawGrid();
 
 	void ChangeGameObjectMesh(char* mesh_path);
 	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
+
+	void BuildQuadtree();
+	void GetStaticObjects(std::vector<GameObject*>& static_GOs, GameObject* static_candidate);
 
 	void FocusGameObject(GameObject* focused, GameObject* root);
 	void UnfocusGameObjects();
