@@ -3,10 +3,14 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_impl_opengl3.h"
+#include "imgui/ImGuizmo.h"
+
 #include "ConfigEditor.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
+#include "ComponentCamera.h"
 
 #include "Panel.h"
 #include "PanelAbout.h"
@@ -63,6 +67,8 @@ update_status ModuleGui::PreUpdate(float dt)
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
+	ImGuizmo::BeginFrame();
+
 	//if (!txt_log_init) {
 	//	ImGui::LogToFile();
 	//	txt_log_init = true;
@@ -84,6 +90,23 @@ update_status ModuleGui::Update(float dt)
 		p_assets->ToggleActive();
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 		p_config->ToggleActive();
+	
+	//TODO
+	//ImGuizmo::Enable(true);
+	//static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+	//static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+	//
+	//if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	//	mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	//if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	//	mCurrentGizmoOperation = ImGuizmo::ROTATE;
+	//if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	//	mCurrentGizmoOperation = ImGuizmo::SCALE;
+	//if (App->scene->scene_gameobject) {
+	//	float4x4 delta;
+	//	ImGuizmo::Manipulate((float*)&App->camera->dummy_cam->frustum.ViewMatrix(), (float*)&App->camera->dummy_cam->frustum.ProjectionMatrix(), mCurrentGizmoOperation, mCurrentGizmoMode,
+	//		(float*)&App->scene->scene_gameobject->transform->GetGlobalMatrix().Transposed(), (float*)&delta);
+	//}
 
 	return decide_if_update;
 }

@@ -216,9 +216,12 @@
     </ClCompile>
     <ClCompile Include="SceneSerialization.cpp">
       <Filter>Sources\Importers</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="PanelAssets.cpp">
       <Filter>Sources\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\ImGuizmo.cpp">
+      <Filter>Sources\Tools\imGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -545,9 +548,12 @@
     </ClInclude>
     <ClInclude Include="SceneSerialization.h">
       <Filter>Sources\Importers</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="PanelAssets.h">
       <Filter>Sources\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\ImGuizmo.h">
+      <Filter>Sources\Tools\imGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
