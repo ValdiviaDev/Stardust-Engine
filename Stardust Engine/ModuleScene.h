@@ -48,7 +48,6 @@ public:
 
 public:
 	GameObject* scene_gameobject = nullptr; //Change after first assignment
-	std::vector<GameObject*> scene_GOs;
 
 	Quadtree* quadtree = nullptr;
 	bool want_to_save = false;
@@ -56,6 +55,7 @@ public:
 private:
 	
 	GameObject* root_object = nullptr;
+	GameObject* focused_object = nullptr;
 
 };
 

@@ -109,7 +109,6 @@ bool ModuleScene::CleanUp()
 GameObject* ModuleScene::CreateGameObject(GameObject* parent)
 {
 	GameObject* game_object = new GameObject(parent);
-	scene_GOs.push_back(game_object);
 
 	return game_object;
 }
@@ -341,6 +340,8 @@ void ModuleScene::ChangeGameObjectMesh(char* mesh_path)
 		scene_gameobject->DeleteFromParentList();
 		RELEASE(scene_gameobject);
 		App->importer->m_debug.clear(); //DEBUG
+
+		UnfocusGameObjects();
 	}
 
 	scene_gameobject = CreateGameObject(root_object);
@@ -372,6 +373,7 @@ void ModuleScene::FocusGameObject(GameObject* focused, GameObject* root) {
 
 			if ((*it) == focused) {
 				(*it)->focused = true;
+				focused_object = (*it);
 				LOG("%s focused", (*it)->GetName());
 			}
 			else {
@@ -385,12 +387,9 @@ void ModuleScene::FocusGameObject(GameObject* focused, GameObject* root) {
 
 void ModuleScene::UnfocusGameObjects()
 {
-	for (int i = 0; i < scene_GOs.size(); ++i) {
-		if (scene_GOs[i]->focused == true) {
-			scene_GOs[i]->focused = false;
-			break;
-		}
-	}
+	if(focused_object)
+		focused_object->focused = false;
+	focused_object = nullptr;
 }
 
 

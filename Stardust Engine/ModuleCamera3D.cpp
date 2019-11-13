@@ -43,11 +43,15 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	CheckForMousePicking();
 
 	// Keys motion ----------------
 	float3 newPos(0, 0, 0);
 	float wheel_speed = 1.0f /** dt*/;
+
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+		if (!App->gui->IsMouseHoveringWindow()) //If any ImGui window is being pressed, don't check picking
+			CheckForMousePicking();
+	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
@@ -200,59 +204,66 @@ void ModuleCamera3D::Move(const float3 &Movement)
 
 void ModuleCamera3D::CheckForMousePicking()
 {
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		//Get the screen coords and normalize them
-		int mouse_pos_x = App->input->GetMouseX();
-		int mouse_pos_y = App->input->GetMouseY();
-		int scr_width, scr_height;
-		App->window->GetWinSize(scr_width, scr_height);
+	vector<GameObject*> intersected_objs;
 
-		//Normalize between -1 and 1
-		float norm_x = -(1.0f - 2.0f * ((float)mouse_pos_x) / ((float)scr_width));
-		float norm_y = 1.0f - (2.0f * ((float)mouse_pos_y) / ((float)scr_height));
+	//Get the screen coords and normalize them
+	int mouse_pos_x = App->input->GetMouseX();
+	int mouse_pos_y = App->input->GetMouseY();
+	int scr_width, scr_height;
+	App->window->GetWinSize(scr_width, scr_height);
 
-		//Ray that goes from near plane to far plane
-		LineSegment picking = dummy_cam->frustum.UnProjectLineSegment(norm_x, norm_y);
-		
-		//Check if the ray hits any AABB of the objects in scene and get the nearest object
-		GameObject* selected_GO = GetNearestPickedGO(picking);
+	//Normalize between -1 and 1
+	float norm_x = -(1.0f - 2.0f * ((float)mouse_pos_x) / ((float)scr_width));
+	float norm_y = 1.0f - (2.0f * ((float)mouse_pos_y) / ((float)scr_height));
 
-		//Check if the ray hits the mesh of the nearest object and check triangle by triangle
-		bool hit = false;
-		if(selected_GO)
-			hit = GetTrianglePicking(selected_GO, picking);
+	//Ray that goes from near plane to far plane
+	LineSegment picking = dummy_cam->frustum.UnProjectLineSegment(norm_x, norm_y);
+	
+	//TODO Quadtree candidates
 
-		//Focus
-		if (!App->gui->IsMouseHoveringWindow()) { //If any ImGui window is being pressed, don't interact with the scene
-			if (selected_GO && hit)
-				App->scene->FocusGameObject(selected_GO, App->scene->GetRootGameObject());
-			else
-				App->scene->UnfocusGameObjects();
-		}
 
-	}
+	//Get the AABB intersection of the candidates to be picked
+	GameObject* nearest_AABB = nullptr;
+	float min_hit_dist = FLOAT_INF;
+	GameObject* root_obj = App->scene->GetRootGameObject();
+	for(int i = 0; i < root_obj->GetNumChilds(); ++i)
+		TestAABBPicking(picking, root_obj->childs[i], intersected_objs, min_hit_dist, nearest_AABB);
+
+	//if(nearest_AABB && nearest_AABB->mesh->IsPrimitive()) //If the nearest GO AABB is a primitive automaticaly focus
+	//	App->scene->FocusGameObject(nearest_AABB, App->scene->GetRootGameObject());
+
+	//Check if the ray hits the mesh of the nearest object and check triangle by triangle
+	//bool hit = false;
+	//if(selected_GO)
+	//	hit = GetTrianglePicking(selected_GO, picking);
+	//
+	////Focus
+	if (nearest_AABB)
+		App->scene->FocusGameObject(nearest_AABB, App->scene->GetRootGameObject());
+	else
+		App->scene->UnfocusGameObjects();
+
+
 }
 
-GameObject * ModuleCamera3D::GetNearestPickedGO(LineSegment ray)
+void ModuleCamera3D::TestAABBPicking(LineSegment ray, GameObject* inters_GO, vector<GameObject*>& intersected_objs, float& min_dist, GameObject*& nearest_GO)
 {
-	float min_hit_dist = FLOAT_INF;
-	GameObject* selected_GO = nullptr;
-
-	for (int i = 0; i < App->scene->scene_GOs.size(); ++i) {
-		if (App->scene->scene_GOs[i]->bounding_box.IsFinite()) {
-			float hit_dist, hit_dist_far;
-			bool hit = ray.Intersects(App->scene->scene_GOs[i]->bounding_box, hit_dist, hit_dist_far);
-			if (hit) {
-				if (hit_dist < min_hit_dist) {
-					min_hit_dist = hit_dist;
-					selected_GO = App->scene->scene_GOs[i];
-				}
+	//Look for AABB intersections. Look for all the intersected object and the closest object to the ray
+	if (inters_GO->bounding_box.IsFinite()) {
+		float hit_dist, hit_dist_far;
+		if(ray.Intersects(inters_GO->bounding_box, hit_dist, hit_dist_far)) //TODO change maybe
+		{
+			intersected_objs.push_back(inters_GO);
+			if (hit_dist < min_dist) {
+				nearest_GO = inters_GO;
+				min_dist = hit_dist;
 			}
 		}
 	}
 
-	return selected_GO;
+	for (int i = 0; i < inters_GO->GetNumChilds(); ++i)
+		TestAABBPicking(ray, inters_GO->childs[i], intersected_objs, min_dist, nearest_GO);
+
 }
 
 bool ModuleCamera3D::GetTrianglePicking(GameObject* object, LineSegment ray)
