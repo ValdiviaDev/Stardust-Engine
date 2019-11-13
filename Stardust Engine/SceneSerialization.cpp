@@ -40,7 +40,28 @@ void SceneSerialization::SaveScene(const char* scene_name) {
 	json_value_free(root_value);
 }
 
+void SceneSerialization::SaveSceneFromMesh(const char* scene_name, std::list<GameObject*> go_list) {
 
+	LOG("Saving scene %s from mesh.", scene_name)
+
+	JSON_Value* root_value = json_value_init_array();
+	JSON_Array* array = json_value_get_array(root_value);
+
+	
+	//Do individual GameObject->Save instead of iterating all
+	for (std::list<GameObject*>::const_iterator it = go_list.begin(); it != go_list.end(); it++) {
+
+		(*it)->Save(array);
+	}
+
+	char folder_and_file[128];
+	strcpy(folder_and_file, "Assets/Scenes/");
+	strcat(folder_and_file, scene_name); //SEGUIR AQUI, MIRAR COMO HACER LA ESTRUCTURA (si guardar 1 json por cada scene, por cada mesh...)**seguramente por scene por lo qe nos ha dicho sandra**
+
+	json_serialize_to_file_pretty(root_value, folder_and_file);
+
+	json_value_free(root_value);
+}
 
 void SceneSerialization::LoadScene(const char* scene_name) {
 

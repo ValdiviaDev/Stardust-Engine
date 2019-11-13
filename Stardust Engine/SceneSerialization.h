@@ -4,6 +4,8 @@
 #include "Globals.h"
 #include "Parson/parson.h"
 #include "GameObject.h"
+#include <list>
+
 
 struct json_object_t;
 typedef struct json_object_t JSON_Object;
@@ -25,6 +27,7 @@ public:
 	void LoadScene(const char* scene_name);
 	void SceneSerialization::SaveGOs(GameObject* go, JSON_Array* array); //Send root first time
 
+	void SaveSceneFromMesh(const char* scene_name, std::list<GameObject*> go_list);
 };
 
 
