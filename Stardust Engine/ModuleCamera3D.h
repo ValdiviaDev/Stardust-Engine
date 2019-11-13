@@ -17,9 +17,15 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	//Moving camera
 	void Look(const float3 &Position, const float3 &Reference);
 	void LookAt(const float3 &Spot);
 	void Move(const float3 &Movement);
+
+	//Mouse picking
+	void CheckForMousePicking();
+	void TestAABBPicking(LineSegment ray, GameObject* inters_GO, std::vector<GameObject*>& intersected_objs, float& min_dist, GameObject*& nearest);
+	bool TestTrianglePicking(LineSegment ray, std::vector<GameObject*> intersected_objs, GameObject*& nearest);
 
 public:
 

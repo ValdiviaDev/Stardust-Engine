@@ -40,6 +40,7 @@ public:
 	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
 
 	void FocusGameObject(GameObject* focused, GameObject* root);
+	void UnfocusGameObjects();
 	GameObject* GetFocusedGameObject(GameObject* root) const;
 	GameObject* GetGameObjectFromUUID(uint UUID, GameObject* root) const; //Send root 1st time
 	void CreateRootObject();
@@ -52,8 +53,9 @@ public:
 	bool want_to_save = false;
 	bool want_to_load = false;
 private:
-	GameObject* root_object = nullptr;
 	
+	GameObject* root_object = nullptr;
+	GameObject* focused_object = nullptr;
 
 };
 

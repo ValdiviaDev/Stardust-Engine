@@ -38,11 +38,6 @@ bool ModuleScene::Start()
 {
 	LOG("Loading Intro assets");
 
-	//Camera position
-	//App->camera->Move(vec3(3.0f, 3.0f, 0.0f));
-	//App->camera->LookAt(vec3(0, 0, 0));
-	
-
 	//Initialize root GameObject
 	CreateRootObject();
 
@@ -345,6 +340,8 @@ void ModuleScene::ChangeGameObjectMesh(char* mesh_path)
 		scene_gameobject->DeleteFromParentList();
 		RELEASE(scene_gameobject);
 		App->importer->m_debug.clear(); //DEBUG
+
+		UnfocusGameObjects();
 	}
 
 	scene_gameobject = CreateGameObject(root_object);
@@ -376,6 +373,7 @@ void ModuleScene::FocusGameObject(GameObject* focused, GameObject* root) {
 
 			if ((*it) == focused) {
 				(*it)->focused = true;
+				focused_object = (*it);
 				LOG("%s focused", (*it)->GetName());
 			}
 			else {
@@ -385,6 +383,13 @@ void ModuleScene::FocusGameObject(GameObject* focused, GameObject* root) {
 			FocusGameObject(focused, (*it));
 		}
 	}
+}
+
+void ModuleScene::UnfocusGameObjects()
+{
+	if(focused_object)
+		focused_object->focused = false;
+	focused_object = nullptr;
 }
 
 
