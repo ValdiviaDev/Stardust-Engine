@@ -220,29 +220,29 @@ void ModuleCamera3D::CheckForMousePicking()
 	LineSegment picking = dummy_cam->frustum.UnProjectLineSegment(norm_x, norm_y);
 	
 	//TODO Quadtree candidates
-
+	
 
 	//Get the AABB intersection of the candidates to be picked
-	GameObject* nearest_AABB = nullptr;
+	GameObject* nearest_GO = nullptr;
 	float min_hit_dist = FLOAT_INF;
 	GameObject* root_obj = App->scene->GetRootGameObject();
 	for(int i = 0; i < root_obj->GetNumChilds(); ++i)
-		TestAABBPicking(picking, root_obj->childs[i], intersected_objs, min_hit_dist, nearest_AABB);
+		TestAABBPicking(picking, root_obj->childs[i], intersected_objs, min_hit_dist, nearest_GO);
 
-	//if(nearest_AABB && nearest_AABB->mesh->IsPrimitive()) //If the nearest GO AABB is a primitive automaticaly focus
-	//	App->scene->FocusGameObject(nearest_AABB, App->scene->GetRootGameObject());
-
-	//Check if the ray hits the mesh of the nearest object and check triangle by triangle
-	//bool hit = false;
-	//if(selected_GO)
-	//	hit = GetTrianglePicking(selected_GO, picking);
-	//
-	////Focus
-	if (nearest_AABB)
-		App->scene->FocusGameObject(nearest_AABB, App->scene->GetRootGameObject());
+	if (nearest_GO) { //If there's something to pick
+		if (nearest_GO->mesh->IsPrimitive()) //If the nearest GO AABB is a primitive automaticaly focus
+			App->scene->FocusGameObject(nearest_GO, App->scene->GetRootGameObject());
+		else 
+		{
+			//Test the triangles of every mesh that isn't a primitive
+			if(TestTrianglePicking(picking, intersected_objs, nearest_GO))
+				App->scene->FocusGameObject(nearest_GO, App->scene->GetRootGameObject());
+			else
+				App->scene->UnfocusGameObjects();
+		}
+	}
 	else
 		App->scene->UnfocusGameObjects();
-
 
 }
 
@@ -266,42 +266,48 @@ void ModuleCamera3D::TestAABBPicking(LineSegment ray, GameObject* inters_GO, vec
 
 }
 
-bool ModuleCamera3D::GetTrianglePicking(GameObject* object, LineSegment ray)
+bool ModuleCamera3D::TestTrianglePicking(LineSegment ray, vector<GameObject*> intersected_objs, GameObject*& nearest)
 {
 	bool ret = false;
+	float min_hit_dist = FLOAT_INF;
 
-	//TODO: fix primitives !!!!!!!!!
-	if (object->mesh->IsPrimitive())
-		return true;
+	//Check all the intersected objects in triangle level to check which is the nearest
+	for (int i = 0; i < intersected_objs.size(); ++i) {
 
-	//Pass ray to local coordinates
-	LineSegment local_ray = ray;
-	local_ray.Transform(object->transform->GetGlobalMatrix().Inverted());
+		if (intersected_objs[i]->mesh->IsPrimitive()) //If we got a primitive don't check the triangles
+			continue;
 
-	//Check every mesh triangle
-	geo_info m = object->mesh->GetInfo();
+		//Pass ray to local coordinates
+		LineSegment local_ray = ray;
+		local_ray.Transform(intersected_objs[i]->transform->GetGlobalMatrix().Inverted());
 
-	for (int i = 0; i < m.num_index; i += 3) {
-		//Triangle points
-		uint index_01 = m.index[i] * 3;
-		uint index_02 = m.index[i + 1] * 3;
-		uint index_03 = m.index[i + 2] * 3;
+		//Check every mesh triangle
+		geo_info m = intersected_objs[i]->mesh->GetInfo();
 
-		float3 p1 = { m.vertex[index_01], m.vertex[index_01 + 1], m.vertex[index_01 + 2] };
-		float3 p2 = { m.vertex[index_02], m.vertex[index_02 + 1], m.vertex[index_02 + 2] };
-		float3 p3 = { m.vertex[index_03], m.vertex[index_03 + 1], m.vertex[index_03 + 2] };
+		for (int j = 0; j < m.num_index; j += 3) {
+			//Triangle points
+			uint index_01 = m.index[j] * 3;
+			uint index_02 = m.index[j + 1] * 3;
+			uint index_03 = m.index[j + 2] * 3;
 
-		Triangle tri = { p1, p2, p3 };
+			float3 p1 = { m.vertex[index_01], m.vertex[index_01 + 1], m.vertex[index_01 + 2] };
+			float3 p2 = { m.vertex[index_02], m.vertex[index_02 + 1], m.vertex[index_02 + 2] };
+			float3 p3 = { m.vertex[index_03], m.vertex[index_03 + 1], m.vertex[index_03 + 2] };
 
-		//Check triangle intersection
-		float distance;
-		float3 hit_point;
-		bool hit = local_ray.Intersects(tri, &distance, &hit_point);
+			Triangle tri = { p1, p2, p3 };
 
-		if (hit) //Todo: do stuff with distance
-			ret = true;
+			//Check triangle intersection
+			float distance;
+			float3 hit_point;
+			if (local_ray.Intersects(tri, &distance, &hit_point)) {
+				ret = true;
+				if (distance < min_hit_dist) {
+					nearest = intersected_objs[i];
+					min_hit_dist = distance;
+				}
+			}
+		}
 	}
-
 	return ret;
 }
 
