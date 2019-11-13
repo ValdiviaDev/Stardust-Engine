@@ -7,6 +7,7 @@
 #include "ComponentMesh.h"
 #include "ComponentCamera.h"
 #include "MathGeoLib/include/Math/MathAll.h"
+#include "Quadtree.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, "Camera3D", start_enabled)
 {
@@ -43,12 +44,11 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-
 	// Keys motion ----------------
 	float3 newPos(0, 0, 0);
 	float wheel_speed = 1.0f /** dt*/;
 
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		if (!App->gui->IsMouseHoveringWindow()) //If any ImGui window is being pressed, don't check picking
 			CheckForMousePicking();
 	}
@@ -220,7 +220,7 @@ void ModuleCamera3D::CheckForMousePicking()
 	LineSegment picking = dummy_cam->frustum.UnProjectLineSegment(norm_x, norm_y);
 	
 	//TODO Quadtree candidates
-	
+	//App->scene->quadtree->Intersect(intersected_objs, picking);
 
 	//Get the AABB intersection of the candidates to be picked
 	GameObject* nearest_GO = nullptr;
