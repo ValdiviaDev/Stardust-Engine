@@ -42,10 +42,10 @@ bool ModuleScene::Start()
 	CreateRootObject();
 
 	//Baker house create
-	/*scene_gameobject = CreateGameObject(root_object);
-	scene_gameobject->SetName("BakerHouse");
-	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	 */
+	scene_gameobject = CreateGameObject(root_object);
+	scene_gameobject->SetName("GameObject");
+	//scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
+	  
 
 	GameObject* camera = new GameObject(root_object);
 	camera->CreateComponent(Comp_Camera);

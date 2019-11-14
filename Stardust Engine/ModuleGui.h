@@ -34,6 +34,8 @@ public:
 	void ResizePanels();
 	bool IsMouseHoveringWindow();
 
+	void HandleGuizmo();
+
 	/*void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;*/
 	vector<string> loaded_meshes;

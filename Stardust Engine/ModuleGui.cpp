@@ -68,7 +68,7 @@ update_status ModuleGui::PreUpdate(float dt)
 	ImGui::NewFrame();
 
 	ImGuizmo::BeginFrame();
-
+	HandleGuizmo();
 	//if (!txt_log_init) {
 	//	ImGui::LogToFile();
 	//	txt_log_init = true;
@@ -91,22 +91,7 @@ update_status ModuleGui::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 		p_config->ToggleActive();
 	
-	//TODO
-	//ImGuizmo::Enable(true);
-	//static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
-	//static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
-	//
-	//if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-	//	mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	//if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
-	//	mCurrentGizmoOperation = ImGuizmo::ROTATE;
-	//if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-	//	mCurrentGizmoOperation = ImGuizmo::SCALE;
-	//if (App->scene->scene_gameobject) {
-	//	float4x4 delta;
-	//	ImGuizmo::Manipulate((float*)&App->camera->dummy_cam->frustum.ViewMatrix(), (float*)&App->camera->dummy_cam->frustum.ProjectionMatrix(), mCurrentGizmoOperation, mCurrentGizmoMode,
-	//		(float*)&App->scene->scene_gameobject->transform->GetGlobalMatrix().Transposed(), (float*)&delta);
-	//}
+	
 
 	return decide_if_update;
 }
@@ -303,4 +288,29 @@ void ModuleGui::ResizePanels()
 bool ModuleGui::IsMouseHoveringWindow()
 {
 	return ImGui::GetIO().WantCaptureMouse;
+}
+
+void ModuleGui::HandleGuizmo()
+{
+	//TODO Guizmos
+	ImGuizmo::Enable(true);
+
+	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
+	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+
+	//if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	//	ImGuizmo::Enable(false);
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+		mCurrentGizmoOperation = ImGuizmo::SCALE;
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+	if (App->scene->scene_gameobject) {
+		ImGuizmo::Manipulate(App->camera->dummy_cam->GetViewMatrix(), App->camera->dummy_cam->GetProjectionMatrix(), mCurrentGizmoOperation, mCurrentGizmoMode,
+			(float*)&App->scene->scene_gameobject->transform->GetGlobalMatrix());
+	}
 }
