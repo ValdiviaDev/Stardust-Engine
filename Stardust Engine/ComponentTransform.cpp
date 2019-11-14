@@ -3,9 +3,10 @@
 #include "Application.h"
 #include "Quadtree.h"
 #include "GameObject.h"
+#include "ComponentCamera.h"
 #include "imgui/imgui.h"
+#include "imgui/ImGuizmo.h"
 #include "MathGeoLib/include/MathGeoLib.h"
-
 
 
 
@@ -42,7 +43,45 @@ void ComponentTransform::DrawInspector() {
 		ImGui::DragFloat3("   ", &scale[0], 0.1f);
 	
 	}
-	
+
+	HandleGizmos();
+}
+
+void ComponentTransform::HandleGizmos()
+{
+	//TODO guizmos
+	ImGuizmo::Enable(true);
+
+	static bool draw_guizmo = true;
+	static ImGuizmo::OPERATION current_operation(ImGuizmo::TRANSLATE);
+	static ImGuizmo::MODE current_mode(ImGuizmo::WORLD);
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_IDLE) {
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) //Selected
+			draw_guizmo = false;
+
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) { //Translate
+			draw_guizmo = true;
+			current_operation = ImGuizmo::TRANSLATE;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) { //Rotate
+			draw_guizmo = true;
+			current_operation = ImGuizmo::ROTATE;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) { //Scale
+			draw_guizmo = true;
+			current_operation = ImGuizmo::SCALE;
+		}
+	}
+
+	if (draw_guizmo) {
+		float* view_mat = App->camera->dummy_cam->GetViewMatrix();
+		float* proj_mat = App->camera->dummy_cam->GetProjectionMatrix();
+
+		ImGuiIO& io = ImGui::GetIO();
+		ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+		ImGuizmo::Manipulate(view_mat, proj_mat, current_operation, current_mode, (float*)&GetGlobalMatrix().Transposed());
+	}
 }
 
 

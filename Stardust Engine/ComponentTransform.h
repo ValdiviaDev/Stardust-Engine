@@ -22,7 +22,8 @@ public:
 	void Save(JSON_Array* comp_array);
 	void Load(JSON_Object* comp_obj);
 
-	void  DrawInspector();
+	void DrawInspector();
+	void HandleGizmos();
 
 	void SetPosition(math::float3 pos);
 	math::float3 GetPosition() const;
