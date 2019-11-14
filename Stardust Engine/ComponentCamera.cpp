@@ -247,7 +247,7 @@ float* ComponentCamera::GetViewMatrix()
 float* ComponentCamera::GetProjectionMatrix()
 {
 	proj_mat = frustum.ProjectionMatrix();
-	//proj_mat.Transpose();
+	proj_mat.Transpose();
 
 	return (float*)proj_mat.v;
 }
