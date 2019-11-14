@@ -185,10 +185,10 @@ void ComponentCamera::CameraCulling(GameObject* go) {
 				//if (!frustum.Intersects(refBox)) {    //MathGeoLib func. Slow but works better
 				if (ContainsAABB(refBox) == OUTSIDE) {
 				
-					go->SetActive(false);
+					(*it)->SetActive(false);
 				}
 				else
-					go->SetActive(true);
+					(*it)->SetActive(true);
 
 			}
 
