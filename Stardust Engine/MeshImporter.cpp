@@ -56,7 +56,7 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 
 			SceneSerialization s;
 			char file_name[100];
-			strcpy(file_name, root->mName.C_Str());
+			strcpy(file_name, file);
 			strcat(file_name, ".json");
 			s.SaveSceneFromMesh(file_name, go_list);
 		}
@@ -388,6 +388,7 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 	if (node->mNumMeshes > 0) {
 		mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh, nullptr);
 		mesh->SetPath(path);
+		mesh->uuid_mesh = App->GenerateUUID();
 
 		//Only charge the first mesh for each node
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
@@ -485,8 +486,12 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 				App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
 		}
 
+		
 		//Save a mesh in own file format
-		SaveMesh(mesh, name.c_str(), output_file);
+		if (mesh)
+			SaveMesh(mesh, std::to_string(mesh->uuid_mesh).c_str(), output_file);
+		else
+			SaveMesh(mesh, name.c_str(), output_file);
 
 		RELEASE_ARRAY(mesh->m_info.vertex);
 		RELEASE_ARRAY(mesh->m_info.index);

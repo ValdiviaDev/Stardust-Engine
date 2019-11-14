@@ -1,0 +1,1091 @@
+[
+    {
+        "Name": "Sky001",
+        "UUID": 614023389,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1728766931,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 18.153732299804688,
+                "PosY": 0,
+                "PosZ": 58.960910797119141,
+                "RotX": -1,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "Dummy001",
+        "UUID": 1112888387,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1728766931,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": -0.7071068286895752,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "City_building_004",
+        "UUID": 1339891214,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -41.47589111328125,
+                "PosY": 21.01409912109375,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 24067861,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building03_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_001",
+        "UUID": 591306021,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 17.707164764404297,
+                "PosY": 20.053276062011719,
+                "PosZ": 2.1210729528320371e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 54975051,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_v02_c.png"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_007",
+        "UUID": 602166717,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 16.010492324829102,
+                "PosY": 37.4932861328125,
+                "PosZ": -1.5106878663573298e-06,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 273247523,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_016_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_008",
+        "UUID": 1355653657,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 40.979995727539063,
+                "PosY": 18.270824432373047,
+                "PosZ": -2.0522466002148576e-06,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 56968347,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_025_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "Line002",
+        "UUID": 1938474125,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -2.1597719192504883,
+                "PosY": 1.8538382053375244,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 2044744557,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3
+            }
+        ]
+    },
+    {
+        "Name": "Plane001",
+        "UUID": 469843267,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -0.02860260009765625,
+                "PosY": 0.026032090187072754,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 0.99663525819778442,
+                "ScaleY": 0.97061645984649658,
+                "ScaleZ": 0.99663525819778442
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 487180703,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3
+            }
+        ]
+    },
+    {
+        "Name": "City_building_010",
+        "UUID": 651002845,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 25.154010772705078,
+                "PosY": -39.153720855712891,
+                "PosZ": 8.5538641769744572e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 826701810,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building 01_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_011",
+        "UUID": 1097490763,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 30.134540557861328,
+                "PosY": 37.4932861328125,
+                "PosZ": -1.5106878663573298e-06,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 936250563,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_016_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_013",
+        "UUID": 129309232,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -42.288055419921875,
+                "PosY": 33.201576232910156,
+                "PosZ": 5.0146070407208754e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 386592848,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building 06_ c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_014",
+        "UUID": 568122757,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -19.439706802368164,
+                "PosY": 32.061729431152344,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 1,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 920654651,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building03_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_016",
+        "UUID": 953045262,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 34.270423889160156,
+                "PosY": -41.972747802734375,
+                "PosZ": 8.5538641769744572e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 1,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1161944343,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building 01_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_017",
+        "UUID": 18121513,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 44.260082244873047,
+                "PosY": -39.153720855712891,
+                "PosZ": 8.5538641769744572e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1064955784,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building 01_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_022",
+        "UUID": 1413725189,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -20.831323623657227,
+                "PosY": -27.426488876342773,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 1,
+                "RotW": 1.9470718370939721e-07,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1490874065,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building05 _c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_023",
+        "UUID": 1816168914,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 42.130641937255859,
+                "PosY": 37.4932861328125,
+                "PosZ": -1.5106878663573298e-06,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1806309881,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_016_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_024",
+        "UUID": 457856781,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -20.572771072387695,
+                "PosY": 43.060829162597656,
+                "PosZ": -0.069194458425045013,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -1,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1347177580,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_025_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_026",
+        "UUID": 502014455,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 31.51188850402832,
+                "PosY": -16.446016311645508,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -1,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 452016630,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building05 _c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_028",
+        "UUID": 624434092,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 13.38798999786377,
+                "PosY": -33.755039215087891,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 66969264,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_v01_c.png"
+            }
+        ]
+    },
+    {
+        "Name": "Object010",
+        "UUID": 280131307,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -2.5033531188964844,
+                "PosY": 15.800846099853516,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1722726240,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3
+            }
+        ]
+    },
+    {
+        "Name": "City_building_030",
+        "UUID": 961870090,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -42.807239532470703,
+                "PosY": -41.835563659667969,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1374971489,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_v01_c.png"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_031",
+        "UUID": 658986997,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -34.679481506347656,
+                "PosY": -41.835563659667969,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 493083629,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_v01_c.png"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_032",
+        "UUID": 1449237314,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -29.478403091430664,
+                "PosY": 21.01409912109375,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 2126850993,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building03_c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_033",
+        "UUID": 200555709,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -32.361495971679688,
+                "PosY": 42.37042236328125,
+                "PosZ": 5.0146070407208754e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 2097827142,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building 06_ c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_034",
+        "UUID": 313137065,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 16.049516677856445,
+                "PosY": -16.696884155273438,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1809101668,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building05 _c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_035",
+        "UUID": 1551331278,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 13.38798999786377,
+                "PosY": -40.802516937255859,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1839847067,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_v01_c.png"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_036",
+        "UUID": 1035558998,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -31.216331481933594,
+                "PosY": 33.201576232910156,
+                "PosZ": 5.0146070407208754e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1332002674,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building 06_ c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_037",
+        "UUID": 571838153,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -20.317693710327148,
+                "PosY": -16.163608551025391,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 1,
+                "RotW": 1.9470718370939721e-07,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1892201927,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building05 _c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_038",
+        "UUID": 1753518099,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -41.649002075195313,
+                "PosY": -16.495393753051758,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1533205823,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building05 _c.tga"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_039",
+        "UUID": 500445301,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -42.807239532470703,
+                "PosY": -30.643888473510742,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 727611993,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_v01_c.png"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_040",
+        "UUID": 82815570,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -34.679481506347656,
+                "PosY": -30.643888473510742,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1856690422,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_v01_c.png"
+            }
+        ]
+    },
+    {
+        "Name": "City_building_041",
+        "UUID": 1160706191,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1112888387,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 30.695278167724609,
+                "PosY": 21.612646102905273,
+                "PosZ": 2.1210729528320371e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1863570648,
+                "path": "Assets\/Meshes\/Street environment_V01.FBX",
+                "is primitive": 0
+            },
+            {
+                "Component Type": 3,
+                "path": "assets\/textures\/building_v02_c.png"
+            }
+        ]
+    },
+    {
+        "Name": "Camera001",
+        "UUID": 1280067256,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1728766931,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -78.312431335449219,
+                "PosY": 45.251216888427734,
+                "PosZ": -97.031112670898438,
+                "RotX": -0.049339741468429565,
+                "RotY": -0.93228733539581299,
+                "RotZ": -0.1393311470746994,
+                "RotW": 0.33014041185379028,
+                "ScaleX": 1,
+                "ScaleY": 0.99999994039535522,
+                "ScaleZ": 0.99999994039535522
+            }
+        ]
+    },
+    {
+        "Name": "Camera001.Target",
+        "UUID": 1138563123,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1728766931,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -28.132621765136719,
+                "PosY": 20.873329162597656,
+                "PosZ": -35.064212799072266,
+                "RotX": -0.049339760094881058,
+                "RotY": -0.93228733539581299,
+                "RotZ": -0.13933101296424866,
+                "RotW": 0.33014047145843506,
+                "ScaleX": 1,
+                "ScaleY": 0.99999994039535522,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "Spot001",
+        "UUID": 2134291966,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1728766931,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -66.721267700195313,
+                "PosY": 141.93412780761719,
+                "PosZ": 6.2041376622801181e-06,
+                "RotX": -0.69003516435623169,
+                "RotY": -0.15443949401378632,
+                "RotZ": -0.69003516435623169,
+                "RotW": 0.1544388085603714,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "Spot001.Target",
+        "UUID": 704978015,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1728766931,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 28.890945434570313,
+                "PosY": -60.963882446289063,
+                "PosZ": -2.6648158382158726e-06,
+                "RotX": 8.9406967163085938e-08,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    }
+]
