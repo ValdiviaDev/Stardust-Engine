@@ -162,7 +162,7 @@ void GameObject::GUIHierarchyPrint(int& i, bool& clicked) {
 	//Push ID for each tree node
 	ImGui::PushID(i);
 
-	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanFullWidth;
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanFullWidth | ImGuiTreeNodeFlags_DefaultOpen;
 
 	if (focused)
 		flags |= ImGuiTreeNodeFlags_Selected;

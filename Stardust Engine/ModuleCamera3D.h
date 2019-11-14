@@ -22,6 +22,13 @@ public:
 	void LookAt(const float3 &Spot);
 	void Move(const float3 &Movement);
 
+	//User camera moving
+	void MoveArroundEngine(float keys_speed, float dt);
+	void OrbitArroundEngine(float dt);
+	void OrbitArroundObject(float dt);
+	void ZoomInOut(float wheel_speed);
+	void FocusInObject();
+
 	//Mouse picking
 	void CheckForMousePicking();
 	void TestAABBPicking(LineSegment ray, GameObject* inters_GO, std::vector<GameObject*>& intersected_objs, float& min_dist, GameObject*& nearest);

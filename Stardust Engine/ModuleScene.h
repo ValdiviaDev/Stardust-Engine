@@ -46,6 +46,8 @@ public:
 	GameObject* GetFocusedGameObject(GameObject* root) const;
 	GameObject* GetGameObjectFromUUID(uint UUID, GameObject* root) const; //Send root 1st time
 	void CreateRootObject();
+
+	void DeleteGameObject(GameObject* go);
 	void DestroyGOs();
 
 public:
@@ -58,6 +60,7 @@ private:
 	
 	GameObject* root_object = nullptr;
 	GameObject* focused_object = nullptr;
+	bool want_to_delete_go = false;
 
 };
 

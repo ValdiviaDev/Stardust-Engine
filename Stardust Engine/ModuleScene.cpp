@@ -70,6 +70,10 @@ update_status ModuleScene::Update(float dt)
 
 	root_object->Update();
 
+	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
+		if (focused_object)
+			want_to_delete_go = true;
+
 	return UPDATE_CONTINUE;
 }
 
@@ -95,14 +99,20 @@ update_status ModuleScene::PostUpdate(float dt) {
 		s.LoadScene(aux.c_str());
 	}
 
+	if (want_to_delete_go) {
+		DeleteGameObject(focused_object);
+		focused_object = nullptr;
+		want_to_delete_go = false;
+	}
+
 	return UPDATE_CONTINUE;
 }
 
 bool ModuleScene::CleanUp()
 {
 	//Delete GameObjects
-	//Releasing the root_object releases all GameObjects, as they are organized as a tree
-	RELEASE(root_object);
+	//Releasing the root_object releases all GameObjects, as they are organised as a tree
+	DestroyGOs();
 	RELEASE(quadtree);
 
 	return true;
@@ -495,6 +505,12 @@ GameObject * ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) con
 		}
 	}
 	return ret;
+}
+
+void ModuleScene::DeleteGameObject(GameObject* go)
+{
+	go->DeleteFromParentList();
+	RELEASE(go);
 }
 
 void ModuleScene::DestroyGOs() {
