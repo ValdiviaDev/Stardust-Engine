@@ -34,10 +34,18 @@ public:
 	void ResizePanels();
 	bool IsMouseHoveringWindow();
 
+	void SaveSceneMenu();
+	void LoadSceneMenu();
+
 	/*void Load(ConfigEditor* config);
 	void Save(ConfigEditor* config) const;*/
+
+public:
+
 	vector<string> loaded_meshes;
 	vector<string> loaded_materials;
+
+	char scene_name[100] = "";
 
 private:
 	//Panels
@@ -50,6 +58,10 @@ private:
 	PanelAssets* p_assets = nullptr;
 
 	update_status decide_if_update = UPDATE_CONTINUE;
+
+	bool save_scene_clicked = false;
+	bool load_scene_clicked = false;
+	
 
 };
 

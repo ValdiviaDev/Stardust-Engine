@@ -11,6 +11,7 @@
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
+#include "SceneSerialization.h"
 
 #include "Panel.h"
 #include "PanelAbout.h"
@@ -55,7 +56,6 @@ bool ModuleGui::Init(ConfigEditor* config)
 	p_assets = new PanelAssets();
 	panels.push_back(p_assets);
 
-	
 	AddLogToConsole("Initializing ImGui");
 
 	return true;
@@ -90,7 +90,12 @@ update_status ModuleGui::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_DOWN)
 		p_config->ToggleActive();
 	
-	
+	if (save_scene_clicked)
+		SaveSceneMenu();
+
+	if (load_scene_clicked)
+		LoadSceneMenu();
+
 
 	return decide_if_update;
 }
@@ -162,11 +167,13 @@ void ModuleGui::HandleMainMenuBar()
 		{
 			ImGui::MenuItem("Exit", "ESC", &quit_engine);
 
-			if (ImGui::MenuItem("Save scene", "", &save_scene))
-				App->scene->want_to_save = true;
+			if (ImGui::MenuItem("Save scene")) 				
+				save_scene_clicked = true;
+			
 
-			if (ImGui::MenuItem("Load scene", "", &load_scene))
-				App->scene->want_to_load = true;
+			if (ImGui::MenuItem("Load scene"))
+				load_scene_clicked = true;
+				
 
 			ImGui::EndMenu();
 		}
@@ -287,4 +294,72 @@ void ModuleGui::ResizePanels()
 bool ModuleGui::IsMouseHoveringWindow()
 {
 	return ImGui::GetIO().WantCaptureMouse;
+}
+
+
+void ModuleGui::SaveSceneMenu() {
+
+	ImGui::OpenPopup("Save scene as...");
+
+	if (ImGui::BeginPopupModal("Save scene as...", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+		ImGui::Text("Scene saved in: Assets/Scenes/");
+		
+		ImGui::InputText("##SaveSceneName", scene_name, 256);
+
+		if (ImGui::Button("Save", ImVec2(100, 0))) {
+			save_scene_clicked = false;
+			App->scene->want_to_save = true; 
+
+			ImGui::CloseCurrentPopup();
+			
+		}
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+
+		if (ImGui::Button("Cancel", ImVec2(100, 0))) {
+			save_scene_clicked = false;
+
+			ImGui::CloseCurrentPopup();
+			
+		}
+		ImGui::EndPopup();
+
+	}
+
+
+}
+
+void ModuleGui::LoadSceneMenu() {
+
+	
+
+	ImGui::OpenPopup("Load scene");
+
+	if (ImGui::BeginPopupModal("Load scene", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+		ImGui::Text("Load scene from: Assets/Scenes/");
+
+		ImGui::InputText("##LoadSceneName", scene_name, 256);
+
+		if (ImGui::Button("Load", ImVec2(100, 0))) {
+			load_scene_clicked = false;
+			App->scene->want_to_load = true;
+
+			ImGui::CloseCurrentPopup();
+			
+		}
+
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+
+		if (ImGui::Button("Cancel", ImVec2(100, 0))) {
+			load_scene_clicked = false;
+
+			ImGui::CloseCurrentPopup();
+
+		}
+		ImGui::EndPopup();
+
+	}
 }

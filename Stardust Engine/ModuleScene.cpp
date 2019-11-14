@@ -42,10 +42,10 @@ bool ModuleScene::Start()
 	CreateRootObject();
 
 	//Baker house create
-	scene_gameobject = CreateGameObject(root_object);
-	scene_gameobject->SetName("GameObject");
-	//scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	  
+	/*scene_gameobject = CreateGameObject(root_object);
+	scene_gameobject->SetName("BakerHouse");
+	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
+	 */
 
 	GameObject* camera = new GameObject(root_object);
 	camera->CreateComponent(Comp_Camera);
@@ -77,14 +77,22 @@ update_status ModuleScene::PostUpdate(float dt) {
 
 	if (want_to_save) {
 		want_to_save = false;
+
+		std::string aux = ASSETS_SCENE_FOLDER;
+		aux += App->gui->scene_name;
+		aux.append(".json");
 		SceneSerialization s;
-		s.SaveScene("Assets/Scenes/scene1.json"); 
+		s.SaveScene(aux.c_str()); 
 	}
 
 	if (want_to_load) {
 		want_to_load = false;
+
+		std::string aux = ASSETS_SCENE_FOLDER;
+		aux += App->gui->scene_name;
+		aux.append(".json");
 		SceneSerialization s;
-		s.LoadScene("Assets/Scenes/scene1.json");
+		s.LoadScene(aux.c_str());
 	}
 
 	return UPDATE_CONTINUE;
