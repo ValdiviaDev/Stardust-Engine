@@ -309,8 +309,8 @@ void ModuleGui::HandleGuizmo()
 
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-	if (App->scene->scene_gameobject) {
-		ImGuizmo::Manipulate(App->camera->dummy_cam->GetViewMatrix(), App->camera->dummy_cam->GetProjectionMatrix(), mCurrentGizmoOperation, mCurrentGizmoMode,
-			(float*)&App->scene->scene_gameobject->transform->GetGlobalMatrix());
-	}
+	//if (App->scene->scene_gameobject) {
+	//	ImGuizmo::Manipulate(App->camera->dummy_cam->GetViewMatrix(), App->camera->dummy_cam->GetProjectionMatrix(), mCurrentGizmoOperation, mCurrentGizmoMode,
+	//		(float*)&App->scene->scene_gameobject->transform->GetGlobalMatrix());
+	//}
 }

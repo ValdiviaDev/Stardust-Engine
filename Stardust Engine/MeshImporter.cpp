@@ -256,26 +256,30 @@ bool MeshImporter::SaveMesh(ComponentMesh* mesh, const char* file_name, std::str
 
 	uint bytes = sizeof(ranges); // First store ranges
 	memcpy(cursor, ranges, bytes);
+	cursor += bytes;
 
 	// Store indices
-	cursor += bytes;
 	bytes = sizeof(uint) * mesh->m_info.num_index;
 	memcpy(cursor, mesh->m_info.index, bytes);
+	cursor += bytes;
 
 	// Store vertex
-	cursor += bytes;
 	bytes = sizeof(uint) * mesh->m_info.num_vertex * 3;
 	memcpy(cursor, mesh->m_info.vertex, bytes);
+	cursor += bytes;
 
 	// Store UVs
-	cursor += bytes;
-	bytes = sizeof(uint) * mesh->m_info.num_uv * 2;
-	memcpy(cursor, mesh->m_info.uv, bytes);
+	if (mesh->m_info.num_uv > 0) {
+		bytes = sizeof(uint) * mesh->m_info.num_uv * 2;
+		memcpy(cursor, mesh->m_info.uv, bytes);
+		cursor += bytes;
+	}
 
 	// Store Normals
-	cursor += bytes;
-	bytes = sizeof(uint) * mesh->m_info.num_normal * 3;
-	memcpy(cursor, mesh->m_info.normal, bytes);
+	if (mesh->m_info.num_normal > 0) {
+		bytes = sizeof(uint) * mesh->m_info.num_normal * 3;
+		memcpy(cursor, mesh->m_info.normal, bytes);
+	}
 
 	App->fs->SaveUnique(output_file, data, size, LIBRARY_MESH_FOLDER, file_name, MESH_EXTENSION);
 
@@ -309,30 +313,34 @@ bool MeshImporter::LoadMesh(const char* exported_file, geo_info& mesh)
 		mesh.num_vertex = ranges[1];
 		mesh.num_uv = ranges[2];
 		mesh.num_normal = ranges[3];
+		cursor += bytes;
 
 		// Load indices
-		cursor += bytes;
 		bytes = sizeof(uint) * mesh.num_index;
 		mesh.index = new uint[mesh.num_index];
 		memcpy(mesh.index, cursor, bytes);
+		cursor += bytes;
 
 		// Load vertex
-		cursor += bytes;
 		bytes = sizeof(float) * mesh.num_vertex * 3;
 		mesh.vertex = new float[mesh.num_vertex * 3];
 		memcpy(mesh.vertex, cursor, bytes);
+		cursor += bytes;
 
 		// Load UVs
-		cursor += bytes;
-		bytes = sizeof(float) * mesh.num_uv * 2;
-		mesh.uv = new float[mesh.num_uv * 2];
-		memcpy(mesh.uv, cursor, bytes);
+		if (mesh.num_uv > 0) {
+			bytes = sizeof(float) * mesh.num_uv * 2;
+			mesh.uv = new float[mesh.num_uv * 2];
+			memcpy(mesh.uv, cursor, bytes);
+			cursor += bytes;
+		}
 
 		// Load Normal
-		cursor += bytes;
-		bytes = sizeof(float) * mesh.num_normal * 3;
-		mesh.normal = new float[mesh.num_normal * 3];
-		memcpy(mesh.normal, cursor, bytes);
+		if (mesh.num_normal > 0) {
+			bytes = sizeof(float) * mesh.num_normal * 3;
+			mesh.normal = new float[mesh.num_normal * 3];
+			memcpy(mesh.normal, cursor, bytes);
+		}
 
 	}
 
