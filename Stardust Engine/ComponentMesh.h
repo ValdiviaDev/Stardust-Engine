@@ -5,10 +5,13 @@
 #include "Application.h"
 #include "ModuleImport.h"
 
+
+
+
 class ComponentMesh : public Component //TODO
 {
 public:
-	ComponentMesh(GameObject* parent, const char* path, bool is_primitive);
+	ComponentMesh(GameObject* parent, const char* path, PrimitiveType primitive = PRIMITIVE_NONE);
 	~ComponentMesh();
 
 	void Save(JSON_Array* comp_array);
@@ -36,7 +39,7 @@ public:
 
 private:
 	const char* path = nullptr;
-	int is_primitive = false;
+	PrimitiveType is_primitive = PRIMITIVE_NONE;
 };
 
 #endif

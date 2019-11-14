@@ -21,6 +21,13 @@ enum ComponentType {
 	Comp_Camera
 };
 
+enum PrimitiveType {
+	PRIMITIVE_NONE,
+	PRIMITIVE_CUBE,
+	PRIMITIVE_SPHERE,
+	PRIMITIVE_PLANE
+};
+
 class Component
 {
 public:

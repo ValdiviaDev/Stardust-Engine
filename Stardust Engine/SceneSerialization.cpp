@@ -17,7 +17,7 @@ SceneSerialization::~SceneSerialization() {
 
 void SceneSerialization::SaveScene(const char* scene_name) {
 
-	LOG("Saving scene %s.", scene_name)
+	LOG("Saving scene in %s.", scene_name)
 
 	JSON_Value* root_value = json_value_init_array();
 

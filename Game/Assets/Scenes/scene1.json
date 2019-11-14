@@ -1,0 +1,113 @@
+[
+    {
+        "Name": "cameraobject",
+        "UUID": 2099665722,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1617559962,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 4,
+                "Aspect Ratio": 1.7777999639511108,
+                "FOV": 60.000003814697266,
+                "Far Plane": 100,
+                "Near Plane": 1,
+                "culling": false
+            }
+        ]
+    },
+    {
+        "Name": "Cube",
+        "UUID": 1615380072,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1617559962,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 0,
+                "is primitive": 1
+            }
+        ]
+    },
+    {
+        "Name": "Sphere",
+        "UUID": 657399322,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1617559962,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -3.5999999046325684,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 0,
+                "is primitive": 2
+            }
+        ]
+    },
+    {
+        "Name": "Plane",
+        "UUID": 1626712098,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1617559962,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 3.0999999046325684,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 0,
+                "is primitive": 3
+            }
+        ]
+    }
+]

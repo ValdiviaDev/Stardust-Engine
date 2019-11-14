@@ -53,7 +53,7 @@ void GameObject::Update()
 		camera->Update();
 }
 
-Component* GameObject::CreateComponent(ComponentType type, char* path, bool is_primitive)
+Component* GameObject::CreateComponent(ComponentType type, char* path, PrimitiveType primitive)
 {
 	Component* component = nullptr;
 
@@ -66,7 +66,7 @@ Component* GameObject::CreateComponent(ComponentType type, char* path, bool is_p
 		break;
 	case Comp_Mesh:
 		if (mesh == nullptr) {
-			mesh = new ComponentMesh(this, path, is_primitive);
+			mesh = new ComponentMesh(this, path, primitive);
 			component = mesh;
 		}
 		break;
@@ -502,7 +502,7 @@ void GameObject::Save(JSON_Array* go_array) const{
 
 void GameObject::SaveAndSerialize() const{
 
-	//INTENTAR CARGAR COMO ESTA, PERO CADA GO SOLO CARGA LA FICHERO PROPIO DE MESH CON EL NOMBRE DE SU UUID
+	
 
 	//LOG("Saving and serializing GameObject: %s", name);
 	//std::string uuid_s = std::to_string(uuid);

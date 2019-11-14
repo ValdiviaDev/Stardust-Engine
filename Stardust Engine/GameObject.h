@@ -5,7 +5,7 @@
 #include <vector>
 #include "MathGeoLib/include/Geometry/AABB.h"
 #include "MathGeoLib/include/Geometry/OBB.h"
-
+#include "Component.h"
 
 class Component;
 class ComponentTransform;
@@ -14,6 +14,7 @@ class ComponentMaterial;
 class ComponentCamera;
 class ConfigEditor;
 enum ComponentType;
+
 
 struct json_object_t;
 typedef struct json_object_t JSON_Object;
@@ -31,7 +32,7 @@ public:
 	virtual ~GameObject();
 
 	void Update(); //TODO
-	Component* CreateComponent(ComponentType type, char* path = "", bool is_primitive = false);
+	Component* CreateComponent(ComponentType type, char* path = "", PrimitiveType primitive = PRIMITIVE_NONE);
 
 	bool IsActive() const;
 	void SetActive(bool active);

@@ -4,8 +4,8 @@
 #include "MeshImporter.h"
 #include "GameObject.h"
 
-ComponentMesh::ComponentMesh(GameObject* parent, const char* path, bool is_primitive) 
-	: Component(parent), path(path), is_primitive(is_primitive)
+ComponentMesh::ComponentMesh(GameObject* parent, const char* path, PrimitiveType primitive) 
+	: Component(parent), path(path), is_primitive(primitive)
 {
 	type = Comp_Mesh;
 	m_info = geo_info();
@@ -55,7 +55,10 @@ geo_info ComponentMesh::GetInfo() const
 
 bool ComponentMesh::IsPrimitive() const
 {
-	return is_primitive;
+	if(is_primitive == PRIMITIVE_NONE)
+		return false;
+	
+	return true;
 }
 
 void ComponentMesh::DrawInspector() {
@@ -71,7 +74,7 @@ void ComponentMesh::DrawInspector() {
 
 		ImGui::Separator();
 
-		if (!is_primitive) {
+		if (!IsPrimitive()) {
 		ImGui::Text("Debug Options");
 
 			ImGui::Checkbox("Vertex Normals", &debug_v_norm);
@@ -125,7 +128,7 @@ void ComponentMesh::Save(JSON_Array* comp_array) {
 	json_object_set_number(obj, "Component Type", type);
 	json_object_set_number(obj, "UUID Mesh", uuid_mesh);
 	json_object_set_string(obj, "path", path);
-	json_object_set_boolean(obj, "is primitive", is_primitive);
+	json_object_set_number(obj, "is primitive", is_primitive);
 	
 
 	json_array_append_value(comp_array, value);
@@ -135,7 +138,8 @@ void ComponentMesh::Save(JSON_Array* comp_array) {
 
 void ComponentMesh::Load(JSON_Object* comp_obj) {
 
-	is_primitive = json_object_get_boolean(comp_obj, "is primitive");
+	int aux = json_object_get_number(comp_obj, "is primitive");
+	is_primitive = (PrimitiveType)aux;
 	uuid_mesh = json_object_get_number(comp_obj, "UUID Mesh");
 	const char* p = json_object_get_string(comp_obj, "path");
 	char* ap = (char*)p;
@@ -143,13 +147,45 @@ void ComponentMesh::Load(JSON_Object* comp_obj) {
 	std::string file;
 	App->fs->SplitFilePath(p, &fullpath, &file);
 
-	if (uuid_mesh != 0) {
-		LoadMesh(std::to_string(uuid_mesh));
-	}
-	else {
+	switch (is_primitive) {
+	case PRIMITIVE_NONE:
 
-		if (!LoadMesh(file.c_str())) {
-			AssignMesh(p);
+		if (uuid_mesh != 0) {
+			LoadMesh(std::to_string(uuid_mesh));
 		}
+		else {
+
+			if (!LoadMesh(file.c_str())) {
+				AssignMesh(p);
+			}
+		}
+
+		break;
+
+	case PRIMITIVE_CUBE:
+		if (true) {
+			par_shapes_mesh* cube = par_shapes_create_cube();
+			FillPrimitiveDrawInfo(cube);
+			par_shapes_free_mesh(cube);
+		}
+		break;
+
+	case PRIMITIVE_SPHERE:
+		if (true) {
+			par_shapes_mesh* sphere = par_shapes_create_subdivided_sphere(3);
+			FillPrimitiveDrawInfo(sphere);
+			par_shapes_free_mesh(sphere);
+		}
+		break;
+
+	case PRIMITIVE_PLANE:
+		if (true) {
+			par_shapes_mesh* plane = par_shapes_create_plane(5, 5);
+			FillPrimitiveDrawInfo(plane);
+			par_shapes_free_mesh(plane);
+		}
+		break;
 	}
+		
+	
 }

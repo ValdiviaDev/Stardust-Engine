@@ -78,13 +78,13 @@ update_status ModuleScene::PostUpdate(float dt) {
 	if (want_to_save) {
 		want_to_save = false;
 		SceneSerialization s;
-		s.SaveScene("scene1.json"); //TODO: Put scenes in Assets/Scenes
+		s.SaveScene("Assets/Scenes/scene1.json"); 
 	}
 
 	if (want_to_load) {
 		want_to_load = false;
 		SceneSerialization s;
-		s.LoadScene("scene1.json");
+		s.LoadScene("Assets/Scenes/scene1.json");
 	}
 
 	return UPDATE_CONTINUE;
@@ -118,7 +118,7 @@ GameObject* ModuleScene::CreateCubePrimitive()
 
 	GameObject* cubeGO = CreateGameObject(root_object);
 	cubeGO->SetName("Cube");
-	cubeGO->CreateComponent(Comp_Mesh, nullptr, true);
+	cubeGO->CreateComponent(Comp_Mesh, nullptr, PRIMITIVE_CUBE);
 	cubeGO->mesh->FillPrimitiveDrawInfo(cube);
 
 	par_shapes_free_mesh(cube);
@@ -132,7 +132,7 @@ GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
 
 	GameObject* sphereGO = CreateGameObject(root_object);
 	sphereGO->SetName("Sphere");
-	sphereGO->CreateComponent(Comp_Mesh, nullptr, true);
+	sphereGO->CreateComponent(Comp_Mesh, nullptr, PRIMITIVE_SPHERE);
 	sphereGO->mesh->FillPrimitiveDrawInfo(sphere);
 
 	par_shapes_free_mesh(sphere);
@@ -146,7 +146,7 @@ GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
 
 	GameObject* planeGO = CreateGameObject(root_object);
 	planeGO->SetName("Plane");
-	planeGO->CreateComponent(Comp_Mesh, nullptr, true);
+	planeGO->CreateComponent(Comp_Mesh, nullptr, PRIMITIVE_PLANE);
 	planeGO->mesh->FillPrimitiveDrawInfo(plane);
 
 	par_shapes_free_mesh(plane);
