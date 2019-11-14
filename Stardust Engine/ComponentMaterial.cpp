@@ -18,12 +18,14 @@ ComponentMaterial::~ComponentMaterial()
 
 void ComponentMaterial::AssignTexture(const char* path)
 {
-	//Import texture with DevIL
-	bool charged = App->importer->ImportTexture((char*)path, tex_id, tex_width, tex_height);
+	if (path) {
+		//Import texture with DevIL
+		bool charged = App->importer->ImportTexture((char*)path, tex_id, tex_width, tex_height);
 
-	if (charged) {
-		has_tex = true;
-		strcpy_s(tex_path, 500, path);
+		if (charged) {
+			has_tex = true;
+			strcpy_s(tex_path, 500, path);
+		}
 	}
 }
 

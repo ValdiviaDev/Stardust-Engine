@@ -4,6 +4,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
 #include "ModuleFileSystem.h"
+#include "SceneSerialization.h"
 
 #define MAX_KEYS 300
 
@@ -114,11 +115,21 @@ update_status ModuleInput::PreUpdate(float dt)
 			{
 				LOG("File Drop!");
 				FileType ft = App->fs->DetermineFileType(e.drop.file);
+				std::string path = "", file = "", extension = "";
+				App->fs->SplitFilePath(e.drop.file, &path, &file, &extension);
+				file = ASSETS_SCENE_FOLDER + file + ".json";
 				switch (ft) {
 				case File_Mesh:
 					//TODO: have to delete
 					App->gui->AddLogToConsole("Charging 3D model");
-					App->scene->ChangeGameObjectMesh(e.drop.file);
+					if (App->fs->Exists(file.c_str())) {
+						LOG("Scene for object already exists, load .json.");
+						SceneSerialization s;
+						s.LoadScene(file.c_str());
+					}
+					else {
+						App->scene->ChangeGameObjectMesh(e.drop.file);
+					}
 					break;
 				case File_Material:
 					App->gui->AddLogToConsole("Charging texture");
