@@ -77,10 +77,31 @@ void ComponentTransform::HandleGizmos()
 	if (draw_guizmo) {
 		float* view_mat = App->camera->dummy_cam->GetViewMatrix();
 		float* proj_mat = App->camera->dummy_cam->GetProjectionMatrix();
+		float4x4 this_mat = global_matrix.Transposed();
 
 		ImGuiIO& io = ImGui::GetIO();
 		ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-		ImGuizmo::Manipulate(view_mat, proj_mat, current_operation, current_mode, (float*)&GetGlobalMatrix().Transposed());
+		ImGuizmo::Manipulate(view_mat, proj_mat, current_operation, current_mode, (float*)&this_mat);
+	
+		
+		//this_mat.Transpose();
+		//local_matrix = this_mat;
+		//UpdateMatrix();
+		
+		if (ImGuizmo::IsUsing()) {
+			float giz_pos[3], giz_rot[3], giz_scale[3];
+			ImGuizmo::DecomposeMatrixToComponents((float*)&this_mat, giz_pos, giz_rot, giz_scale);
+			SetPosition({ giz_pos[0], giz_pos[1], giz_pos[2] });
+			SetRotation({ giz_rot[0], giz_rot[1], giz_rot[2] });
+			SetScale({ giz_scale[0], giz_scale[1], giz_scale[2] });
+		}
+
+		//ImGui::InputFloat3("Tr", matrixTranslation, 3);
+		//ImGui::InputFloat3("Rt", matrixRotation, 3);
+		//ImGui::InputFloat3("Sc", matrixScale, 3);
+		//ImGuizmo::RecomposeMatrixFromComponents(giz_pos, giz_rot, giz_scale, this_mat);
+	
+	
 	}
 }
 
