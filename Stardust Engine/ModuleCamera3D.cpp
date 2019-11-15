@@ -108,7 +108,7 @@ void ModuleCamera3D::MoveArroundEngine(float keys_speed, float dt)
 	float3 newPos(0, 0, 0);
 
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		keys_speed = 20.0f * dt;
+		keys_speed *= 10.0f;
 
 	//Up and down
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)

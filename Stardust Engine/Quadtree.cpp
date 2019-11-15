@@ -86,6 +86,8 @@ void QuadtreeNode::ReorganizeObjects()
 
 	while (it != objects.end()) {
 
+		GameObject* obj = *it;
+
 		uint boxes_intersection = 0;
 		for (int i = 0; i < 4; ++i)
 			if (childs[i]->box.Intersects((*it)->bounding_box))
@@ -103,9 +105,8 @@ void QuadtreeNode::ReorganizeObjects()
 		//If they don't, put the GO on its appropiate child
 		else {
 			it = objects.erase(it);
-			for (int j = 0; j < objects.size(); ++j)
 				for (int i = 0; i < 4; ++i)
-					childs[i]->Insert(objects[j]);
+					childs[i]->Insert(obj);
 		}
 
 	}
