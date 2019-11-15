@@ -52,7 +52,7 @@ void ComponentTransform::HandleGizmos()
 	//TODO guizmos
 	ImGuizmo::Enable(true);
 
-	static bool draw_guizmo = true;
+	static bool draw_guizmo = false;
 	static ImGuizmo::OPERATION current_operation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE current_mode(ImGuizmo::WORLD);
 
@@ -72,6 +72,12 @@ void ComponentTransform::HandleGizmos()
 			draw_guizmo = true;
 			current_operation = ImGuizmo::SCALE;
 		}
+		if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN) { //Change global to world and backwards
+			if(current_mode == ImGuizmo::MODE::WORLD)
+				current_mode = ImGuizmo::MODE::LOCAL;
+			else
+				current_mode = ImGuizmo::MODE::WORLD;
+		}
 	}
 
 	if (draw_guizmo) {
@@ -85,43 +91,28 @@ void ComponentTransform::HandleGizmos()
 	
 		
 		if (ImGuizmo::IsUsing()) {
-			//TODO
 			//Put the values of the matrix in each corresponding vector/quaternion
 			this_mat.Transpose();
+			GameObject* parent = gameObject->GetParent();
+			
+			//If the GameObject does have a parent, we have to recalculate the local matrix (root_node->parent is always null!!)
+			if (parent->GetParent() != nullptr)
+				this_mat = parent->transform->GetGlobalMatrix().Inverted() * this_mat;
+			
 			if (current_operation != ImGuizmo::SCALE) {
 				this_mat.Decompose(position, quaternion_rot, scale);
 
-				if (current_operation != ImGuizmo::ROTATE)
+				if (current_operation == ImGuizmo::ROTATE)
 					SetRotationFromQuat();
 			}
 			else {
+				//current_mode = ImGuizmo::MODE::LOCAL;
 				float3 disposable_pos;
 				Quat disposable_rot;
 				this_mat.Decompose(disposable_pos, disposable_rot, scale);
 			}
-			//float giz_pos[3], giz_rot[3], giz_scale[3];
-			//ImGuizmo::DecomposeMatrixToComponents((float*)&this_mat, giz_pos, giz_rot, giz_scale);
 
-			//GameObject* parent = gameObject->GetParent();
-			//if (parent != nullptr && parent->GetParent() != nullptr) { //If has parent. Root node is not considered
-			//	SetPosition({ giz_pos[0], giz_pos[1], giz_pos[2] });
-			//	if (current_operation == ImGuizmo::TRANSLATE)
-			//		SumPosition(-parent->transform->position);
-			//	if(current_operation == ImGuizmo::SCALE)
-			//		SumScale(-parent->transform->scale);
-			//}
-			//else {
-			//	//SetPosition({ giz_pos[0], giz_pos[1], giz_pos[2] });
-			//	//SetRotation({ giz_rot[0], giz_rot[1], giz_rot[2] });
-			//	//SetScale({ giz_scale[0], giz_scale[1], giz_scale[2] });
-			//}
 		}
-
-		//ImGui::InputFloat3("Tr", matrixTranslation, 3);
-		//ImGui::InputFloat3("Rt", matrixRotation, 3);
-		//ImGui::InputFloat3("Sc", matrixScale, 3);
-		//ImGuizmo::RecomposeMatrixFromComponents(giz_pos, giz_rot, giz_scale, this_mat);
-	
 	
 	}
 }
