@@ -65,6 +65,7 @@ public:
 private:
 	bool active = true;
 	bool static_go = false;
+	bool charge_static = false;
 	char name[100];
 	GameObject* parent = nullptr;
 	

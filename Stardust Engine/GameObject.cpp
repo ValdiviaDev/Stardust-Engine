@@ -107,7 +107,10 @@ bool GameObject::IsStatic() const
 
 void GameObject::SetStatic(bool staticGO)
 {
-	static_go = staticGO;
+	if (!charge_static)
+		static_go = staticGO;
+	
+	charge_static = false;
 }
 
 
@@ -410,6 +413,9 @@ void GameObject::Load(JSON_Object* object)
 {
 	SetName(json_object_get_string(object, "Name"));
 	uuid = json_object_get_number(object, "UUID");
+	active = json_object_get_boolean(object, "Active");
+	static_go = json_object_get_boolean(object, "Static");
+	charge_static = true;
 
 	JSON_Array* array_comps = json_object_get_array(object, "Components");
 	JSON_Object* it;

@@ -455,32 +455,7 @@ void ModuleScene::UnfocusGameObjects()
 
 GameObject* ModuleScene::GetFocusedGameObject(GameObject* root) const {
 
-	GameObject* ret = nullptr;
-
-	if (root && root->GetNumChilds() > 0) {
-
-		for (std::vector<GameObject*>::const_iterator it = root->childs.begin(); it < root->childs.end(); it++) {
-
-			if (ret != nullptr)
-				return ret;
-			
-
-			if ((*it)->focused == true) {
-				LOG("%s is the focused GO", (*it)->GetName());
-				return *it;
-
-			}
-			else {
-				LOG("%s isn't the focused GO", (*it)->GetName());
-				ret = GetFocusedGameObject(*it);
-			}
-
-		}
-
-
-	}
-
-	return ret;
+	return focused_object;
 }
 
 GameObject * ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) const
