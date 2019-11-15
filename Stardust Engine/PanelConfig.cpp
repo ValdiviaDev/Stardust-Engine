@@ -57,8 +57,8 @@ void PanelConfig::Draw()
 	if (ImGui::CollapsingHeader("Renderer"))
 		RendererMenu();
 
-	if (ImGui::Button("Rebuild Quadtree", { 150, 30 }))
-		App->scene->BuildQuadtree();
+	if (ImGui::CollapsingHeader("Scene"))
+		SceneMenu();
 
 	ImGui::End();
 }
@@ -281,6 +281,17 @@ void PanelConfig::RendererMenu()
 	if (ImGui::Checkbox("WIREFRAME MODE", &App->renderer3D->gl_caps.wireframe)) 
 		App->renderer3D->SetWireframe();
 	
+}
+
+void PanelConfig::SceneMenu()
+{
+	if (ImGui::Button("Rebuild Quadtree", { 150, 30 }))
+		App->scene->BuildQuadtree();
+
+	ImGui::Text("Debug:");
+	ImGui::Checkbox("Draw Bounding Boxes", &App->scene->draw_GO_AABBs);
+	ImGui::Checkbox("Draw Quadtree", &App->scene->draw_quadtree);
+
 }
 
 void PanelConfig::InputConsole()

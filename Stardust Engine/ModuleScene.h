@@ -33,6 +33,8 @@ public:
 	void Draw();
 	void DrawGameObjects(GameObject* go);
 	void DrawGameObjectsDebug(GameObject* go);
+	void DrawSceneDebug();
+	void DrawAABBRecursive(GameObject* go);
 	void DrawGrid();
 
 	void ChangeGameObjectMesh(char* mesh_path);
@@ -56,6 +58,9 @@ public:
 	Quadtree* quadtree = nullptr;
 	bool want_to_save = false;
 	bool want_to_load = false;
+
+	bool draw_GO_AABBs = false;
+	bool draw_quadtree = false;
 private:
 	
 	GameObject* root_object = nullptr;

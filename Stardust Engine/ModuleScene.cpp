@@ -177,16 +177,8 @@ void ModuleScene::Draw() {
 	DrawGrid();
 	DrawGameObjects(root_object);
 
-
 	//Draw bounding boxes and Quadtree
-	glDisable(GL_LIGHTING);
-	for (uint i = 0; i < root_object->GetNumChilds(); i++) {
-		root_object->GetChild(i)->DrawBoundingBox();
-	}
-
-	quadtree->DebugDraw();
-
-	glEnable(GL_LIGHTING);
+	DrawSceneDebug();
 }
 
 void ModuleScene::DrawGameObjects(GameObject* go)
@@ -327,6 +319,30 @@ void ModuleScene::DrawGameObjectsDebug(GameObject* go)
 	}
 }
 
+void ModuleScene::DrawSceneDebug()
+{
+	glDisable(GL_LIGHTING);
+	//Draw bounding boxes
+	for (uint i = 0; i < root_object->GetNumChilds(); i++) {
+		DrawAABBRecursive(root_object->GetChild(i));
+	}
+
+	//Draw quadtree
+	if (draw_quadtree)
+		quadtree->DebugDraw();
+
+	glEnable(GL_LIGHTING);
+}
+
+void ModuleScene::DrawAABBRecursive(GameObject * go)
+{
+	if (go == focused_object || draw_GO_AABBs)
+		go->DrawBoundingBox();
+
+	for (uint i = 0; i < go->GetNumChilds(); i++)
+		DrawAABBRecursive(go->GetChild(i));
+}
+
 void ModuleScene::DrawGrid()
 {
 	glBegin(GL_LINES);
@@ -390,7 +406,7 @@ void ModuleScene::BuildQuadtree()
 	//Get a vector of static GameObjects
 	vector<GameObject*> static_objects;
 	for(int i = 0; i < root_object->GetNumChilds(); ++i)
-		GetStaticObjects(static_objects, root_object->childs[i]);
+		GetStaticObjects(static_objects, root_object->GetChild(i));
 
 	//Insert all the static GameObjects to the quadtree
 	for (int i = 0; i < static_objects.size(); ++i)
@@ -404,7 +420,7 @@ void ModuleScene::GetStaticObjects(vector<GameObject*>& static_GOs, GameObject* 
 		static_GOs.push_back(static_candidate);
 
 	for (int i = 0; i < static_candidate->GetNumChilds(); ++i)
-		GetStaticObjects(static_GOs, static_candidate->childs[i]);
+		GetStaticObjects(static_GOs, static_candidate->GetChild(i));
 }
 
 

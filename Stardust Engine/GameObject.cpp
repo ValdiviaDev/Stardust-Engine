@@ -398,10 +398,10 @@ void GameObject::DrawBoundingBox()
 	glEnd();
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	for (uint i = 0; i < childs.size(); ++i)
-	{
-		childs[i]->DrawBoundingBox();
-	}
+	//for (uint i = 0; i < childs.size(); ++i)
+	//{
+	//	childs[i]->DrawBoundingBox();
+	//}
 
 }
 

@@ -84,16 +84,28 @@ void ComponentTransform::HandleGizmos()
 		ImGuizmo::Manipulate(view_mat, proj_mat, current_operation, current_mode, (float*)&this_mat);
 	
 		
-		//this_mat.Transpose();
-		//local_matrix = this_mat;
-		//UpdateMatrix();
-		
 		if (ImGuizmo::IsUsing()) {
-			float giz_pos[3], giz_rot[3], giz_scale[3];
-			ImGuizmo::DecomposeMatrixToComponents((float*)&this_mat, giz_pos, giz_rot, giz_scale);
-			SetPosition({ giz_pos[0], giz_pos[1], giz_pos[2] });
-			SetRotation({ giz_rot[0], giz_rot[1], giz_rot[2] });
-			SetScale({ giz_scale[0], giz_scale[1], giz_scale[2] });
+			//TODO
+			this_mat.Transpose();
+			local_matrix = this_mat;
+			UpdateMatrix();
+			
+			//float giz_pos[3], giz_rot[3], giz_scale[3];
+			//ImGuizmo::DecomposeMatrixToComponents((float*)&this_mat, giz_pos, giz_rot, giz_scale);
+
+			//GameObject* parent = gameObject->GetParent();
+			//if (parent != nullptr && parent->GetParent() != nullptr) { //If has parent. Root node is not considered
+			//	SetPosition({ giz_pos[0], giz_pos[1], giz_pos[2] });
+			//	if (current_operation == ImGuizmo::TRANSLATE)
+			//		SumPosition(-parent->transform->position);
+			//	if(current_operation == ImGuizmo::SCALE)
+			//		SumScale(-parent->transform->scale);
+			//}
+			//else {
+			//	//SetPosition({ giz_pos[0], giz_pos[1], giz_pos[2] });
+			//	//SetRotation({ giz_rot[0], giz_rot[1], giz_rot[2] });
+			//	//SetScale({ giz_scale[0], giz_scale[1], giz_scale[2] });
+			//}
 		}
 
 		//ImGui::InputFloat3("Tr", matrixTranslation, 3);
