@@ -86,10 +86,19 @@ void ComponentTransform::HandleGizmos()
 		
 		if (ImGuizmo::IsUsing()) {
 			//TODO
+			//Put the values of the matrix in each corresponding vector/quaternion
 			this_mat.Transpose();
-			local_matrix = this_mat;
-			UpdateMatrix();
-			
+			if (current_operation != ImGuizmo::SCALE) {
+				this_mat.Decompose(position, quaternion_rot, scale);
+
+				if (current_operation != ImGuizmo::ROTATE)
+					SetRotationFromQuat();
+			}
+			else {
+				float3 disposable_pos;
+				Quat disposable_rot;
+				this_mat.Decompose(disposable_pos, disposable_rot, scale);
+			}
 			//float giz_pos[3], giz_rot[3], giz_scale[3];
 			//ImGuizmo::DecomposeMatrixToComponents((float*)&this_mat, giz_pos, giz_rot, giz_scale);
 
