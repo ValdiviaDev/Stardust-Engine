@@ -18,20 +18,33 @@ QuadtreeNode::~QuadtreeNode()
 
 void QuadtreeNode::Insert(GameObject * go)
 {
-	//TODO: Maybe this structure has bugs and have to change
+	//If the node doesn't have sub-nodes, look to insert a object
 	if (IsLeaf()) { 
 		if (go->bounding_box.Intersects(box)) {
 			if (objects.size() < QUADTREE_MAX_ITEMS) {
 
 				objects.push_back(go);
+
 			}
 			else {
 				//Create children for the node
 				CreateChilds();
+				objects.push_back(go);
+
+				uint boxes_intersection = 0;
+				for (int i = 0; i < 4; ++i)
+					if (childs[i]->box.Intersects(go->bounding_box))
+						boxes_intersection++;
+
+				//If two or more childs intersect we don't need the new nodes
+				if (boxes_intersection > 1) {
+					for (int i = 0; i < 4; ++i)
+						RELEASE(childs[i]);
+				}
 
 				//Reorganize the GameObjects
-				objects.push_back(go);
-				ReorganizeObjects();
+				else
+					ReorganizeObjects();
 			}
 		}
 	}
@@ -96,11 +109,6 @@ void QuadtreeNode::ReorganizeObjects()
 		//If two or more childs intersect keep the GO on the parent
 		if (boxes_intersection > 1) {
 			it++;
-			//RELEASE(childs[0]);
-			//RELEASE(childs[1]);
-			//RELEASE(childs[2]);
-			//RELEASE(childs[3]);
-			//break;
 		}
 		//If they don't, put the GO on its appropiate child
 		else {
