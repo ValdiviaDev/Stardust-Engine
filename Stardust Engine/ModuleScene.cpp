@@ -183,7 +183,7 @@ void ModuleScene::Draw() {
 
 void ModuleScene::DrawGameObjects(GameObject* go)
 {
-	if (go && go->mesh && go->mesh->IsActive()) { 
+	if (go && go->IsActive() && go->mesh && go->mesh->IsActive()) { 
 		//Matrix
 		glPushMatrix();
 		float4x4 matrix = go->transform->GetGlobalMatrix();
@@ -246,7 +246,7 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 	//Look for every other GameObject to draw
 	if (go) {
 		for (uint i = 0; i < go->GetNumChilds(); i++)
-			if (go->GetChild(i) && go->GetChild(i)->IsActive())
+			if (go->GetChild(i))// && go->GetChild(i)->IsActive())
 				DrawGameObjects(go->GetChild(i));
 	}
 
