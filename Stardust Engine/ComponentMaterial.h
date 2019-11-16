@@ -14,6 +14,7 @@ public:
 	void Load(JSON_Object* comp_obj);
 
 	void AssignTexture(const char* path);
+	void AssignTextureLib(const char* path);
 
 	uint GetTexId()const;
 	bool GetIfTex()const;

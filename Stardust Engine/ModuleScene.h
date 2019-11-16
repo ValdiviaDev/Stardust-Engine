@@ -58,6 +58,7 @@ public:
 	Quadtree* quadtree = nullptr;
 	bool want_to_save = false;
 	bool want_to_load = false;
+	bool rebuild_quadtree = false;
 
 	bool draw_GO_AABBs = false;
 	bool draw_quadtree = false;

@@ -109,6 +109,7 @@ bool ComponentMesh::LoadMesh(string name)
 	bool ret = App->mesh_import->LoadMesh(path.c_str(), m_info);
 	
 	App->importer->BindBuffers(m_info);
+	gameObject->UpdateBoundingBox();
 
 	return ret;
 }

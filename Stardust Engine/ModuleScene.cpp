@@ -79,6 +79,13 @@ update_status ModuleScene::Update(float dt)
 
 update_status ModuleScene::PostUpdate(float dt) {
 
+	//Various events to execute via some flags
+	if (rebuild_quadtree) {
+		rebuild_quadtree = false;
+
+		BuildQuadtree();
+	}
+
 	if (want_to_save) {
 		want_to_save = false;
 
@@ -97,12 +104,14 @@ update_status ModuleScene::PostUpdate(float dt) {
 		aux.append(".json");
 		SceneSerialization s;
 		s.LoadScene(aux.c_str());
+		rebuild_quadtree = true;
 	}
 
 	if (want_to_delete_go) {
+		want_to_delete_go = false;
+
 		DeleteGameObject(focused_object);
 		focused_object = nullptr;
-		want_to_delete_go = false;
 	}
 
 	return UPDATE_CONTINUE;

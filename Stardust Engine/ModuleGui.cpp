@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 #include "SceneSerialization.h"
@@ -217,7 +218,7 @@ void ModuleGui::HandleMainMenuBar()
 					if (go) {
 						if(!go->material)
 							go->CreateComponent(Comp_Material, nullptr);
-						App->mat_import->LoadMaterial(loaded_materials[i].c_str(), go->material);
+						go->material->AssignTextureLib(loaded_materials[i].c_str());
 					}
 				}
 
