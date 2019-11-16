@@ -232,18 +232,20 @@ void ModuleCamera3D::CheckForMousePicking()
 	float norm_x = -(1.0f - 2.0f * ((float)mouse_pos_x) / ((float)scr_width));
 	float norm_y = 1.0f - (2.0f * ((float)mouse_pos_y) / ((float)scr_height));
 
-	//Ray that goes from near plane to far plane
+	//Ray that goes from near plane to far plane (a near plane, b far plane)
 	LineSegment picking = dummy_cam->frustum.UnProjectLineSegment(norm_x, norm_y);
 	
-	//TODO Quadtree candidates
-	//App->scene->quadtree->Intersect(intersected_objs, picking);
-
-	//Get the AABB intersection of the candidates to be picked
-	GameObject* nearest_GO = nullptr;
-	float min_hit_dist = FLOAT_INF;
+	//Quadtree picking static intersected objects only looking in the TreeNode of the ray
+	App->scene->quadtree->Intersect(intersected_objs, picking);
+	
+	//Get the AABB intersection of the dynamic objects
 	GameObject* root_obj = App->scene->GetRootGameObject();
 	for(int i = 0; i < root_obj->GetNumChilds(); ++i)
-		TestAABBPicking(picking, root_obj->childs[i], intersected_objs, min_hit_dist, nearest_GO);
+		DynObjAABBIntersect(picking, root_obj->childs[i], intersected_objs);
+
+	//We have the whole vector of intersections. Test which object is closer
+	GameObject* nearest_GO = nullptr;
+	GetAABBClosestObject(picking, intersected_objs, nearest_GO);
 
 	if (nearest_GO) { //If there's something to pick
 		if (nearest_GO->mesh->IsPrimitive()) //If the nearest GO AABB is a primitive automaticaly focus
@@ -262,24 +264,30 @@ void ModuleCamera3D::CheckForMousePicking()
 
 }
 
-void ModuleCamera3D::TestAABBPicking(LineSegment ray, GameObject* inters_GO, vector<GameObject*>& intersected_objs, float& min_dist, GameObject*& nearest_GO)
+void ModuleCamera3D::DynObjAABBIntersect(LineSegment ray, GameObject* inters_GO, vector<GameObject*>& intersected_objs)
 {
 	//Look for AABB intersections. Look for all the intersected object and the closest object to the ray
-	if (inters_GO->bounding_box.IsFinite()) {
-		float hit_dist, hit_dist_far;
-		if(ray.Intersects(inters_GO->bounding_box, hit_dist, hit_dist_far)) //TODO change maybe
-		{
+	if (inters_GO->bounding_box.IsFinite() && !inters_GO->IsStatic()) {
+		if(ray.Intersects(inters_GO->bounding_box))
 			intersected_objs.push_back(inters_GO);
-			if (hit_dist < min_dist) {
-				nearest_GO = inters_GO;
-				min_dist = hit_dist;
-			}
-		}
 	}
 
 	for (int i = 0; i < inters_GO->GetNumChilds(); ++i)
-		TestAABBPicking(ray, inters_GO->childs[i], intersected_objs, min_dist, nearest_GO);
+		DynObjAABBIntersect(ray, inters_GO->childs[i], intersected_objs);
 
+}
+
+void ModuleCamera3D::GetAABBClosestObject(LineSegment ray, std::vector<GameObject*> intersected_objs, GameObject*& nearest)
+{
+	float min_dist = FLOAT_INF;
+
+	for (int i = 0; i < intersected_objs.size(); ++i) {
+		float hit_dist = intersected_objs[i]->bounding_box.Distance(ray.a);
+		if (hit_dist < min_dist) {
+			nearest = intersected_objs[i];
+			min_dist = hit_dist;
+		}
+	}
 }
 
 bool ModuleCamera3D::TestTrianglePicking(LineSegment ray, vector<GameObject*> intersected_objs, GameObject*& nearest)

@@ -31,7 +31,8 @@ public:
 
 	//Mouse picking
 	void CheckForMousePicking();
-	void TestAABBPicking(LineSegment ray, GameObject* inters_GO, std::vector<GameObject*>& intersected_objs, float& min_dist, GameObject*& nearest);
+	void DynObjAABBIntersect(LineSegment ray, GameObject* inters_GO, std::vector<GameObject*>& intersected_objs);
+	void GetAABBClosestObject(LineSegment ray, std::vector<GameObject*> intersected_objs, GameObject*& nearest);
 	bool TestTrianglePicking(LineSegment ray, std::vector<GameObject*> intersected_objs, GameObject*& nearest);
 
 public:
