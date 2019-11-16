@@ -115,20 +115,30 @@ update_status ModuleInput::PreUpdate(float dt)
 			{
 				LOG("File Drop!");
 				FileType ft = App->fs->DetermineFileType(e.drop.file);
-				std::string path = "", file = "", extension = "";
-				App->fs->SplitFilePath(e.drop.file, &path, &file, &extension);
-				file = ASSETS_SCENE_FOLDER + file + ".json";
+				std::string path = "", file = "", aux = "", path_and_file ="";
+				App->fs->SplitFilePath(e.drop.file, &path, &file, &aux);
+				path_and_file = ASSETS_SCENE_FOLDER + file + ".json";
+				aux = ASSETS_MESH_FOLDER + file;
 				switch (ft) {
 				case File_Mesh:
 					//TODO: have to delete
 					App->gui->AddLogToConsole("Charging 3D model");
-					if (App->fs->Exists(file.c_str())) {
+					if (App->fs->Exists(path_and_file.c_str())) {
 						LOG("Scene for object already exists, load .json.");
 						SceneSerialization s;
-						s.LoadScene(file.c_str());
+						s.LoadScene(path_and_file.c_str());
 					}
 					else {
-						App->scene->ChangeGameObjectMesh(e.drop.file);
+						
+						string out_f;
+						App->mesh_import->ImportScene(file.c_str(), aux.c_str(), out_f, true);
+
+						if (App->fs->Exists(path_and_file.c_str())) {
+							LOG("Scene saved and now loading from it");
+							SceneSerialization s;
+							s.LoadScene(path_and_file.c_str());
+						}
+
 					}
 					break;
 				case File_Material:
