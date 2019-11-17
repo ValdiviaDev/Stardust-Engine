@@ -204,6 +204,7 @@ void GameObject::GUIHierarchyPrint(int& i, bool& clicked) {
 					source->DeleteFromParentList();
 					childs.push_back(source);
 					source->parent = this;
+					source->transform->SetTransformFromParent();
 				}
 				else
 					App->gui->AddLogToConsole("ERROR: You cannot make a GameObject the child of a GameObject lower on the hierarchy.");

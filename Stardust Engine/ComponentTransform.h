@@ -41,6 +41,7 @@ public:
 
 	math::float3 GetGlobalPos() const;
 	math::float3 GetGlobalScale() const;
+	void SetTransformFromParent();
 
 	void UpdateMatrix();
 

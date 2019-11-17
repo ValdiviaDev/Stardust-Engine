@@ -271,6 +271,14 @@ math::float3 ComponentTransform::GetGlobalScale() const {
 	return ret;
 }
 
+void ComponentTransform::SetTransformFromParent()
+{
+	float4x4 mat = gameObject->GetParent()->transform->global_matrix.Inverted() * global_matrix;
+
+	mat.Decompose(position, quaternion_rot, scale);
+	SetRotationFromQuat();
+}
+
 
 
 void ComponentTransform::Save(JSON_Array* comp_array) {
