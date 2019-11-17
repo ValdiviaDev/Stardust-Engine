@@ -2,6 +2,9 @@
 #define __Quadtree__H__
 
 #define QUADTREE_MAX_ITEMS 2
+#define QUADTREE_MIN_SIZE -30
+#define QUADTREE_MAX_SIZE 30
+
 
 #include "MathGeoLib/include/MathGeoLib.h"
 #include <vector>
@@ -48,6 +51,10 @@ public:
 	inline void Intersect(vector<GameObject*>& objects, const TYPE& primitive);
 
 	void DebugDraw();
+
+public:
+	float3 min_point;
+	float3 max_point;
 
 private:
 	QuadtreeNode* root = nullptr;

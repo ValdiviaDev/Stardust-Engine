@@ -401,21 +401,28 @@ void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
 	}
 }
 
+//Quadtree functions ----------------------------------------------
+
 void ModuleScene::BuildQuadtree()
 {
 	//If there's quadtree, delete it
 	if (quadtree)
 		RELEASE(quadtree);
 	
-	//Create quadtree TODO
-	quadtree = new Quadtree();
-	AABB root_quad_node = AABB({ -200,-100,-200 }, { 200,100,200 });
-	quadtree->Create(root_quad_node);
-
 	//Get a vector of static GameObjects
 	static_objects.clear();
-	for(int i = 0; i < root_object->GetNumChilds(); ++i)
+	for (int i = 0; i < root_object->GetNumChilds(); ++i)
 		GetStaticObjects(root_object->GetChild(i));
+
+	//Calculate quadtree size
+	float3 min_point(QUADTREE_MIN_SIZE); //Minimum quadtree size
+	float3 max_point(QUADTREE_MAX_SIZE); //Maximum quadtree size
+	CalculateQuadtreeSize(min_point, max_point);
+
+	//Create quadtree
+	quadtree = new Quadtree();
+	AABB root_quad_node = AABB(min_point, max_point);
+	quadtree->Create(root_quad_node);
 
 	//Insert all the static GameObjects to the quadtree
 	for (int i = 0; i < static_objects.size(); ++i)
@@ -432,6 +439,50 @@ void ModuleScene::GetStaticObjects(GameObject* static_candidate)
 		GetStaticObjects(static_candidate->GetChild(i));
 }
 
+void ModuleScene::CalculateQuadtreeSize(float3& min_point, float3& max_point)
+{
+	for (int i = 0; i < static_objects.size(); ++i) {
+		//Min point
+		float3 min_p = static_objects[i]->bounding_box.minPoint;
+		if (min_p.x < min_point.x)
+			min_point.x = min_p.x;
+		if (min_p.y < min_point.y)
+			min_point.y = min_p.y;
+		if (min_p.z < min_point.z)
+			min_point.z = min_p.z;
+
+		//Max point
+		float3 max_p = static_objects[i]->bounding_box.maxPoint;
+		if (max_p.x > max_point.x)
+			max_point.x = max_p.x;
+		if (max_p.y > max_point.y)
+			max_point.y = max_p.y;
+		if (max_p.z > max_point.z)
+			max_point.z = max_p.z;
+	}
+}
+
+void ModuleScene::CheckIfRebuildQuadtree(GameObject * go)
+{
+	float3 min_point = go->bounding_box.minPoint;
+	float3 max_point = go->bounding_box.maxPoint;
+	bool rebuild = false;
+	
+	//Min point
+	if (min_point.x < quadtree->min_point.x || min_point.x > quadtree->min_point.x && min_point.x < QUADTREE_MIN_SIZE
+		|| min_point.y < quadtree->min_point.y || min_point.y > quadtree->min_point.y && min_point.y < QUADTREE_MIN_SIZE
+		|| min_point.z < quadtree->min_point.z || min_point.z > quadtree->min_point.z && min_point.y < QUADTREE_MIN_SIZE)
+		rebuild = true;
+	//Max point
+	if (max_point.x > quadtree->max_point.x || max_point.x < quadtree->max_point.x && max_point.x > QUADTREE_MAX_SIZE
+		|| max_point.y > quadtree->max_point.y || max_point.y < quadtree->max_point.y && max_point.y > QUADTREE_MAX_SIZE
+		|| max_point.z > quadtree->max_point.z || max_point.z < quadtree->max_point.z && max_point.z > QUADTREE_MAX_SIZE)
+		rebuild = true;
+	
+	if (rebuild)
+		BuildQuadtree();
+}
+
 bool ModuleScene::EraseObjFromStatic(GameObject* go)
 {
 	for (std::vector<GameObject*>::const_iterator it = static_objects.begin(); it < static_objects.end(); it++)
@@ -441,6 +492,8 @@ bool ModuleScene::EraseObjFromStatic(GameObject* go)
 		}
 	return false;
 }
+
+// --------------------------------------------------------------------------
 
 void ModuleScene::AllObjectsActive(GameObject* go)
 {

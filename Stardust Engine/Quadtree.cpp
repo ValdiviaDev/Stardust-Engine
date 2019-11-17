@@ -166,6 +166,10 @@ void Quadtree::Create(math::AABB limits)
 {
 	Clear();
 	root = new QuadtreeNode(limits, nullptr);
+
+	min_point = limits.minPoint;
+	max_point = limits.maxPoint;
+
 }
 
 void Quadtree::Clear()

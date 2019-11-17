@@ -244,6 +244,7 @@ void GameObject::DrawComponentsInspector() {
 		if (static_go == true) {
 			App->scene->quadtree->Insert(this);
 			App->scene->static_objects.push_back(this);
+			App->scene->CheckIfRebuildQuadtree(this);
 		}
 		else {
 			App->scene->quadtree->Remove(this);

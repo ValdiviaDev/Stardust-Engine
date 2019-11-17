@@ -42,6 +42,8 @@ public:
 
 	void BuildQuadtree();
 	void GetStaticObjects(GameObject* static_candidate);
+	void CalculateQuadtreeSize(float3& min_point, float3& max_point);
+	void CheckIfRebuildQuadtree(GameObject* go);
 	bool EraseObjFromStatic(GameObject* go);
 	void AllObjectsActive(GameObject* go);
 
