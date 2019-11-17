@@ -5,6 +5,7 @@
 
 #include "MathGeoLib/include/MathGeoLib.h"
 #include <vector>
+
 class GameObject;
 
 using namespace std;
@@ -70,7 +71,8 @@ inline void QuadtreeNode::Intersect(vector<GameObject*>& objects, const TYPE& pr
 		for (std::vector<GameObject*>::const_iterator it = this->objects.begin(); it != this->objects.end(); ++it)
 		{
 			if (primitive.Intersects((*it)->bounding_box))
-				objects.push_back(*it);
+				if(std::find(objects.begin(), objects.end(), (*it)) == objects.end()) //Check that the element is not in the list
+					objects.push_back(*it);
 
 		}
 		for (int i = 0; i < 4; ++i)
