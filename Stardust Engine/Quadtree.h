@@ -70,8 +70,8 @@ inline void QuadtreeNode::Intersect(vector<GameObject*>& objects, const TYPE& pr
 	{
 		for (std::vector<GameObject*>::const_iterator it = this->objects.begin(); it != this->objects.end(); ++it)
 		{
-			if (primitive.Intersects((*it)->bounding_box))
-				if(std::find(objects.begin(), objects.end(), (*it)) == objects.end()) //Check that the element is not in the list
+			if (std::find(objects.begin(), objects.end(), (*it)) == objects.end()) //Check that the element is not in the list
+				if (primitive.Intersects((*it)->bounding_box))
 					objects.push_back(*it);
 
 		}

@@ -413,9 +413,9 @@ void ModuleScene::BuildQuadtree()
 	quadtree->Create(root_quad_node);
 
 	//Get a vector of static GameObjects
-	vector<GameObject*> static_objects;
+	static_objects.clear();
 	for(int i = 0; i < root_object->GetNumChilds(); ++i)
-		GetStaticObjects(static_objects, root_object->GetChild(i));
+		GetStaticObjects(root_object->GetChild(i));
 
 	//Insert all the static GameObjects to the quadtree
 	for (int i = 0; i < static_objects.size(); ++i)
@@ -423,13 +423,31 @@ void ModuleScene::BuildQuadtree()
 
 }
 
-void ModuleScene::GetStaticObjects(vector<GameObject*>& static_GOs, GameObject* static_candidate)
+void ModuleScene::GetStaticObjects(GameObject* static_candidate)
 {
 	if (static_candidate->IsStatic())
-		static_GOs.push_back(static_candidate);
+		static_objects.push_back(static_candidate);
 
 	for (int i = 0; i < static_candidate->GetNumChilds(); ++i)
-		GetStaticObjects(static_GOs, static_candidate->GetChild(i));
+		GetStaticObjects(static_candidate->GetChild(i));
+}
+
+bool ModuleScene::EraseObjFromStatic(GameObject* go)
+{
+	for (std::vector<GameObject*>::const_iterator it = static_objects.begin(); it < static_objects.end(); it++)
+		if ((*it) == go) {
+			static_objects.erase(it);
+			return true;
+		}
+	return false;
+}
+
+void ModuleScene::AllObjectsActive(GameObject* go)
+{
+	go->SetActive(true);
+
+	for (int i = 0; i < go->GetNumChilds(); ++i)
+		AllObjectsActive(go->GetChild(i));
 }
 
 

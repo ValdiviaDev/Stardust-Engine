@@ -41,7 +41,9 @@ public:
 	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
 
 	void BuildQuadtree();
-	void GetStaticObjects(std::vector<GameObject*>& static_GOs, GameObject* static_candidate);
+	void GetStaticObjects(GameObject* static_candidate);
+	bool EraseObjFromStatic(GameObject* go);
+	void AllObjectsActive(GameObject* go);
 
 	void FocusGameObject(GameObject* focused, GameObject* root);
 	void UnfocusGameObjects();
@@ -54,6 +56,7 @@ public:
 
 public:
 	GameObject* scene_gameobject = nullptr; //Change after first assignment
+	std::vector<GameObject*> static_objects;
 
 	Quadtree* quadtree = nullptr;
 	bool want_to_save = false;

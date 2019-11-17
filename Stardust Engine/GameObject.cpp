@@ -241,10 +241,14 @@ void GameObject::DrawComponentsInspector() {
 	ImGui::InputText("", name, IM_ARRAYSIZE(name));
 	ImGui::SameLine();
 	if (ImGui::Checkbox("Static", &static_go)) {
-		if (static_go == true)
+		if (static_go == true) {
 			App->scene->quadtree->Insert(this);
-		else
+			App->scene->static_objects.push_back(this);
+		}
+		else {
 			App->scene->quadtree->Remove(this);
+			App->scene->EraseObjFromStatic(this);
+		}
 	}
 	
 	//TODO Tag and Layer maybe?

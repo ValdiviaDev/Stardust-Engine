@@ -190,6 +190,7 @@ void ComponentTransform::UpdateMatrix() {
 		if (gameObject->IsStatic()) {
 			gameObject->SetStatic(false);
 			App->scene->quadtree->Remove(gameObject);
+			App->scene->EraseObjFromStatic(gameObject);
 		}
 	}
 }
