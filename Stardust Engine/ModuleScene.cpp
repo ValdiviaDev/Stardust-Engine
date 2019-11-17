@@ -41,12 +41,6 @@ bool ModuleScene::Start()
 	//Initialize root GameObject
 	CreateRootObject();
 
-	//Baker house create
-	/*scene_gameobject = CreateGameObject(root_object);
-	scene_gameobject->SetName("BakerHouse");
-	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	 */
-
 	GameObject* camera = new GameObject(root_object);
 	camera->CreateComponent(Comp_Camera);
 	camera->SetName("cameraobject");
@@ -145,7 +139,7 @@ GameObject* ModuleScene::CreateCubePrimitive()
 
 	GameObject* cubeGO = CreateGameObject(root_object);
 	cubeGO->SetName("Cube");
-	cubeGO->CreateComponent(Comp_Mesh, nullptr, PRIMITIVE_CUBE);
+	cubeGO->CreateComponent(Comp_Mesh, PRIMITIVE_CUBE);
 	cubeGO->mesh->FillPrimitiveDrawInfo(cube);
 
 	par_shapes_free_mesh(cube);
@@ -159,7 +153,7 @@ GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
 
 	GameObject* sphereGO = CreateGameObject(root_object);
 	sphereGO->SetName("Sphere");
-	sphereGO->CreateComponent(Comp_Mesh, nullptr, PRIMITIVE_SPHERE);
+	sphereGO->CreateComponent(Comp_Mesh, PRIMITIVE_SPHERE);
 	sphereGO->mesh->FillPrimitiveDrawInfo(sphere);
 
 	par_shapes_free_mesh(sphere);
@@ -173,7 +167,7 @@ GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
 
 	GameObject* planeGO = CreateGameObject(root_object);
 	planeGO->SetName("Plane");
-	planeGO->CreateComponent(Comp_Mesh, nullptr, PRIMITIVE_PLANE);
+	planeGO->CreateComponent(Comp_Mesh, PRIMITIVE_PLANE);
 	planeGO->mesh->FillPrimitiveDrawInfo(plane);
 
 	par_shapes_free_mesh(plane);
@@ -368,23 +362,6 @@ void ModuleScene::DrawGrid()
 
 	}
 	glEnd();
-}
-
-void ModuleScene::ChangeGameObjectMesh(char* mesh_path)
-{
-	if (scene_gameobject) {
-		//Erase the GameObject from the root vector before deleting the GameObject
-		scene_gameobject->DeleteFromParentList();
-		RELEASE(scene_gameobject);
-		App->importer->m_debug.clear(); //DEBUG
-
-		UnfocusGameObjects();
-	}
-
-	scene_gameobject = CreateGameObject(root_object);
-	scene_gameobject->CreateComponent(Comp_Mesh, mesh_path);
-	scene_gameobject->SetName("SceneObj");
-
 }
 
 void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)

@@ -119,7 +119,7 @@ bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject
 
 	//Saving everything for the mesh info
 	if (node->mNumMeshes > 0) {
-		mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh, nullptr);
+		mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh);
 		mesh->SetPath(path);
 
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];

@@ -20,7 +20,6 @@ GameObject::GameObject(GameObject* parent)
 	
 	//Always create transform
 	CreateComponent(Comp_Transform);
-	//bounding_box.SetNegativeInfinity();
 
 	SetName("Default GO name");
 	uuid = App->GenerateUUID();
@@ -53,7 +52,7 @@ void GameObject::Update()
 		camera->Update();
 }
 
-Component* GameObject::CreateComponent(ComponentType type, char* path, PrimitiveType primitive)
+Component* GameObject::CreateComponent(ComponentType type, PrimitiveType primitive)
 {
 	Component* component = nullptr;
 
@@ -66,7 +65,7 @@ Component* GameObject::CreateComponent(ComponentType type, char* path, Primitive
 		break;
 	case Comp_Mesh:
 		if (mesh == nullptr) {
-			mesh = new ComponentMesh(this, path, primitive);
+			mesh = new ComponentMesh(this, primitive);
 			component = mesh;
 		}
 		break;

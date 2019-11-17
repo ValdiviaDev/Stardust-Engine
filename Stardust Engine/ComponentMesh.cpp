@@ -4,19 +4,17 @@
 #include "MeshImporter.h"
 #include "GameObject.h"
 
-ComponentMesh::ComponentMesh(GameObject* parent, const char* path, PrimitiveType primitive) 
-	: Component(parent), path(path), is_primitive(primitive)
+ComponentMesh::ComponentMesh(GameObject* parent, PrimitiveType primitive) 
+	: Component(parent), is_primitive(primitive)
 {
 	type = Comp_Mesh;
 	m_info = geo_info();
 
-	if(path)
-		AssignMesh(path);
+
 }
 
 ComponentMesh::~ComponentMesh()
 {
-
 	RELEASE_ARRAY(m_info.index);
 	RELEASE_ARRAY(m_info.vertex);
 	RELEASE_ARRAY(m_info.normal);
@@ -29,12 +27,6 @@ ComponentMesh::~ComponentMesh()
 
 void ComponentMesh::AssignMesh(const char* path)
 {
-	//Path
-	//char* path_source = "Assets/Meshes/";
-	//char full_path[100];
-	//strcpy(full_path, path_source);
-	//strcat(full_path, path);
-
 	bool charged = false;
 
 	//Import mesh and bind buffers

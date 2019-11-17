@@ -37,7 +37,6 @@ public:
 	void DrawAABBRecursive(GameObject* go);
 	void DrawGrid();
 
-	void ChangeGameObjectMesh(char* mesh_path);
 	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
 
 	void BuildQuadtree();
@@ -57,7 +56,6 @@ public:
 	void DestroyGOs();
 
 public:
-	GameObject* scene_gameobject = nullptr; //Change after first assignment
 	std::vector<GameObject*> static_objects;
 
 	Quadtree* quadtree = nullptr;

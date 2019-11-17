@@ -248,7 +248,7 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 		}
 
 		if (has_triangles) {
-			mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh, nullptr);
+			mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh);
 			mesh->SetPath(path);
 			mesh->uuid_mesh = App->GenerateUUID();
 
