@@ -137,6 +137,7 @@ update_status ModuleInput::PreUpdate(float dt)
 							LOG("Scene saved and now loading from it");
 							SceneSerialization s;
 							s.LoadScene(path_and_file.c_str());
+
 						}
 
 					}

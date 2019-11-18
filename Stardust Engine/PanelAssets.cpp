@@ -121,8 +121,8 @@ void PanelAssets::ImportFromAssets()
 
 	case File_Material: { //TODO import
 		string out_f;
-		
-		App->mat_import->Import(foc_node_name.c_str(), ASSETS_TEX_FOLDER, out_f);
+		uint out_uuid;
+		App->mat_import->Import(foc_node_name.c_str(), ASSETS_TEX_FOLDER, out_f, out_uuid);
 		}
 		break;
 

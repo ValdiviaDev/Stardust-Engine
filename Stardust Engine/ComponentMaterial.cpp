@@ -62,6 +62,10 @@ void ComponentMaterial::SetPath(const char * path)
 void ComponentMaterial::DrawInspector() {
 
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::Text("UUID: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), std::to_string(uuid_mat).c_str());
+
 		ImGui::Text("Texture path: ");
 		ImGui::SameLine();
 

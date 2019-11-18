@@ -9,12 +9,14 @@
 class ComponentMaterial;
 
 struct MatFileInfo {
-	std::string path = "";
+	std::string file = "";
 	uint uuid = 0;
+	std::string path = "";
 
-	MatFileInfo(const char* p, uint u) {
-		path = p;
+	MatFileInfo(const char* f, uint u, const char* p) {
+		file = f;
 		uuid = u;
+		path = p;
 	}
 };
 
@@ -24,7 +26,7 @@ public:
 	MaterialImporter();
 	~MaterialImporter();
 
-	bool Import(const char* file, const char* path, std::string& output_file);
+	bool Import(const char* file, const char* path, std::string& output_file, uint& uid_out); //not necessary to pass uid_out if you dont need
 	//bool Import(const void* buffer, uint size, std::string& output_file);
 
 	bool LoadMaterial(const char* file_name, ComponentMaterial* mat);
@@ -34,7 +36,7 @@ public:
 	bool IsFileDDS(const char* file_name);
 	uint AddTextureToList(const char* path, uint uuid);
 	bool IsTextureLoaded(const char* path);
-	const char* GetTextureFromUUID(uint uuid); //file has to be for ex "BakerHouse.png"
+	const char* GetTexturePathFromUUID(uint uuid); //file has to be for ex "BakerHouse.png"
 	uint GetUUIDFromJSON(const char* file);
 
 public:
