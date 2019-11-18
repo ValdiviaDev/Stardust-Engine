@@ -53,6 +53,7 @@ public:
 	GameObject* GetGameObjectFromUUID(uint UUID, GameObject* root) const; //Send root 1st time
 	void CreateRootObject();
 
+	ComponentCamera* GetMainCamera() const;
 	void SetMainCamera(ComponentCamera* cam);
 
 	void DeleteGameObject(GameObject* go);

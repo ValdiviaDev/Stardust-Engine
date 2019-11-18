@@ -65,6 +65,9 @@ void ComponentCamera::SetFOV(float fov) {
 
 	frustum.verticalFov = DEGTORAD * fov;
 	frustum.horizontalFov = 2.0f * atanf(aspect_ratio * tanf(frustum.verticalFov * 0.5f));
+	int w, h;
+	App->window->GetWinSize(w, h);
+	App->renderer3D->OnResize(w, h); //TODO
 
 }
 

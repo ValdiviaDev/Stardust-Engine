@@ -59,6 +59,11 @@ void ModuleScene::CreateRootObject() {
 
 }
 
+ComponentCamera * ModuleScene::GetMainCamera() const
+{
+	return main_camera;
+}
+
 void ModuleScene::SetMainCamera(ComponentCamera* cam)
 {
 	if (main_camera)
