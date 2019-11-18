@@ -12,9 +12,10 @@
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, "Camera3D", start_enabled)
 {
 	//Dummy cam
-	dummy_cam = new ComponentCamera();
-	dummy_cam->SetNearPlane(0.6f);
-	dummy_cam->SetFarPlane(512.0f);
+	engine_cam = new ComponentCamera();
+	engine_cam->SetNearPlane(0.6f);
+	engine_cam->SetFarPlane(512.0f);
+	current_cam = engine_cam;
 	Move({ 5.0f, 5.0f, 5.0f });
 	LookAt({ 0.0f, 0.0f, 0.0f });
 }
@@ -36,7 +37,7 @@ bool ModuleCamera3D::Start()
 bool ModuleCamera3D::CleanUp()
 {
 	LOG("Cleaning camera");
-	RELEASE(dummy_cam);
+	RELEASE(engine_cam);
 
 	return true;
 }
@@ -82,23 +83,23 @@ update_status ModuleCamera3D::Update(float dt)
 void ModuleCamera3D::Look(const float3 &Position, const float3 &Reference)
 {
 	
-	dummy_cam->frustum.pos = Position;
+	current_cam->frustum.pos = Position;
 	LookAt(Reference);
 	
 }
 
 void ModuleCamera3D::LookAt(const float3 &Spot)
 {
-	float3 dir = Spot - dummy_cam->frustum.pos;
+	float3 dir = Spot - current_cam->frustum.pos;
 	dir.Normalize();
-	float3x3 mat = float3x3::LookAt(dummy_cam->frustum.front, dir, dummy_cam->frustum.up, float3::unitY);
-	dummy_cam->frustum.front = mat.MulDir(dummy_cam->frustum.front).Normalized();
-	dummy_cam->frustum.up = mat.MulDir(dummy_cam->frustum.up).Normalized();	
+	float3x3 mat = float3x3::LookAt(current_cam->frustum.front, dir, current_cam->frustum.up, float3::unitY);
+	current_cam->frustum.front = mat.MulDir(current_cam->frustum.front).Normalized();
+	current_cam->frustum.up = mat.MulDir(current_cam->frustum.up).Normalized();
 }
 
 void ModuleCamera3D::Move(const float3 &Movement)
 {
-	dummy_cam->frustum.Translate(Movement);
+	current_cam->frustum.Translate(Movement);
 }
 
 //Camera move user ---------------------------------------------------------------------------
@@ -118,15 +119,15 @@ void ModuleCamera3D::MoveArroundEngine(float keys_speed, float dt)
 
 	//Forward and backwards
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		newPos += dummy_cam->frustum.front * keys_speed;
+		newPos += current_cam->frustum.front * keys_speed;
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		newPos -= dummy_cam->frustum.front * keys_speed;
+		newPos -= current_cam->frustum.front * keys_speed;
 
 	//Left and right
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		newPos -= dummy_cam->frustum.WorldRight() *  keys_speed;
+		newPos -= current_cam->frustum.WorldRight() *  keys_speed;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		newPos += dummy_cam->frustum.WorldRight() * keys_speed;
+		newPos += current_cam->frustum.WorldRight() * keys_speed;
 
 	Move(newPos);
 }
@@ -142,19 +143,19 @@ void ModuleCamera3D::OrbitArroundEngine(float dt)
 	{
 		//Rotate arround the Y axis to rotate in the X coord axis
 		Quat quat = Quat::RotateY(dx*dt*Sensitivity);
-		dummy_cam->frustum.up = quat.Mul(dummy_cam->frustum.up).Normalized();
-		dummy_cam->frustum.front = quat.Mul(dummy_cam->frustum.front).Normalized();
+		current_cam->frustum.up = quat.Mul(current_cam->frustum.up).Normalized();
+		current_cam->frustum.front = quat.Mul(current_cam->frustum.front).Normalized();
 	}
 
 	if (dy != 0)
 	{
 		//Rotate arround the X local axis to rotate in the Y coord axis
-		Quat quat = Quat::RotateAxisAngle(dummy_cam->frustum.WorldRight(), dy*dt*Sensitivity);
-		float3 up = quat.Mul(dummy_cam->frustum.up).Normalized();
+		Quat quat = Quat::RotateAxisAngle(current_cam->frustum.WorldRight(), dy*dt*Sensitivity);
+		float3 up = quat.Mul(current_cam->frustum.up).Normalized();
 		//Cap that you can be upside down in engine
 		if (up.y > 0.0f) {
-			dummy_cam->frustum.up = up;
-			dummy_cam->frustum.front = quat.Mul(dummy_cam->frustum.front).Normalized();
+			current_cam->frustum.up = up;
+			current_cam->frustum.front = quat.Mul(current_cam->frustum.front).Normalized();
 		}
 	}
 }
@@ -181,19 +182,19 @@ void ModuleCamera3D::OrbitArroundObject(float dt)
 	{
 		//Rotate arround the Y axis to rotate in the X coord axis
 		Quat quat = Quat::RotateY(dx*dt*Sensitivity);
-		dummy_cam->frustum.up = quat.Mul(dummy_cam->frustum.up).Normalized();
-		dummy_cam->frustum.front = quat.Mul(dummy_cam->frustum.front).Normalized();
+		current_cam->frustum.up = quat.Mul(current_cam->frustum.up).Normalized();
+		current_cam->frustum.front = quat.Mul(current_cam->frustum.front).Normalized();
 	}
 
 	if (dy != 0)
 	{
 		//Rotate arround the X local axis to rotate in the Y coord axis
-		Quat quat = Quat::RotateAxisAngle(dummy_cam->frustum.WorldRight(), dy*dt*Sensitivity);
-		float3 up = quat.Mul(dummy_cam->frustum.up).Normalized();
+		Quat quat = Quat::RotateAxisAngle(current_cam->frustum.WorldRight(), dy*dt*Sensitivity);
+		float3 up = quat.Mul(current_cam->frustum.up).Normalized();
 		//Cap that you can be upside down in engine
 		if (up.y > 0.0f) {
-			dummy_cam->frustum.up = up;
-			dummy_cam->frustum.front = quat.Mul(dummy_cam->frustum.front).Normalized();
+			current_cam->frustum.up = up;
+			current_cam->frustum.front = quat.Mul(current_cam->frustum.front).Normalized();
 		}
 
 	}
@@ -205,7 +206,7 @@ void ModuleCamera3D::ZoomInOut(float wheel_speed)
 {
 	float3 newPos(0, 0, 0);
 
-	newPos += dummy_cam->frustum.front * wheel_speed * App->input->GetMouseZ();
+	newPos += current_cam->frustum.front * wheel_speed * App->input->GetMouseZ();
 	Move(newPos);
 }
 
@@ -233,7 +234,7 @@ void ModuleCamera3D::CheckForMousePicking()
 	float norm_y = 1.0f - (2.0f * ((float)mouse_pos_y) / ((float)scr_height));
 
 	//Ray that goes from near plane to far plane (a near plane, b far plane)
-	LineSegment picking = dummy_cam->frustum.UnProjectLineSegment(norm_x, norm_y);
+	LineSegment picking = current_cam->frustum.UnProjectLineSegment(norm_x, norm_y);
 	
 	//Quadtree picking static intersected objects only looking in the TreeNode of the ray
 	App->scene->quadtree->Intersect(intersected_objs, picking);

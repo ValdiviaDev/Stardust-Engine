@@ -37,7 +37,8 @@ public:
 
 public:
 
-	ComponentCamera* dummy_cam = nullptr;
+	ComponentCamera* current_cam = nullptr;
+	ComponentCamera* engine_cam = nullptr;
 
 };
 

@@ -114,6 +114,13 @@ void ComponentCamera::DrawInspector() {
 	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 
+		if (ImGui::Checkbox("Main Camera", &main_camera)) {
+			if (main_camera)
+				App->scene->SetMainCamera(this);
+			else
+				App->scene->SetMainCamera(nullptr);
+		}
+
 		ImGui::Text("Horizontal FOV:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), "%f", frustum.horizontalFov);

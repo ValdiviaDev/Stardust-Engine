@@ -11,6 +11,7 @@
 
 class GameObject;
 class Quadtree;
+class ComponentCamera;
 
 class ModuleScene : public Module
 {
@@ -52,6 +53,8 @@ public:
 	GameObject* GetGameObjectFromUUID(uint UUID, GameObject* root) const; //Send root 1st time
 	void CreateRootObject();
 
+	void SetMainCamera(ComponentCamera* cam);
+
 	void DeleteGameObject(GameObject* go);
 	void DestroyGOs();
 
@@ -70,7 +73,7 @@ private:
 	GameObject* root_object = nullptr;
 	GameObject* focused_object = nullptr;
 	bool want_to_delete_go = false;
-
+	ComponentCamera* main_camera = nullptr;
 };
 
 #endif
