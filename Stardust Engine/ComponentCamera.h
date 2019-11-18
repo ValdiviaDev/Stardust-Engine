@@ -39,7 +39,8 @@ public:
 
 	void DrawFrustum();
 
-	void CameraCulling(GameObject* go); //send root 1st time
+	void CameraCullingStObj();
+	void CameraCullingDynObj(GameObject* go); //send root 1st time
 	int ContainsAABB(const AABB& refBox) const;
 
 	//View matrix and Projection matrix

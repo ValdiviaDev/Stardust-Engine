@@ -102,9 +102,12 @@ void QuadtreeNode::ReorganizeObjects()
 		GameObject* obj = *it;
 
 		uint boxes_intersection = 0;
-		for (int i = 0; i < 4; ++i)
-			if (childs[i]->box.Intersects((*it)->bounding_box))
+		bool intersects[4];
+		for (int i = 0; i < 4; ++i) {
+			intersects[i] = childs[i]->box.Intersects((*it)->bounding_box);
+			if (intersects[i])
 				boxes_intersection++;
+		}
 
 		//If two or more childs intersect keep the GO on the parent
 		if (boxes_intersection > 1) {
@@ -114,7 +117,8 @@ void QuadtreeNode::ReorganizeObjects()
 		else {
 			it = objects.erase(it);
 				for (int i = 0; i < 4; ++i)
-					childs[i]->Insert(obj);
+					if(intersects[i])
+						childs[i]->objects.push_back(obj);
 		}
 
 	}
@@ -162,6 +166,10 @@ void Quadtree::Create(math::AABB limits)
 {
 	Clear();
 	root = new QuadtreeNode(limits, nullptr);
+
+	min_point = limits.minPoint;
+	max_point = limits.maxPoint;
+
 }
 
 void Quadtree::Clear()

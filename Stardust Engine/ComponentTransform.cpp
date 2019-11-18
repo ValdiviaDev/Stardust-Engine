@@ -190,6 +190,7 @@ void ComponentTransform::UpdateMatrix() {
 		if (gameObject->IsStatic()) {
 			gameObject->SetStatic(false);
 			App->scene->quadtree->Remove(gameObject);
+			App->scene->EraseObjFromStatic(gameObject);
 		}
 	}
 }
@@ -268,6 +269,14 @@ math::float3 ComponentTransform::GetGlobalScale() const {
 	}
 
 	return ret;
+}
+
+void ComponentTransform::SetTransformFromParent()
+{
+	float4x4 mat = gameObject->GetParent()->transform->global_matrix.Inverted() * global_matrix;
+
+	mat.Decompose(position, quaternion_rot, scale);
+	SetRotationFromQuat();
 }
 
 

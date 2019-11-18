@@ -11,7 +11,7 @@
 class ComponentMesh : public Component //TODO
 {
 public:
-	ComponentMesh(GameObject* parent, const char* path, PrimitiveType primitive = PRIMITIVE_NONE);
+	ComponentMesh(GameObject* parent, PrimitiveType primitive = PRIMITIVE_NONE);
 	~ComponentMesh();
 
 	void Save(JSON_Array* comp_array);

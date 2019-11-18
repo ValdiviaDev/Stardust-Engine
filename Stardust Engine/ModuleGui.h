@@ -12,6 +12,7 @@ class ModuleGui;
 class PanelHierarchy;
 class PanelInspector;
 class PanelAssets;
+class PanelEdit;
 
 using namespace std;
 
@@ -56,6 +57,7 @@ private:
 	PanelHierarchy* p_hierarchy = nullptr;
 	PanelInspector* p_inspector = nullptr;
 	PanelAssets* p_assets = nullptr;
+	PanelEdit* p_edit = nullptr;
 
 	update_status decide_if_update = UPDATE_CONTINUE;
 

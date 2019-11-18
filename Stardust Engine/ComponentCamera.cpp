@@ -1,10 +1,10 @@
-
 #include "ComponentCamera.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "Application.h"
 #include "imgui/imgui.h"
 #include "GameObject.h"
+#include "Quadtree.h"
 #include "Glew/include/glew.h"
 
 
@@ -43,7 +43,8 @@ void ComponentCamera::Update() {
 
 	if (culling) {
 		if (App->scene->GetRootGameObject()) {
-			CameraCulling(App->scene->GetRootGameObject());
+			CameraCullingStObj();
+			CameraCullingDynObj(App->scene->GetRootGameObject());
 		}
 	}
 	
@@ -147,7 +148,11 @@ void ComponentCamera::DrawInspector() {
 			SetFarPlane(far_plane);
 		}
 		
-		ImGui::Checkbox("Camera Culling", &culling);
+		if (ImGui::Checkbox("Camera Culling", &culling)) {
+			if (!culling)
+				App->scene->AllObjectsActive(App->scene->GetRootGameObject());
+
+		}
 			
 	}
 	
@@ -172,14 +177,31 @@ void ComponentCamera::DrawFrustum() {
 }
 
 
-void ComponentCamera::CameraCulling(GameObject* go) {
+void ComponentCamera::CameraCullingStObj()
+{
+	vector<GameObject*> obj_to_cull;
+	vector<GameObject*> st_obj = App->scene->static_objects;
+
+	//All static objects not culling
+	for (int i = 0; i < st_obj.size(); ++i)
+		st_obj[i]->SetActive(false);
+
+	App->scene->quadtree->Intersect(obj_to_cull, frustum);
+
+	//Only cull objects provided by the quadtree
+	for (int i = 0; i < obj_to_cull.size(); ++i)
+		obj_to_cull[i]->SetActive(true);
+
+}
+
+void ComponentCamera::CameraCullingDynObj(GameObject* go) {
 
 	if (!go->camera) {
 		for (std::vector<GameObject*>::const_iterator it = go->childs.begin(); it < go->childs.end(); it++) {
 
 			AABB refBox = (*it)->bounding_box;
 
-			if (refBox.IsFinite() && (*it)->mesh && (*it)->mesh->m_info.num_vertex > 0) {
+			if (!(*it)->IsStatic() && refBox.IsFinite() && (*it)->mesh && (*it)->mesh->m_info.num_vertex > 0) {
 
 				
 				//if (!frustum.Intersects(refBox)) {    //MathGeoLib func. Slow but works better
@@ -192,7 +214,7 @@ void ComponentCamera::CameraCulling(GameObject* go) {
 
 			}
 
-			CameraCulling(*it);
+			CameraCullingDynObj(*it);
 
 		}
 	}

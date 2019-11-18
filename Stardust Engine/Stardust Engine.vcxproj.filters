@@ -223,6 +223,9 @@
     <ClCompile Include="imgui\ImGuizmo.cpp">
       <Filter>Sources\Tools\imGui</Filter>
     </ClCompile>
+    <ClCompile Include="PanelEdit.cpp">
+      <Filter>Sources\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -554,6 +557,9 @@
     </ClInclude>
     <ClInclude Include="imgui\ImGuizmo.h">
       <Filter>Sources\Tools\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelEdit.h">
+      <Filter>Sources\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

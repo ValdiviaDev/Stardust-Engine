@@ -21,6 +21,7 @@
 #include "PanelHierarchy.h"
 #include "PanelInspector.h"
 #include "PanelAssets.h"
+#include "PanelEdit.h"
 
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, "Gui", start_enabled)
 {
@@ -56,6 +57,8 @@ bool ModuleGui::Init(ConfigEditor* config)
 	panels.push_back(p_inspector);
 	p_assets = new PanelAssets();
 	panels.push_back(p_assets);
+	p_edit = new PanelEdit();
+	panels.push_back(p_edit);
 
 	AddLogToConsole("Initializing ImGui");
 
@@ -80,6 +83,8 @@ update_status ModuleGui::PreUpdate(float dt)
 update_status ModuleGui::Update(float dt)
 {
 	//Shortcuts
+	if (App->input->GetKey(SDL_SCANCODE_KP_0) == KEY_DOWN)
+		p_edit->ToggleActive();
 	if (App->input->GetKey(SDL_SCANCODE_KP_1) == KEY_DOWN)
 		p_console->ToggleActive();
 	if (App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
@@ -131,6 +136,7 @@ bool ModuleGui::CleanUp()
 	p_hierarchy = nullptr;
 	p_inspector = nullptr;
 	p_assets = nullptr;
+	p_edit = nullptr;
 
 	return true;
 }
@@ -201,7 +207,7 @@ void ModuleGui::HandleMainMenuBar()
 				{
 					GameObject* go = App->scene->CreateGameObject(App->scene->GetRootGameObject());
 					go->SetName(loaded_meshes[i].c_str());
-					go->CreateComponent(Comp_Mesh, nullptr);
+					go->CreateComponent(Comp_Mesh);
 					go->mesh->uuid_mesh = std::stoi(loaded_meshes[i].c_str());
 					go->mesh->LoadMesh(loaded_meshes[i]);
 					go->UpdateBoundingBox();
@@ -217,7 +223,7 @@ void ModuleGui::HandleMainMenuBar()
 					GameObject* go = App->scene->GetFocusedGameObject(App->scene->GetRootGameObject());
 					if (go) {
 						if(!go->material)
-							go->CreateComponent(Comp_Material, nullptr);
+							go->CreateComponent(Comp_Material);
 						go->material->AssignTextureLib(loaded_materials[i].c_str());
 					}
 				}
@@ -227,6 +233,9 @@ void ModuleGui::HandleMainMenuBar()
 
 		if (ImGui::BeginMenu("Window"))
 		{
+			if (ImGui::MenuItem("Edit", "KP 0", p_edit->IsActive()))
+				p_edit->ToggleActive();
+
 			if(ImGui::MenuItem("Console", "KP 1", p_console->IsActive()))
 				p_console->ToggleActive(); 
 

@@ -2,9 +2,13 @@
 #define __Quadtree__H__
 
 #define QUADTREE_MAX_ITEMS 2
+#define QUADTREE_MIN_SIZE -30
+#define QUADTREE_MAX_SIZE 30
+
 
 #include "MathGeoLib/include/MathGeoLib.h"
 #include <vector>
+
 class GameObject;
 
 using namespace std;
@@ -48,6 +52,10 @@ public:
 
 	void DebugDraw();
 
+public:
+	float3 min_point;
+	float3 max_point;
+
 private:
 	QuadtreeNode* root = nullptr;
 
@@ -69,8 +77,9 @@ inline void QuadtreeNode::Intersect(vector<GameObject*>& objects, const TYPE& pr
 	{
 		for (std::vector<GameObject*>::const_iterator it = this->objects.begin(); it != this->objects.end(); ++it)
 		{
-			if (primitive.Intersects((*it)->bounding_box))
-				objects.push_back(*it);
+			if (std::find(objects.begin(), objects.end(), (*it)) == objects.end()) //Check that the element is not in the list
+				if (primitive.Intersects((*it)->bounding_box))
+					objects.push_back(*it);
 
 		}
 		for (int i = 0; i < 4; ++i)

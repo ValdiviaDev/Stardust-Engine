@@ -41,12 +41,6 @@ bool ModuleScene::Start()
 	//Initialize root GameObject
 	CreateRootObject();
 
-	//Baker house create
-	/*scene_gameobject = CreateGameObject(root_object);
-	scene_gameobject->SetName("BakerHouse");
-	scene_gameobject->CreateComponent(Comp_Mesh, "Assets/Meshes/BakerHouse.fbx");
-	 */
-
 	GameObject* camera = new GameObject(root_object);
 	camera->CreateComponent(Comp_Camera);
 	camera->SetName("cameraobject");
@@ -145,7 +139,7 @@ GameObject* ModuleScene::CreateCubePrimitive()
 
 	GameObject* cubeGO = CreateGameObject(root_object);
 	cubeGO->SetName("Cube");
-	cubeGO->CreateComponent(Comp_Mesh, nullptr, PRIMITIVE_CUBE);
+	cubeGO->CreateComponent(Comp_Mesh, PRIMITIVE_CUBE);
 	cubeGO->mesh->FillPrimitiveDrawInfo(cube);
 
 	par_shapes_free_mesh(cube);
@@ -159,7 +153,7 @@ GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
 
 	GameObject* sphereGO = CreateGameObject(root_object);
 	sphereGO->SetName("Sphere");
-	sphereGO->CreateComponent(Comp_Mesh, nullptr, PRIMITIVE_SPHERE);
+	sphereGO->CreateComponent(Comp_Mesh, PRIMITIVE_SPHERE);
 	sphereGO->mesh->FillPrimitiveDrawInfo(sphere);
 
 	par_shapes_free_mesh(sphere);
@@ -173,7 +167,7 @@ GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
 
 	GameObject* planeGO = CreateGameObject(root_object);
 	planeGO->SetName("Plane");
-	planeGO->CreateComponent(Comp_Mesh, nullptr, PRIMITIVE_PLANE);
+	planeGO->CreateComponent(Comp_Mesh, PRIMITIVE_PLANE);
 	planeGO->mesh->FillPrimitiveDrawInfo(plane);
 
 	par_shapes_free_mesh(plane);
@@ -370,23 +364,6 @@ void ModuleScene::DrawGrid()
 	glEnd();
 }
 
-void ModuleScene::ChangeGameObjectMesh(char* mesh_path)
-{
-	if (scene_gameobject) {
-		//Erase the GameObject from the root vector before deleting the GameObject
-		scene_gameobject->DeleteFromParentList();
-		RELEASE(scene_gameobject);
-		App->importer->m_debug.clear(); //DEBUG
-
-		UnfocusGameObjects();
-	}
-
-	scene_gameobject = CreateGameObject(root_object);
-	scene_gameobject->CreateComponent(Comp_Mesh, mesh_path);
-	scene_gameobject->SetName("SceneObj");
-
-}
-
 void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
 {
 	if (go && go->mesh) {
@@ -401,21 +378,28 @@ void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
 	}
 }
 
+//Quadtree functions ----------------------------------------------
+
 void ModuleScene::BuildQuadtree()
 {
 	//If there's quadtree, delete it
 	if (quadtree)
 		RELEASE(quadtree);
 	
-	//Create quadtree TODO
-	quadtree = new Quadtree();
-	AABB root_quad_node = AABB({ -200,-100,-200 }, { 200,100,200 });
-	quadtree->Create(root_quad_node);
-
 	//Get a vector of static GameObjects
-	vector<GameObject*> static_objects;
-	for(int i = 0; i < root_object->GetNumChilds(); ++i)
-		GetStaticObjects(static_objects, root_object->GetChild(i));
+	static_objects.clear();
+	for (int i = 0; i < root_object->GetNumChilds(); ++i)
+		GetStaticObjects(root_object->GetChild(i));
+
+	//Calculate quadtree size
+	float3 min_point(QUADTREE_MIN_SIZE); //Minimum quadtree size
+	float3 max_point(QUADTREE_MAX_SIZE); //Maximum quadtree size
+	CalculateQuadtreeSize(min_point, max_point);
+
+	//Create quadtree
+	quadtree = new Quadtree();
+	AABB root_quad_node = AABB(min_point, max_point);
+	quadtree->Create(root_quad_node);
 
 	//Insert all the static GameObjects to the quadtree
 	for (int i = 0; i < static_objects.size(); ++i)
@@ -423,13 +407,77 @@ void ModuleScene::BuildQuadtree()
 
 }
 
-void ModuleScene::GetStaticObjects(vector<GameObject*>& static_GOs, GameObject* static_candidate)
+void ModuleScene::GetStaticObjects(GameObject* static_candidate)
 {
 	if (static_candidate->IsStatic())
-		static_GOs.push_back(static_candidate);
+		static_objects.push_back(static_candidate);
 
 	for (int i = 0; i < static_candidate->GetNumChilds(); ++i)
-		GetStaticObjects(static_GOs, static_candidate->GetChild(i));
+		GetStaticObjects(static_candidate->GetChild(i));
+}
+
+void ModuleScene::CalculateQuadtreeSize(float3& min_point, float3& max_point)
+{
+	for (int i = 0; i < static_objects.size(); ++i) {
+		//Min point
+		float3 min_p = static_objects[i]->bounding_box.minPoint;
+		if (min_p.x < min_point.x)
+			min_point.x = min_p.x;
+		if (min_p.y < min_point.y)
+			min_point.y = min_p.y;
+		if (min_p.z < min_point.z)
+			min_point.z = min_p.z;
+
+		//Max point
+		float3 max_p = static_objects[i]->bounding_box.maxPoint;
+		if (max_p.x > max_point.x)
+			max_point.x = max_p.x;
+		if (max_p.y > max_point.y)
+			max_point.y = max_p.y;
+		if (max_p.z > max_point.z)
+			max_point.z = max_p.z;
+	}
+}
+
+void ModuleScene::CheckIfRebuildQuadtree(GameObject * go)
+{
+	float3 min_point = go->bounding_box.minPoint;
+	float3 max_point = go->bounding_box.maxPoint;
+	bool rebuild = false;
+	
+	//Min point
+	if (min_point.x < quadtree->min_point.x || min_point.x > quadtree->min_point.x && min_point.x < QUADTREE_MIN_SIZE
+		|| min_point.y < quadtree->min_point.y || min_point.y > quadtree->min_point.y && min_point.y < QUADTREE_MIN_SIZE
+		|| min_point.z < quadtree->min_point.z || min_point.z > quadtree->min_point.z && min_point.y < QUADTREE_MIN_SIZE)
+		rebuild = true;
+	//Max point
+	if (max_point.x > quadtree->max_point.x || max_point.x < quadtree->max_point.x && max_point.x > QUADTREE_MAX_SIZE
+		|| max_point.y > quadtree->max_point.y || max_point.y < quadtree->max_point.y && max_point.y > QUADTREE_MAX_SIZE
+		|| max_point.z > quadtree->max_point.z || max_point.z < quadtree->max_point.z && max_point.z > QUADTREE_MAX_SIZE)
+		rebuild = true;
+	
+	if (rebuild)
+		BuildQuadtree();
+}
+
+bool ModuleScene::EraseObjFromStatic(GameObject* go)
+{
+	for (std::vector<GameObject*>::const_iterator it = static_objects.begin(); it < static_objects.end(); it++)
+		if ((*it) == go) {
+			static_objects.erase(it);
+			return true;
+		}
+	return false;
+}
+
+// --------------------------------------------------------------------------
+
+void ModuleScene::AllObjectsActive(GameObject* go)
+{
+	go->SetActive(true);
+
+	for (int i = 0; i < go->GetNumChilds(); ++i)
+		AllObjectsActive(go->GetChild(i));
 }
 
 
