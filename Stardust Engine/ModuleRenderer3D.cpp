@@ -202,6 +202,17 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
+void ModuleRenderer3D::RecalculateProjMat()
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glLoadMatrixf(App->camera->current_cam->GetProjectionMatrix());
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
+
 void ModuleRenderer3D::SaveGPUInfo()
 {
 	gpu_info.GPU_renderer = (const char*)glGetString(GL_RENDERER);

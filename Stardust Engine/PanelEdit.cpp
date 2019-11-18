@@ -34,7 +34,7 @@ void PanelEdit::Draw()
 	// Guizmos TODO
 
 	// Play/Pause
-	ImGui::SetCursorPos({ (float)(width / 2 - 30), (float)(height / 3) });
+	ImGui::SetCursorPos({ (float)(width / 2 - 35), (float)(height / 3) });
 	
 
 	if (ImGui::Button(play_but, { 50, 35 })) {
@@ -46,7 +46,7 @@ void PanelEdit::Draw()
 			play_but = "Play";
 	}
 	
-	ImGui::SetCursorPos({ (float)(width / 2 + 30), (float)(height / 3) });
+	ImGui::SetCursorPos({ (float)(width / 2 + 35), (float)(height / 3) });
 	ImGui::Button("Pause", { 50, 35 });
 
 	// Debug buttons TODO
@@ -60,6 +60,7 @@ void PanelEdit::ChangeCameraView()
 	if (!playing) {
 		if (App->scene->GetMainCamera() != nullptr) {
 			App->camera->current_cam = App->scene->GetMainCamera();
+			App->renderer3D->RecalculateProjMat();
 			playing = true;
 		}
 		else
@@ -67,6 +68,7 @@ void PanelEdit::ChangeCameraView()
 	}
 	else {
 		App->camera->current_cam = App->camera->engine_cam;
+		App->renderer3D->RecalculateProjMat();
 		playing = false;
 	}
 }

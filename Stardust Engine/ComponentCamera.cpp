@@ -65,10 +65,6 @@ void ComponentCamera::SetFOV(float fov) {
 
 	frustum.verticalFov = DEGTORAD * fov;
 	frustum.horizontalFov = 2.0f * atanf(aspect_ratio * tanf(frustum.verticalFov * 0.5f));
-	int w, h;
-	App->window->GetWinSize(w, h);
-	App->renderer3D->OnResize(w, h); //TODO
-
 }
 
 void ComponentCamera::SetAspectRatio(float AR)
@@ -137,8 +133,10 @@ void ComponentCamera::DrawInspector() {
 		float fov = frustum.verticalFov * RADTODEG;
 		ImGui::Text("FOV");
 		ImGui::SameLine();
-		if (ImGui::DragFloat("fov", &fov, 1.0f))
+		if (ImGui::DragFloat("fov", &fov, 1.0f)) {
 			SetFOV(fov);
+			App->renderer3D->RecalculateProjMat();
+		}
 
 
 		float near_plane = frustum.nearPlaneDistance;
@@ -147,6 +145,7 @@ void ComponentCamera::DrawInspector() {
 		if (ImGui::DragFloat("near", &near_plane, 1.0F))
 		{
 			SetNearPlane(near_plane);
+			App->renderer3D->RecalculateProjMat();
 		}
 
 
@@ -156,6 +155,7 @@ void ComponentCamera::DrawInspector() {
 		if (ImGui::DragFloat("far", &far_plane, 1.0F))
 		{
 			SetFarPlane(far_plane);
+			App->renderer3D->RecalculateProjMat();
 		}
 		
 		if (ImGui::Checkbox("Camera Culling", &culling)) {
