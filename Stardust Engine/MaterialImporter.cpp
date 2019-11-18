@@ -27,72 +27,80 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 	std::string path_string(path);
 	std::string file_string(file);
 
-	std::string lib_tex = LIBRARY_MAT_FOLDER;
+	uint uuid_mat = App->GenerateUUID();
+
+	if (!IsTextureLoaded(file)) {
+
+		if (IsFileDDS(file)) { //If file is already DDS just copy it to library
+			LOG("File already DDS, copying to library");
+
+				ret = App->fs->Copy((char*)(path_string + file_string).c_str(), (char*)(LIBRARY_MAT_FOLDER + std::to_string(uuid_mat) + ".dds").c_str());
+
+		}
+		else {
 
 
-	if (IsFileDDS(file)) { //If file is already DDS just copy it to library
-		LOG("File already DDS, copying to library");
+			char* buffer = nullptr;
+			uint size = App->fs->Load((char*)(path_string + file_string).c_str(), &buffer);
 
-		ret = App->fs->Copy((char*)(path_string + file_string).c_str(), (char*)(lib_tex + file_string).c_str());
-
-	}
-	else {
+			if (buffer) {
 
 
-		char* buffer = nullptr;
-		uint size = App->fs->Load((char*)(path_string + file_string).c_str(), &buffer);
+				//ILuint ImageName;
+				//ilGenImages(1, &ImageName);
+				//ilBindImage(ImageName);
 
-		if (buffer) {
-
-
-			//ILuint ImageName;				//Why does Ricard use this?
-			//ilGenImages(1, &ImageName);
-			//ilBindImage(ImageName);
-
-			if (ilLoadL(IL_TYPE_UNKNOWN, (const void*)buffer, size))
-			{
-				ilEnable(IL_FILE_OVERWRITE);
+				if (ilLoadL(IL_TYPE_UNKNOWN, (const void*)buffer, size))
+				{
+					ilEnable(IL_FILE_OVERWRITE);
 
 
-				ILuint size;
-				ILubyte *data;
+					ILuint size;
+					ILubyte *data;
 
-				ilSetInteger(IL_DXTC_FORMAT, IL_DXT5);// To pick a specific DXT compression use
-				size = ilSaveL(IL_DDS, NULL, 0); // Get the size of the data buffer
-				if (size > 0) {
-					data = new ILubyte[size]; // allocate data buffer
-					if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
-					{
-						file_string = file_string.substr(0, file_string.find('.', 0));
-						ret = App->fs->SaveUnique(output_file, data, size, lib_tex.c_str(), file_string.c_str(), "dds");
+					ilSetInteger(IL_DXTC_FORMAT, IL_DXT5);// To pick a specific DXT compression use
+					size = ilSaveL(IL_DDS, NULL, 0); // Get the size of the data buffer
+					if (size > 0) {
+						data = new ILubyte[size]; // allocate data buffer
+						if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
+						{
+							file_string = file_string.substr(0, file_string.find('.', 0));
+							ret = App->fs->SaveUnique(output_file, data, size, LIBRARY_MAT_FOLDER, std::to_string(uuid_mat).c_str(), "dds");
+
+						}
+
+						RELEASE_ARRAY(data);
 
 					}
-
-					RELEASE_ARRAY(data);
-
+					//ilDeleteImages(1, &ImageName);
 				}
-				//ilDeleteImages(1, &ImageName);
 			}
+			RELEASE_ARRAY(buffer);
+
 		}
-		RELEASE_ARRAY(buffer);
+
+		if (ret) {
+			LOG("Texture imported correctly: %s from path %s", file, path);
+			string str = "Texture imported correctly: " + (string)file + " from path: " + path;
+			App->gui->AddLogToConsole(str.c_str());
+
+			string file_no_ext = file;
+			//file_no_ext = file_no_ext.substr(0, file_no_ext.find_last_of("."));
+
+			SerializeNoComponent(file, uuid_mat);
+			AddTextureToList(file, uuid_mat);
+			file_no_ext = std::to_string(uuid_mat);
+			App->gui->loaded_materials.push_back((string)file_no_ext);
+
+
+		}
+		else {
+			LOG("Can't import texture %s from path %s", file, path);
+			string str = "Can't import texture: " + (string)file + " from path: " + path;
+			App->gui->AddLogToConsole(str.c_str());
+		}
 
 	}
-
-	if (ret) {
-		LOG("Texture imported correctly: %s from path %s", file, path);
-		string str = "Texture imported correctly: " + (string)file + " from path: " + path;
-		App->gui->AddLogToConsole(str.c_str());
-
-		string file_no_ext = file;
-		file_no_ext = file_no_ext.substr(0, file_no_ext.find_last_of("."));
-		App->gui->loaded_materials.push_back((string)file_no_ext);
-	}
-	else {
-		LOG("Can't import texture %s from path %s", file, path);
-		string str = "Can't import texture: " + (string)file + " from path: " + path;
-		App->gui->AddLogToConsole(str.c_str());
-	}
-
 
 	return ret;
 }
@@ -150,6 +158,43 @@ bool MaterialImporter::LoadCheckers(ComponentMaterial * resource)
 	return false;
 }
 
+void MaterialImporter::Serialize(ComponentMaterial* mat)
+{
+
+	JSON_Value* root_value = json_value_init_array();
+	JSON_Array* array = json_value_get_array(root_value);
+
+	mat->Save(array);
+
+	char folder_and_file[128];
+	strcpy(folder_and_file, LIBRARY_MAT_FOLDER);
+	strcat(folder_and_file, std::to_string(mat->uuid_mat).c_str());
+	strcat(folder_and_file, ".json");
+
+	json_serialize_to_file_pretty(root_value, folder_and_file);
+
+	json_value_free(root_value);
+
+
+}
+
+void MaterialImporter::SerializeNoComponent(const char* old_file, uint uuid) {
+
+	JSON_Value* root_value = json_value_init_object();
+	JSON_Object* object = json_value_get_object(root_value);
+
+	json_object_set_number(object, "UUID", uuid);
+	json_object_set_string(object, "old file", old_file);
+
+	char folder_and_file[128];
+	strcpy(folder_and_file, LIBRARY_MAT_FOLDER);
+	strcat(folder_and_file, std::to_string(uuid).c_str());
+	strcat(folder_and_file, ".json");
+
+	json_serialize_to_file_pretty(root_value, folder_and_file);
+	json_value_free(root_value);
+
+}
 
 bool MaterialImporter::IsFileDDS(const char* file_name) {
 
@@ -162,4 +207,39 @@ bool MaterialImporter::IsFileDDS(const char* file_name) {
 		ret = true;
 
 	return ret;
+}
+
+
+uint MaterialImporter::AddTextureToList(const char* path, uint uuid) {
+
+
+	
+
+	for (std::list<MatFileInfo>::const_iterator it = loaded_tex_list.begin(); it != loaded_tex_list.end(); it++) {
+
+		if (it->path == path) {
+
+			return it->uuid;
+		}
+
+	}
+
+	MatFileInfo aux(path, uuid);
+	loaded_tex_list.push_back(aux);
+
+	return uuid;
+}
+
+bool MaterialImporter::IsTextureLoaded(const char* path) {
+
+	for (std::list<MatFileInfo>::const_iterator it = loaded_tex_list.begin(); it != loaded_tex_list.end(); it++) {
+		//if (strcmp(it->path.c_str(), path)) {
+		if (it->path == path) {
+	
+			LOG("Material Importer: Texture already loaded on list");
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -264,17 +264,21 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 				//Find the texture by its name in the textures folder
 				if (mat_path_s.find("\\") != string::npos)
-					mat_path_s = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
-				mat_path_s = ASSETS_TEX_FOLDER + mat_path_s;
+					mat_path_name = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
+				mat_path_s = ASSETS_TEX_FOLDER + mat_path_name;
 				App->fs->NormalizePath(mat_path_s);
 
 				//Create the material if the texture is found
 				if (App->fs->Exists(mat_path_s.c_str())) {
 					go->CreateComponent(Comp_Material);
 					go->material->AssignTexture(mat_path_s.c_str());
+					go->material->uuid_mat = App->GenerateUUID();
 
 					string out_material;
 					App->mat_import->Import(mat_path_name.c_str(), ASSETS_TEX_FOLDER, out_material);
+
+					//Create json with uuid and path for Material
+					//App->mat_import->Serialize(go->material);
 				}
 			}
 			// copy vertices

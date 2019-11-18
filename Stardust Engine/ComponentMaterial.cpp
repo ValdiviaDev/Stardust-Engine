@@ -92,6 +92,7 @@ void ComponentMaterial::Save(JSON_Array* comp_array) {
 	JSON_Object* obj = json_value_get_object(value);
 
 	json_object_set_number(obj, "Component Type", type);
+	json_object_set_number(obj, "UUID Material", uuid_mat);
 	json_object_set_string(obj, "path", tex_path);
 
 	json_array_append_value(comp_array, value);
@@ -100,5 +101,6 @@ void ComponentMaterial::Save(JSON_Array* comp_array) {
 void ComponentMaterial::Load(JSON_Object* comp_obj) {
 
 	AssignTexture(json_object_get_string(comp_obj, "path"));
+	uuid_mat = json_object_get_number(comp_obj, "UUID Material");
 
 }

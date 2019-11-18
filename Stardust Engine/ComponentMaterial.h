@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "Globals.h"
 
+
 class ComponentMaterial : public Component //TODO
 {
 public:
@@ -27,7 +28,8 @@ public:
 
 	uint tex_id = 0;
 	int tex_width, tex_height;
-
+	
+	uint uuid_mat = 0;
 private:
 	char tex_path[500];
 	bool has_tex = false;

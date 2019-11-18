@@ -55,7 +55,7 @@ void SceneSerialization::SaveSceneFromMesh(const char* scene_name, std::list<Gam
 	}
 
 	char folder_and_file[128];
-	strcpy(folder_and_file, "Assets/Scenes/");
+	strcpy(folder_and_file, ASSETS_SCENE_FOLDER);
 	strcat(folder_and_file, scene_name); 
 
 	json_serialize_to_file_pretty(root_value, folder_and_file);
