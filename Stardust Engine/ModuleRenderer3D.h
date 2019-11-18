@@ -42,6 +42,7 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height);
+	void RecalculateProjMat();
 
 	void SaveGPUInfo();
 	GPU_Info GetGPUInfo() const;

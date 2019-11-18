@@ -138,14 +138,14 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->dummy_cam->GetViewMatrix());
+	glLoadMatrixf(App->camera->current_cam->GetViewMatrix());
 
 
 	UpdateGOMatrix(App->scene->GetRootGameObject());
 
 
 	// light 0 on cam pos
-	float3 cam_pos = App->camera->dummy_cam->frustum.pos;
+	float3 cam_pos = App->camera->current_cam->frustum.pos;
 	lights[0].SetPos(cam_pos.x, cam_pos.y, cam_pos.z);
 
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
@@ -195,8 +195,19 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	App->camera->dummy_cam->SetAspectRatio((float)width / (float)height);
-	glLoadMatrixf(App->camera->dummy_cam->GetProjectionMatrix());
+	App->camera->current_cam->SetAspectRatio((float)width / (float)height);
+	glLoadMatrixf(App->camera->current_cam->GetProjectionMatrix());
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
+
+void ModuleRenderer3D::RecalculateProjMat()
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glLoadMatrixf(App->camera->current_cam->GetProjectionMatrix());
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

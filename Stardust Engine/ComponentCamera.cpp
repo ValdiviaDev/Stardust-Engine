@@ -65,7 +65,6 @@ void ComponentCamera::SetFOV(float fov) {
 
 	frustum.verticalFov = DEGTORAD * fov;
 	frustum.horizontalFov = 2.0f * atanf(aspect_ratio * tanf(frustum.verticalFov * 0.5f));
-
 }
 
 void ComponentCamera::SetAspectRatio(float AR)
@@ -114,6 +113,13 @@ void ComponentCamera::DrawInspector() {
 	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 
+		if (ImGui::Checkbox("Main Camera", &main_camera)) {
+			if (main_camera)
+				App->scene->SetMainCamera(this);
+			else
+				App->scene->SetMainCamera(nullptr);
+		}
+
 		ImGui::Text("Horizontal FOV:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), "%f", frustum.horizontalFov);
@@ -127,8 +133,10 @@ void ComponentCamera::DrawInspector() {
 		float fov = frustum.verticalFov * RADTODEG;
 		ImGui::Text("FOV");
 		ImGui::SameLine();
-		if (ImGui::DragFloat("fov", &fov, 1.0f))
+		if (ImGui::DragFloat("fov", &fov, 1.0f)) {
 			SetFOV(fov);
+			App->renderer3D->RecalculateProjMat();
+		}
 
 
 		float near_plane = frustum.nearPlaneDistance;
@@ -137,6 +145,7 @@ void ComponentCamera::DrawInspector() {
 		if (ImGui::DragFloat("near", &near_plane, 1.0F))
 		{
 			SetNearPlane(near_plane);
+			App->renderer3D->RecalculateProjMat();
 		}
 
 
@@ -146,6 +155,7 @@ void ComponentCamera::DrawInspector() {
 		if (ImGui::DragFloat("far", &far_plane, 1.0F))
 		{
 			SetFarPlane(far_plane);
+			App->renderer3D->RecalculateProjMat();
 		}
 		
 		if (ImGui::Checkbox("Camera Culling", &culling)) {

@@ -44,7 +44,8 @@ bool ModuleScene::Start()
 	GameObject* camera = new GameObject(root_object);
 	camera->CreateComponent(Comp_Camera);
 	camera->SetName("cameraobject");
-	
+	SetMainCamera(camera->camera);
+
 	//Quadtree init TODO test
 	BuildQuadtree();
 
@@ -58,10 +59,28 @@ void ModuleScene::CreateRootObject() {
 
 }
 
+ComponentCamera * ModuleScene::GetMainCamera() const
+{
+	return main_camera;
+}
+
+void ModuleScene::SetMainCamera(ComponentCamera* cam)
+{
+	if (main_camera)
+		main_camera->main_camera = false;
+
+	if (cam == nullptr)
+		main_camera = nullptr;
+	else {
+		main_camera = cam;
+		main_camera->main_camera = true;
+	}
+	
+}
+
 // Update
 update_status ModuleScene::Update(float dt)
 {
-
 	root_object->Update();
 
 	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)

@@ -81,8 +81,8 @@ void ComponentTransform::HandleGizmos()
 	}
 
 	if (draw_guizmo) {
-		float* view_mat = App->camera->dummy_cam->GetViewMatrix();
-		float* proj_mat = App->camera->dummy_cam->GetProjectionMatrix();
+		float* view_mat = App->camera->current_cam->GetViewMatrix();
+		float* proj_mat = App->camera->current_cam->GetProjectionMatrix();
 		float4x4 this_mat = global_matrix.Transposed();
 
 		ImGuiIO& io = ImGui::GetIO();

@@ -49,6 +49,7 @@ public:
 
 public:
 	math::Frustum frustum;
+	bool main_camera = false;
 
 private:
 	float4x4 view_mat;
