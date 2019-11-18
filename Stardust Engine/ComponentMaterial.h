@@ -20,6 +20,8 @@ public:
 	uint GetTexId()const;
 	bool GetIfTex()const;
 
+	void SetPath(const char* path);
+
 	void  DrawInspector();
 
 public:

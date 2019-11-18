@@ -35,6 +35,7 @@ void ComponentMaterial::AssignTextureLib(const char * path)
 		//The path in this case is the name file (UUID maybe)
 		bool charged = App->mat_import->LoadMaterial(path, this);
 
+
 		if (charged)
 			has_tex = true;
 		//Maybe we can put the assets path here? or maybe not
@@ -50,6 +51,11 @@ uint ComponentMaterial::GetTexId() const
 bool ComponentMaterial::GetIfTex() const
 {
 	return has_tex;
+}
+
+void ComponentMaterial::SetPath(const char * path)
+{
+	strcpy_s(tex_path, 500, path);
 }
 
 

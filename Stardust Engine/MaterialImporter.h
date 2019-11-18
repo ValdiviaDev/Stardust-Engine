@@ -34,6 +34,8 @@ public:
 	bool IsFileDDS(const char* file_name);
 	uint AddTextureToList(const char* path, uint uuid);
 	bool IsTextureLoaded(const char* path);
+	const char* GetTextureFromUUID(uint uuid); //file has to be for ex "BakerHouse.png"
+	uint GetUUIDFromJSON(const char* file);
 
 public:
 	std::list<MatFileInfo> loaded_tex_list;

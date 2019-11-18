@@ -134,6 +134,9 @@ bool MaterialImporter::LoadMaterial(const char* file_name, ComponentMaterial* ma
 		return false;
 	}
 
+	mat->uuid_mat = GetUUIDFromJSON(file_name);
+	mat->SetPath(GetTextureFromUUID(mat->uuid_mat));
+
 	//Get width and height
 	mat->tex_width = ilGetInteger(IL_IMAGE_WIDTH);
 	mat->tex_height = ilGetInteger(IL_IMAGE_HEIGHT);
@@ -242,4 +245,37 @@ bool MaterialImporter::IsTextureLoaded(const char* path) {
 	}
 
 	return false;
+}
+
+
+
+const char* MaterialImporter::GetTextureFromUUID(uint uuid) {
+
+	for (std::list<MatFileInfo>::const_iterator it = loaded_tex_list.begin(); it != loaded_tex_list.end(); it++) {
+		
+		if (it->uuid == uuid) {
+
+			return it->path.c_str();
+		}
+	}
+
+	return "";
+}
+
+uint MaterialImporter::GetUUIDFromJSON(const char * file)
+{
+	//char* path = strcat(strcat(LIBRARY_MAT_FOLDER, file), ".json");
+	char p[100];
+	strcpy(p, LIBRARY_MAT_FOLDER);
+	strcat(p, file);
+	strcat(p, ".json");
+	//string p = strcat(strcat(LIBRARY_MAT_FOLDER, file), ".json");
+	
+	JSON_Value* root_value = json_parse_file(p);
+	JSON_Object* object = json_value_get_object(root_value);
+
+	uint aux = json_object_get_number(object, "UUID");
+
+	return aux;
+
 }
