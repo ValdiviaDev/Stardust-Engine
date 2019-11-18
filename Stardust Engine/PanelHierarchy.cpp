@@ -7,7 +7,7 @@ PanelHierarchy::PanelHierarchy()
 {
 	name = "hierarchy";
 	active = true;
-	pos_x = 0, pos_y = 20, width = 266, height = 791;
+	pos_x = 0, pos_y = 99, width = 300, height = 791;
 }
 
 
@@ -20,8 +20,9 @@ void PanelHierarchy::Draw()
 	if (resize) {
 		int x, y;
 		App->window->GetWinSize(x, y);
+		//height = win height - (panel edit height + panel console height menu bar height)
 		ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_Always);
-		ImGui::SetNextWindowSize(ImVec2(width, y - 270), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(width, y - 349), ImGuiCond_Always);
 		resize = false;
 	}
 

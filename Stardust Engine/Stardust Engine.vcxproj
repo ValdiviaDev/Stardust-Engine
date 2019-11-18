@@ -180,6 +180,7 @@
     <ClInclude Include="PanelAssets.h" />
     <ClInclude Include="PanelConfig.h" />
     <ClInclude Include="PanelConsole.h" />
+    <ClInclude Include="PanelEdit.h" />
     <ClInclude Include="PanelHierarchy.h" />
     <ClInclude Include="PanelInspector.h" />
     <ClInclude Include="Parson\parson.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="PanelAssets.cpp" />
     <ClCompile Include="PanelConfig.cpp" />
     <ClCompile Include="PanelConsole.cpp" />
+    <ClCompile Include="PanelEdit.cpp" />
     <ClCompile Include="PanelHierarchy.cpp" />
     <ClCompile Include="PanelInspector.cpp" />
     <ClCompile Include="Parson\parson.c" />
