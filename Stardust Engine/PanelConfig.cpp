@@ -60,6 +60,9 @@ void PanelConfig::Draw()
 	if (ImGui::CollapsingHeader("Scene"))
 		SceneMenu();
 
+	if (ImGui::CollapsingHeader("Time"))
+		TimeMenu();
+
 	ImGui::End();
 }
 
@@ -291,6 +294,43 @@ void PanelConfig::SceneMenu()
 	ImGui::Text("Debug:");
 	ImGui::Checkbox("Draw Bounding Boxes", &App->scene->draw_GO_AABBs);
 	ImGui::Checkbox("Draw Quadtree", &App->scene->draw_quadtree);
+
+}
+
+void PanelConfig::TimeMenu()
+{
+	ImGui::Separator();
+	ImGui::Text("Engine time (real time)");
+	ImGui::Separator();
+
+	ImGui::Text("Frames since start:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%u", App->time->GetFrameCount());
+
+	ImGui::Text("Real time clock:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%.2f", App->time->GetRealTimeClock());
+
+	ImGui::Text("Real time delta time:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%.4f", App->time->GetRealdt());
+
+	ImGui::Separator();
+	ImGui::Text("Game time");
+	ImGui::Separator();
+
+	ImGui::Text("Game clock:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%.2f", App->time->GetGameTime());
+
+	ImGui::Text("Game delta time:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%.4f", App->time->GetGamedt());
+
+	ImGui::Text("Time scale:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%.2f", App->time->GetTimeScale());
+
 
 }
 

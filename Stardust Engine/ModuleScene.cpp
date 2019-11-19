@@ -200,7 +200,8 @@ void ModuleScene::Draw() {
 	DrawGameObjects(root_object);
 
 	//Draw bounding boxes and Quadtree
-	DrawSceneDebug();
+	if(App->GetEngineState() == Engine_State_Editor)
+		DrawSceneDebug();
 }
 
 void ModuleScene::DrawGameObjects(GameObject* go)

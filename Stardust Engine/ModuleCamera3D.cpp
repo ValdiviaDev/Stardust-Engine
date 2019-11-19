@@ -45,35 +45,37 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	// Mouse picking ----------------
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
-		if (!App->gui->IsMouseHoveringWindow()) //If any ImGui window is being pressed, don't check picking
-			CheckForMousePicking();
+	if (App->GetEngineState() == Engine_State_Editor) {
+		// Mouse picking ----------------
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+			if (!App->gui->IsMouseHoveringWindow()) //If any ImGui window is being pressed, don't check picking
+				CheckForMousePicking();
+		}
+
+		// Keys motion and mouse motion ----------------
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		{
+			float keys_speed = 8.0f * dt;
+			MoveArroundEngine(keys_speed, dt);
+
+			OrbitArroundEngine(dt);
+		}
+
+		// Mouse wheel ----------------
+		if (App->input->GetMouseZ() && !App->gui->IsMouseHoveringWindow()) {
+			float wheel_speed = 1.0f /** dt*/;
+			ZoomInOut(wheel_speed);
+		}
+
+		//Alt+LeftClick
+		// Obrbit arround object ---------------- ????
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+			OrbitArroundObject(dt);
+
+		//Focus on GameObject ----------------
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+			FocusInObject();
 	}
-
-	// Keys motion and mouse motion ----------------
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
-	{
-		float keys_speed = 8.0f * dt;
-		MoveArroundEngine(keys_speed, dt);
-
-		OrbitArroundEngine(dt);
-	}
-	
-	// Mouse wheel ----------------
-	if (App->input->GetMouseZ() && !App->gui->IsMouseHoveringWindow()) {
-		float wheel_speed = 1.0f /** dt*/;
-		ZoomInOut(wheel_speed);
-	}
-
-	//Alt+LeftClick
-	// Obrbit arround object ---------------- ????
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-		OrbitArroundObject(dt);
-
-	//Focus on GameObject ----------------
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-		FocusInObject();
 
 	return UPDATE_CONTINUE;
 }

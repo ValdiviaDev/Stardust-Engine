@@ -322,14 +322,15 @@ void Application::Stop()
 		camera->current_cam = App->camera->engine_cam;
 		renderer3D->RecalculateProjMat();
 
+		SetEngineState(Engine_State_Editor);
+
 		//Load scene tmp
 		std::string aux = LIBRARY_FOLDER;
 		aux.append("tmp_scene.json");
 		tmp_scene.LoadScene(aux.c_str());
 
 		time->ResetGameTimer();
-
-		SetEngineState(Engine_State_Editor);
+		
 		break;
 	}
 }

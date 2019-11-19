@@ -23,6 +23,7 @@ public:
 	void HardwareMenu();
 	void RendererMenu();
 	void SceneMenu();
+	void TimeMenu();
 
 	void InputConsole();
 	void CheckForCaps();

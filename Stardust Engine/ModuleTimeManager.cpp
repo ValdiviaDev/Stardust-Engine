@@ -46,5 +46,35 @@ bool ModuleTimeManager::CleanUp()
 void ModuleTimeManager::ResetGameTimer()
 {
 	time = 0.0f;
-	this->dt = 0.0f;
+	dt = 0.0f;
+}
+
+uint ModuleTimeManager::GetFrameCount() const
+{
+	return frame_count;
+}
+
+float ModuleTimeManager::GetRealTimeClock() const
+{
+	return real_time;
+}
+
+float ModuleTimeManager::GetRealdt() const
+{
+	return real_dt;
+}
+
+float ModuleTimeManager::GetGameTime() const
+{
+	return time;
+}
+
+float ModuleTimeManager::GetTimeScale() const
+{
+	return time_scale;
+}
+
+float ModuleTimeManager::GetGamedt() const
+{
+	return dt;
 }

@@ -14,6 +14,13 @@ public:
 
 	void ResetGameTimer();
 
+	uint GetFrameCount() const;
+	float GetRealTimeClock() const;
+	float GetRealdt() const;
+	float GetGameTime() const;
+	float GetTimeScale() const;
+	float GetGamedt() const;
+
 private:
 
 	//Real time clock (Engine time)

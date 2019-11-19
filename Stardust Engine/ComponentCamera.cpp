@@ -48,9 +48,11 @@ void ComponentCamera::Update() {
 		}
 	}
 	
-	glDisable(GL_LIGHTING);
-	DrawFrustum();
-	glEnable(GL_LIGHTING);
+	if (App->GetEngineState() == Engine_State_Editor) {
+		glDisable(GL_LIGHTING);
+		DrawFrustum();
+		glEnable(GL_LIGHTING);
+	}
 	
 }
 

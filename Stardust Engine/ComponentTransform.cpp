@@ -44,7 +44,8 @@ void ComponentTransform::DrawInspector() {
 	
 	}
 
-	HandleGizmos();
+	if (App->GetEngineState() == Engine_State_Editor)
+		HandleGizmos();
 }
 
 void ComponentTransform::HandleGizmos()
