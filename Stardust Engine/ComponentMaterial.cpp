@@ -16,18 +16,6 @@ ComponentMaterial::~ComponentMaterial()
 		gameObject->material = nullptr;
 }
 
-void ComponentMaterial::AssignTexture(const char* path)
-{
-	if (path) {
-		//Import texture with DevIL
-		bool charged = App->importer->ImportTexture((char*)path, tex_id, tex_width, tex_height);
-
-		if (charged) {
-			has_tex = true;
-			strcpy_s(tex_path, 500, path);
-		}
-	}
-}
 
 void ComponentMaterial::AssignTextureLib(const char * path)
 {
@@ -39,9 +27,14 @@ void ComponentMaterial::AssignTextureLib(const char * path)
 			has_tex = true;
 		//Maybe we can put the assets path here? or maybe not
 		*/
-
-		//SetPath(App->mat_import->GetTexturePathFromUUID(std::stoi(path))); //Check if stoi works
-		has_tex = App->mat_import->LoadMaterial(path, this);
+		string file(path);
+		if (file.find(".")) {
+			string aux1, aux2;
+			App->fs->SplitFilePath(path, &aux1, &file, &aux2);
+			file = file.substr(0, file.find_last_of("."));
+			has_tex = App->mat_import->LoadMaterial(file.c_str(), this);
+		}else
+			has_tex = App->mat_import->LoadMaterial(path, this);
 
 	}
 }
@@ -113,7 +106,8 @@ void ComponentMaterial::Save(JSON_Array* comp_array) {
 
 void ComponentMaterial::Load(JSON_Object* comp_obj) {
 
-	AssignTexture(json_object_get_string(comp_obj, "path"));
+	
 	uuid_mat = json_object_get_number(comp_obj, "UUID Material");
+	AssignTextureLib(json_object_get_string(comp_obj, "path"));
 
 }

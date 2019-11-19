@@ -142,7 +142,7 @@ bool ModuleImport::LoadMesh(const aiScene* scene, const aiNode* node, GameObject
 			//Create the material if the texture is found
 			if (App->fs->Exists(mat_path_s.c_str())) {
 				go->CreateComponent(Comp_Material);
-				go->material->AssignTexture(mat_path_s.c_str());
+				go->material->AssignTextureLib(mat_path_s.c_str());
 			}
 		}
 		// copy vertices

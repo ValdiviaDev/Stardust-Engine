@@ -27,9 +27,11 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 	std::string path_string(path);
 	std::string file_string(file);
 
+	App->fs->NormalizePath(file_string);
+
 	uint uuid_mat = App->GenerateUUID();
 
-	if (!IsTextureLoaded(file)) {
+	if (!IsTextureLoaded(file_string.c_str())) {
 
 		//if (IsFileDDS(file)) { //If file is already DDS just copy it to library
 		//	LOG("File already DDS, copying to library");
@@ -76,15 +78,15 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 		//}
 
 		if (ret) {
-			LOG("Texture imported correctly: %s from path %s", file, path);
-			string str = "Texture imported correctly: " + (string)file + " from path: " + path;
+			LOG("Texture imported correctly: %s from path %s", file_string.c_str(), path);
+			string str = "Texture imported correctly: " + file_string + " from path: " + path;
 			App->gui->AddLogToConsole(str.c_str());
 
-			string file_no_ext = file;
+			string file_no_ext = file_string;
 			//file_no_ext = file_no_ext.substr(0, file_no_ext.find_last_of("."));
 
-			SerializeNoComponent(file, uuid_mat);
-			AddTextureToList(file, uuid_mat);
+			SerializeNoComponent(file_string.c_str(), uuid_mat);
+			AddTextureToList(file_string.c_str(), uuid_mat);
 			file_no_ext = std::to_string(uuid_mat);
 			uid_out = uuid_mat;
 			App->gui->loaded_materials.push_back((string)file_no_ext);
@@ -92,14 +94,14 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 
 		}
 		else {
-			LOG("Can't import texture %s from path %s", file, path);
-			string str = "Can't import texture: " + (string)file + " from path: " + path;
+			LOG("Can't import texture %s from path %s", file_string.c_str(), path);
+			string str = "Can't import texture: " + file_string + " from path: " + path;
 			App->gui->AddLogToConsole(str.c_str());
 		}
 
 	}
 	else {
-		uid_out = GetUUIDFromFile(file);
+		uid_out = GetUUIDFromFile(file_string.c_str());
 	}
 
 	return ret;
@@ -108,7 +110,9 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 
 bool MaterialImporter::LoadMaterial(const char* file_name, ComponentMaterial* mat)
 {
-	std::string exported_file = LIBRARY_MAT_FOLDER + (string)file_name + ".dds";
+	std::string f(file_name);
+	App->fs->NormalizePath(f);
+	std::string exported_file = LIBRARY_MAT_FOLDER + f + ".dds";
 
 	//Bind DevIL image
 	uint image_id = 0;
@@ -252,9 +256,12 @@ uint MaterialImporter::AddTextureToList(const char* path, uint uuid) {
 
 bool MaterialImporter::IsTextureLoaded(const char* path) {
 
+	string path_no_ext(path);
+	path_no_ext = path_no_ext.substr(0, path_no_ext.find_last_of("."));
+
 	for (std::list<MatFileInfo>::const_iterator it = loaded_tex_list.begin(); it != loaded_tex_list.end(); it++) {
 		//if (strcmp(it->path.c_str(), path)) {
-		if (it->file == path) {
+		if (it->file == path || it->file == path_no_ext.c_str()) {
 	
 			LOG("Material Importer: Texture already loaded on list");
 			return true;
@@ -299,10 +306,13 @@ uint MaterialImporter::GetUUIDFromJSON(const char * file)
 
 uint MaterialImporter::GetUUIDFromFile(const char * file)
 {
+
+	string file_no_ext(file);
+	file_no_ext = file_no_ext.substr(0, file_no_ext.find_last_of("."));
 	
 	for (std::list<MatFileInfo>::const_iterator it = loaded_tex_list.begin(); it != loaded_tex_list.end(); it++) {
 
-		if (it->file == file) {
+		if (it->file == file || it->file == file_no_ext) {
 
 			return it->uuid;
 		}
