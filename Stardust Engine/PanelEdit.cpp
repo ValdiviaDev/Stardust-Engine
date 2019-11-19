@@ -46,8 +46,8 @@ void PanelEdit::Draw()
 			pause_but = "Pause";
 		}
 		else {
-			App->Play();
-			play_but = "Stop";
+			if(App->Play())
+				play_but = "Stop";
 		}
 	}
 	

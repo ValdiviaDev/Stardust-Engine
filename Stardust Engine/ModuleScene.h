@@ -53,6 +53,7 @@ public:
 	GameObject* GetGameObjectFromUUID(uint UUID, GameObject* root) const; //Send root 1st time
 	void CreateRootObject();
 
+	GameObject* CreateCamera(bool is_main_camera = false);
 	ComponentCamera* GetMainCamera() const;
 	void SetMainCamera(ComponentCamera* cam);
 

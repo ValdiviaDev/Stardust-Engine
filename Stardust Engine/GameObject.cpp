@@ -266,6 +266,31 @@ void GameObject::DrawComponentsInspector() {
 	if (camera)
 		camera->DrawInspector();
 
+	//Add component TODO
+	ImGui::Separator();
+	if (ImGui::Button("Add Component"))
+		ImGui::OpenPopup("New Component");
+	
+	if (ImGui::BeginPopupContextItem("New Component"))
+	{
+		if (mesh == nullptr) {
+			if (ImGui::MenuItem("Mesh"))
+				CreateComponent(Comp_Mesh);
+		}
+
+		if (material == nullptr) {
+			if (ImGui::MenuItem("Material"))
+				CreateComponent(Comp_Material);
+		}
+
+		if (camera == nullptr) {
+			if (ImGui::MenuItem("Camera"))
+				CreateComponent(Comp_Camera);
+		}
+
+		ImGui::EndPopup();
+	}
+
 }
 
 bool GameObject::IsObjectInHierarchy(GameObject * target, GameObject* curr_node)

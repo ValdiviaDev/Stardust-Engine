@@ -41,12 +41,10 @@ bool ModuleScene::Start()
 	//Initialize root GameObject
 	CreateRootObject();
 
-	GameObject* camera = new GameObject(root_object);
-	camera->CreateComponent(Comp_Camera);
-	camera->SetName("cameraobject");
-	SetMainCamera(camera->camera);
+	//Main camera
+	CreateCamera(true);
 
-	//Quadtree init TODO test
+	//Quadtree init
 	BuildQuadtree();
 
 
@@ -57,6 +55,18 @@ void ModuleScene::CreateRootObject() {
 	root_object = CreateGameObject(nullptr);
 	root_object->SetName("root");
 
+}
+
+GameObject * ModuleScene::CreateCamera(bool is_main_camera)
+{
+	GameObject* camera = new GameObject(root_object);
+	camera->CreateComponent(Comp_Camera);
+	camera->SetName("camera");
+
+	if(is_main_camera)
+		SetMainCamera(camera->camera);
+
+	return camera;
 }
 
 ComponentCamera * ModuleScene::GetMainCamera() const

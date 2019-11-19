@@ -106,7 +106,7 @@ public:
 	void SetEngineState(EngineState state);
 	EngineState GetEngineState() const;
 
-	void Play();
+	bool Play();
 	void Pause();
 	void Stop();
 

@@ -274,7 +274,7 @@ EngineState Application::GetEngineState() const
 	return engine_state;
 }
 
-void Application::Play()
+bool Application::Play()
 {
 	switch(engine_state){
 	case Engine_State_Editor:
@@ -290,12 +290,16 @@ void Application::Play()
 			scene->rebuild_quadtree = true;
 
 			SetEngineState(Engine_State_Play);
+
+			return true;
 		}
 		else
 			gui->AddLogToConsole("ERROR: You don't have a Main Camera GameObject on the scene!");
 		
 		break;
 	}
+
+	return false;
 }
 
 void Application::Pause()
@@ -325,6 +329,7 @@ void Application::Stop()
 		std::string aux = LIBRARY_FOLDER;
 		aux.append("tmp_scene.json");
 		tmp_scene.LoadScene(aux.c_str());
+		scene->rebuild_quadtree = true;
 
 		time->ResetGameTimer();
 		
