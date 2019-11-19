@@ -44,6 +44,7 @@ void SceneSerialization::SaveSceneFromMesh(const char* scene_name, std::list<Gam
 
 	LOG("Saving scene %s from mesh.", scene_name)
 
+
 	JSON_Value* root_value = json_value_init_array();
 	JSON_Array* array = json_value_get_array(root_value);
 
@@ -67,8 +68,11 @@ void SceneSerialization::LoadScene(const char* scene_name) {
 
 	LOG("Loading scene %s.", scene_name);
 
+	//Clean scene
 	App->scene->DestroyGOs();
+	App->scene->SetMainCamera(nullptr);
 
+	//Load scene
 	JSON_Value* root_value = json_parse_file(scene_name);
 	JSON_Array* array = json_value_get_array(root_value);
 	JSON_Object* object;

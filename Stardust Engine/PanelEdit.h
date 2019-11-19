@@ -2,6 +2,7 @@
 #define __PanelEdit_H__
 
 #include "Panel.h"
+#include "SceneSerialization.h"
 
 class PanelEdit : public Panel
 {
@@ -14,7 +15,7 @@ public:
 
 private:
 	bool playing = false;
-
+	SceneSerialization scene;
 };
 
 #endif
