@@ -38,6 +38,7 @@ public:
 	bool IsTextureLoaded(const char* path);
 	const char* GetTexturePathFromUUID(uint uuid); //file has to be for ex "BakerHouse.png"
 	uint GetUUIDFromJSON(const char* file);
+	uint GetUUIDFromFile(const char* file); //file has to be for ex "BakerHouse.png"
 
 public:
 	std::list<MatFileInfo> loaded_tex_list;

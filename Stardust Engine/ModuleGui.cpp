@@ -225,6 +225,8 @@ void ModuleGui::HandleMainMenuBar()
 						if(!go->material)
 							go->CreateComponent(Comp_Material);
 						go->material->AssignTextureLib(loaded_materials[i].c_str());
+
+						go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
 					}
 				}
 

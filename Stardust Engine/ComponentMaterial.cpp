@@ -32,13 +32,16 @@ void ComponentMaterial::AssignTexture(const char* path)
 void ComponentMaterial::AssignTextureLib(const char * path)
 {
 	if (path) {
-		//The path in this case is the name file (UUID maybe)
+		/*//The path in this case is the name file (UUID maybe)
 		bool charged = App->mat_import->LoadMaterial(path, this);
-
 
 		if (charged)
 			has_tex = true;
 		//Maybe we can put the assets path here? or maybe not
+		*/
+
+		//SetPath(App->mat_import->GetTexturePathFromUUID(std::stoi(path))); //Check if stoi works
+		has_tex = App->mat_import->LoadMaterial(path, this);
 
 	}
 }
@@ -55,7 +58,7 @@ bool ComponentMaterial::GetIfTex() const
 
 void ComponentMaterial::SetPath(const char * path)
 {
-	strcpy_s(tex_path, 500, path);
+	strcpy(tex_path, path);
 }
 
 

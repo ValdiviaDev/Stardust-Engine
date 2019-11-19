@@ -98,6 +98,9 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 		}
 
 	}
+	else {
+		uid_out = GetUUIDFromFile(file);
+	}
 
 	return ret;
 }
@@ -105,7 +108,7 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 
 bool MaterialImporter::LoadMaterial(const char* file_name, ComponentMaterial* mat)
 {
-	string exported_file = LIBRARY_MAT_FOLDER + (string)file_name + ".dds";
+	std::string exported_file = LIBRARY_MAT_FOLDER + (string)file_name + ".dds";
 
 	//Bind DevIL image
 	uint image_id = 0;
@@ -131,7 +134,9 @@ bool MaterialImporter::LoadMaterial(const char* file_name, ComponentMaterial* ma
 		return false;
 	}
 
-	mat->uuid_mat = GetUUIDFromJSON(file_name);
+	//mat->uuid_mat = GetUUIDFromJSON(file_name);
+	std::string json_file = LIBRARY_MAT_FOLDER + (string)file_name + ".json";
+	mat->uuid_mat = GetUUIDFromJSON(json_file.c_str());
 	mat->SetPath(GetTexturePathFromUUID(mat->uuid_mat));
 
 	//Get width and height
@@ -233,12 +238,12 @@ uint MaterialImporter::AddTextureToList(const char* path, uint uuid) {
 	}
 
 	char p[128];
-	strcpy(p, LIBRARY_MAT_FOLDER);//CHECK IF .png.dds
-	string name = path;
+	strcpy(p, LIBRARY_MAT_FOLDER);
+	std::string name = std::to_string(uuid);
 	name = name.substr(0, name.find_last_of("."));
-	
-	strcat(p, path);
+	strcat(p, name.c_str());
 	strcat(p, ".dds");
+
 	MatFileInfo aux(path, uuid, p);
 	loaded_tex_list.push_back(aux);
 
@@ -290,4 +295,19 @@ uint MaterialImporter::GetUUIDFromJSON(const char * file)
 
 	return aux;
 
+}
+
+uint MaterialImporter::GetUUIDFromFile(const char * file)
+{
+	
+	for (std::list<MatFileInfo>::const_iterator it = loaded_tex_list.begin(); it != loaded_tex_list.end(); it++) {
+
+		if (it->file == file) {
+
+			return it->uuid;
+		}
+	}
+
+	LOG("No UUID found from file: %s", file);
+	return 0;
 }
