@@ -16,11 +16,18 @@
 #include "MeshImporter.h"
 #include "MaterialImporter.h"
 #include "ModuleTimeManager.h"
+#include "SceneSerialization.h"
 //#include "MathGeoLib/include/Algorithm/Random/LCG.h"
 
 using namespace std;
 
 class ConfigEditor;
+
+enum EngineState {
+	Engine_State_Editor,
+	Engine_State_Play,
+	Engine_State_Pause,
+};
 
 
 struct Hardware_Info {
@@ -65,6 +72,8 @@ private:
 	int		cap = 60;
 	bool	fps_capped = true;
 
+	EngineState engine_state = Engine_State_Editor;
+	SceneSerialization tmp_scene;
 
 	list<Module*> list_modules;
 
@@ -95,7 +104,13 @@ public:
 	void SetIfFPSCapping(bool isCap);
 
 	void SaveHardwareInfo();
-	Hardware_Info GetHardwareInfo();
+	Hardware_Info GetHardwareInfo() const;
+	void SetEngineState(EngineState state);
+	EngineState GetEngineState() const;
+
+	void Play();
+	void Pause();
+	void Stop();
 
 	void SaveConfig() const;
 	void LoadConfig();

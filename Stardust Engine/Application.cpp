@@ -262,9 +262,76 @@ void Application::SaveHardwareInfo()
 	h_info.using_SSE42 = SDL_HasSSE42();
 }
 
-Hardware_Info Application::GetHardwareInfo()
+Hardware_Info Application::GetHardwareInfo() const
 {
 	return h_info;
+}
+
+void Application::SetEngineState(EngineState state)
+{
+	engine_state = state;
+}
+
+EngineState Application::GetEngineState() const
+{
+	return engine_state;
+}
+
+void Application::Play()
+{
+	switch(engine_state){
+	case Engine_State_Editor:
+		if (scene->GetMainCamera() != nullptr) {
+			//Change camera view
+			camera->current_cam = scene->GetMainCamera();
+			renderer3D->RecalculateProjMat();
+
+			//Save scene tmp
+			std::string aux = LIBRARY_FOLDER;
+			aux.append("tmp_scene.json");
+			tmp_scene.SaveScene(aux.c_str());
+			scene->rebuild_quadtree = true;
+
+			SetEngineState(Engine_State_Play);
+		}
+		else
+			gui->AddLogToConsole("ERROR: You don't have a Main Camera GameObject on the scene!");
+		
+		break;
+	}
+}
+
+void Application::Pause()
+{
+	switch (engine_state) {
+	case Engine_State_Play:
+		SetEngineState(Engine_State_Pause);
+		break;
+	case Engine_State_Pause:
+		SetEngineState(Engine_State_Play);
+		break;
+	}
+}
+
+void Application::Stop()
+{
+	switch (engine_state) {
+	case Engine_State_Play:
+	case Engine_State_Pause:
+		//Change camera view
+		camera->current_cam = App->camera->engine_cam;
+		renderer3D->RecalculateProjMat();
+
+		//Load scene tmp
+		std::string aux = LIBRARY_FOLDER;
+		aux.append("tmp_scene.json");
+		tmp_scene.LoadScene(aux.c_str());
+
+		time->ResetGameTimer();
+
+		SetEngineState(Engine_State_Editor);
+		break;
+	}
 }
 
 void Application::AddModule(Module* mod)

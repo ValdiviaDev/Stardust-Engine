@@ -11,11 +11,9 @@ public:
 	virtual ~PanelEdit();
 	
 	void Draw();
-	void ChangeCameraView();
 
 private:
-	bool playing = false;
-	SceneSerialization scene;
+
 };
 
 #endif

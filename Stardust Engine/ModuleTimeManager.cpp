@@ -13,7 +13,38 @@ ModuleTimeManager::~ModuleTimeManager()
 {
 }
 
+update_status ModuleTimeManager::PostUpdate(float dt)
+{
+	frame_count++;
+
+	real_dt = dt;
+	real_time += real_dt;
+
+	switch (App->GetEngineState()) {
+	case Engine_State_Editor:
+		break;
+
+	case Engine_State_Play:
+		this->dt = real_dt * time_scale;
+		time += this->dt;
+		break;
+
+	case Engine_State_Pause:
+		this->dt = 0.0f;
+		break;
+
+	}
+
+	return UPDATE_CONTINUE;
+}
+
 bool ModuleTimeManager::CleanUp()
 {
 	return true;
+}
+
+void ModuleTimeManager::ResetGameTimer()
+{
+	time = 0.0f;
+	this->dt = 0.0f;
 }

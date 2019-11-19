@@ -29,6 +29,8 @@ void PanelEdit::Draw()
 	}
 
 	static const char* play_but = "Play";
+	static const char* pause_but = "Pause";
+	EngineState engine_state = App->GetEngineState();
 	ImGui::Begin("Edit", &active, ImGuiWindowFlags_None);
 
 	// Guizmos TODO
@@ -36,51 +38,32 @@ void PanelEdit::Draw()
 	// Play/Pause
 	ImGui::SetCursorPos({ (float)(width / 2 - 35), (float)(height / 3) });
 	
-
-	if (ImGui::Button(play_but, { 50, 35 })) {
-		ChangeCameraView();
-
-		if (playing)
-			play_but = "Stop";
-		else
+	//Play/Stop
+	if (ImGui::Button(play_but, { 55, 35 })) {
+		if (engine_state != Engine_State_Editor) {
+			App->Stop();
 			play_but = "Play";
+			pause_but = "Pause";
+		}
+		else {
+			App->Play();
+			play_but = "Stop";
+		}
 	}
 	
+	//Pause
 	ImGui::SetCursorPos({ (float)(width / 2 + 35), (float)(height / 3) });
-	ImGui::Button("Pause", { 50, 35 });
+	if (ImGui::Button(pause_but, { 55, 35 })) {
+		if (engine_state == Engine_State_Play)
+			pause_but = "Unpause";
+		else if (engine_state == Engine_State_Pause)
+			pause_but = "Pause";
+		
+		App->Pause();
+	}
 
 	// Debug buttons TODO
 
 	ImGui::End();
 
-}
-
-void PanelEdit::ChangeCameraView()
-{
-	if (!playing) {
-		if (App->scene->GetMainCamera() != nullptr) {
-			App->camera->current_cam = App->scene->GetMainCamera();
-			App->renderer3D->RecalculateProjMat();
-			
-			//Save scene tmp
-			std::string aux = LIBRARY_FOLDER;
-			aux.append("tmp_scene.json");
-			scene.SaveScene(aux.c_str());
-			
-			playing = true;
-		}
-		else
-			App->gui->AddLogToConsole("ERROR: You don't have a Main Camera GameObject on the scene!");
-	}
-	else {
-		App->camera->current_cam = App->camera->engine_cam;
-		App->renderer3D->RecalculateProjMat();
-
-		//Load scene tmp
-		std::string aux = LIBRARY_FOLDER;
-		aux.append("tmp_scene.json");
-		scene.LoadScene(aux.c_str());
-
-		playing = false;
-	}
 }

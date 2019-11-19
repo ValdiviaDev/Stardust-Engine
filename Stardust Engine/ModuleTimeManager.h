@@ -9,13 +9,16 @@ public:
 	ModuleTimeManager(Application* app, bool start_enabled = true);
 	~ModuleTimeManager();
 
+	update_status PostUpdate(float dt);
 	bool CleanUp();
+
+	void ResetGameTimer();
 
 private:
 
 	//Real time clock (Engine time)
-	int frame_count = 0; //App graphics frames since game start
-	float real_time_since_startup = 0.0f; //Seconds since game start
+	uint frame_count = 0; //App graphics frames since game start
+	float real_time = 0.0f; //Seconds since engine has been opened
 	float real_dt = 0.0f; //Last frame time expressed in seconds
 
 	//Game clock
