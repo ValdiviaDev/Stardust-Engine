@@ -61,6 +61,12 @@ void PanelEdit::ChangeCameraView()
 		if (App->scene->GetMainCamera() != nullptr) {
 			App->camera->current_cam = App->scene->GetMainCamera();
 			App->renderer3D->RecalculateProjMat();
+			
+			//Save scene tmp
+			std::string aux = LIBRARY_FOLDER;
+			aux.append("tmp_scene.json");
+			scene.SaveScene(aux.c_str());
+			
 			playing = true;
 		}
 		else
@@ -69,6 +75,12 @@ void PanelEdit::ChangeCameraView()
 	else {
 		App->camera->current_cam = App->camera->engine_cam;
 		App->renderer3D->RecalculateProjMat();
+
+		//Load scene tmp
+		std::string aux = LIBRARY_FOLDER;
+		aux.append("tmp_scene.json");
+		scene.LoadScene(aux.c_str());
+
 		playing = false;
 	}
 }

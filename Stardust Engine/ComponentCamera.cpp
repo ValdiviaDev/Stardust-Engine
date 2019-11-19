@@ -292,6 +292,7 @@ void ComponentCamera::Save(JSON_Array* comp_array) {
 	JSON_Object* obj = json_value_get_object(value);
 
 	json_object_set_number(obj, "Component Type", type);
+	json_object_set_boolean(obj, "Main Camera", main_camera);
 	json_object_set_number(obj, "Aspect Ratio", aspect_ratio);
 	json_object_set_number(obj, "FOV", GetFOV());
 	json_object_set_number(obj, "Far Plane", frustum.farPlaneDistance);
@@ -304,6 +305,10 @@ void ComponentCamera::Save(JSON_Array* comp_array) {
 
 
 void ComponentCamera::Load(JSON_Object* comp_obj) {
+
+	main_camera = json_object_get_boolean(comp_obj, "Main Camera");
+	if (main_camera)
+		App->scene->SetMainCamera(this);
 
 	SetAspectRatio(json_object_get_number(comp_obj, "Aspect Ratio"));
 	SetFOV(json_object_get_number(comp_obj, "FOV"));

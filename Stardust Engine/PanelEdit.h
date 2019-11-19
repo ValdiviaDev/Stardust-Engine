@@ -1,5 +1,9 @@
-#pragma once
+#ifndef __PanelEdit_H__
+#define __PanelEdit_H__
+
 #include "Panel.h"
+#include "SceneSerialization.h"
+
 class PanelEdit : public Panel
 {
 public:
@@ -11,6 +15,7 @@ public:
 
 private:
 	bool playing = false;
-
+	SceneSerialization scene;
 };
 
+#endif
