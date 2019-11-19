@@ -16,7 +16,6 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	gui = new ModuleGui(this);
 	fs = new ModuleFileSystem(this);
-	importer = new ModuleImport(this);
 	time = new ModuleTimeManager(this);
 	mat_import = new MaterialImporter();
 	mesh_import = new MeshImporter();
@@ -31,8 +30,6 @@ Application::Application()
 	AddModule(input);
 	AddModule(fs);
 	AddModule(time);
-	AddModule(importer);
-
 
 	// Scene
 	AddModule(scene);

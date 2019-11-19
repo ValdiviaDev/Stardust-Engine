@@ -166,7 +166,7 @@ void ModuleGui::HandleMainMenuBar()
 	static bool quit_engine = false;
 	static bool save_scene = false;
 	static bool load_scene = false;
-
+	bool is_in_editor = true;
 
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -174,11 +174,14 @@ void ModuleGui::HandleMainMenuBar()
 		{
 			ImGui::MenuItem("Exit", "ESC", &quit_engine);
 
-			if (ImGui::MenuItem("Save scene")) 				
+			if(App->GetEngineState() != Engine_State_Editor)
+				is_in_editor = false;
+
+			if (ImGui::MenuItem("Save scene", "", false, is_in_editor))
 				save_scene_clicked = true;
 			
 
-			if (ImGui::MenuItem("Load scene"))
+			if (ImGui::MenuItem("Load scene", "", false, is_in_editor))
 				load_scene_clicked = true;
 				
 

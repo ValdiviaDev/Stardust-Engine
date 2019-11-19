@@ -6,6 +6,7 @@
 #include "ModuleFileSystem.h"
 #include "SceneSerialization.h"
 
+#pragma comment (lib, "Assimp/libx86/assimp.lib")
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"

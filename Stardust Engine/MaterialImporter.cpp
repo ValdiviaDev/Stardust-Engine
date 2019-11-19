@@ -2,7 +2,6 @@
 #include "ComponentMaterial.h"
 #include "Application.h"
 
-#pragma comment (lib, "Assimp/libx86/assimp.lib")
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
 #pragma comment (lib, "DevIL/libx86/ILU.lib")
 #pragma comment (lib, "DevIL/libx86/ILUT.lib")
@@ -13,6 +12,11 @@
 
 MaterialImporter::MaterialImporter()
 {
+	//Init DevIL
+	ilInit();
+	iluInit();
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
 }
 
 
@@ -151,6 +155,8 @@ bool MaterialImporter::LoadMaterial(const char* file_name, ComponentMaterial* ma
 
 	//Bind DevIL to OpenGL texture buffer
 	mat->tex_id = ilutGLBindTexImage();
+
+	//TODO ????????????
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -228,9 +234,6 @@ bool MaterialImporter::IsFileDDS(const char* file_name) {
 
 
 uint MaterialImporter::AddTextureToList(const char* path, uint uuid) {
-
-
-	
 
 	for (std::list<MatFileInfo>::const_iterator it = loaded_tex_list.begin(); it != loaded_tex_list.end(); it++) {
 

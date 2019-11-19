@@ -10,9 +10,6 @@
     <ClCompile Include="Color.cpp">
       <Filter>Sources\Containers</Filter>
     </ClCompile>
-    <ClCompile Include="glmath.cpp">
-      <Filter>Sources\Containers</Filter>
-    </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
@@ -175,9 +172,6 @@
     <ClCompile Include="mmgr\mmgr.cpp">
       <Filter>Sources\Tools\mmgr</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleImport.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleFileSystem.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
@@ -238,9 +232,6 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="Color.h">
-      <Filter>Sources\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="glmath.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
@@ -512,9 +503,6 @@
     </ClInclude>
     <ClInclude Include="mmgr\nommgr.h">
       <Filter>Sources\Tools\mmgr</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleImport.h">
-      <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="ModuleFileSystem.h">
       <Filter>Sources\Modules</Filter>

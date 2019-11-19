@@ -3,10 +3,32 @@
 
 #include "Component.h"
 #include "Application.h"
-#include "ModuleImport.h"
 
+struct geo_info {
 
+	//Vertex info
+	uint id_vertex = 0;
+	uint num_vertex = 0;
+	float* vertex = nullptr;
 
+	//Index info
+	uint id_index = 0;
+	uint num_index = 0;
+	uint* index = nullptr;
+
+	//Normals info
+	uint id_normal = 0;
+	uint num_normal = 0;
+	float* normal = nullptr;
+
+	//UVs info
+	uint id_uv = 0;
+	uint num_uv = 0;
+	float* uv = nullptr;
+
+	bool has_no_triangle = false;
+
+};
 
 class ComponentMesh : public Component //TODO
 {
@@ -16,8 +38,6 @@ public:
 
 	void Save(JSON_Array* comp_array);
 	void Load(JSON_Object* comp_obj);
-
-	void AssignMesh(const char* path);
 
 	geo_info GetInfo() const;
 	bool IsPrimitive() const;
@@ -29,6 +49,8 @@ public:
 
 	void SetPath(const char* path);
 
+	void BindBuffers();
+	void BindBuffersPrimitive();
 	
 
 public:

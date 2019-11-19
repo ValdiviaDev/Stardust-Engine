@@ -90,7 +90,6 @@
     <ClInclude Include="Glew\include\glew.h" />
     <ClInclude Include="Glew\include\glxew.h" />
     <ClInclude Include="Glew\include\wglew.h" />
-    <ClInclude Include="glmath.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -169,7 +168,6 @@
     <ClInclude Include="ModuleCamera3D.h" />
     <ClInclude Include="ModuleFileSystem.h" />
     <ClInclude Include="ModuleGui.h" />
-    <ClInclude Include="ModuleImport.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleInput.h" />
@@ -200,7 +198,6 @@
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="ConfigEditor.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="glmath.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\ImGuizmo.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -249,7 +246,6 @@
     <ClCompile Include="ModuleCamera3D.cpp" />
     <ClCompile Include="ModuleFileSystem.cpp" />
     <ClCompile Include="ModuleGui.cpp" />
-    <ClCompile Include="ModuleImport.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleScene.cpp" />

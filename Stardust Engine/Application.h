@@ -11,7 +11,6 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleGui.h"
-#include "ModuleImport.h"
 #include "ModuleFileSystem.h"
 #include "MeshImporter.h"
 #include "MaterialImporter.h"
@@ -57,7 +56,6 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleGui* gui;
-	ModuleImport* importer;
 	ModuleFileSystem* fs;
 	ModuleTimeManager* time;
 	MaterialImporter* mat_import;
