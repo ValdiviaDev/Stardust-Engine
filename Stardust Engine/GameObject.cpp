@@ -312,85 +312,14 @@ bool GameObject::IsObjectInHierarchy(GameObject * target, GameObject* curr_node)
 
 void GameObject::CenterCameraOnGO() const {
 
-	geo_info info = mesh->GetInfo();
-	int num_vertex = info.num_vertex;
+	float3 dir_vector = transform->GetGlobalPos() - App->camera->engine_cam->frustum.pos;
+	dir_vector.Normalize();
 
-	float max_x = 0, min_x = 0, max_y = 0, min_y = 0, max_z = 0, min_z = 0;
-
-	for (int i = 0; i < num_vertex; i+=3) {
-		if (i == 0)
-		{
-			max_x = min_x = info.vertex[0];
-			max_y = min_y = info.vertex[1];
-			max_z = min_z = info.vertex[2];
-		}
-
-		if (info.vertex[i] > max_x) {
-			
-			max_x = info.vertex[i];
-			
-		}
-		if (info.vertex[i] < min_x) {
-			
-			min_x = info.vertex[i];
-
-		}
-
-		if (info.vertex[i + 1] > max_y) {
-			
-			max_y = info.vertex[i + 1];
-
-		}
-		if (info.vertex[i + 1] < min_y) {
-			
-			min_y = info.vertex[i + 1];
-
-		}
-
-		if (info.vertex[i + 2] > max_z) {
-			
-				max_z = info.vertex[i + 2];
-
-		}
-		if (info.vertex[i + 2] < min_z) {
-			
-				min_z = info.vertex[i + 2];
-
-		}
-	}
-
-	
-
-	float dist;
-	if (max_x - min_x > max_y - min_y)
-		dist = max_x - min_x;
-	else
-		dist = max_y - min_y;
-
-	float z_length = max_z - min_z;
-
-	LOG("MAX(%f, %f, %f), min(%f, %f, %f). Dist = %f, Z = %f", max_x, max_y, max_z, min_x, min_y, min_z, dist, z_length);
-
-	//d = (s/2) / tan(a/2)
-	dist = 1 + z_length + ( (dist / 2) / math::Tan(DEGTORAD * 30));
-	LOG("formula = %f", dist);
+	float rad = bounding_box.MinimalEnclosingSphere().r;
+	float dist = math::Abs(App->camera->engine_cam->frustum.orthographicWidth / App->camera->engine_cam->frustum.orthographicHeight * rad / math::Sin(App->camera->engine_cam->frustum.verticalFov / 2));
 
 
-	float offset_y = 0;
-	offset_y = min_y;
-
-	if (transform) {
-		
-		float3 pos = transform->GetGlobalPos();
-		float3 scale = transform->GetGlobalScale();
-		App->camera->Look(float3(pos.x + (min_x + (max_x - min_x)/2) * scale.x, pos.y + (min_y + (max_y - min_y) / 2) * scale.y , (pos.z + dist) * scale.z), float3(pos.x + (min_x + (max_x - min_x) / 2)*scale.x, pos.y + (min_y + (max_y - min_y) / 2) * scale.y, pos.z * scale.z));
-	}
-	else {
-		App->camera->Look(float3(0, 0, dist), float3(0, 0, 0));
-	}
-
-	
-	
+	App->camera->Look(bounding_box.Centroid() + dir_vector * dist, bounding_box.Centroid());
 
 }
 
