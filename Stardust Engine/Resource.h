@@ -27,6 +27,9 @@ public:
 	//virtual void Load(const Config& config);
 	virtual bool LoadInMemory() = 0;
 
+	void SetFile(std::string file);
+	void SetImportedFile(std::string imported_file);
+
 protected:
 	UID uuid = 0;
 	std::string file;
