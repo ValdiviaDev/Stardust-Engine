@@ -115,8 +115,8 @@ update_status ModuleScene::PostUpdate(float dt) {
 		std::string aux = ASSETS_SCENE_FOLDER;
 		aux += App->gui->scene_name;
 		aux.append(".json");
-		SceneSerialization s;
-		s.SaveScene(aux.c_str()); 
+	
+		App->scene_serialization->SaveScene(aux.c_str());
 	}
 
 	if (want_to_load) {
@@ -125,8 +125,8 @@ update_status ModuleScene::PostUpdate(float dt) {
 		std::string aux = ASSETS_SCENE_FOLDER;
 		aux += App->gui->scene_name;
 		aux.append(".json");
-		SceneSerialization s;
-		s.LoadScene(aux.c_str());
+		
+		App->scene_serialization->LoadScene(aux.c_str());
 		rebuild_quadtree = true;
 	}
 

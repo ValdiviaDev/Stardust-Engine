@@ -125,8 +125,8 @@ update_status ModuleInput::PreUpdate(float dt)
 					App->gui->AddLogToConsole("Charging 3D model");
 					if (App->fs->Exists(path_and_file.c_str())) {
 						LOG("Scene for object already exists, load .json.");
-						SceneSerialization s;
-						s.LoadScene(path_and_file.c_str());
+						
+						App->scene_serialization->LoadScene(path_and_file.c_str());
 					}
 					else {
 						
@@ -135,8 +135,8 @@ update_status ModuleInput::PreUpdate(float dt)
 
 						if (App->fs->Exists(path_and_file.c_str())) {
 							LOG("Scene saved and now loading from it");
-							SceneSerialization s;
-							s.LoadScene(path_and_file.c_str());
+						
+							App->scene_serialization->LoadScene(path_and_file.c_str());
 
 						}
 

@@ -60,6 +60,7 @@ public:
 	ModuleTimeManager* time;
 	MaterialImporter* mat_import;
 	MeshImporter* mesh_import;
+	SceneSerialization* scene_serialization;
 
 private:
 
