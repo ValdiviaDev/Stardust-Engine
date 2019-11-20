@@ -547,7 +547,7 @@ void ModuleScene::UnfocusGameObjects()
 
 
 
-GameObject* ModuleScene::GetFocusedGameObject(GameObject* root) const {
+GameObject* ModuleScene::GetFocusedGameObject() const {
 
 	return focused_object;
 }

@@ -62,6 +62,12 @@ void PanelEdit::Draw()
 		App->Pause();
 	}
 
+
+	//Time scale slider
+	//ImGui::SetCursorPos({ (float)(width / 2 + 70), (float)(height / 3) });
+	//ImGui::SliderFloat("Time scale", &App->time->time_scale, 0.0f, 2.0f);
+	
+
 	// Debug buttons TODO
 
 	ImGui::End();

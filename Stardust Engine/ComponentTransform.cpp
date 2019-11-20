@@ -23,6 +23,13 @@ ComponentTransform::~ComponentTransform()
 		gameObject->transform = nullptr;
 }
 
+void ComponentTransform::Update()
+{
+	if (gameObject->focused && 
+		App->GetEngineState() == Engine_State_Editor)
+		HandleGizmos();
+}
+
 
 void ComponentTransform::DrawInspector() {
 
@@ -44,8 +51,6 @@ void ComponentTransform::DrawInspector() {
 	
 	}
 
-	if (App->GetEngineState() == Engine_State_Editor)
-		HandleGizmos();
 }
 
 void ComponentTransform::HandleGizmos()

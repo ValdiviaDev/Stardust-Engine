@@ -17,7 +17,7 @@ update_status ModuleTimeManager::PostUpdate(float dt)
 {
 	frame_count++;
 
-	real_dt = dt;
+	real_dt = App->Getdt();
 	real_time += real_dt;
 
 	switch (App->GetEngineState()) {

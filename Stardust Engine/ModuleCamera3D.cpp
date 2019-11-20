@@ -172,7 +172,7 @@ void ModuleCamera3D::OrbitArroundObject(float dt)
 	//Reference is the GameObject we are pointing to
 
 	float3 point;
-	GameObject* focus = App->scene->GetFocusedGameObject(App->scene->GetRootGameObject());
+	GameObject* focus = App->scene->GetFocusedGameObject();
 	if (focus && focus->transform) {
 		float3 GO_pos = focus->transform->GetGlobalPos();
 		point = GO_pos;
@@ -214,7 +214,7 @@ void ModuleCamera3D::ZoomInOut(float wheel_speed)
 
 void ModuleCamera3D::FocusInObject()
 {
-	GameObject* focus = App->scene->GetFocusedGameObject(App->scene->GetRootGameObject());
+	GameObject* focus = App->scene->GetFocusedGameObject();
 	if (focus != nullptr && focus->mesh != nullptr)
 		focus->CenterCameraOnGO();
 }

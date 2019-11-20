@@ -48,6 +48,9 @@ void GameObject::Update()
 		childs[i]->Update();
 	}
 
+	if (transform && this != App->scene->GetRootGameObject())
+		transform->Update();
+
 	if (camera)
 		camera->Update();
 }

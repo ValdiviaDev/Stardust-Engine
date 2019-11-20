@@ -226,7 +226,7 @@ void ModuleGui::HandleMainMenuBar()
 			for (int i = 0; i < loaded_materials.size(); ++i)
 				if (ImGui::MenuItem(loaded_materials[i].c_str()))
 				{
-					GameObject* go = App->scene->GetFocusedGameObject(App->scene->GetRootGameObject());
+					GameObject* go = App->scene->GetFocusedGameObject();
 					if (go) {
 						if(!go->material)
 							go->CreateComponent(Comp_Material);

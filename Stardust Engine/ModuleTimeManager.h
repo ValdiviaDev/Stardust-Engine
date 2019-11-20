@@ -21,6 +21,10 @@ public:
 	float GetTimeScale() const;
 	float GetGamedt() const;
 
+public:
+
+	float time_scale = 1.0f; //Scale at which time si passing
+
 private:
 
 	//Real time clock (Engine time)
@@ -30,7 +34,6 @@ private:
 
 	//Game clock
 	float time = 0.0f; //Seconds since game started
-	float time_scale = 1.0f; //Scale at which time si passing
 	float dt = 0.0f; //Last frame time expressed in seconds
 
 };

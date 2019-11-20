@@ -65,6 +65,7 @@ private:
 
 	Timer	ms_timer;
 	float	dt;
+	float curr_dt;
 	int		last_frame_ms;
 	int		capped_ms;
 	int		cap = 60;
@@ -96,6 +97,7 @@ public:
 	void RequestBrowser(const char* website) const;
 	float GetFPS() const;
 	float GetMS() const;
+	float Getdt() const;
 	int GetFPSCap() const;
 	void SetFPSCap(int cap);
 	bool GetIfFPSCapping() const;

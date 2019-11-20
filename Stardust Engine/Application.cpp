@@ -94,6 +94,17 @@ void Application::PrepareUpdate()
 {
 	dt = (float)ms_timer.Read() / 1000.0f;
 	ms_timer.Start();
+
+	//Grab dt depending if we're in editor or in game
+	switch (engine_state) {
+	case Engine_State_Editor:
+		curr_dt = dt;
+		break;
+	case Engine_State_Play:
+	case Engine_State_Pause:
+		curr_dt = time->GetGamedt();
+	}
+
 }
 
 // ---------------------------------------------
@@ -118,7 +129,7 @@ update_status Application::Update()
 	
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		ret = (*item)->PreUpdate(dt);
+		ret = (*item)->PreUpdate(curr_dt);
 		item++;
 	}
 
@@ -126,7 +137,7 @@ update_status Application::Update()
 
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		ret = (*item)->Update(dt);
+		ret = (*item)->Update(curr_dt);
 		item++;
 	}
 
@@ -134,7 +145,7 @@ update_status Application::Update()
 
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		ret = (*item)->PostUpdate(dt);
+		ret = (*item)->PostUpdate(curr_dt);
 		item++;
 	}
 
@@ -215,6 +226,11 @@ float Application::GetFPS() const
 float Application::GetMS() const 
 {
 	return ((float)last_frame_ms);
+}
+
+float Application::Getdt() const
+{
+	return dt;
 }
 
 int Application::GetFPSCap() const
