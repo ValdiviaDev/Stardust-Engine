@@ -16,6 +16,7 @@
 #include "MaterialImporter.h"
 #include "ModuleTimeManager.h"
 #include "SceneSerialization.h"
+#include "ModuleResourceManager.h"
 //#include "MathGeoLib/include/Algorithm/Random/LCG.h"
 
 using namespace std;
@@ -58,6 +59,7 @@ public:
 	ModuleGui* gui;
 	ModuleFileSystem* fs;
 	ModuleTimeManager* time;
+	ModuleResourceManager* resources;
 	MaterialImporter* mat_import;
 	MeshImporter* mesh_import;
 

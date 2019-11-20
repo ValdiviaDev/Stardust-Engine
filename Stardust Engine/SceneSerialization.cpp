@@ -1,8 +1,8 @@
+#include "Application.h"
 #include "SceneSerialization.h"
 #include "ModuleScene.h"
 #include "Component.h"
 #include "ConfigEditor.h"
-#include "Application.h"
 
 SceneSerialization::SceneSerialization() {
 

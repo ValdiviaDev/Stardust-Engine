@@ -171,6 +171,7 @@
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleInput.h" />
+    <ClInclude Include="ModuleResourceManager.h" />
     <ClInclude Include="ModuleScene.h" />
     <ClInclude Include="ModuleTimeManager.h" />
     <ClInclude Include="ModuleWindow.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Parson\parson.h" />
     <ClInclude Include="Par\par_shapes.h" />
     <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Resource.h" />
     <ClInclude Include="SceneSerialization.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
@@ -248,6 +250,7 @@
     <ClCompile Include="ModuleGui.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleRenderer3D.cpp" />
+    <ClCompile Include="ModuleResourceManager.cpp" />
     <ClCompile Include="ModuleScene.cpp" />
     <ClCompile Include="ModuleTimeManager.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
@@ -261,6 +264,7 @@
     <ClCompile Include="PanelInspector.cpp" />
     <ClCompile Include="Parson\parson.c" />
     <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="Resource.cpp" />
     <ClCompile Include="SceneSerialization.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>

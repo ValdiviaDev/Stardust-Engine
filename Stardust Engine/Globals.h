@@ -17,8 +17,8 @@ void log(const char file[], int line, const char* format, ...);
 #define RADTODEG 57.295779513082320876f
 #define HAVE_M_PI
 
-
 typedef unsigned int uint;
+typedef unsigned int UID;
 
 enum update_status
 {
