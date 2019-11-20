@@ -223,6 +223,12 @@
     <ClCompile Include="ModuleTimeManager.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleResourceManager.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -555,6 +561,12 @@
     <ClInclude Include="ModuleTimeManager.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleResourceManager.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -613,6 +625,9 @@
     </Filter>
     <Filter Include="Sources\Importers">
       <UniqueIdentifier>{bbd316f7-4e5c-4da8-b43f-792796435363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Resources">
+      <UniqueIdentifier>{2081c8b3-98a0-49ac-baad-b0ce159311cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

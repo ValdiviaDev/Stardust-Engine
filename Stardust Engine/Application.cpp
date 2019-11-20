@@ -17,6 +17,7 @@ Application::Application()
 	gui = new ModuleGui(this);
 	fs = new ModuleFileSystem(this);
 	time = new ModuleTimeManager(this);
+	resources = new ModuleResourceManager(this);
 	mat_import = new MaterialImporter();
 	mesh_import = new MeshImporter();
 	scene_serialization = new SceneSerialization();
@@ -30,6 +31,7 @@ Application::Application()
 	AddModule(camera);
 	AddModule(input);
 	AddModule(fs);
+	AddModule(resources);
 	AddModule(time);
 
 	// Scene
