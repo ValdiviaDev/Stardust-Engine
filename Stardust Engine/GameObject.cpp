@@ -312,8 +312,10 @@ bool GameObject::IsObjectInHierarchy(GameObject * target, GameObject* curr_node)
 
 void GameObject::CenterCameraOnGO() const {
 
-	float3 dir_vector = transform->GetGlobalPos() - App->camera->engine_cam->frustum.pos;
+	float3 dir_vector = -transform->GetGlobalPos() + App->camera->engine_cam->frustum.pos;
 	dir_vector.Normalize();
+
+	
 
 	float rad = bounding_box.MinimalEnclosingSphere().r;
 	float dist = math::Abs(App->camera->engine_cam->frustum.orthographicWidth / App->camera->engine_cam->frustum.orthographicHeight * rad / math::Sin(App->camera->engine_cam->frustum.verticalFov / 2));
