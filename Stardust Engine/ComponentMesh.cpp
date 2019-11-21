@@ -98,8 +98,8 @@ void ComponentMesh::FillPrimitiveDrawInfo(par_shapes_mesh* shape)
 bool ComponentMesh::LoadMesh(string name)
 {
 	string path = name + "." + MESH_EXTENSION;
-	bool ret = App->mesh_import->LoadMesh(path.c_str(), m_info);
-	
+	//bool ret = App->mesh_import->LoadMesh(path.c_str(), m_info);
+	bool ret = true;
 	BindBuffers();
 	gameObject->UpdateBoundingBox();
 

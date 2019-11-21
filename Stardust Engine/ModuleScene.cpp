@@ -24,6 +24,7 @@
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
 
+#include "ResourceMesh.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, "Scene", start_enabled)
@@ -234,31 +235,32 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 
 		//Model
 		ComponentMesh* c_mesh = go->mesh;
-		geo_info mesh = go->mesh->GetInfo();
+		ResourceMesh* mesh = (ResourceMesh*)App->resources->Get(c_mesh->uuid_mesh);
+		//geo_info mesh = go->mesh->GetInfo();
 
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 		
 		if (!go->mesh->IsPrimitive()) {
 			glEnableClientState(GL_NORMAL_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_normal);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normal);
 			glNormalPointer(GL_FLOAT, 0, NULL);
 
-			if (mesh.uv != nullptr) {
+			if (mesh->uv != nullptr) {
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uv);
 				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 			}
 
 		}
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_index);
 
 		if(!go->mesh->IsPrimitive())
-			glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_INT, NULL);
+			glDrawElements(GL_TRIANGLES, mesh->num_index * 3, GL_UNSIGNED_INT, NULL);
 		else
-			glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_SHORT, NULL);
+			glDrawElements(GL_TRIANGLES, mesh->num_index * 3, GL_UNSIGNED_SHORT, NULL);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

@@ -215,18 +215,18 @@ void ModuleGui::HandleMainMenuBar()
 
 				if (ImGui::MenuItem(uuid_str.c_str()))
 				{
-					GameObject* go = App->scene->CreateGameObject(App->scene->GetRootGameObject());
-					go->SetName(uuid_str.c_str());
-					go->CreateComponent(Comp_Mesh);
-					go->mesh->uuid_mesh = loaded_meshes_uuid[i];
-					go->mesh->LoadMesh(uuid_str);
-					go->UpdateBoundingBox();
-
-					//Todo Create resource mesh
+					//Todo load resource mesh
 					ResourceMesh* res_mesh;
 					res_mesh = (ResourceMesh*)App->resources->Get(loaded_meshes_uuid[i]);
 					if (res_mesh)
 						res_mesh->LoadToMemory();
+
+					GameObject* go = App->scene->CreateGameObject(App->scene->GetRootGameObject());
+					go->SetName(uuid_str.c_str());
+					go->CreateComponent(Comp_Mesh);
+					go->mesh->uuid_mesh = loaded_meshes_uuid[i];
+					//go->mesh->LoadMesh(uuid_str);
+					go->UpdateBoundingBox();
 
 				}
 			}

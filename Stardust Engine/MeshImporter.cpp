@@ -5,6 +5,7 @@
 #include "ComponentMaterial.h"
 #include "ModuleFileSystem.h"
 #include "SceneSerialization.h"
+#include "ResourceMesh.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 #include "Assimp/include/cimport.h"
@@ -121,7 +122,7 @@ bool MeshImporter::SaveMesh(ComponentMesh* mesh, const char* file_name)
 	return ret;
 }
 
-bool MeshImporter::LoadMesh(const char* exported_file, geo_info& mesh)
+bool MeshImporter::LoadMesh(const char* exported_file, ResourceMesh* mesh)
 {
 	bool ret = false;
 
@@ -138,37 +139,37 @@ bool MeshImporter::LoadMesh(const char* exported_file, geo_info& mesh)
 		uint bytes = sizeof(ranges);
 		memcpy(ranges, cursor, bytes);
 
-		mesh.num_index = ranges[0];
-		mesh.num_vertex = ranges[1];
-		mesh.num_uv = ranges[2];
-		mesh.num_normal = ranges[3];
+		mesh->num_index = ranges[0];
+		mesh->num_vertex = ranges[1];
+		mesh->num_uv = ranges[2];
+		mesh->num_normal = ranges[3];
 		cursor += bytes;
 
 		// Load indices
-		bytes = sizeof(uint) * mesh.num_index;
-		mesh.index = new uint[mesh.num_index];
-		memcpy(mesh.index, cursor, bytes);
+		bytes = sizeof(uint) * mesh->num_index;
+		mesh->index = new uint[mesh->num_index];
+		memcpy(mesh->index, cursor, bytes);
 		cursor += bytes;
 
 		// Load vertex
-		bytes = sizeof(float) * mesh.num_vertex * 3;
-		mesh.vertex = new float[mesh.num_vertex * 3];
-		memcpy(mesh.vertex, cursor, bytes);
+		bytes = sizeof(float) * mesh->num_vertex * 3;
+		mesh->vertex = new float[mesh->num_vertex * 3];
+		memcpy(mesh->vertex, cursor, bytes);
 		cursor += bytes;
 
 		// Load UVs
-		if (mesh.num_uv > 0) {
-			bytes = sizeof(float) * mesh.num_uv * 2;
-			mesh.uv = new float[mesh.num_uv * 2];
-			memcpy(mesh.uv, cursor, bytes);
+		if (mesh->num_uv > 0) {
+			bytes = sizeof(float) * mesh->num_uv * 2;
+			mesh->uv = new float[mesh->num_uv * 2];
+			memcpy(mesh->uv, cursor, bytes);
 			cursor += bytes;
 		}
 
 		// Load Normal
-		if (mesh.num_normal > 0) {
-			bytes = sizeof(float) * mesh.num_normal * 3;
-			mesh.normal = new float[mesh.num_normal * 3];
-			memcpy(mesh.normal, cursor, bytes);
+		if (mesh->num_normal > 0) {
+			bytes = sizeof(float) * mesh->num_normal * 3;
+			mesh->normal = new float[mesh->num_normal * 3];
+			memcpy(mesh->normal, cursor, bytes);
 		}
 
 	}

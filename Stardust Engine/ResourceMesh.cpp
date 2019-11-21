@@ -9,6 +9,10 @@ ResourceMesh::ResourceMesh(UID uuid) : Resource(uuid, Resource_Mesh)
 
 ResourceMesh::~ResourceMesh()
 {
+	RELEASE_ARRAY(index);
+	RELEASE_ARRAY(vertex);
+	RELEASE_ARRAY(normal);
+	RELEASE_ARRAY(uv);
 }
 
 bool ResourceMesh::LoadInMemory()
@@ -16,7 +20,8 @@ bool ResourceMesh::LoadInMemory()
 	if (!IsPrimitive()) {
 		//geo_info m;
 		//const char* f = (const char*)uuid;
-		//App->mesh_import->LoadMesh(f, m);
+		string path = std::to_string(uuid) + "." + MESH_EXTENSION;
+		App->mesh_import->LoadMesh(path.c_str(), this);
 
 		//Bind buffers
 		BindBuffers();

@@ -7,6 +7,7 @@
 #include "Quadtree.h"
 #include "ConfigEditor.h"
 #include "Parson/parson.h"
+#include "ResourceMesh.h"
 
 #include "imgui/imgui.h"
 #include "Glew/include/glew.h"
@@ -330,8 +331,8 @@ void GameObject::UpdateBoundingBox() {
 	bounding_box.SetNegativeInfinity();
 
 	if (mesh) {
-
-		bounding_box.Enclose((const math::float3*)mesh->m_info.vertex, mesh->m_info.num_vertex);
+		ResourceMesh* res_mesh = (ResourceMesh*)App->resources->Get(mesh->uuid_mesh);
+		bounding_box.Enclose((const math::float3*)res_mesh->vertex, res_mesh->num_vertex);
 	}
 
 	if (transform) {

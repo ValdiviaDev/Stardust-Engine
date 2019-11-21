@@ -19,7 +19,7 @@ public:
 
 	bool IsPrimitive();
 
-private:
+public:
 	PrimitiveType is_primitive = PRIMITIVE_NONE;
 
 	//Vertex info
