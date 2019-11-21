@@ -68,5 +68,6 @@ enum update_status
 #define LIBRARY_FOLDER "Library/"
 #define LIBRARY_MESH_FOLDER "Library/Meshes/"
 #define LIBRARY_MAT_FOLDER "Library/Materials/"
+#define LIBRARY_SCENE_FOLDER "Library/Scenes/"
 
 #define MESH_EXTENSION "stdtmesh"
