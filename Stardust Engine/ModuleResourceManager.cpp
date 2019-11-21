@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "ModuleResourceManager.h"
 #include "Resource.h"
+#include "ResourceMesh.h"
+#include "ResourceTexture.h"
 
 
 ModuleResourceManager::ModuleResourceManager(Application* app, bool start_enabled) : Module(app, "Resources", start_enabled)
@@ -56,10 +58,10 @@ Resource* ModuleResourceManager::CreateNewResource(ResourceType type, UID force_
 
 	switch (type) {
 	case Resource_Mesh:
-		//ret = (Resource*)new ResourceMesh(uid);
+		ret = (Resource*)new ResourceMesh(uid);
 		break;
 	case Resource_Texture:
-		//ret = (Resource*)new ResourceTexture(uid); 
+		ret = (Resource*)new ResourceTexture(uid); 
 		break;
 
 	}
