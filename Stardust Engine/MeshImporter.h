@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include <string>
 #include <list>
+#include <vector>
 
 struct geo_info;
 struct aiScene;
@@ -19,10 +20,10 @@ public:
 	MeshImporter();
 	~MeshImporter();
 
-	bool ImportScene(const char* file, const char* path, std::string& output_file, bool serialize);
+	bool ImportScene(const char* file, const char* path, std::string& output_file, std::vector<UID>& mesh_uids);
 	//bool Import(const void* buffer, uint size, std::string& output_file); //TODO not used yet
-	bool SaveMesh(ComponentMesh* mesh, const char* file_name, std::string& output_file);
-	bool ImportNodeAndSerialize(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::string& output_file, std::list<GameObject*>* go_list);
+	bool SaveMesh(ComponentMesh* mesh, const char* file_name);
+	bool ImportNodeAndSerialize(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::list<GameObject*>* go_list, std::vector<UID>& mesh_uuids);
 	bool LoadMesh(const char* exported_file, geo_info& mesh);
 
 };

@@ -131,7 +131,8 @@ update_status ModuleInput::PreUpdate(float dt)
 					else {
 						
 						string out_f;
-						App->mesh_import->ImportScene(file.c_str(), aux.c_str(), out_f, true);
+						vector<UID> no_use;
+						App->mesh_import->ImportScene(file.c_str(), aux.c_str(), out_f, no_use);
 
 						if (App->fs->Exists(path_and_file.c_str())) {
 							LOG("Scene saved and now loading from it");

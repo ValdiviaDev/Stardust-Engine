@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ResourceMesh.h"
 
 
@@ -11,6 +12,12 @@ ResourceMesh::~ResourceMesh()
 
 bool ResourceMesh::LoadInMemory()
 {
+	//geo_info m;
+	//const char* f = (const char*)uuid;
+	//App->mesh_import->LoadMesh(f, m);
+
+	//Bind buffers
+
 	return false;
 }
 

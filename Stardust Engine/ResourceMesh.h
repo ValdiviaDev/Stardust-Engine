@@ -13,6 +13,8 @@ public:
 	bool EraseInMemory();
 
 private:
+	PrimitiveType is_primitive = PRIMITIVE_NONE;
+
 	//Vertex info
 	uint id_vertex = 0;
 	uint num_vertex = 0;

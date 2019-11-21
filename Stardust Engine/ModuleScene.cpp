@@ -409,9 +409,6 @@ void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
 		go->material->AssignTextureLib(std::to_string(go->material->uuid_mat).c_str());
 
 
-		//for (int i = 0; i < go->GetNumChilds(); ++i)
-			//ChangeGameObjectTexture(tex_path, go->GetChild(i));
-
 	}
 }
 

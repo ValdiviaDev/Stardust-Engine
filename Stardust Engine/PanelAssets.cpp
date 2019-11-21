@@ -1,6 +1,8 @@
 #include "PanelAssets.h"
 #include "Application.h"
 #include "imgui/imgui.h"
+#include "ModuleResourceManager.h"
+#include "Resource.h"
 
 PanelAssets::PanelAssets()
 {
@@ -115,7 +117,8 @@ void PanelAssets::ImportFromAssets()
 	case File_Mesh: { //TODO import
 		string out_f;
 		string path = ASSETS_MESH_FOLDER + foc_node_name;
-		App->mesh_import->ImportScene(foc_node_name.c_str(), path.c_str(), out_f, true);
+		//App->mesh_import->ImportScene(foc_node_name.c_str(), path.c_str(), out_f, true);
+		App->resources->ImportFile(path.c_str(), Resource_Mesh);
 		}
 		break;
 

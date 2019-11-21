@@ -24,7 +24,7 @@ MeshImporter::~MeshImporter()
 {
 }
 
-bool MeshImporter::ImportScene(const char* file, const char* path, std::string& output_file, bool serialize)
+bool MeshImporter::ImportScene(const char* file, const char* path, std::string& output_file, std::vector<UID>& mesh_uuids)
 {
 	bool ret = false;
 
@@ -46,30 +46,19 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 
 	if (scene != nullptr)
 	{
-
-		
-
 		const aiNode* root = scene->mRootNode;
 		GameObject* dummy = App->scene->CreateGameObject(nullptr);
 
+		std::list<GameObject*> go_list;
 
+		ret = ImportNodeAndSerialize(scene, root, dummy, dummy->transform, (char*)path, &go_list, mesh_uuids);
 
-		if (serialize) {
-
-			std::list<GameObject*> go_list;
-
-			ret = ImportNodeAndSerialize(scene, root, dummy, dummy->transform, (char*)path, output_f, &go_list);
-
-			
-			char file_name[100];
-			strcpy(file_name, file);
-			strcat(file_name, ".json");
-			App->scene_serialization->SaveSceneFromMesh(file_name, go_list);
-		}
-		//else {
-		//	ret = ImportNode(scene, root, dummy, dummy->transform, (char*)path, output_f);
-		//}
-
+		//Make .json scene for the .fbx scene
+		char file_name[100];
+		strcpy(file_name, file);
+		strcat(file_name, ".json");
+		App->scene_serialization->SaveSceneFromMesh(file_name, go_list);
+		
 
 		RELEASE(dummy);
 		aiReleaseImport(scene);
@@ -78,8 +67,10 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 	return ret;
 }
 
-bool MeshImporter::SaveMesh(ComponentMesh* mesh, const char* file_name, std::string & output_file)
+bool MeshImporter::SaveMesh(ComponentMesh* mesh, const char* file_name)
 {
+	bool ret = false;
+
 	//Save
 	uint ranges[4] = { mesh->m_info.num_index, mesh->m_info.num_vertex, mesh->m_info.num_uv, mesh->m_info.num_normal };
 
@@ -116,15 +107,18 @@ bool MeshImporter::SaveMesh(ComponentMesh* mesh, const char* file_name, std::str
 		memcpy(cursor, mesh->m_info.normal, bytes);
 	}
 
-	App->fs->SaveUnique(output_file, data, size, LIBRARY_MESH_FOLDER, file_name, MESH_EXTENSION);
+	string file_n_ext;
+	if (App->fs->SaveUnique(file_n_ext, data, size, LIBRARY_MESH_FOLDER, file_name, MESH_EXTENSION)) {
+		ret = true;
 
-	//Send the string to the gui to print in a menu
-	string mesh_name = file_name;
-	App->gui->loaded_meshes.push_back(mesh_name);
+		//Send the string to the gui to print in a menu
+		string mesh_name = file_name;
+		App->gui->loaded_meshes.push_back(mesh_name);
+	}
 
 	RELEASE_ARRAY(data);
 
-	return true;
+	return ret;
 }
 
 bool MeshImporter::LoadMesh(const char* exported_file, geo_info& mesh)
@@ -185,7 +179,7 @@ bool MeshImporter::LoadMesh(const char* exported_file, geo_info& mesh)
 }
 
 
-bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::string& output_file, std::list<GameObject*>* go_list)
+bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::list<GameObject*>* go_list, std::vector<UID>& mesh_uuids)
 {
 	static int invalid_pos = std::string::npos;
 	std::string name = node->mName.C_Str();
@@ -342,10 +336,13 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 			//Save a mesh in own file format
 			if (mesh)
-				SaveMesh(mesh, std::to_string(mesh->uuid_mesh).c_str(), output_file);
+				if (SaveMesh(mesh, std::to_string(mesh->uuid_mesh).c_str()))
+					mesh_uuids.push_back(mesh->uuid_mesh); //Get the mesh UUIDS for the resources
 			else
-				SaveMesh(mesh, name.c_str(), output_file);
+				SaveMesh(mesh, name.c_str());
 
+
+			//Delete the auxiliar mesh info
 			RELEASE_ARRAY(mesh->m_info.vertex);
 			RELEASE_ARRAY(mesh->m_info.index);
 			RELEASE_ARRAY(mesh->m_info.uv);
@@ -359,7 +356,7 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 	//Recursive iteration to save all nodes
 	for (int i = 0; i < node->mNumChildren; ++i)
-		ImportNodeAndSerialize(scene, node->mChildren[i], parent, transform, path, output_file, go_list);
+		ImportNodeAndSerialize(scene, node->mChildren[i], parent, transform, path, go_list, mesh_uuids);
 
 	return true;
 }

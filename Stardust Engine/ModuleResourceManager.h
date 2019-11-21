@@ -13,6 +13,8 @@ public:
 	ModuleResourceManager(Application* app, bool start_enabled = true);
 	~ModuleResourceManager();
 
+	bool CleanUp();
+
 	UID Find(const char* file_in_assets) const; //TODO
 	UID ImportFile(const char* new_file_in_assets, ResourceType type);
 	UID GenerateNewUID(); //TODO

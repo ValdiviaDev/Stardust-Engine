@@ -14,26 +14,50 @@ ModuleResourceManager::~ModuleResourceManager()
 {
 }
 
-UID ModuleResourceManager::ImportFile(const char * new_file_in_assets, ResourceType type)
+bool ModuleResourceManager::CleanUp()
+{
+	//Clean all resources
+	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it)
+		RELEASE(it->second);
+
+	resources.clear();
+
+	return true;
+}
+
+UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceType type)
 {
 	UID ret = 0;
-	bool import_ok = false;
 	string written_file;
+	std::string path = "", file = "", aux = "", path_and_file = "";
+	App->fs->SplitFilePath(new_file_in_assets, &path, &file, &aux);
 
 	switch (type) {
-	case Resource_Mesh:
-		import_ok = App->mesh_import->ImportScene("", new_file_in_assets, written_file, true);
+	case Resource_Mesh: {
+		vector<UID> mesh_uuids;
+		if (App->mesh_import->ImportScene(file.c_str(), new_file_in_assets, written_file, mesh_uuids)) {
+			for (int i = 0; i < mesh_uuids.size(); ++i) {
+				Resource* res = CreateNewResource(type, mesh_uuids[i]);
+				res->SetFile(new_file_in_assets);
+				res->SetImportedFile(written_file); //TODO
+				ret = res->GetUID();
+			}
+		}
+	}
 		break;
-	case Resource_Texture:
-		//import_ok = App->mat_import->Import(new_file_in_assets, "assets/tex", written_file, uid);
+	case Resource_Texture: {
+		UID tex_uuid;
+		if (App->mat_import->Import(file.c_str(), path.c_str(), written_file, tex_uuid)) {
+			Resource* res = CreateNewResource(type, tex_uuid);
+			res->SetFile(new_file_in_assets);
+			res->SetImportedFile(written_file);  //TODO
+			ret = res->GetUID();
+
+		}
+	}
 		break;
 	}
-	if (import_ok == true) { // If import was successful, create a new resource
-		Resource* res = CreateNewResource(type);
-		res->SetFile(new_file_in_assets);
-		res->SetImportedFile(written_file);
-		ret = res->GetUID();
-	}
+	
 	return ret;	
 }
 
@@ -54,7 +78,12 @@ Resource* ModuleResourceManager::Get(UID uid)
 Resource* ModuleResourceManager::CreateNewResource(ResourceType type, UID force_uid)
 {
 	Resource* ret = nullptr;
-	UID uid = GenerateNewUID();
+	UID uid = 0;
+
+	if (force_uid != 0)
+		uid = force_uid;
+	else
+		uid = GenerateNewUID();
 
 	switch (type) {
 	case Resource_Mesh:
