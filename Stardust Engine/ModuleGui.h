@@ -43,6 +43,7 @@ public:
 
 public:
 
+	vector<UID> loaded_meshes_uuid;
 	vector<string> loaded_meshes;
 	vector<string> loaded_materials;
 

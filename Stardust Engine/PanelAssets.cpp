@@ -115,17 +115,19 @@ void PanelAssets::ImportFromAssets()
 	FileType ft = App->fs->DetermineFileType((char*)foc_node_name.c_str());
 	switch (ft) {
 	case File_Mesh: { //TODO import
-		string out_f;
-		string path = ASSETS_MESH_FOLDER + foc_node_name;
+		//string out_f;
 		//App->mesh_import->ImportScene(foc_node_name.c_str(), path.c_str(), out_f, true);
+		string path = ASSETS_MESH_FOLDER + foc_node_name;
 		App->resources->ImportFile(path.c_str(), Resource_Mesh);
 		}
 		break;
 
 	case File_Material: { //TODO import
-		string out_f;
-		uint out_uuid;
-		App->mat_import->Import(foc_node_name.c_str(), ASSETS_TEX_FOLDER, out_f, out_uuid);
+		//string out_f;
+		//uint out_uuid;
+		//App->mat_import->Import(foc_node_name.c_str(), ASSETS_TEX_FOLDER, out_f, out_uuid);
+		string path = ASSETS_TEX_FOLDER + foc_node_name;
+		App->resources->ImportFile(path.c_str(), Resource_Texture);
 		}
 		break;
 

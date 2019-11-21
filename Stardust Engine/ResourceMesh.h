@@ -12,6 +12,13 @@ public:
 	bool LoadInMemory();
 	bool EraseInMemory();
 
+	void LoadMeshPrimitive(par_shapes_mesh* shape);
+
+	void BindBuffers();
+	void BindBuffersPrimitive();
+
+	bool IsPrimitive();
+
 private:
 	PrimitiveType is_primitive = PRIMITIVE_NONE;
 

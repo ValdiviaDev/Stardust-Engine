@@ -39,7 +39,8 @@ UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceTy
 			for (int i = 0; i < mesh_uuids.size(); ++i) {
 				Resource* res = CreateNewResource(type, mesh_uuids[i]);
 				res->SetFile(new_file_in_assets);
-				res->SetImportedFile(written_file); //TODO
+				written_file = LIBRARY_MESH_FOLDER + std::to_string(mesh_uuids[i]) + "." + MESH_EXTENSION;
+				res->SetImportedFile(written_file);
 				ret = res->GetUID();
 			}
 		}
@@ -50,9 +51,8 @@ UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceTy
 		if (App->mat_import->Import(file.c_str(), path.c_str(), written_file, tex_uuid)) {
 			Resource* res = CreateNewResource(type, tex_uuid);
 			res->SetFile(new_file_in_assets);
-			res->SetImportedFile(written_file);  //TODO
+			res->SetImportedFile(written_file);
 			ret = res->GetUID();
-
 		}
 	}
 		break;

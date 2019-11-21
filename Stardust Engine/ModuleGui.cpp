@@ -23,6 +23,8 @@
 #include "PanelAssets.h"
 #include "PanelEdit.h"
 
+#include "ResourceMesh.h"
+
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, "Gui", start_enabled)
 {
 }
@@ -208,17 +210,26 @@ void ModuleGui::HandleMainMenuBar()
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Meshes")) {
-			for (int i = 0; i < loaded_meshes.size(); ++i)
-				if (ImGui::MenuItem(loaded_meshes[i].c_str()))
+			for (int i = 0; i < loaded_meshes_uuid.size(); ++i) {
+				string uuid_str = std::to_string(loaded_meshes_uuid[i]);
+
+				if (ImGui::MenuItem(uuid_str.c_str()))
 				{
 					GameObject* go = App->scene->CreateGameObject(App->scene->GetRootGameObject());
-					go->SetName(loaded_meshes[i].c_str());
+					go->SetName(uuid_str.c_str());
 					go->CreateComponent(Comp_Mesh);
-					go->mesh->uuid_mesh = std::stoi(loaded_meshes[i].c_str());
-					go->mesh->LoadMesh(loaded_meshes[i]);
+					go->mesh->uuid_mesh = loaded_meshes_uuid[i];
+					go->mesh->LoadMesh(uuid_str);
 					go->UpdateBoundingBox();
-				}
 
+					//Todo Create resource mesh
+					ResourceMesh* res_mesh;
+					res_mesh = (ResourceMesh*)App->resources->Get(loaded_meshes_uuid[i]);
+					if (res_mesh)
+						res_mesh->LoadToMemory();
+
+				}
+			}
 			ImGui::EndMenu();
 		}
 

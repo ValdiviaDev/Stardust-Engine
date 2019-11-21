@@ -336,8 +336,10 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 			//Save a mesh in own file format
 			if (mesh)
-				if (SaveMesh(mesh, std::to_string(mesh->uuid_mesh).c_str()))
+				if (SaveMesh(mesh, std::to_string(mesh->uuid_mesh).c_str())) {
 					mesh_uuids.push_back(mesh->uuid_mesh); //Get the mesh UUIDS for the resources
+					App->gui->loaded_meshes_uuid.push_back(mesh->uuid_mesh);
+				}
 			else
 				SaveMesh(mesh, name.c_str());
 
