@@ -73,11 +73,6 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 	return ret;
 }
 
-bool MeshImporter::Import(const void* buffer, uint size, std::string& output_file)
-{
-	return false;
-}
-
 bool MeshImporter::SaveMesh(ComponentMesh* mesh, const char* file_name, std::string & output_file)
 {
 	//Save

@@ -14,7 +14,7 @@ public:
 	~ModuleResourceManager();
 
 	UID Find(const char* file_in_assets) const; //TODO
-	UID ImportFile(const char* new_file_in_assets, bool force = false);
+	UID ImportFile(const char* new_file_in_assets, ResourceType type);
 	UID GenerateNewUID(); //TODO
 	const Resource* Get(UID uid) const; //TODO
 	Resource* Get(UID uid);

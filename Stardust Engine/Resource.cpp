@@ -1,11 +1,9 @@
 #include "Resource.h"
 
 
-
 Resource::Resource(UID uuid, ResourceType type): uuid(uuid), type(type)
 {
 }
-
 
 Resource::~Resource()
 {
@@ -26,7 +24,7 @@ const char* Resource::GetFile() const
 	return file.c_str();
 }
 
-const char * Resource::GetImportedFile() const
+const char* Resource::GetImportedFile() const
 {
 	return imported_file.c_str();
 }
@@ -43,3 +41,15 @@ uint Resource::CountReferences() const
 {
 	return loaded;
 }
+
+void Resource::SetFile(std::string file)
+{
+	this->file = file;
+}
+
+void Resource::SetImportedFile(std::string imported_file)
+{
+	this->imported_file = imported_file;
+}
+
+
