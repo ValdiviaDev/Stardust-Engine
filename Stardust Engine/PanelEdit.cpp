@@ -30,7 +30,9 @@ void PanelEdit::Draw()
 
 	static const char* play_but = "Play";
 	static const char* pause_but = "Pause";
+	static uint time_scale_width = 100;
 	EngineState engine_state = App->GetEngineState();
+
 	ImGui::Begin("Edit", &active, ImGuiWindowFlags_None);
 
 	// Guizmos TODO
@@ -64,8 +66,9 @@ void PanelEdit::Draw()
 
 
 	//Time scale slider
-	//ImGui::SetCursorPos({ (float)(width / 2 + 70), (float)(height / 3) });
-	//ImGui::SliderFloat("Time scale", &App->time->time_scale, 0.0f, 2.0f);
+	ImGui::PushItemWidth(time_scale_width);
+	ImGui::SetCursorPos({ (float)(width / 2 + time_scale_width), (float)(height / 2.5f) });
+	ImGui::SliderFloat("Time scale", &App->time->time_scale, 0.0f, 2.0f, "%.1f");
 	
 
 	// Debug buttons TODO
