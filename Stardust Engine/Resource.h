@@ -21,14 +21,18 @@ public:
 	const char* GetImportedFile() const;
 	bool IsLoadedToMemory() const;
 	bool LoadToMemory();
+	bool EraseToMemory();
 	uint CountReferences() const;
+
+	void SetFile(std::string file);
+	void SetImportedFile(std::string imported_file);
 
 	//virtual void Save(Config& config) const;
 	//virtual void Load(const Config& config);
 	virtual bool LoadInMemory() = 0;
+	virtual bool EraseInMemory() = 0;
 
-	void SetFile(std::string file);
-	void SetImportedFile(std::string imported_file);
+	
 
 protected:
 	UID uuid = 0;

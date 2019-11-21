@@ -74,6 +74,8 @@ bool ModuleFileSystem::Init(ConfigEditor* config)
 
 	SDL_free(write_path);
 
+	CreateAllDirectories();
+
 	return ret;
 }
 
@@ -275,6 +277,43 @@ FileType ModuleFileSystem::DetermineFileType(char* file_name)
 	}
 	else
 		return File_Unknown;
+
+}
+
+void ModuleFileSystem::CreateAllDirectories()
+{
+	//Assets	
+	if (!Exists(ASSETS_MESH_FOLDER)) {
+		CreateDirectory(ASSETS_MESH_FOLDER);
+		LOG("Creating directory %s", ASSETS_MESH_FOLDER);
+	}
+
+	if (!Exists(ASSETS_TEX_FOLDER)) {
+		CreateDirectory(ASSETS_TEX_FOLDER);
+		LOG("Creating directory %s", ASSETS_TEX_FOLDER);
+	}
+
+	if (!Exists(ASSETS_SCENE_FOLDER)) {
+		CreateDirectory(ASSETS_SCENE_FOLDER);
+		LOG("Creating directory %s", ASSETS_SCENE_FOLDER);
+	}
+
+	//Library
+	if (!Exists(LIBRARY_MESH_FOLDER)) {
+		CreateDirectory(LIBRARY_MESH_FOLDER);
+		LOG("Creating directory %s", LIBRARY_MESH_FOLDER);
+	}
+
+	if (!Exists(LIBRARY_MAT_FOLDER)) {
+		CreateDirectory(LIBRARY_MAT_FOLDER);
+		LOG("Creating directory %s", LIBRARY_MAT_FOLDER);
+	}
+
+	if (!Exists(LIBRARY_SCENE_FOLDER)) {
+		CreateDirectory(LIBRARY_SCENE_FOLDER);
+		LOG("Creating directory %s", LIBRARY_SCENE_FOLDER);
+	}
+
 
 }
 

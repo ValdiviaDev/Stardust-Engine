@@ -37,6 +37,29 @@ bool Resource::IsLoadedToMemory() const
 		return true;
 }
 
+bool Resource::LoadToMemory() //TODO change maybe
+{
+	bool ret = true;
+	if (!IsLoadedToMemory())
+		ret = LoadInMemory();
+
+	loaded++;
+
+	return ret;
+}
+
+bool Resource::EraseToMemory() //TODO change maybe
+{
+	bool ret = true;
+	if (loaded > 0)
+		loaded--;
+
+	if (loaded == 0)
+		ret = EraseInMemory();
+
+	return ret;
+}
+
 uint Resource::CountReferences() const
 {
 	return loaded;
