@@ -46,8 +46,13 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 
 	if (scene != nullptr)
 	{
+
+		
+
 		const aiNode* root = scene->mRootNode;
 		GameObject* dummy = App->scene->CreateGameObject(nullptr);
+
+
 
 		if (serialize) {
 
@@ -55,11 +60,11 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 
 			ret = ImportNodeAndSerialize(scene, root, dummy, dummy->transform, (char*)path, output_f, &go_list);
 
-			SceneSerialization s;
+			
 			char file_name[100];
 			strcpy(file_name, file);
 			strcat(file_name, ".json");
-			s.SaveSceneFromMesh(file_name, go_list);
+			App->scene_serialization->SaveSceneFromMesh(file_name, go_list);
 		}
 		//else {
 		//	ret = ImportNode(scene, root, dummy, dummy->transform, (char*)path, output_f);
