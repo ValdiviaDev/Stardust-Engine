@@ -70,9 +70,13 @@ void PanelAbout::Draw()
 
 	//Others
 	ImGui::Text("	* ImGui 1.72b");
+	ImGui::Text("	* ImGuizmo 1.61");
 	ImGui::Text("	* MathGeoLib 1.5");
 	ImGui::Text("	* LGC RNG 1.5");
 	ImGui::Text("	* Glew 2.1.0");
+	ImGui::Text("	* Parson");
+	ImGui::Text("	* par_shapes");
+	ImGui::Text("	* mmgr memory manager");
 
 	//PhysFS
 	static PHYSFS_Version fs_ver;

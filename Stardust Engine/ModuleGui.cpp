@@ -192,7 +192,7 @@ void ModuleGui::HandleMainMenuBar()
 			if (ImGui::MenuItem("Create empty"))
 				App->scene->CreateGameObject(App->scene->GetRootGameObject());
 			
-			if (ImGui::MenuItem("Create Camera"))
+			if (ImGui::MenuItem("Create camera"))
 				App->scene->CreateCamera();
 
 			if (ImGui::MenuItem("Create cube"))
