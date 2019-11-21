@@ -9,9 +9,13 @@
 	* Assimp 3.3.0
 	* DevIL 1.7.8
 	* ImGui 1.72b
+	* ImGuizmo 1.61
 	* MathGeoLib 1.5
 	* LGC RNG 1.5
 	* Glew 2.1.0
+	* Parson
+	* par_shapes
+	* mmgr memory manager
 	* PhysPS 2.0.3
 
 ## Instalation Instructions
