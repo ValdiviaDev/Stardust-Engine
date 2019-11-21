@@ -42,7 +42,14 @@ void SceneSerialization::SaveScene(const char* scene_name) {
 
 void SceneSerialization::SaveSceneFromMesh(const char* scene_name, std::list<GameObject*> go_list) {
 
-	LOG("Saving scene %s from mesh.", scene_name)
+	LOG("Saving scene %s from mesh.", scene_name);
+
+
+	if (!App->fs->Exists(ASSETS_SCENE_FOLDER)) {
+		CreateDirectory(ASSETS_SCENE_FOLDER, NULL);
+		LOG("Creating directory %s", ASSETS_SCENE_FOLDER);
+	}
+
 
 
 	JSON_Value* root_value = json_value_init_array();
