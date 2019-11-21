@@ -117,7 +117,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				FileType ft = App->fs->DetermineFileType(e.drop.file);
 				std::string path = "", file = "", aux = "", path_and_file ="";
 				App->fs->SplitFilePath(e.drop.file, &path, &file, &aux);
-				path_and_file = ASSETS_SCENE_FOLDER + file + ".json";
+				path_and_file = LIBRARY_SCENE_FOLDER + file + ".json";
 				aux = ASSETS_MESH_FOLDER + file;
 				switch (ft) {
 				case File_Mesh:

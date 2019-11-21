@@ -304,9 +304,9 @@ bool Application::Play()
 			renderer3D->RecalculateProjMat();
 
 			//Save scene tmp
-			std::string aux = LIBRARY_FOLDER;
+			std::string aux = LIBRARY_SCENE_FOLDER;
 			aux.append("tmp_scene.json");
-			tmp_scene.SaveScene(aux.c_str());
+			scene_serialization->SaveScene(aux.c_str());
 			scene->rebuild_quadtree = true;
 
 			SetEngineState(Engine_State_Play);
@@ -346,9 +346,9 @@ void Application::Stop()
 		SetEngineState(Engine_State_Editor);
 
 		//Load scene tmp
-		std::string aux = LIBRARY_FOLDER;
+		std::string aux = LIBRARY_SCENE_FOLDER;
 		aux.append("tmp_scene.json");
-		tmp_scene.LoadScene(aux.c_str());
+		scene_serialization->LoadScene(aux.c_str());
 		scene->rebuild_quadtree = true;
 
 		time->ResetGameTimer();

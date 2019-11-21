@@ -75,7 +75,7 @@ private:
 	bool	fps_capped = true;
 
 	EngineState engine_state = Engine_State_Editor;
-	SceneSerialization tmp_scene;
+	
 
 	list<Module*> list_modules;
 
