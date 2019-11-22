@@ -11,10 +11,7 @@ ResourceMesh::~ResourceMesh()
 {
 	if(loaded > 0)
 		UnloadInMemory(); //TODO!!!
-	//RELEASE_ARRAY(index);
-	//RELEASE_ARRAY(vertex);
-	//RELEASE_ARRAY(normal);
-	//RELEASE_ARRAY(uv);
+
 }
 
 bool ResourceMesh::LoadInMemory()
