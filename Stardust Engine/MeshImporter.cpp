@@ -169,7 +169,7 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 					go->material->uuid_mat = App->GenerateUUID();
 
 					string out_material;
-					App->mat_import->Import(mat_path_name.c_str(), ASSETS_TEX_FOLDER, out_material, go->material->uuid_mat);
+					App->resources->ImportFile(mat_path_s.c_str(), Resource_Texture);
 					go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
 
 					//Create json with uuid and path for Material
