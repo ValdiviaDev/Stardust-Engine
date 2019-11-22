@@ -8,10 +8,11 @@
 
 #include "Par/par_shapes.h"
 
-
 class GameObject;
 class Quadtree;
 class ComponentCamera;
+class ComponentMesh;
+class ResourceMesh;
 
 class ModuleScene : public Module
 {
@@ -33,7 +34,7 @@ public:
 
 	void Draw();
 	void DrawGameObjects(GameObject* go);
-	void DrawGameObjectsDebug(GameObject* go);
+	void DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh);
 	void DrawSceneDebug();
 	void DrawAABBRecursive(GameObject* go);
 	void DrawGrid();

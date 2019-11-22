@@ -213,7 +213,7 @@ void ComponentCamera::CameraCullingDynObj(GameObject* go) {
 
 			AABB refBox = (*it)->bounding_box;
 
-			if (!(*it)->IsStatic() && refBox.IsFinite() && (*it)->mesh && (*it)->mesh->m_info.num_vertex > 0) {
+			if (!(*it)->IsStatic() && (*it)->mesh && refBox.IsFinite()) {
 
 				
 				//if (!frustum.Intersects(refBox)) {    //MathGeoLib func. Slow but works better

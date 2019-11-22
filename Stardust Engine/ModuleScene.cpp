@@ -217,7 +217,7 @@ void ModuleScene::Draw() {
 
 void ModuleScene::DrawGameObjects(GameObject* go)
 {
-	if (go && go->IsActive() && go->mesh && go->mesh->IsActive()) { 
+	if (go && go->IsActive() && go->mesh && go->mesh->IsActive() && go->mesh->uuid_mesh != 0) { 
 		//Matrix
 		glPushMatrix();
 		float4x4 matrix = go->transform->GetGlobalMatrix();
@@ -272,7 +272,7 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		if(c_mesh->debug_v_norm || c_mesh->debug_f_norm)
-			DrawGameObjectsDebug(go);
+			DrawGameObjectsDebug(c_mesh, mesh);
 
 		glPopMatrix();
 
@@ -287,40 +287,39 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 
 }
 
-void ModuleScene::DrawGameObjectsDebug(GameObject* go)
+void ModuleScene::DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh)
 {
 	//Vertex normals
-	geo_info m = go->mesh->GetInfo();
-	if (go->mesh->debug_v_norm) {
+	if (c_mesh->debug_v_norm) {
 		glBegin(GL_LINES);
 		glColor3f(255.0f, 255.0f, 0.0f); //Yellow
 
-		for (int i = 0; i < m.num_normal * 3; i += 3) {
+		for (int i = 0; i < r_mesh->num_normal * 3; i += 3) {
 
 			//Normalize the vertex normals
-			float3 norm = { m.normal[i], m.normal[i + 1], m.normal[i + 2] };
+			float3 norm = { r_mesh->normal[i], r_mesh->normal[i + 1], r_mesh->normal[i + 2] };
 			float  mod = sqrt(norm.x * norm.x + norm.y * norm.y + norm.z * norm.z);
 			norm = (norm / mod) * 0.5;
 
-			glVertex3f(m.vertex[i], m.vertex[i + 1], m.vertex[i + 2]);
-			glVertex3f(m.vertex[i] + norm.x, m.vertex[i + 1] + norm.y, m.vertex[i + 2] + norm.z);
+			glVertex3f(r_mesh->vertex[i], r_mesh->vertex[i + 1], r_mesh->vertex[i + 2]);
+			glVertex3f(r_mesh->vertex[i] + norm.x, r_mesh->vertex[i + 1] + norm.y, r_mesh->vertex[i + 2] + norm.z);
 
 		}
 		glColor3f(255.0f, 255.0f, 255.0f); //White
 		glEnd();
 	}
-	if (go->mesh->debug_f_norm) {
 
-
-		for (int i = 0; i < m.num_index; i += 3) {
+	//Face normals
+	if (c_mesh->debug_f_norm) {
+		for (int i = 0; i < r_mesh->num_index; i += 3) {
 			//Triangle points
-			uint index_01 = m.index[i] * 3;
-			uint index_02 = m.index[i + 1] * 3;
-			uint index_03 = m.index[i + 2] * 3;
+			uint index_01 = r_mesh->index[i] * 3;
+			uint index_02 = r_mesh->index[i + 1] * 3;
+			uint index_03 = r_mesh->index[i + 2] * 3;
 
-			float3 p1 = { m.vertex[index_01], m.vertex[index_01 + 1], m.vertex[index_01 + 2] };
-			float3 p2 = { m.vertex[index_02], m.vertex[index_02 + 1], m.vertex[index_02 + 2] };
-			float3 p3 = { m.vertex[index_03], m.vertex[index_03 + 1], m.vertex[index_03 + 2] };
+			float3 p1 = { r_mesh->vertex[index_01], r_mesh->vertex[index_01 + 1], r_mesh->vertex[index_01 + 2] };
+			float3 p2 = { r_mesh->vertex[index_02], r_mesh->vertex[index_02 + 1], r_mesh->vertex[index_02 + 2] };
+			float3 p3 = { r_mesh->vertex[index_03], r_mesh->vertex[index_03 + 1], r_mesh->vertex[index_03 + 2] };
 
 			//Calculate face center
 			float C1 = (p1.x + p2.x + p3.x) / 3;
@@ -551,7 +550,7 @@ GameObject* ModuleScene::GetFocusedGameObject() const {
 	return focused_object;
 }
 
-GameObject * ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) const
+GameObject* ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) const
 {
 
 	GameObject* ret = nullptr;

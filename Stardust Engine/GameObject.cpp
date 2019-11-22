@@ -330,7 +330,7 @@ void GameObject::UpdateBoundingBox() {
 
 	bounding_box.SetNegativeInfinity();
 
-	if (mesh) {
+	if (mesh && mesh->uuid_mesh != 0) {
 		ResourceMesh* res_mesh = (ResourceMesh*)App->resources->Get(mesh->uuid_mesh);
 		bounding_box.Enclose((const math::float3*)res_mesh->vertex, res_mesh->num_vertex);
 	}
