@@ -163,46 +163,32 @@ GameObject * ModuleScene::GetRootGameObject() const
 	return root_object;
 }
 
-GameObject* ModuleScene::CreateCubePrimitive()
+GameObject* ModuleScene::CreatePrimitiveObject(PrimitiveType type)
 {
-	par_shapes_mesh* cube = par_shapes_create_cube();
+	//Resource
+	ResourceMesh* r_primitive = App->resources->GetPrimitive(type);
+	if(r_primitive)
+		r_primitive->LoadToMemory();
 
-	GameObject* cubeGO = CreateGameObject(root_object);
-	cubeGO->SetName("Cube");
-	cubeGO->CreateComponent(Comp_Mesh, PRIMITIVE_CUBE);
-	cubeGO->mesh->FillPrimitiveDrawInfo(cube);
+	//GameObject and Component Mesh
+	GameObject* primitiveGO = CreateGameObject(root_object);
+	switch (type) {
+	case PRIMITIVE_CUBE:
+		primitiveGO->SetName("Cube");
+		break;
+	case PRIMITIVE_SPHERE:
+		primitiveGO->SetName("Sphere");
+		break;
+	case PRIMITIVE_PLANE:
+		primitiveGO->SetName("Plane");
+		break;
+	}
+	
+	primitiveGO->CreateComponent(Comp_Mesh, type);
+	primitiveGO->mesh->uuid_mesh = r_primitive->GetUID();
+	primitiveGO->UpdateBoundingBox();
 
-	par_shapes_free_mesh(cube);
-
-	return cubeGO;
-}
-
-GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
-{
-	par_shapes_mesh* sphere = par_shapes_create_subdivided_sphere(subdivisions);
-
-	GameObject* sphereGO = CreateGameObject(root_object);
-	sphereGO->SetName("Sphere");
-	sphereGO->CreateComponent(Comp_Mesh, PRIMITIVE_SPHERE);
-	sphereGO->mesh->FillPrimitiveDrawInfo(sphere);
-
-	par_shapes_free_mesh(sphere);
-
-	return sphereGO;
-}
-
-GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
-{
-	par_shapes_mesh* plane = par_shapes_create_plane(slices, stacks);
-
-	GameObject* planeGO = CreateGameObject(root_object);
-	planeGO->SetName("Plane");
-	planeGO->CreateComponent(Comp_Mesh, PRIMITIVE_PLANE);
-	planeGO->mesh->FillPrimitiveDrawInfo(plane);
-
-	par_shapes_free_mesh(plane);
-
-	return planeGO;
+	return primitiveGO;
 }
 
 

@@ -198,13 +198,13 @@ void ModuleGui::HandleMainMenuBar()
 				App->scene->CreateCamera();
 
 			if (ImGui::MenuItem("Create cube"))
-				App->scene->CreateCubePrimitive();
+				App->scene->CreatePrimitiveObject(PRIMITIVE_CUBE);
 			
 			if (ImGui::MenuItem("Create sphere"))
-				App->scene->CreateSpherePrimitive(3);
+				App->scene->CreatePrimitiveObject(PRIMITIVE_SPHERE);
 
 			if (ImGui::MenuItem("Create plane"))
-				App->scene->CreatePlanePrimitive(5,5);
+				App->scene->CreatePrimitiveObject(PRIMITIVE_PLANE);
 
 
 			ImGui::EndMenu();

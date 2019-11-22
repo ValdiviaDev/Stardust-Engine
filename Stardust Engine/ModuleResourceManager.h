@@ -13,6 +13,7 @@ public:
 	ModuleResourceManager(Application* app, bool start_enabled = true);
 	~ModuleResourceManager();
 
+	bool Start();
 	bool CleanUp();
 
 	UID Find(const char* file_in_assets) const; //TODO
@@ -22,6 +23,8 @@ public:
 	Resource* Get(UID uid);
 	Resource* CreateNewResource(ResourceType type, UID force_uid = 0);
 
+	void CreatePrimitiveResources();
+	ResourceMesh* GetPrimitive(PrimitiveType type);
 
 private:
 	std::map<UID, Resource*> resources;

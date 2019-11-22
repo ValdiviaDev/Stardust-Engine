@@ -14,6 +14,13 @@ ModuleResourceManager::~ModuleResourceManager()
 {
 }
 
+bool ModuleResourceManager::Start()
+{
+	CreatePrimitiveResources();
+
+	return true;
+}
+
 bool ModuleResourceManager::CleanUp()
 {
 	//Clean all resources
@@ -99,5 +106,32 @@ Resource* ModuleResourceManager::CreateNewResource(ResourceType type, UID force_
 		resources[uid] = ret;
 
 	return ret;
+}
+
+//Primitives
+void ModuleResourceManager::CreatePrimitiveResources()
+{
+	ResourceMesh* primitive[3];
+
+	for (int i = 0; i < 3; ++i) {
+		primitive[i] = (ResourceMesh*)CreateNewResource(Resource_Mesh);
+		primitive[i]->SetFile("null");
+		primitive[i]->SetImportedFile("null");
+	}
+	primitive[0]->is_primitive = PRIMITIVE_CUBE;
+	primitive[1]->is_primitive = PRIMITIVE_SPHERE;
+	primitive[2]->is_primitive = PRIMITIVE_PLANE;
+}
+
+ResourceMesh* ModuleResourceManager::GetPrimitive(PrimitiveType type)
+{
+	for (std::map<UID, Resource*>::iterator it = resources.begin(); it != resources.end(); ++it) {
+		ResourceMesh* aux = (ResourceMesh*)it->second;
+		
+		if (aux->is_primitive == type)
+			return (ResourceMesh*)it->second;
+	}
+
+	return nullptr;
 }
 

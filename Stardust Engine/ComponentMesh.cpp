@@ -194,50 +194,27 @@ void ComponentMesh::Load(JSON_Object* comp_obj) {
 
 	switch (is_primitive) {
 	case PRIMITIVE_NONE:
-
 		if (uuid_mesh != 0) {
 			ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
-			if (res) {
+			if (res)
 				res->LoadToMemory();
-				gameObject->UpdateBoundingBox();
-			}
 			else
 				App->gui->AddLogToConsole("WARNING: THERE IS NO RESOURCE TO ASSING TO THIS MESH");
-
-			
-		}
-		else {
-			//if (!LoadMesh(file.c_str())) {
-			//	AssignMesh(p);
-			//}
 		}
 
 		break;
 
 	case PRIMITIVE_CUBE:
-		if (true) {
-			par_shapes_mesh* cube = par_shapes_create_cube();
-			FillPrimitiveDrawInfo(cube);
-			par_shapes_free_mesh(cube);
-		}
-		break;
-
-	case PRIMITIVE_SPHERE:
-		if (true) {
-			par_shapes_mesh* sphere = par_shapes_create_subdivided_sphere(3);
-			FillPrimitiveDrawInfo(sphere);
-			par_shapes_free_mesh(sphere);
-		}
-		break;
-
+	case PRIMITIVE_SPHERE: 
 	case PRIMITIVE_PLANE:
-		if (true) {
-			par_shapes_mesh* plane = par_shapes_create_plane(5, 5);
-			FillPrimitiveDrawInfo(plane);
-			par_shapes_free_mesh(plane);
-		}
+	{
+		ResourceMesh* res = App->resources->GetPrimitive(is_primitive);
+		if (res)
+			res->LoadToMemory();
+		uuid_mesh = res->GetUID();
+	}
 		break;
 	}
-		
-	
+
+	gameObject->UpdateBoundingBox();
 }

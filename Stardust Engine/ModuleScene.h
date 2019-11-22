@@ -13,6 +13,7 @@ class Quadtree;
 class ComponentCamera;
 class ComponentMesh;
 class ResourceMesh;
+enum PrimitiveType;
 
 class ModuleScene : public Module
 {
@@ -28,9 +29,7 @@ public:
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* GetRootGameObject() const;
 
-	GameObject* CreateCubePrimitive();
-	GameObject* CreateSpherePrimitive(int subdivisions);
-	GameObject* CreatePlanePrimitive(int slices, int stacks);
+	GameObject* CreatePrimitiveObject(PrimitiveType type);
 
 	void Draw();
 	void DrawGameObjects(GameObject* go);
