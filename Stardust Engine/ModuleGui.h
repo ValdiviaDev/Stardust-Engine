@@ -44,7 +44,7 @@ public:
 public:
 
 	vector<UID> loaded_meshes_uuid;
-	vector<string> loaded_meshes;
+	vector<UID> loaded_textures;
 	vector<string> loaded_materials;
 
 	char scene_name[100] = "";

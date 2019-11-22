@@ -7,6 +7,7 @@
 
 
 class ComponentMaterial;
+class ResourceTexture;
 
 struct MatFileInfo {
 	std::string file = "";
@@ -29,7 +30,7 @@ public:
 	bool Import(const char* file, const char* path, std::string& output_file, uint& uid_out); //not necessary to pass uid_out if you dont need
 	//bool Import(const void* buffer, uint size, std::string& output_file);
 
-	bool LoadMaterial(const char* file_name, ComponentMaterial* mat);
+	bool LoadMaterial(const char* file_name, ResourceTexture* mat);
 	bool LoadCheckers(ComponentMaterial* resource);
 	void Serialize(ComponentMaterial* mat);
 	void SerializeNoComponent(const char* old_file, uint uuid); //file has to be for ex "BakerHouse.png"

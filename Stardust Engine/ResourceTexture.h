@@ -12,7 +12,7 @@ public:
 	bool LoadInMemory();
 	bool UnloadInMemory();
 
-private:
+public:
 	uint tex_id = 0;
 	int tex_width, tex_height;
 
