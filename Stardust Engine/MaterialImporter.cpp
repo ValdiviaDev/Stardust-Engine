@@ -1,6 +1,7 @@
+#include "Application.h"
 #include "MaterialImporter.h"
 #include "ComponentMaterial.h"
-#include "Application.h"
+#include "ResourceTexture.h"
 
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
 #pragma comment (lib, "DevIL/libx86/ILU.lib")
@@ -93,8 +94,8 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 			AddTextureToList(file_string.c_str(), uuid_mat);
 			file_no_ext = std::to_string(uuid_mat);
 			uid_out = uuid_mat;
-			App->gui->loaded_materials.push_back((string)file_no_ext);
-
+			//App->gui->loaded_materials.push_back((string)file_no_ext);
+			App->gui->loaded_textures.push_back(uuid_mat);
 
 		}
 		else {
@@ -112,7 +113,7 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 }
 
 
-bool MaterialImporter::LoadMaterial(const char* file_name, ComponentMaterial* mat)
+bool MaterialImporter::LoadMaterial(const char* file_name, ResourceTexture* mat)
 {
 	std::string f(file_name);
 	App->fs->NormalizePath(f);
@@ -143,9 +144,9 @@ bool MaterialImporter::LoadMaterial(const char* file_name, ComponentMaterial* ma
 	}
 
 	//mat->uuid_mat = GetUUIDFromJSON(file_name);
-	std::string json_file = LIBRARY_MAT_FOLDER + (string)file_name + ".json";
-	mat->uuid_mat = GetUUIDFromJSON(json_file.c_str());
-	mat->SetPath(GetTexturePathFromUUID(mat->uuid_mat));
+	//std::string json_file = LIBRARY_MAT_FOLDER + (string)file_name + ".json";
+	//mat->uuid = GetUUIDFromJSON(json_file.c_str());
+	//mat->SetPath(GetTexturePathFromUUID(mat->uuid_mat));
 
 	//Get width and height
 	mat->tex_width = ilGetInteger(IL_IMAGE_WIDTH);

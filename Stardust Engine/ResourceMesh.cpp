@@ -9,10 +9,12 @@ ResourceMesh::ResourceMesh(UID uuid) : Resource(uuid, Resource_Mesh)
 
 ResourceMesh::~ResourceMesh()
 {
-	RELEASE_ARRAY(index);
-	RELEASE_ARRAY(vertex);
-	RELEASE_ARRAY(normal);
-	RELEASE_ARRAY(uv);
+	if(loaded > 0)
+		UnloadInMemory(); //TODO!!!
+	//RELEASE_ARRAY(index);
+	//RELEASE_ARRAY(vertex);
+	//RELEASE_ARRAY(normal);
+	//RELEASE_ARRAY(uv);
 }
 
 bool ResourceMesh::LoadInMemory()

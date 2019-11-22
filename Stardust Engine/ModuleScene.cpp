@@ -25,6 +25,7 @@
 #include <gl/GL.h>
 
 #include "ResourceMesh.h"
+#include "ResourceTexture.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, "Scene", start_enabled)
@@ -211,13 +212,15 @@ void ModuleScene::DrawGameObjects(GameObject* go) const
 		glMultMatrixf((GLfloat*)matrix.Transposed().ptr());
 		
 		//Texture
-		if (go->material && go->material->debug_tex_draw) { //Draw texture
-			if (go->material->debug_checkers) //Checkers
+		ComponentMaterial* c_mat = go->material;
+		if (c_mat && c_mat->debug_tex_draw) { //Draw texture
+			if (c_mat->debug_checkers) //Checkers
 				glBindTexture(GL_TEXTURE_2D, App->renderer3D->checkersImgId);
 
-			else if(go->material && go->material->GetIfTex()) //Charged texture
-				glBindTexture(GL_TEXTURE_2D, go->material->GetTexId());
-
+			else if (c_mat && c_mat->uuid_mat != 0) { //Charged texture
+				ResourceTexture* tex = (ResourceTexture*)App->resources->Get(c_mat->uuid_mat);
+				glBindTexture(GL_TEXTURE_2D, tex->tex_id);
+			}
 		}
 
 		//Model

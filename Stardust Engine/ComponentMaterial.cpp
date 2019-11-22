@@ -31,9 +31,10 @@ void ComponentMaterial::AssignTextureLib(const char * path)
 			string aux1, aux2;
 			App->fs->SplitFilePath(path, &aux1, &file, &aux2);
 			file = file.substr(0, file.find_last_of("."));
-			has_tex = App->mat_import->LoadMaterial(file.c_str(), this);
-		}else
-			has_tex = App->mat_import->LoadMaterial(path, this);
+			//has_tex = App->mat_import->LoadMaterial(file.c_str(), this);
+		}
+		else {}
+			//has_tex = App->mat_import->LoadMaterial(path, this);
 
 	}
 }
@@ -91,7 +92,7 @@ void ComponentMaterial::DrawInspector() {
 }
 
 
-void ComponentMaterial::Save(JSON_Array* comp_array) {
+void ComponentMaterial::Save(JSON_Array* comp_array) const {
 
 	JSON_Value* value = json_value_init_object();
 	JSON_Object* obj = json_value_get_object(value);

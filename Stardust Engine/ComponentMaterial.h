@@ -11,7 +11,7 @@ public:
 	ComponentMaterial(GameObject* parent);
 	~ComponentMaterial();
 
-	void Save(JSON_Array* comp_array);
+	void Save(JSON_Array* comp_array) const;
 	void Load(JSON_Object* comp_obj);
 
 

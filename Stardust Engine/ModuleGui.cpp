@@ -24,6 +24,7 @@
 #include "PanelEdit.h"
 
 #include "ResourceMesh.h"
+#include "ResourceTexture.h"
 
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, "Gui", start_enabled)
 {
@@ -234,15 +235,19 @@ void ModuleGui::HandleMainMenuBar()
 		}
 
 		if (ImGui::BeginMenu("Materials")) {
-			for (int i = 0; i < loaded_materials.size(); ++i)
-				if (ImGui::MenuItem(loaded_materials[i].c_str()))
+			for (int i = 0; i < loaded_textures.size(); ++i)
+				if (ImGui::MenuItem(std::to_string(loaded_textures[i]).c_str()))
 				{
 					GameObject* go = App->scene->GetFocusedGameObject();
 					if (go) {
+						ResourceTexture* res_tex;
+						res_tex = (ResourceTexture*)App->resources->Get(loaded_textures[i]);
+						if (res_tex)
+							res_tex->LoadToMemory();
+
 						if(!go->material)
 							go->CreateComponent(Comp_Material);
-						go->material->AssignTextureLib(loaded_materials[i].c_str());
-
+						go->material->uuid_mat = res_tex->GetUID();
 						go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
 					}
 				}

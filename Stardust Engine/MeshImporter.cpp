@@ -304,13 +304,9 @@ bool MeshImporter::SaveMesh(ResourceMesh* mesh, const char* file_name)
 	}
 
 	string file_n_ext;
-	if (App->fs->SaveUnique(file_n_ext, data, size, LIBRARY_MESH_FOLDER, file_name, MESH_EXTENSION)) {
+	if (App->fs->SaveUnique(file_n_ext, data, size, LIBRARY_MESH_FOLDER, file_name, MESH_EXTENSION)) //File name is a uuid
 		ret = true;
 
-		//Send the string to the gui to print in a menu
-		string mesh_name = file_name;
-		App->gui->loaded_meshes.push_back(mesh_name);
-	}
 
 	RELEASE_ARRAY(data);
 
