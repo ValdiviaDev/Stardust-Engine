@@ -14,27 +14,22 @@ public:
 	void Save(JSON_Array* comp_array) const;
 	void Load(JSON_Object* comp_obj);
 
-
-	void AssignTextureLib(const char* path);
-
-	uint GetTexId()const;
-	bool GetIfTex()const;
+	bool HasTex() const;
 
 	void SetPath(const char* path);
 
 	void  DrawInspector();
 
 public:
+	uint uuid_mat = 0;
+
+	//Debug
 	bool debug_tex_draw = true;
 	bool debug_checkers = false;
 
-	uint tex_id = 0;
-	int tex_width, tex_height;
-	
-	uint uuid_mat = 0;
 private:
+
 	char tex_path[500];
-	bool has_tex = false;
 };
 
 #endif

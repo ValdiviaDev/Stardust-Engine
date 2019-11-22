@@ -238,17 +238,22 @@ void ModuleGui::HandleMainMenuBar()
 			for (int i = 0; i < loaded_textures.size(); ++i)
 				if (ImGui::MenuItem(std::to_string(loaded_textures[i]).c_str()))
 				{
+					ResourceTexture* res_tex;
 					GameObject* go = App->scene->GetFocusedGameObject();
 					if (go) {
-						ResourceTexture* res_tex;
+						if (!go->material)
+							go->CreateComponent(Comp_Material);
+						else if (go->material->HasTex()) {
+							res_tex = (ResourceTexture*)App->resources->Get(go->material->uuid_mat);
+							res_tex->UnloadToMemory();
+						}
+
 						res_tex = (ResourceTexture*)App->resources->Get(loaded_textures[i]);
 						if (res_tex)
 							res_tex->LoadToMemory();
 
-						if(!go->material)
-							go->CreateComponent(Comp_Material);
 						go->material->uuid_mat = res_tex->GetUID();
-						go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
+						go->material->SetPath(res_tex->GetFile());
 					}
 				}
 

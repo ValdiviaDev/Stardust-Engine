@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ComponentMaterial.h"
 #include "Application.h"
 #include "imgui/imgui.h"
@@ -13,6 +14,7 @@ ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 
 ComponentMaterial::~ComponentMaterial()
 {
+	//Unload Resource
 	if (uuid_mat != 0) {
 		ResourceTexture* res = (ResourceTexture*)App->resources->Get(uuid_mat);
 		if (res)
@@ -24,37 +26,9 @@ ComponentMaterial::~ComponentMaterial()
 }
 
 
-void ComponentMaterial::AssignTextureLib(const char * path)
+bool ComponentMaterial::HasTex() const
 {
-	if (path) {
-		/*//The path in this case is the name file (UUID maybe)
-		bool charged = App->mat_import->LoadMaterial(path, this);
-
-		if (charged)
-			has_tex = true;
-		//Maybe we can put the assets path here? or maybe not
-		*/
-		string file(path);
-		if (file.find(".")) {
-			string aux1, aux2;
-			App->fs->SplitFilePath(path, &aux1, &file, &aux2);
-			file = file.substr(0, file.find_last_of("."));
-			//has_tex = App->mat_import->LoadMaterial(file.c_str(), this);
-		}
-		else {}
-			//has_tex = App->mat_import->LoadMaterial(path, this);
-
-	}
-}
-
-uint ComponentMaterial::GetTexId() const
-{
-	return tex_id;
-}
-
-bool ComponentMaterial::GetIfTex() const
-{
-	return has_tex;
+	return uuid_mat != 0;
 }
 
 void ComponentMaterial::SetPath(const char * path)
@@ -72,13 +46,16 @@ void ComponentMaterial::DrawInspector() {
 
 		ImGui::Text("Texture path: ");
 		ImGui::SameLine();
+		
+		ResourceTexture* r_tex = nullptr;
+		if (HasTex()) {
+			r_tex = (ResourceTexture*)App->resources->Get(uuid_mat);
 
-		if (has_tex) {
 			ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), tex_path);
 
 			ImGui::Text("Texture size: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), "%i x %i", tex_width, tex_height);
+			ImGui::TextColored(ImVec4(0.7f, 0.8f, 0.0f, 1.0f), "%i x %i", r_tex->tex_width, r_tex->tex_height);
 
 		}
 		else
@@ -92,8 +69,8 @@ void ComponentMaterial::DrawInspector() {
 		ImGui::SameLine();
 		ImGui::Checkbox("Draw Checkers", &debug_checkers);
 
-		if (has_tex)
-			ImGui::Image((ImTextureID)tex_id, { 250,250 });
+		if (HasTex())
+			ImGui::Image((ImTextureID)r_tex->tex_id, { 250,250 });
 
 	}
 
@@ -114,8 +91,8 @@ void ComponentMaterial::Save(JSON_Array* comp_array) const {
 
 void ComponentMaterial::Load(JSON_Object* comp_obj) {
 
-	
 	uuid_mat = json_object_get_number(comp_obj, "UUID Material");
-	AssignTextureLib(json_object_get_string(comp_obj, "path"));
 
+	ResourceTexture* r_tex = (ResourceTexture*)App->resources->Get(uuid_mat);
+	r_tex->LoadToMemory();
 }

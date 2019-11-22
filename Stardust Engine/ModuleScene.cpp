@@ -395,9 +395,7 @@ void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
 		App->fs->SplitFilePath(tex_path, &aux1, &file, &aux2);
 		//file = file.substr(0, file.find_last_of("."));
 
-		App->mat_import->Import(file.c_str(), ASSETS_TEX_FOLDER, aux1, go->material->uuid_mat);
-		
-		go->material->AssignTextureLib(std::to_string(go->material->uuid_mat).c_str());
+		//App->mat_import->Import(file.c_str(), ASSETS_TEX_FOLDER, aux1, go->material->uuid_mat);
 
 
 	}

@@ -165,11 +165,8 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 				//Create the material if the texture is found
 				if (App->fs->Exists(mat_path_s.c_str())) {
 					go->CreateComponent(Comp_Material);
-					//go->material->AssignTextureLib(mat_path_s.c_str());
-					go->material->uuid_mat = App->GenerateUUID();
-
-					string out_material;
-					App->resources->ImportFile(mat_path_s.c_str(), Resource_Texture);
+					UID mat_uuid = App->resources->ImportFile(mat_path_s.c_str(), Resource_Texture); //Resource Testure
+					go->material->uuid_mat = mat_uuid;
 					go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
 
 					//Create json with uuid and path for Material
