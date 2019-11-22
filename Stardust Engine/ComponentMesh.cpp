@@ -6,6 +6,8 @@
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
 
+#include "ResourceMesh.h"
+
 ComponentMesh::ComponentMesh(GameObject* parent, PrimitiveType primitive) 
 	: Component(parent), is_primitive(primitive)
 {
@@ -192,10 +194,11 @@ void ComponentMesh::Load(JSON_Object* comp_obj) {
 	case PRIMITIVE_NONE:
 
 		if (uuid_mesh != 0) {
-			LoadMesh(std::to_string(uuid_mesh));
+			ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
+			res->LoadToMemory();
+			//LoadMesh(std::to_string(uuid_mesh));
 		}
 		else {
-
 			//if (!LoadMesh(file.c_str())) {
 			//	AssignMesh(p);
 			//}
