@@ -45,15 +45,6 @@ void SceneSerialization::SaveSceneFromMesh(const char* scene_name, std::list<Gam
 	LOG("Saving scene %s from mesh.", scene_name);
 
 
-	if (!App->fs->Exists(ASSETS_SCENE_FOLDER)) {
-		CreateDirectory(ASSETS_SCENE_FOLDER, NULL);
-		LOG("Creating directory %s", ASSETS_SCENE_FOLDER);
-	}
-
-	if (!App->fs->Exists(LIBRARY_SCENE_FOLDER)) {
-		CreateDirectory(LIBRARY_SCENE_FOLDER, NULL);
-		LOG("Creating directory %s", LIBRARY_SCENE_FOLDER);
-	}
 
 	JSON_Value* root_value = json_value_init_array();
 	JSON_Array* array = json_value_get_array(root_value);

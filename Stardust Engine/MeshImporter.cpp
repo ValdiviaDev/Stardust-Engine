@@ -8,6 +8,7 @@
 #include "SceneSerialization.h"
 #include "ResourceMesh.h"
 
+
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -54,6 +55,11 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 		std::list<GameObject*> go_list;
 
 		ret = ImportNodeAndSerialize(scene, root, dummy, dummy->transform, (char*)path, &go_list, mesh_uuids);
+
+		//Generate .meta
+		App->resources->GenerateMetaFile(path, ResourceType::Resource_Mesh, dummy->uuid, mesh_uuids);
+
+
 
 		//Make .json scene for the .fbx scene
 		char file_name[100];
@@ -226,8 +232,10 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 					App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
 			}
 
+			
 
 			//Save a mesh in own file format
+
 			if (mesh)
 				if (SaveMesh(mesh, std::to_string(mesh->GetUID()).c_str())) {
 					mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
@@ -236,6 +244,8 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 				else
 					SaveMesh(mesh, name.c_str());
 
+
+			
 
 			//Delete the auxiliar mesh info (Resource Mesh)
 			RELEASE(mesh);

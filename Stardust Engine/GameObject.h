@@ -60,7 +60,7 @@ public:
 
 	void Load(JSON_Object* object);
 	void Save(JSON_Array* go_array) const;
-	void SaveAndSerialize() const;
+
 
 private:
 	bool active = true;
