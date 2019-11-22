@@ -16,7 +16,7 @@ bool ResourceTexture::LoadInMemory()
 	return false;
 }
 
-bool ResourceTexture::EraseInMemory()
+bool ResourceTexture::UnloadInMemory()
 {
 	return false;
 }

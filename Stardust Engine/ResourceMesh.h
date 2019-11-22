@@ -10,9 +10,16 @@ public:
 	~ResourceMesh();
 
 	bool LoadInMemory();
-	bool EraseInMemory();
+	bool UnloadInMemory();
 
-private:
+	void LoadMeshPrimitive(par_shapes_mesh* shape);
+
+	void BindBuffers();
+	void BindBuffersPrimitive();
+
+	bool IsPrimitive() const;
+
+public:
 	PrimitiveType is_primitive = PRIMITIVE_NONE;
 
 	//Vertex info

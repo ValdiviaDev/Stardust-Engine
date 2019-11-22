@@ -5,6 +5,7 @@
 #include "imgui/imgui_impl_sdl.h"
 #include "ModuleFileSystem.h"
 #include "SceneSerialization.h"
+#include "Resource.h"
 
 #define MAX_KEYS 300
 
@@ -130,9 +131,10 @@ update_status ModuleInput::PreUpdate(float dt)
 					}
 					else {
 						
-						string out_f;
-						vector<UID> no_use;
-						App->mesh_import->ImportScene(file.c_str(), aux.c_str(), out_f, no_use);
+						//string out_f;
+						//vector<UID> no_use;
+						//App->mesh_import->ImportScene(file.c_str(), aux.c_str(), out_f, no_use);
+						App->resources->ImportFile(e.drop.file, Resource_Mesh);
 
 						if (App->fs->Exists(path_and_file.c_str())) {
 							LOG("Scene saved and now loading from it");

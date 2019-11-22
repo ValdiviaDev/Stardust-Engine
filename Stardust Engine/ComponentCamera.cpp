@@ -172,7 +172,7 @@ void ComponentCamera::DrawInspector() {
 }
 
 
-void ComponentCamera::DrawFrustum() {
+void ComponentCamera::DrawFrustum() const {
 
 	glBegin(GL_LINES);
 	glLineWidth(2.0f);
@@ -189,7 +189,7 @@ void ComponentCamera::DrawFrustum() {
 }
 
 
-void ComponentCamera::CameraCullingStObj()
+void ComponentCamera::CameraCullingStObj() const
 {
 	vector<GameObject*> obj_to_cull;
 	vector<GameObject*> st_obj = App->scene->static_objects;
@@ -206,14 +206,14 @@ void ComponentCamera::CameraCullingStObj()
 
 }
 
-void ComponentCamera::CameraCullingDynObj(GameObject* go) {
+void ComponentCamera::CameraCullingDynObj(GameObject* go) const {
 
 	if (!go->camera) {
 		for (std::vector<GameObject*>::const_iterator it = go->childs.begin(); it < go->childs.end(); it++) {
 
 			AABB refBox = (*it)->bounding_box;
 
-			if (!(*it)->IsStatic() && refBox.IsFinite() && (*it)->mesh && (*it)->mesh->m_info.num_vertex > 0) {
+			if (!(*it)->IsStatic() && (*it)->mesh && refBox.IsFinite()) {
 
 				
 				//if (!frustum.Intersects(refBox)) {    //MathGeoLib func. Slow but works better
@@ -288,7 +288,7 @@ float* ComponentCamera::GetProjectionMatrix()
 
 
 
-void ComponentCamera::Save(JSON_Array* comp_array) {
+void ComponentCamera::Save(JSON_Array* comp_array) const {
 
 	JSON_Value* value = json_value_init_object();
 	JSON_Object* obj = json_value_get_object(value);

@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ComponentMesh.h"
 #include "Globals.h"
 #include "imgui/imgui.h"
@@ -6,44 +7,26 @@
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
 
-ComponentMesh::ComponentMesh(GameObject* parent, PrimitiveType primitive) 
-	: Component(parent), is_primitive(primitive)
+#include "ResourceMesh.h"
+
+ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 {
 	type = Comp_Mesh;
-	m_info = geo_info();
 
 
 }
 
 ComponentMesh::~ComponentMesh()
 {
-	RELEASE_ARRAY(m_info.index);
-	RELEASE_ARRAY(m_info.vertex);
-	RELEASE_ARRAY(m_info.normal);
-	RELEASE_ARRAY(m_info.uv);
+	//Unload Resource
+	if (uuid_mesh != 0) {
+		ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
+		if(res)
+			res->UnloadToMemory();
+	}
 
 	if (gameObject)
 		gameObject->mesh = nullptr;
-}
-
-//void ComponentMesh::AssignMesh(const char* path)
-//{
-//	bool charged = false;
-//
-//	//Import mesh and bind buffers
-//	charged = App->importer->ImportMesh(path, m_info, this->gameObject);
-//	if (charged) {
-//		App->importer->BindBuffers(m_info);
-//		this->path = path;
-//	}
-//
-//	gameObject->UpdateBoundingBox();
-//}
-
-geo_info ComponentMesh::GetInfo() const
-{
-	
-	return m_info;
 }
 
 bool ComponentMesh::IsPrimitive() const
@@ -52,6 +35,11 @@ bool ComponentMesh::IsPrimitive() const
 		return false;
 	
 	return true;
+}
+
+void ComponentMesh::SetPrimitive(PrimitiveType type)
+{
+	is_primitive = type;
 }
 
 void ComponentMesh::DrawInspector() {
@@ -79,89 +67,13 @@ void ComponentMesh::DrawInspector() {
 
 }
 
-void ComponentMesh::FillPrimitiveDrawInfo(par_shapes_mesh* shape)
-{
-
-	m_info.num_vertex = (uint)shape->npoints;
-	m_info.vertex = new float[m_info.num_vertex * 3];
-	memcpy(m_info.vertex, shape->points, sizeof(float) * m_info.num_vertex * 3);
-
-	m_info.num_index = (uint)shape->ntriangles;
-	m_info.index = new uint[m_info.num_index * 3];
-	memcpy(m_info.index, shape->triangles, sizeof(PAR_SHAPES_T) * m_info.num_index * 3);
-
-	BindBuffersPrimitive();
-	gameObject->UpdateBoundingBox();
-
-}
-
-bool ComponentMesh::LoadMesh(string name)
-{
-	string path = name + "." + MESH_EXTENSION;
-	bool ret = App->mesh_import->LoadMesh(path.c_str(), m_info);
-	
-	BindBuffers();
-	gameObject->UpdateBoundingBox();
-
-	return ret;
-}
-
 void ComponentMesh::SetPath(const char* path)
 {
 	this->path = path;
 }
 
-void ComponentMesh::BindBuffers() {
 
-	if (m_info.index != nullptr && m_info.vertex != nullptr) {
-		//Vertex
-		glGenBuffers(1, (GLuint*) &(m_info.id_vertex));
-		glBindBuffer(GL_ARRAY_BUFFER, m_info.id_vertex);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m_info.num_vertex, m_info.vertex, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		//Index
-		glGenBuffers(1, (GLuint*) &(m_info.id_index));
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_info.id_index);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * m_info.num_index, m_info.index, GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		//Normal
-		if (m_info.normal != nullptr) {
-			glGenBuffers(1, (GLuint*) &(m_info.id_normal));
-			glBindBuffer(GL_ARRAY_BUFFER, m_info.id_normal);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m_info.num_normal, m_info.normal, GL_STATIC_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
-
-		//Texture coordinates
-		if (m_info.uv != nullptr) {
-			glGenBuffers(1, (GLuint*) &(m_info.id_uv));
-			glBindBuffer(GL_ARRAY_BUFFER, m_info.id_uv);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * m_info.num_uv, m_info.uv, GL_STATIC_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
-	}
-}
-
-void ComponentMesh::BindBuffersPrimitive()
-{
-	//Vertex
-	glGenBuffers(1, (GLuint*) &(m_info.id_vertex));
-	glBindBuffer(GL_ARRAY_BUFFER, m_info.id_vertex);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * m_info.num_vertex, m_info.vertex, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//Index
-	glGenBuffers(1, (GLuint*) &(m_info.id_index));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_info.id_index);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(PAR_SHAPES_T) * 3 * m_info.num_index, m_info.index, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
-
-void ComponentMesh::Save(JSON_Array* comp_array) {
-
+void ComponentMesh::Save(JSON_Array* comp_array) const {
 
 	JSON_Value* value = json_value_init_object();
 	JSON_Object* obj = json_value_get_object(value);
@@ -190,43 +102,27 @@ void ComponentMesh::Load(JSON_Object* comp_obj) {
 
 	switch (is_primitive) {
 	case PRIMITIVE_NONE:
-
 		if (uuid_mesh != 0) {
-			LoadMesh(std::to_string(uuid_mesh));
-		}
-		else {
-
-			//if (!LoadMesh(file.c_str())) {
-			//	AssignMesh(p);
-			//}
+			ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
+			if (res)
+				res->LoadToMemory();
+			else
+				App->gui->AddLogToConsole("WARNING: THERE IS NO RESOURCE TO ASSING TO THIS MESH");
 		}
 
 		break;
 
 	case PRIMITIVE_CUBE:
-		if (true) {
-			par_shapes_mesh* cube = par_shapes_create_cube();
-			FillPrimitiveDrawInfo(cube);
-			par_shapes_free_mesh(cube);
-		}
-		break;
-
-	case PRIMITIVE_SPHERE:
-		if (true) {
-			par_shapes_mesh* sphere = par_shapes_create_subdivided_sphere(3);
-			FillPrimitiveDrawInfo(sphere);
-			par_shapes_free_mesh(sphere);
-		}
-		break;
-
+	case PRIMITIVE_SPHERE: 
 	case PRIMITIVE_PLANE:
-		if (true) {
-			par_shapes_mesh* plane = par_shapes_create_plane(5, 5);
-			FillPrimitiveDrawInfo(plane);
-			par_shapes_free_mesh(plane);
-		}
+	{
+		ResourceMesh* res = App->resources->GetPrimitive(is_primitive);
+		if (res)
+			res->LoadToMemory();
+		uuid_mesh = res->GetUID();
+	}
 		break;
 	}
-		
-	
+
+	gameObject->UpdateBoundingBox();
 }

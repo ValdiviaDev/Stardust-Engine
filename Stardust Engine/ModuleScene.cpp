@@ -24,6 +24,7 @@
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
 
+#include "ResourceMesh.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, "Scene", start_enabled)
@@ -162,50 +163,37 @@ GameObject * ModuleScene::GetRootGameObject() const
 	return root_object;
 }
 
-GameObject* ModuleScene::CreateCubePrimitive()
+GameObject* ModuleScene::CreatePrimitiveObject(PrimitiveType type)
 {
-	par_shapes_mesh* cube = par_shapes_create_cube();
+	//Resource
+	ResourceMesh* r_primitive = App->resources->GetPrimitive(type);
+	if(r_primitive)
+		r_primitive->LoadToMemory();
 
-	GameObject* cubeGO = CreateGameObject(root_object);
-	cubeGO->SetName("Cube");
-	cubeGO->CreateComponent(Comp_Mesh, PRIMITIVE_CUBE);
-	cubeGO->mesh->FillPrimitiveDrawInfo(cube);
+	//GameObject and Component Mesh
+	GameObject* primitiveGO = CreateGameObject(root_object);
+	switch (type) {
+	case PRIMITIVE_CUBE:
+		primitiveGO->SetName("Cube");
+		break;
+	case PRIMITIVE_SPHERE:
+		primitiveGO->SetName("Sphere");
+		break;
+	case PRIMITIVE_PLANE:
+		primitiveGO->SetName("Plane");
+		break;
+	}
+	
+	primitiveGO->CreateComponent(Comp_Mesh);
+	primitiveGO->mesh->SetPrimitive(type);
+	primitiveGO->mesh->uuid_mesh = r_primitive->GetUID();
+	primitiveGO->UpdateBoundingBox();
 
-	par_shapes_free_mesh(cube);
-
-	return cubeGO;
-}
-
-GameObject* ModuleScene::CreateSpherePrimitive(int subdivisions)
-{
-	par_shapes_mesh* sphere = par_shapes_create_subdivided_sphere(subdivisions);
-
-	GameObject* sphereGO = CreateGameObject(root_object);
-	sphereGO->SetName("Sphere");
-	sphereGO->CreateComponent(Comp_Mesh, PRIMITIVE_SPHERE);
-	sphereGO->mesh->FillPrimitiveDrawInfo(sphere);
-
-	par_shapes_free_mesh(sphere);
-
-	return sphereGO;
-}
-
-GameObject* ModuleScene::CreatePlanePrimitive(int slices, int stacks)
-{
-	par_shapes_mesh* plane = par_shapes_create_plane(slices, stacks);
-
-	GameObject* planeGO = CreateGameObject(root_object);
-	planeGO->SetName("Plane");
-	planeGO->CreateComponent(Comp_Mesh, PRIMITIVE_PLANE);
-	planeGO->mesh->FillPrimitiveDrawInfo(plane);
-
-	par_shapes_free_mesh(plane);
-
-	return planeGO;
+	return primitiveGO;
 }
 
 
-void ModuleScene::Draw() {
+void ModuleScene::Draw() const {
 	DrawGrid();
 	DrawGameObjects(root_object);
 
@@ -214,9 +202,9 @@ void ModuleScene::Draw() {
 		DrawSceneDebug();
 }
 
-void ModuleScene::DrawGameObjects(GameObject* go)
+void ModuleScene::DrawGameObjects(GameObject* go) const
 {
-	if (go && go->IsActive() && go->mesh && go->mesh->IsActive()) { 
+	if (go && go->IsActive() && go->mesh && go->mesh->IsActive() && go->mesh->uuid_mesh != 0) { 
 		//Matrix
 		glPushMatrix();
 		float4x4 matrix = go->transform->GetGlobalMatrix();
@@ -234,31 +222,32 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 
 		//Model
 		ComponentMesh* c_mesh = go->mesh;
-		geo_info mesh = go->mesh->GetInfo();
+		ResourceMesh* mesh = (ResourceMesh*)App->resources->Get(c_mesh->uuid_mesh);
+		//geo_info mesh = go->mesh->GetInfo();
 
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 		
 		if (!go->mesh->IsPrimitive()) {
 			glEnableClientState(GL_NORMAL_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh.id_normal);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normal);
 			glNormalPointer(GL_FLOAT, 0, NULL);
 
-			if (mesh.uv != nullptr) {
+			if (mesh->uv != nullptr) {
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uv);
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uv);
 				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 			}
 
 		}
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_index);
 
 		if(!go->mesh->IsPrimitive())
-			glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_INT, NULL);
+			glDrawElements(GL_TRIANGLES, mesh->num_index * 3, GL_UNSIGNED_INT, NULL);
 		else
-			glDrawElements(GL_TRIANGLES, mesh.num_index * 3, GL_UNSIGNED_SHORT, NULL);
+			glDrawElements(GL_TRIANGLES, mesh->num_index * 3, GL_UNSIGNED_SHORT, NULL);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -270,7 +259,7 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		if(c_mesh->debug_v_norm || c_mesh->debug_f_norm)
-			DrawGameObjectsDebug(go);
+			DrawGameObjectsDebug(c_mesh, mesh);
 
 		glPopMatrix();
 
@@ -285,40 +274,39 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 
 }
 
-void ModuleScene::DrawGameObjectsDebug(GameObject* go)
+void ModuleScene::DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh) const
 {
 	//Vertex normals
-	geo_info m = go->mesh->GetInfo();
-	if (go->mesh->debug_v_norm) {
+	if (c_mesh->debug_v_norm) {
 		glBegin(GL_LINES);
 		glColor3f(255.0f, 255.0f, 0.0f); //Yellow
 
-		for (int i = 0; i < m.num_normal * 3; i += 3) {
+		for (int i = 0; i < r_mesh->num_normal * 3; i += 3) {
 
 			//Normalize the vertex normals
-			float3 norm = { m.normal[i], m.normal[i + 1], m.normal[i + 2] };
+			float3 norm = { r_mesh->normal[i], r_mesh->normal[i + 1], r_mesh->normal[i + 2] };
 			float  mod = sqrt(norm.x * norm.x + norm.y * norm.y + norm.z * norm.z);
 			norm = (norm / mod) * 0.5;
 
-			glVertex3f(m.vertex[i], m.vertex[i + 1], m.vertex[i + 2]);
-			glVertex3f(m.vertex[i] + norm.x, m.vertex[i + 1] + norm.y, m.vertex[i + 2] + norm.z);
+			glVertex3f(r_mesh->vertex[i], r_mesh->vertex[i + 1], r_mesh->vertex[i + 2]);
+			glVertex3f(r_mesh->vertex[i] + norm.x, r_mesh->vertex[i + 1] + norm.y, r_mesh->vertex[i + 2] + norm.z);
 
 		}
 		glColor3f(255.0f, 255.0f, 255.0f); //White
 		glEnd();
 	}
-	if (go->mesh->debug_f_norm) {
 
-
-		for (int i = 0; i < m.num_index; i += 3) {
+	//Face normals
+	if (c_mesh->debug_f_norm) {
+		for (int i = 0; i < r_mesh->num_index; i += 3) {
 			//Triangle points
-			uint index_01 = m.index[i] * 3;
-			uint index_02 = m.index[i + 1] * 3;
-			uint index_03 = m.index[i + 2] * 3;
+			uint index_01 = r_mesh->index[i] * 3;
+			uint index_02 = r_mesh->index[i + 1] * 3;
+			uint index_03 = r_mesh->index[i + 2] * 3;
 
-			float3 p1 = { m.vertex[index_01], m.vertex[index_01 + 1], m.vertex[index_01 + 2] };
-			float3 p2 = { m.vertex[index_02], m.vertex[index_02 + 1], m.vertex[index_02 + 2] };
-			float3 p3 = { m.vertex[index_03], m.vertex[index_03 + 1], m.vertex[index_03 + 2] };
+			float3 p1 = { r_mesh->vertex[index_01], r_mesh->vertex[index_01 + 1], r_mesh->vertex[index_01 + 2] };
+			float3 p2 = { r_mesh->vertex[index_02], r_mesh->vertex[index_02 + 1], r_mesh->vertex[index_02 + 2] };
+			float3 p3 = { r_mesh->vertex[index_03], r_mesh->vertex[index_03 + 1], r_mesh->vertex[index_03 + 2] };
 
 			//Calculate face center
 			float C1 = (p1.x + p2.x + p3.x) / 3;
@@ -352,7 +340,7 @@ void ModuleScene::DrawGameObjectsDebug(GameObject* go)
 	}
 }
 
-void ModuleScene::DrawSceneDebug()
+void ModuleScene::DrawSceneDebug() const
 {
 	glDisable(GL_LIGHTING);
 	//Draw bounding boxes
@@ -367,7 +355,7 @@ void ModuleScene::DrawSceneDebug()
 	glEnable(GL_LIGHTING);
 }
 
-void ModuleScene::DrawAABBRecursive(GameObject * go)
+void ModuleScene::DrawAABBRecursive(GameObject * go) const
 {
 	if (go == focused_object || draw_GO_AABBs)
 		go->DrawBoundingBox();
@@ -376,7 +364,7 @@ void ModuleScene::DrawAABBRecursive(GameObject * go)
 		DrawAABBRecursive(go->GetChild(i));
 }
 
-void ModuleScene::DrawGrid()
+void ModuleScene::DrawGrid() const
 {
 	glBegin(GL_LINES);
 
@@ -549,7 +537,7 @@ GameObject* ModuleScene::GetFocusedGameObject() const {
 	return focused_object;
 }
 
-GameObject * ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) const
+GameObject* ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) const
 {
 
 	GameObject* ret = nullptr;
@@ -589,7 +577,7 @@ GameObject * ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) con
 	return ret;
 }
 
-void ModuleScene::DeleteGameObject(GameObject* go)
+void ModuleScene::DeleteGameObject(GameObject* go) const
 {
 	go->DeleteFromParentList();
 	RELEASE(go);

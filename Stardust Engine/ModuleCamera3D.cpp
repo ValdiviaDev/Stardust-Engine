@@ -8,6 +8,7 @@
 #include "ComponentCamera.h"
 #include "MathGeoLib/include/Math/MathAll.h"
 #include "Quadtree.h"
+#include "ResourceMesh.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, "Camera3D", start_enabled)
 {
@@ -309,17 +310,17 @@ bool ModuleCamera3D::TestTrianglePicking(LineSegment ray, vector<GameObject*> in
 		local_ray.Transform(intersected_objs[i]->transform->GetGlobalMatrix().Inverted());
 
 		//Check every mesh triangle
-		geo_info m = intersected_objs[i]->mesh->GetInfo();
+		ResourceMesh* m = (ResourceMesh*)App->resources->Get(intersected_objs[i]->mesh->uuid_mesh);
 
-		for (int j = 0; j < m.num_index; j += 3) {
+		for (int j = 0; j < m->num_index; j += 3) {
 			//Triangle points
-			uint index_01 = m.index[j] * 3;
-			uint index_02 = m.index[j + 1] * 3;
-			uint index_03 = m.index[j + 2] * 3;
+			uint index_01 = m->index[j] * 3;
+			uint index_02 = m->index[j + 1] * 3;
+			uint index_03 = m->index[j + 2] * 3;
 
-			float3 p1 = { m.vertex[index_01], m.vertex[index_01 + 1], m.vertex[index_01 + 2] };
-			float3 p2 = { m.vertex[index_02], m.vertex[index_02 + 1], m.vertex[index_02 + 2] };
-			float3 p3 = { m.vertex[index_03], m.vertex[index_03 + 1], m.vertex[index_03 + 2] };
+			float3 p1 = { m->vertex[index_01], m->vertex[index_01 + 1], m->vertex[index_01 + 2] };
+			float3 p2 = { m->vertex[index_02], m->vertex[index_02 + 1], m->vertex[index_02 + 2] };
+			float3 p3 = { m->vertex[index_03], m->vertex[index_03 + 1], m->vertex[index_03 + 2] };
 
 			Triangle tri = { p1, p2, p3 };
 

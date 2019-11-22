@@ -11,8 +11,8 @@ struct aiScene;
 struct aiNode;
 
 class ComponentTransform;
-class ComponentMesh;
 class GameObject;
+class ResourceMesh;
 
 class MeshImporter
 {
@@ -21,10 +21,9 @@ public:
 	~MeshImporter();
 
 	bool ImportScene(const char* file, const char* path, std::string& output_file, std::vector<UID>& mesh_uids);
-	//bool Import(const void* buffer, uint size, std::string& output_file); //TODO not used yet
-	bool SaveMesh(ComponentMesh* mesh, const char* file_name);
 	bool ImportNodeAndSerialize(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::list<GameObject*>* go_list, std::vector<UID>& mesh_uuids);
-	bool LoadMesh(const char* exported_file, geo_info& mesh);
+	bool SaveMesh(ResourceMesh* mesh, const char* file_name);
+	bool LoadMesh(const char* exported_file, ResourceMesh* mesh);
 
 };
 

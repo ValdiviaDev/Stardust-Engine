@@ -32,7 +32,7 @@ public:
 	virtual ~GameObject();
 
 	void Update(); //TODO
-	Component* CreateComponent(ComponentType type, PrimitiveType primitive = PRIMITIVE_NONE);
+	Component* CreateComponent(ComponentType type);
 
 	bool IsActive() const;
 	void SetActive(bool active);

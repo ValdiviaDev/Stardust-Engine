@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "MeshImporter.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
@@ -5,7 +6,8 @@
 #include "ComponentMaterial.h"
 #include "ModuleFileSystem.h"
 #include "SceneSerialization.h"
-#include "Resource.h"
+#include "ResourceMesh.h"
+
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 #include "Assimp/include/cimport.h"
@@ -73,124 +75,11 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 	return ret;
 }
 
-bool MeshImporter::SaveMesh(ComponentMesh* mesh, const char* file_name)
-{
-	bool ret = false;
-
-	//Save
-	uint ranges[4] = { mesh->m_info.num_index, mesh->m_info.num_vertex, mesh->m_info.num_uv, mesh->m_info.num_normal };
-
-	uint size = sizeof(ranges) + sizeof(uint) * mesh->m_info.num_index + sizeof(float) * mesh->m_info.num_vertex * 3
-		+ sizeof(float) * mesh->m_info.num_uv * 2 + sizeof(float) * mesh->m_info.num_normal * 3;
-
-	char* data = new char[size]; // Allocate
-	char* cursor = data;
-
-	uint bytes = sizeof(ranges); // First store ranges
-	memcpy(cursor, ranges, bytes);
-	cursor += bytes;
-
-	// Store indices
-	bytes = sizeof(uint) * mesh->m_info.num_index;
-	memcpy(cursor, mesh->m_info.index, bytes);
-	cursor += bytes;
-
-	// Store vertex
-	bytes = sizeof(uint) * mesh->m_info.num_vertex * 3;
-	memcpy(cursor, mesh->m_info.vertex, bytes);
-	cursor += bytes;
-
-	// Store UVs
-	if (mesh->m_info.num_uv > 0) {
-		bytes = sizeof(uint) * mesh->m_info.num_uv * 2;
-		memcpy(cursor, mesh->m_info.uv, bytes);
-		cursor += bytes;
-	}
-
-	// Store Normals
-	if (mesh->m_info.num_normal > 0) {
-		bytes = sizeof(uint) * mesh->m_info.num_normal * 3;
-		memcpy(cursor, mesh->m_info.normal, bytes);
-	}
-
-	string file_n_ext;
-	if (App->fs->SaveUnique(file_n_ext, data, size, LIBRARY_MESH_FOLDER, file_name, MESH_EXTENSION)) {
-		ret = true;
-
-		//Send the string to the gui to print in a menu
-		string mesh_name = file_name;
-		App->gui->loaded_meshes.push_back(mesh_name);
-	}
-
-	RELEASE_ARRAY(data);
-
-	return ret;
-}
-
-bool MeshImporter::LoadMesh(const char* exported_file, geo_info& mesh)
-{
-	bool ret = false;
-
-	char* buffer = nullptr;
-	if (App->fs->Load(LIBRARY_MESH_FOLDER, exported_file, &buffer) != 0)
-		ret = true;
-
-	char* cursor = buffer;
-
-	if (buffer) {
-
-		// amount of indices / vertices / texture_coords / normals
-		uint ranges[4];
-		uint bytes = sizeof(ranges);
-		memcpy(ranges, cursor, bytes);
-
-		mesh.num_index = ranges[0];
-		mesh.num_vertex = ranges[1];
-		mesh.num_uv = ranges[2];
-		mesh.num_normal = ranges[3];
-		cursor += bytes;
-
-		// Load indices
-		bytes = sizeof(uint) * mesh.num_index;
-		mesh.index = new uint[mesh.num_index];
-		memcpy(mesh.index, cursor, bytes);
-		cursor += bytes;
-
-		// Load vertex
-		bytes = sizeof(float) * mesh.num_vertex * 3;
-		mesh.vertex = new float[mesh.num_vertex * 3];
-		memcpy(mesh.vertex, cursor, bytes);
-		cursor += bytes;
-
-		// Load UVs
-		if (mesh.num_uv > 0) {
-			bytes = sizeof(float) * mesh.num_uv * 2;
-			mesh.uv = new float[mesh.num_uv * 2];
-			memcpy(mesh.uv, cursor, bytes);
-			cursor += bytes;
-		}
-
-		// Load Normal
-		if (mesh.num_normal > 0) {
-			bytes = sizeof(float) * mesh.num_normal * 3;
-			mesh.normal = new float[mesh.num_normal * 3];
-			memcpy(mesh.normal, cursor, bytes);
-		}
-
-	}
-
-	RELEASE_ARRAY(buffer);
-
-	return ret;
-}
-
-
 bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::list<GameObject*>* go_list, std::vector<UID>& mesh_uuids)
 {
 	static int invalid_pos = std::string::npos;
 	std::string name = node->mName.C_Str();
 	GameObject* go = nullptr;
-	ComponentMesh* mesh = nullptr;
 
 	//Transform of the GameObjects loaded from assimp
 	//Have to sum the transform of every node because of ghost nodes
@@ -243,15 +132,19 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 				if (new_mesh->mFaces[i].mNumIndices > 3)
 					App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
-			
-				
+
+
 			}
 		}
 
 		if (has_triangles) {
-			mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh);
-			mesh->SetPath(path);
-			mesh->uuid_mesh = App->GenerateUUID();
+			ResourceMesh* mesh = new ResourceMesh(App->resources->GenerateNewUID()); //TODO push random uuid or the meta uuid???
+			
+			//Used for serialization ------------------------------------
+			ComponentMesh* dummy_c_mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh);
+			dummy_c_mesh->SetPath(path);
+			dummy_c_mesh->uuid_mesh = mesh->GetUID();
+			//-----------------------------------------------------------
 
 			//Material
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
@@ -276,32 +169,32 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 					go->material->uuid_mat = App->GenerateUUID();
 
 					string out_material;
-					App->mat_import->Import(mat_path_name.c_str(), ASSETS_TEX_FOLDER, out_material,go->material->uuid_mat);
+					App->mat_import->Import(mat_path_name.c_str(), ASSETS_TEX_FOLDER, out_material, go->material->uuid_mat);
 					go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
-					
+
 					//Create json with uuid and path for Material
 					//App->mat_import->Serialize(go->material);
 				}
 			}
 			// copy vertices
-			mesh->m_info.num_vertex = new_mesh->mNumVertices;
-			mesh->m_info.vertex = new float[mesh->m_info.num_vertex * 3];
-			memcpy(mesh->m_info.vertex, new_mesh->mVertices, sizeof(float) * mesh->m_info.num_vertex * 3);
-			LOG("New mesh with %d vertices", mesh->m_info.num_vertex);
+			mesh->num_vertex = new_mesh->mNumVertices;
+			mesh->vertex = new float[mesh->num_vertex * 3];
+			memcpy(mesh->vertex, new_mesh->mVertices, sizeof(float) * mesh->num_vertex * 3);
+			LOG("New mesh with %d vertices", mesh->num_vertex);
 
-			if (mesh->m_info.vertex)
+			if (mesh->vertex)
 				App->gui->AddLogToConsole("Mesh vertices loaded correctly");
 			else
 				App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
 
 			//copy normals
 			if (new_mesh->HasNormals()) {
-				mesh->m_info.num_normal = new_mesh->mNumVertices;
-				mesh->m_info.normal = new float[mesh->m_info.num_normal * 3];
-				memcpy(mesh->m_info.normal, new_mesh->mNormals, sizeof(float) * mesh->m_info.num_normal * 3);
-				LOG("New mesh with %d normals", mesh->m_info.num_normal);
+				mesh->num_normal = new_mesh->mNumVertices;
+				mesh->normal = new float[mesh->num_normal * 3];
+				memcpy(mesh->normal, new_mesh->mNormals, sizeof(float) * mesh->num_normal * 3);
+				LOG("New mesh with %d normals", mesh->num_normal);
 
-				if (mesh->m_info.normal)
+				if (mesh->normal)
 					App->gui->AddLogToConsole("Normals loaded correctly");
 				else
 					App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
@@ -309,15 +202,15 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 			//copy uvs
 			if (new_mesh->HasTextureCoords(0)) {
-				mesh->m_info.num_uv = new_mesh->mNumVertices;
-				mesh->m_info.uv = new float[mesh->m_info.num_uv * 2];
+				mesh->num_uv = new_mesh->mNumVertices;
+				mesh->uv = new float[mesh->num_uv * 2];
 				for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
-					memcpy(&mesh->m_info.uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
-					memcpy(&mesh->m_info.uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
+					memcpy(&mesh->uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
+					memcpy(&mesh->uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
 
 				}
 
-				if (mesh->m_info.uv)
+				if (mesh-> uv)
 					App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
 				else
 					App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
@@ -327,13 +220,13 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 			// copy faces
 			if (new_mesh->HasFaces())
 			{
-				mesh->m_info.num_index = new_mesh->mNumFaces * 3;
-				mesh->m_info.index = new uint[mesh->m_info.num_index]; // assume each face is a triangle
+				mesh->num_index = new_mesh->mNumFaces * 3;
+				mesh->index = new uint[mesh->num_index]; // assume each face is a triangle
 				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
-					memcpy(&mesh->m_info.index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+					memcpy(&mesh->index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 
 
-				if (mesh->m_info.index)
+				if (mesh->index)
 					App->gui->AddLogToConsole("Mesh indexes loaded correctly");
 				else
 					App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
@@ -342,22 +235,20 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 			
 
 			//Save a mesh in own file format
-			if (mesh) {
-				if (SaveMesh(mesh, std::to_string(mesh->uuid_mesh).c_str()))
-					mesh_uuids.push_back(mesh->uuid_mesh); //Get the mesh UUIDS for the resources
 
-				
-			}
-			else
-				SaveMesh(mesh, name.c_str());
+			if (mesh)
+				if (SaveMesh(mesh, std::to_string(mesh->GetUID()).c_str())) {
+					mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
+					App->gui->loaded_meshes_uuid.push_back(mesh->GetUID());
+				}
+				else
+					SaveMesh(mesh, name.c_str());
+
 
 			
 
-			//Delete the auxiliar mesh info
-			RELEASE_ARRAY(mesh->m_info.vertex);
-			RELEASE_ARRAY(mesh->m_info.index);
-			RELEASE_ARRAY(mesh->m_info.uv);
-			RELEASE_ARRAY(mesh->m_info.normal);
+			//Delete the auxiliar mesh info (Resource Mesh)
+			RELEASE(mesh);
 		}
 	}
 
@@ -370,4 +261,115 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 		ImportNodeAndSerialize(scene, node->mChildren[i], parent, transform, path, go_list, mesh_uuids);
 
 	return true;
+}
+
+bool MeshImporter::SaveMesh(ResourceMesh* mesh, const char* file_name)
+{
+	bool ret = false;
+
+	//Save
+	uint ranges[4] = { mesh->num_index, mesh->num_vertex, mesh->num_uv, mesh->num_normal };
+
+	uint size = sizeof(ranges) + sizeof(uint) * mesh->num_index + sizeof(float) * mesh->num_vertex * 3
+		+ sizeof(float) * mesh->num_uv * 2 + sizeof(float) * mesh->num_normal * 3;
+
+	char* data = new char[size]; // Allocate
+	char* cursor = data;
+
+	uint bytes = sizeof(ranges); // First store ranges
+	memcpy(cursor, ranges, bytes);
+	cursor += bytes;
+
+	// Store indices
+	bytes = sizeof(uint) * mesh->num_index;
+	memcpy(cursor, mesh->index, bytes);
+	cursor += bytes;
+
+	// Store vertex
+	bytes = sizeof(uint) * mesh->num_vertex * 3;
+	memcpy(cursor, mesh->vertex, bytes);
+	cursor += bytes;
+
+	// Store UVs
+	if (mesh->num_uv > 0) {
+		bytes = sizeof(uint) * mesh->num_uv * 2;
+		memcpy(cursor, mesh->uv, bytes);
+		cursor += bytes;
+	}
+
+	// Store Normals
+	if (mesh->num_normal > 0) {
+		bytes = sizeof(uint) * mesh->num_normal * 3;
+		memcpy(cursor, mesh->normal, bytes);
+	}
+
+	string file_n_ext;
+	if (App->fs->SaveUnique(file_n_ext, data, size, LIBRARY_MESH_FOLDER, file_name, MESH_EXTENSION)) {
+		ret = true;
+
+		//Send the string to the gui to print in a menu
+		string mesh_name = file_name;
+		App->gui->loaded_meshes.push_back(mesh_name);
+	}
+
+	RELEASE_ARRAY(data);
+
+	return ret;
+}
+
+bool MeshImporter::LoadMesh(const char* exported_file, ResourceMesh* mesh)
+{
+	bool ret = false;
+
+	char* buffer = nullptr;
+	if (App->fs->Load(LIBRARY_MESH_FOLDER, exported_file, &buffer) != 0)
+		ret = true;
+
+	char* cursor = buffer;
+
+	if (buffer) {
+
+		// amount of indices / vertices / texture_coords / normals
+		uint ranges[4];
+		uint bytes = sizeof(ranges);
+		memcpy(ranges, cursor, bytes);
+
+		mesh->num_index = ranges[0];
+		mesh->num_vertex = ranges[1];
+		mesh->num_uv = ranges[2];
+		mesh->num_normal = ranges[3];
+		cursor += bytes;
+
+		// Load indices
+		bytes = sizeof(uint) * mesh->num_index;
+		mesh->index = new uint[mesh->num_index];
+		memcpy(mesh->index, cursor, bytes);
+		cursor += bytes;
+
+		// Load vertex
+		bytes = sizeof(float) * mesh->num_vertex * 3;
+		mesh->vertex = new float[mesh->num_vertex * 3];
+		memcpy(mesh->vertex, cursor, bytes);
+		cursor += bytes;
+
+		// Load UVs
+		if (mesh->num_uv > 0) {
+			bytes = sizeof(float) * mesh->num_uv * 2;
+			mesh->uv = new float[mesh->num_uv * 2];
+			memcpy(mesh->uv, cursor, bytes);
+			cursor += bytes;
+		}
+
+		// Load Normal
+		if (mesh->num_normal > 0) {
+			bytes = sizeof(float) * mesh->num_normal * 3;
+			mesh->normal = new float[mesh->num_normal * 3];
+			memcpy(mesh->normal, cursor, bytes);
+		}
+
+	}
+
+	RELEASE_ARRAY(buffer);
+
+	return ret;
 }
