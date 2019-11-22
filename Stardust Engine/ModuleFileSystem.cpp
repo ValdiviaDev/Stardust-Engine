@@ -258,7 +258,7 @@ void ModuleFileSystem::NormalizePath(std::string & full_path) const
 	}
 }
 
-FileType ModuleFileSystem::DetermineFileType(char* file_name)
+FileType ModuleFileSystem::DetermineFileType(const char* file_name)
 {
 	string extension = file_name;
 	extension = extension.erase(NULL, extension.find_last_of("."));
@@ -275,6 +275,8 @@ FileType ModuleFileSystem::DetermineFileType(char* file_name)
 		return File_Material;
 
 	}
+	else if (extension == ".meta" || extension == ".META")
+		return File_Meta;
 	else
 		return File_Unknown;
 

@@ -14,6 +14,17 @@ ModuleResourceManager::~ModuleResourceManager()
 {
 }
 
+
+bool ModuleResourceManager::Start() {
+
+	bool ret = true;
+
+	CheckMetas();
+
+	return ret;
+}
+
+
 bool ModuleResourceManager::CleanUp()
 {
 	//Clean all resources
@@ -110,41 +121,41 @@ void ModuleResourceManager::GenerateMetaFile(const char* full_path, ResourceType
 	json_object_set_number(object, "Resource Type", type);
 
 
-	JSON_Value* value_array = json_value_init_array();
-	JSON_Array* array = json_value_get_array(value_array);
 
-	if (!uids.empty()) {
-		for (std::vector<UID>::const_iterator it = uids.begin(); it != uids.end(); it++) {
-
-			JSON_Value* v = json_value_init_object();
-			JSON_Object* obj = json_value_get_object(v);
-
-			json_object_set_number(obj, "UUID", (*it));
-
-			json_array_append_value(array, v);
-		}
-
-	}
-
-	json_object_set_value(object, "Children", value_array);
-
-
-
-	std::string path_meta = full_path;
-	path_meta = path_meta + ".meta";
-
-	json_serialize_to_file_pretty(root_value, path_meta.c_str());
-	json_value_free(root_value);
-
-
-	//JSON_Value* root_value = json_parse_file("Assets/test.rikarudo");
-	//JSON_Object* object = json_value_get_object(root_value);
 
 	switch (type) {
-	case ResourceType::Resource_Mesh:
+	case ResourceType::Resource_Mesh: {
+
+		JSON_Value* value_array = json_value_init_array();
+		JSON_Array* array = json_value_get_array(value_array);
+
+		if (!uids.empty()) {
+			for (std::vector<UID>::const_iterator it = uids.begin(); it != uids.end(); it++) {
+
+				JSON_Value* v = json_value_init_object();
+				JSON_Object* obj = json_value_get_object(v);
+
+				json_object_set_number(obj, "UUID", (*it));
+
+				json_array_append_value(array, v);
+			}
+
+		}
+
+		json_object_set_value(object, "Children", value_array);
+
+
+
+		std::string path_meta = full_path;
+		path_meta = path_meta + ".meta";
+
+		json_serialize_to_file_pretty(root_value, path_meta.c_str());
+		json_value_free(root_value);
+
+
 
 		break;
-
+	}
 	case ResourceType::Resource_Texture:
 
 		break;
@@ -152,5 +163,50 @@ void ModuleResourceManager::GenerateMetaFile(const char* full_path, ResourceType
 	case ResourceType::Resource_Unknown:
 		break;
 
+	}
+}
+
+
+void ModuleResourceManager::CheckMetas() {
+
+	//Get all files in the folder
+	std::vector<std::string> files, dirs;
+	App->fs->DiscoverFiles(ASSETS_MESH_FOLDER, files, dirs);
+
+	
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++) {
+
+		//Look if they are .meta
+		std::string file = ASSETS_MESH_FOLDER + (*it);
+		FileType ft = App->fs->DetermineFileType(file.c_str());
+
+		if (ft == FileType::File_Meta) {
+
+			
+			JSON_Value* root_value = json_parse_file(file.c_str());
+			JSON_Object* object = json_value_get_object(root_value);
+
+			UID file_uid = json_object_get_number(object, "UUID");
+			int r_type = json_object_get_number(object, "Resource Type");
+
+
+			//Look if the Library file is created
+			std::string file_lib = LIBRARY_MESH_FOLDER + std::to_string(file_uid) + "." + MESH_EXTENSION;
+
+			if (App->fs->Exists(file_lib.c_str())) {
+				//If created, do resource only
+				CreateNewResource((ResourceType)r_type, file_uid);
+
+			}
+			else {
+				//If not created, import
+				file = file.substr(0, file.find_last_of("."));
+				ImportFile(file.c_str(), (ResourceType)r_type);
+			}
+
+
+			json_value_free(root_value);
+
+		}
 	}
 }
