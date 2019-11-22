@@ -21,7 +21,7 @@ public:
 	const char* GetImportedFile() const;
 	bool IsLoadedToMemory() const;
 	bool LoadToMemory();
-	bool EraseToMemory();
+	bool UnloadToMemory();
 	uint CountReferences() const;
 
 	void SetFile(std::string file);
@@ -30,7 +30,7 @@ public:
 	//virtual void Save(Config& config) const;
 	//virtual void Load(const Config& config);
 	virtual bool LoadInMemory() = 0;
-	virtual bool EraseInMemory() = 0;
+	virtual bool UnloadInMemory() = 0;
 
 	
 

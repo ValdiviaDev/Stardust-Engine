@@ -19,10 +19,12 @@ ComponentMesh::ComponentMesh(GameObject* parent, PrimitiveType primitive)
 
 ComponentMesh::~ComponentMesh()
 {
-	RELEASE_ARRAY(m_info.index);
-	RELEASE_ARRAY(m_info.vertex);
-	RELEASE_ARRAY(m_info.normal);
-	RELEASE_ARRAY(m_info.uv);
+	//Unload Resource
+	if (uuid_mesh != 0) {
+		ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
+		if(res)
+			res->UnloadToMemory();
+	}
 
 	if (gameObject)
 		gameObject->mesh = nullptr;
@@ -195,8 +197,14 @@ void ComponentMesh::Load(JSON_Object* comp_obj) {
 
 		if (uuid_mesh != 0) {
 			ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
-			res->LoadToMemory();
-			//LoadMesh(std::to_string(uuid_mesh));
+			if (res) {
+				res->LoadToMemory();
+				gameObject->UpdateBoundingBox();
+			}
+			else
+				App->gui->AddLogToConsole("WARNING: THERE IS NO RESOURCE TO ASSING TO THIS MESH");
+
+			
 		}
 		else {
 			//if (!LoadMesh(file.c_str())) {

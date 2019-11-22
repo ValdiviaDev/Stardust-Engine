@@ -48,14 +48,14 @@ bool Resource::LoadToMemory() //TODO change maybe
 	return ret;
 }
 
-bool Resource::EraseToMemory() //TODO change maybe
+bool Resource::UnloadToMemory() //TODO change maybe
 {
 	bool ret = true;
 	if (loaded > 0)
 		loaded--;
 
 	if (loaded == 0)
-		ret = EraseInMemory();
+		ret = UnloadInMemory();
 
 	return ret;
 }

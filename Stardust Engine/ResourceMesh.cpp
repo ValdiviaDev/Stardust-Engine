@@ -18,8 +18,6 @@ ResourceMesh::~ResourceMesh()
 bool ResourceMesh::LoadInMemory()
 {
 	if (!IsPrimitive()) {
-		//geo_info m;
-		//const char* f = (const char*)uuid;
 		string path = std::to_string(uuid) + "." + MESH_EXTENSION;
 		App->mesh_import->LoadMesh(path.c_str(), this);
 
@@ -54,9 +52,21 @@ bool ResourceMesh::LoadInMemory()
 	return true;
 }
 
-bool ResourceMesh::EraseInMemory()
+bool ResourceMesh::UnloadInMemory()
 {
-	return false;
+	glDeleteBuffers(1, (GLuint*) &(id_index));
+	glDeleteBuffers(1, (GLuint*) &(id_vertex));
+	if(normal)
+		glDeleteBuffers(1, (GLuint*) &(id_normal));
+	if(uv)
+		glDeleteBuffers(1, (GLuint*) &(id_uv));
+
+	RELEASE_ARRAY(index);
+	RELEASE_ARRAY(vertex);
+	RELEASE_ARRAY(normal);
+	RELEASE_ARRAY(uv);
+	
+	return true;
 }
 
 void ResourceMesh::LoadMeshPrimitive(par_shapes_mesh * shape)

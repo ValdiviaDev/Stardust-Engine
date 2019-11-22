@@ -10,7 +10,7 @@ public:
 	~ResourceMesh();
 
 	bool LoadInMemory();
-	bool EraseInMemory();
+	bool UnloadInMemory();
 
 	void LoadMeshPrimitive(par_shapes_mesh* shape);
 

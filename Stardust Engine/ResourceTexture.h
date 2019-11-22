@@ -10,7 +10,7 @@ public:
 	~ResourceTexture();
 
 	bool LoadInMemory();
-	bool EraseInMemory();
+	bool UnloadInMemory();
 
 private:
 	uint tex_id = 0;
