@@ -3,6 +3,8 @@
 #include "imgui/imgui.h"
 #include "GameObject.h"
 
+#include "ResourceTexture.h"
+
 ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 {
 	type = Comp_Material;
@@ -11,6 +13,12 @@ ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 
 ComponentMaterial::~ComponentMaterial()
 {
+	if (uuid_mat != 0) {
+		ResourceTexture* res = (ResourceTexture*)App->resources->Get(uuid_mat);
+		if (res)
+			res->UnloadToMemory();
+	}
+
 	if (gameObject)
 		gameObject->material = nullptr;
 }

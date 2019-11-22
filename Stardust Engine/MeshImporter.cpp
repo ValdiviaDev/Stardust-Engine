@@ -248,6 +248,10 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 			
 
 			//Delete the auxiliar mesh info (Resource Mesh)
+			RELEASE_ARRAY(mesh->vertex);
+			RELEASE_ARRAY(mesh->index);
+			RELEASE_ARRAY(mesh->normal);
+			RELEASE_ARRAY(mesh->uv);
 			RELEASE(mesh);
 		}
 	}
