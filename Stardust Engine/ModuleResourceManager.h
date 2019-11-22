@@ -21,7 +21,7 @@ public:
 	const Resource* Get(UID uid) const; //TODO
 	Resource* Get(UID uid);
 	Resource* CreateNewResource(ResourceType type, UID force_uid = 0);
-
+	void GenerateMetaFile(const char* full_path, ResourceType type, UID uid, std::vector<UID>uids = std::vector<UID>()); //path = "Assets/Meshes/Baker_house.png"
 
 private:
 	std::map<UID, Resource*> resources;

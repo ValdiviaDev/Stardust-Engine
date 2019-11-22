@@ -101,3 +101,56 @@ Resource* ModuleResourceManager::CreateNewResource(ResourceType type, UID force_
 	return ret;
 }
 
+void ModuleResourceManager::GenerateMetaFile(const char* full_path, ResourceType type, UID uid, std::vector<UID>uids) {
+
+	JSON_Value* root_value = json_value_init_object();
+	JSON_Object* object = json_value_get_object(root_value);
+
+	json_object_set_number(object, "UUID", uid);
+	json_object_set_number(object, "Resource Type", type);
+
+
+	JSON_Value* value_array = json_value_init_array();
+	JSON_Array* array = json_value_get_array(value_array);
+
+	if (!uids.empty()) {
+		for (std::vector<UID>::const_iterator it = uids.begin(); it != uids.end(); it++) {
+
+			JSON_Value* v = json_value_init_object();
+			JSON_Object* obj = json_value_get_object(v);
+
+			json_object_set_number(obj, "UUID", (*it));
+
+			json_array_append_value(array, v);
+		}
+
+	}
+
+	json_object_set_value(object, "Children", value_array);
+
+
+
+	std::string path_meta = full_path;
+	path_meta = path_meta + ".meta";
+
+	json_serialize_to_file_pretty(root_value, path_meta.c_str());
+	json_value_free(root_value);
+
+
+	//JSON_Value* root_value = json_parse_file("Assets/test.rikarudo");
+	//JSON_Object* object = json_value_get_object(root_value);
+
+	switch (type) {
+	case ResourceType::Resource_Mesh:
+
+		break;
+
+	case ResourceType::Resource_Texture:
+
+		break;
+
+	case ResourceType::Resource_Unknown:
+		break;
+
+	}
+}
