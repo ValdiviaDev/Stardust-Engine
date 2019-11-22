@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
@@ -56,7 +57,7 @@ void GameObject::Update()
 		camera->Update();
 }
 
-Component* GameObject::CreateComponent(ComponentType type, PrimitiveType primitive)
+Component* GameObject::CreateComponent(ComponentType type)
 {
 	Component* component = nullptr;
 
@@ -69,7 +70,7 @@ Component* GameObject::CreateComponent(ComponentType type, PrimitiveType primiti
 		break;
 	case Comp_Mesh:
 		if (mesh == nullptr) {
-			mesh = new ComponentMesh(this, primitive);
+			mesh = new ComponentMesh(this);
 			component = mesh;
 		}
 		break;

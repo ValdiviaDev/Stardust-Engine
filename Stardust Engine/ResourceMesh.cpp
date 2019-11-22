@@ -129,7 +129,7 @@ void ResourceMesh::BindBuffersPrimitive()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-bool ResourceMesh::IsPrimitive()
+bool ResourceMesh::IsPrimitive() const
 {
 	if (is_primitive == PRIMITIVE_NONE)
 		return false;

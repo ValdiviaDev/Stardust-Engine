@@ -287,7 +287,7 @@ void ComponentTransform::SetTransformFromParent()
 
 
 
-void ComponentTransform::Save(JSON_Array* comp_array) {
+void ComponentTransform::Save(JSON_Array* comp_array) const {
 
 
 	JSON_Value* value = json_value_init_object();

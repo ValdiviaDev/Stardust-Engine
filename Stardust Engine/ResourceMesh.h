@@ -17,7 +17,7 @@ public:
 	void BindBuffers();
 	void BindBuffersPrimitive();
 
-	bool IsPrimitive();
+	bool IsPrimitive() const;
 
 public:
 	PrimitiveType is_primitive = PRIMITIVE_NONE;

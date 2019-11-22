@@ -24,7 +24,7 @@ public:
 	
 	void Update();
 
-	void Save(JSON_Array* comp_array);
+	void Save(JSON_Array* comp_array) const;
 	void Load(JSON_Object* comp_obj);
 
 	void DrawInspector();
@@ -37,10 +37,10 @@ public:
 	void SetFarPlane(float far_plane);
 	float GetFarPlane() const;
 
-	void DrawFrustum();
+	void DrawFrustum() const;
 
-	void CameraCullingStObj();
-	void CameraCullingDynObj(GameObject* go); //send root 1st time
+	void CameraCullingStObj() const;
+	void CameraCullingDynObj(GameObject* go) const;
 	int ContainsAABB(const AABB& refBox) const;
 
 	//View matrix and Projection matrix

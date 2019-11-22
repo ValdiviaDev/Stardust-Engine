@@ -184,7 +184,8 @@ GameObject* ModuleScene::CreatePrimitiveObject(PrimitiveType type)
 		break;
 	}
 	
-	primitiveGO->CreateComponent(Comp_Mesh, type);
+	primitiveGO->CreateComponent(Comp_Mesh);
+	primitiveGO->mesh->SetPrimitive(type);
 	primitiveGO->mesh->uuid_mesh = r_primitive->GetUID();
 	primitiveGO->UpdateBoundingBox();
 
@@ -192,7 +193,7 @@ GameObject* ModuleScene::CreatePrimitiveObject(PrimitiveType type)
 }
 
 
-void ModuleScene::Draw() {
+void ModuleScene::Draw() const {
 	DrawGrid();
 	DrawGameObjects(root_object);
 
@@ -201,7 +202,7 @@ void ModuleScene::Draw() {
 		DrawSceneDebug();
 }
 
-void ModuleScene::DrawGameObjects(GameObject* go)
+void ModuleScene::DrawGameObjects(GameObject* go) const
 {
 	if (go && go->IsActive() && go->mesh && go->mesh->IsActive() && go->mesh->uuid_mesh != 0) { 
 		//Matrix
@@ -273,7 +274,7 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 
 }
 
-void ModuleScene::DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh)
+void ModuleScene::DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh) const
 {
 	//Vertex normals
 	if (c_mesh->debug_v_norm) {
@@ -339,7 +340,7 @@ void ModuleScene::DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_me
 	}
 }
 
-void ModuleScene::DrawSceneDebug()
+void ModuleScene::DrawSceneDebug() const
 {
 	glDisable(GL_LIGHTING);
 	//Draw bounding boxes
@@ -354,7 +355,7 @@ void ModuleScene::DrawSceneDebug()
 	glEnable(GL_LIGHTING);
 }
 
-void ModuleScene::DrawAABBRecursive(GameObject * go)
+void ModuleScene::DrawAABBRecursive(GameObject * go) const
 {
 	if (go == focused_object || draw_GO_AABBs)
 		go->DrawBoundingBox();
@@ -363,7 +364,7 @@ void ModuleScene::DrawAABBRecursive(GameObject * go)
 		DrawAABBRecursive(go->GetChild(i));
 }
 
-void ModuleScene::DrawGrid()
+void ModuleScene::DrawGrid() const
 {
 	glBegin(GL_LINES);
 
@@ -576,7 +577,7 @@ GameObject* ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) cons
 	return ret;
 }
 
-void ModuleScene::DeleteGameObject(GameObject* go)
+void ModuleScene::DeleteGameObject(GameObject* go) const
 {
 	go->DeleteFromParentList();
 	RELEASE(go);

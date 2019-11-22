@@ -225,7 +225,7 @@ void ModuleGui::HandleMainMenuBar()
 					go->SetName(uuid_str.c_str());
 					go->CreateComponent(Comp_Mesh);
 					go->mesh->uuid_mesh = loaded_meshes_uuid[i];
-					//go->mesh->LoadMesh(uuid_str);
+					go->mesh->SetPath(res_mesh->GetFile());
 					go->UpdateBoundingBox();
 
 				}

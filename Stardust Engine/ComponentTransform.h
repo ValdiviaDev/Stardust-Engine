@@ -21,7 +21,7 @@ public:
 
 	void Update();
 
-	void Save(JSON_Array* comp_array);
+	void Save(JSON_Array* comp_array) const;
 	void Load(JSON_Object* comp_obj);
 
 	void DrawInspector();

@@ -31,12 +31,13 @@ public:
 
 	GameObject* CreatePrimitiveObject(PrimitiveType type);
 
-	void Draw();
-	void DrawGameObjects(GameObject* go);
-	void DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh);
-	void DrawSceneDebug();
-	void DrawAABBRecursive(GameObject* go);
-	void DrawGrid();
+	//Draw functions
+	void Draw() const;
+	void DrawGameObjects(GameObject* go) const;
+	void DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh) const;
+	void DrawSceneDebug() const;
+	void DrawAABBRecursive(GameObject* go) const;
+	void DrawGrid() const;
 
 	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
 
@@ -57,7 +58,7 @@ public:
 	ComponentCamera* GetMainCamera() const;
 	void SetMainCamera(ComponentCamera* cam);
 
-	void DeleteGameObject(GameObject* go);
+	void DeleteGameObject(GameObject* go) const;
 	void DestroyGOs();
 
 public:
