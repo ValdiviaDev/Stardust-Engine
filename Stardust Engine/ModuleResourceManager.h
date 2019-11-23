@@ -18,7 +18,7 @@ public:
 
 	UID FindByFileInAssets(const char* file_in_assets) const; //ex. Assets/Meshes/Bakerhouse.fbx
 	UID FindByFileInLibrary(const char* file_in_lib) const; //ex. Library/Meshes/31984913.stdtmesh
-	std::vector<UID> FindMeshes(const char* file_in_assets); //ex. Assets/Meshes/Bakerhouse.fbx
+	std::map<UID, string> FindMeshes(const char* file_in_assets); //ex. Assets/Meshes/Bakerhouse.fbx
 	UID ImportFile(const char* full_path, ResourceType type, UID parent_uid = 0, const std::vector<UID> childs_uids = vector<UID>()); //ex. Assets/Meshes/Bakerhouse.fbx
 	UID GenerateNewUID();
 	const Resource* Get(UID uid) const;
@@ -26,6 +26,8 @@ public:
 	Resource* CreateNewResource(ResourceType type, UID force_uid = 0);
 	void GenerateMetaFile(const char* full_path, ResourceType type, UID uid, std::vector<UID>uids = std::vector<UID>()); //path = "Assets/Meshes/Baker_house.png"
 	void CheckMetas();
+
+	
 
 	void CreatePrimitiveResources();
 	ResourceMesh* GetPrimitive(PrimitiveType type);

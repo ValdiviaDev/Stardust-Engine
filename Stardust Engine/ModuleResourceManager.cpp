@@ -56,15 +56,38 @@ UID ModuleResourceManager::FindByFileInLibrary(const char* file_in_lib) const
 	return 0;
 }
 
-std::vector<UID> ModuleResourceManager::FindMeshes(const char * file_in_assets) 
+std::map<UID, string> ModuleResourceManager::FindMeshes(const char* file_in_assets) 
 {
-	//Maybe use a map of uuid string and look in the fbx scene
-	vector<UID> uuids;
-	for (std::map<UID, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
-		if (it->second->GetFile() == file_in_assets)
-			uuids.push_back(it->first);
+	map<UID, string> meshes;
 
-	return uuids;
+	std::string path = "", file = "", aux = "", path_and_file = "";
+	App->fs->SplitFilePath(file_in_assets, &path, &file, &aux);
+	path_and_file = LIBRARY_SCENE_FOLDER + file + ".json";
+
+	JSON_Value* root_value = json_parse_file(path_and_file.c_str());
+	JSON_Array* array_go = json_value_get_array(root_value);
+	JSON_Object* obj_go;
+
+	if (array_go) {
+		//Put all childs uuids in a vector
+		for (uint i = 0; i < json_array_get_count(array_go); i++) {
+			obj_go = json_array_get_object(array_go, i);
+			JSON_Array* array_cmp = json_object_get_array(obj_go, "Components");
+			JSON_Object* obj_mesh;
+			if (array_cmp) {
+				for (uint j = 0; j < json_array_get_count(array_cmp); j++) {
+					obj_mesh = json_array_get_object(array_cmp, j);
+					if (json_object_get_number(obj_mesh, "Component type") == 2)
+						meshes[json_object_get_number(obj_mesh, "UUID Mesh")] = json_object_get_string(obj_go, "Name");
+				}
+			}
+		}
+	}
+
+	
+	json_value_free(root_value);
+
+	return meshes;
 }
 
 UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceType type, UID parent_uid, const std::vector<UID> childs_uids)
