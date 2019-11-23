@@ -24,6 +24,7 @@ bool ModuleResourceManager::Start() {
 
 	GetAllMeshesFromScenes();
 
+
 	return ret;
 }
 
@@ -74,14 +75,19 @@ std::map<UID, string> ModuleResourceManager::FindMeshes(const char* file_in_asse
 	if (array_go) {
 		//Put all childs uuids in a vector
 		for (uint i = 0; i < json_array_get_count(array_go); i++) {
+
 			obj_go = json_array_get_object(array_go, i);
+
 			JSON_Array* array_cmp = json_object_get_array(obj_go, "Components");
 			JSON_Object* obj_mesh;
+
 			if (array_cmp) {
+
 				for (uint j = 0; j < json_array_get_count(array_cmp); j++) {
+
 					obj_mesh = json_array_get_object(array_cmp, j);
-					int comp = json_object_get_number(obj_mesh, "Component Type");
-					if (comp == 2)
+
+					if (json_object_get_number(obj_mesh, "Component Type") == 2)
 						meshes[json_object_get_number(obj_mesh, "UUID Mesh")] = json_object_get_string(obj_go, "Name");
 				}
 			}
