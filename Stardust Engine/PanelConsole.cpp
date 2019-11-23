@@ -6,7 +6,7 @@ PanelConsole::PanelConsole()
 {
 	name = "console";
 	active = true;
-	pos_x = 10, pos_y = 770, width = 900, height = 250;
+	pos_x = 10, pos_y = 770, width = 540, height = 250;
 
 }
 
@@ -17,11 +17,15 @@ PanelConsole::~PanelConsole()
 void PanelConsole::Draw()
 {
 	//Set window position and size
-	int x, y;
-	App->window->GetWinSize(x, y);
+	static int x, y;
+	static int hierarchy_width = 300;
+	static int inspector_width = 360;
+
 	if (resize) {
-		ImGui::SetNextWindowPos(ImVec2(0, y - height), ImGuiCond_Always);
-		width = x - 360;
+		App->window->GetWinSize(x, y);
+
+		ImGui::SetNextWindowPos(ImVec2(hierarchy_width, y - height), ImGuiCond_Always);
+		width = x - (inspector_width + hierarchy_width);
 		ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
 		resize = false;
 	}

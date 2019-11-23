@@ -7,8 +7,8 @@
 PanelAssets::PanelAssets()
 {
 	name = "assets";
-	active = false;
-	pos_x = 70, pos_y = 70, width = 500, height = 500;
+	active = true;
+	pos_x = 70, pos_y = 70, width = 300, height = 500;
 }
 
 
@@ -24,9 +24,8 @@ void PanelAssets::Draw()
 	if (resize) {
 		int x, y;
 		App->window->GetWinSize(x, y);
-
-		//Put in the middle of the screen. TODO change this later
-		ImGui::SetNextWindowPos(ImVec2(x / 2 - (width / 2), y / 2 - (height / 2)), ImGuiCond_Always);
+		height = y - 550;
+		ImGui::SetNextWindowPos(ImVec2(0.0f,  y - height), ImGuiCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
 		resize = false;
 	}
@@ -46,13 +45,13 @@ void PanelAssets::Draw()
 
 	ImGui::EndChild();
 
-	if (ImGui::Button("Open Scene", { 80, 20 })) {
-		//Todo Ricardo
+	if (ImGui::Button("Open", { 80, 20 })) {
+		OpenScene();
 	}
-	ImGui::SameLine();
-	if (ImGui::Button("Import", { 80, 20 })) {
-		ImportFromAssets();
-	}
+	//ImGui::SameLine();
+	//if (ImGui::Button("Import", { 80, 20 })) {
+	//	ImportFromAssets();
+	//}
 
 	ImGui::End();
 }
@@ -115,24 +114,47 @@ void PanelAssets::ImportFromAssets()
 	FileType ft = App->fs->DetermineFileType((char*)foc_node_name.c_str());
 	switch (ft) {
 	case File_Mesh: { //TODO import
-		//string out_f;
-		//App->mesh_import->ImportScene(foc_node_name.c_str(), path.c_str(), out_f, true);
 		string path = ASSETS_MESH_FOLDER + foc_node_name;
 		App->resources->ImportFile(path.c_str(), Resource_Mesh);
 		}
 		break;
 
 	case File_Material: { //TODO import
-		//string out_f;
-		//uint out_uuid;
-		//App->mat_import->Import(foc_node_name.c_str(), ASSETS_TEX_FOLDER, out_f, out_uuid);
 		string path = ASSETS_TEX_FOLDER + foc_node_name;
 		App->resources->ImportFile(path.c_str(), Resource_Texture);
 		}
 		break;
 
-	case File_Unknown:
+	case File_Scene:
+	default:
 		App->gui->AddLogToConsole("ERROR: Couldn't import file!!");
+		break;
+
+	}
+}
+
+void PanelAssets::OpenScene()
+{
+	FileType ft = App->fs->DetermineFileType((char*)foc_node_name.c_str());
+	switch (ft) {
+	case File_Mesh: {
+		std::string path = "", file = "", aux = "", path_and_file = "";
+		App->fs->SplitFilePath(foc_node_name.c_str(), &path, &file, &aux);
+		path_and_file = LIBRARY_SCENE_FOLDER + file + ".json";
+
+		App->scene_serialization->LoadScene(path_and_file.c_str());
+	}
+
+		break;
+
+	case File_Scene: {
+		string path = ASSETS_SCENE_FOLDER + foc_node_name;
+		App->scene_serialization->LoadScene(path.c_str());
+	}
+		break;
+	
+	default:
+		App->gui->AddLogToConsole("You can't charge this file type into the scene");
 		break;
 
 	}

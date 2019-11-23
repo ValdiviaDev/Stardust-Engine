@@ -106,8 +106,10 @@ void ComponentMesh::Load(JSON_Object* comp_obj) {
 			ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
 			if (res)
 				res->LoadToMemory();
-			else
-				App->gui->AddLogToConsole("WARNING: THERE IS NO RESOURCE TO ASSING TO THIS MESH");
+			else {
+				string log = "GameObject " + (string)gameObject->GetName() + ": Charging a mesh component with no mesh";
+				App->gui->AddLogToConsole(log.c_str());
+			}
 		}
 
 		break;
