@@ -122,23 +122,9 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 		//Only charge the first mesh for each node
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
-		bool has_triangles = true;
-		for (uint i = 0; i < new_mesh->mNumFaces; ++i) {
-			if (new_mesh->mFaces[i].mNumIndices != 3) {
-				LOG("WARNING, geometry face with != 3 indices!");
-				has_triangles = false;
+		bool has_only_triangles = HasMeshOnlyTriangles(new_mesh);
 
-				if (new_mesh->mFaces[i].mNumIndices < 3)
-					App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
-
-				if (new_mesh->mFaces[i].mNumIndices > 3)
-					App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
-
-
-			}
-		}
-
-		if (has_triangles) {
+		if (has_only_triangles) {
 			//TODO push random uuid or the meta uuid???
 			ResourceMesh* mesh = new ResourceMesh(App->resources->GenerateNewUID());
 			
@@ -147,33 +133,10 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 			dummy_c_mesh->SetPath(path);
 			//-----------------------------------------------------------
 
-			//Material
+			//Import Material from the mesh
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
-			if (material != nullptr) {
-				//Get texture path
-				uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
-				aiString mat_path;
-				material->GetTexture(aiTextureType_DIFFUSE, 0, &mat_path);
-				string mat_path_name = (string)mat_path.C_Str();
-				string mat_path_s = mat_path_name;
-
-				//Find the texture by its name in the textures folder
-				if (mat_path_s.find("\\") != string::npos)
-					mat_path_name = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
-				mat_path_s = ASSETS_TEX_FOLDER + mat_path_name;
-				App->fs->NormalizePath(mat_path_s);
-
-				//Create the material if the texture is found
-				if (App->fs->Exists(mat_path_s.c_str())) {
-					go->CreateComponent(Comp_Material);
-					UID mat_uuid = App->resources->ImportFile(mat_path_s.c_str(), Resource_Texture); //Resource Testure
-					go->material->uuid_mat = mat_uuid;
-					go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
-
-					//Create json with uuid and path for Material
-					//App->mat_import->Serialize(go->material);
-				}
-			}
+			if (material != nullptr)
+				ImportMatFromMesh(material, go);
 
 			//Look if there is a repeated mesh
 			bool save_mesh = true;
@@ -272,7 +235,6 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 	if (go)
 		go_list->push_back(go);
 
-
 	//Recursive iteration to save all nodes
 	for (int i = 0; i < node->mNumChildren; ++i)
 		ImportNodeAndSerialize(scene, node->mChildren[i], parent, transform, path, go_list, mesh_uuids);
@@ -341,7 +303,6 @@ bool MeshImporter::LoadMesh(const char* exported_file, ResourceMesh* mesh)
 	char* cursor = buffer;
 
 	if (buffer) {
-
 		// amount of indices / vertices / texture_coords / normals
 		uint ranges[4];
 		uint bytes = sizeof(ranges);
@@ -385,4 +346,49 @@ bool MeshImporter::LoadMesh(const char* exported_file, ResourceMesh* mesh)
 	RELEASE_ARRAY(buffer);
 
 	return ret;
+}
+
+bool MeshImporter::HasMeshOnlyTriangles(aiMesh* mesh)
+{
+	for (uint i = 0; i < mesh->mNumFaces; ++i) {
+		if (mesh->mFaces[i].mNumIndices != 3) {
+			LOG("WARNING, geometry face with != 3 indices!");
+			if (mesh->mFaces[i].mNumIndices < 3)
+				App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
+
+			if (mesh->mFaces[i].mNumIndices > 3)
+				App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
+
+			return false;
+		}
+	}
+	return true;
+}
+
+void MeshImporter::ImportMatFromMesh(aiMaterial* material, GameObject* go)
+{
+	//Get texture path
+	uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
+	aiString mat_path;
+	material->GetTexture(aiTextureType_DIFFUSE, 0, &mat_path);
+	string mat_path_name = (string)mat_path.C_Str();
+	string mat_path_s = mat_path_name;
+
+	//Find the texture by its name in the textures folder
+	if (mat_path_s.find("\\") != string::npos)
+		mat_path_name = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
+	mat_path_s = ASSETS_TEX_FOLDER + mat_path_name;
+	App->fs->NormalizePath(mat_path_s);
+
+	//Create the material if the texture is found
+	if (App->fs->Exists(mat_path_s.c_str())) {
+
+		go->CreateComponent(Comp_Material);
+		UID mat_uuid = App->resources->ImportFile(mat_path_s.c_str(), Resource_Texture); //Resource Texture
+		go->material->uuid_mat = mat_uuid;
+		go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
+
+		//Create json with uuid and path for Material
+		//App->mat_import->Serialize(go->material);
+	}
 }

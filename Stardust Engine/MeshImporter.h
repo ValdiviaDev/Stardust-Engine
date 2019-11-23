@@ -7,10 +7,10 @@
 #include <vector>
 #include <map>
 
-struct geo_info;
 struct aiScene;
-struct aiMesh;
 struct aiNode;
+struct aiMesh;
+struct aiMaterial;
 
 class ComponentTransform;
 class GameObject;
@@ -26,6 +26,9 @@ public:
 	bool ImportNodeAndSerialize(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::list<GameObject*>* go_list, std::vector<UID>& mesh_uuids);
 	bool SaveMesh(ResourceMesh* mesh, const char* file_name);
 	bool LoadMesh(const char* exported_file, ResourceMesh* mesh);
+
+	bool HasMeshOnlyTriangles(aiMesh* mesh);
+	void ImportMatFromMesh(aiMaterial* material, GameObject* go);
 
 private:
 	std::map<aiMesh*, UID> charged_meshes;
