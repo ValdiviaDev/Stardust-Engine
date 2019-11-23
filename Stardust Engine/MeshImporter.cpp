@@ -68,6 +68,7 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 		App->scene_serialization->SaveSceneFromMesh(file_name, go_list);
 		
 
+		charged_meshes.clear();
 		RELEASE(dummy);
 		aiReleaseImport(scene);
 	}
@@ -138,12 +139,12 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 		}
 
 		if (has_triangles) {
-			ResourceMesh* mesh = new ResourceMesh(App->resources->GenerateNewUID()); //TODO push random uuid or the meta uuid???
+			//TODO push random uuid or the meta uuid???
+			ResourceMesh* mesh = new ResourceMesh(App->resources->GenerateNewUID());
 			
 			//Used for serialization ------------------------------------
 			ComponentMesh* dummy_c_mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh);
 			dummy_c_mesh->SetPath(path);
-			dummy_c_mesh->uuid_mesh = mesh->GetUID();
 			//-----------------------------------------------------------
 
 			//Material
@@ -173,83 +174,98 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 					//App->mat_import->Serialize(go->material);
 				}
 			}
-			// copy vertices
-			mesh->num_vertex = new_mesh->mNumVertices;
-			mesh->vertex = new float[mesh->num_vertex * 3];
-			memcpy(mesh->vertex, new_mesh->mVertices, sizeof(float) * mesh->num_vertex * 3);
-			LOG("New mesh with %d vertices", mesh->num_vertex);
 
-			if (mesh->vertex)
-				App->gui->AddLogToConsole("Mesh vertices loaded correctly");
-			else
-				App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
-
-			//copy normals
-			if (new_mesh->HasNormals()) {
-				mesh->num_normal = new_mesh->mNumVertices;
-				mesh->normal = new float[mesh->num_normal * 3];
-				memcpy(mesh->normal, new_mesh->mNormals, sizeof(float) * mesh->num_normal * 3);
-				LOG("New mesh with %d normals", mesh->num_normal);
-
-				if (mesh->normal)
-					App->gui->AddLogToConsole("Normals loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
+			//Look if there is a repeated mesh
+			bool save_mesh = true;
+			std::map<aiMesh*, UID>::iterator it = charged_meshes.find(new_mesh);
+			if (it != charged_meshes.end()) {
+				dummy_c_mesh->uuid_mesh = it->second;
+				save_mesh = false;
+			}
+			else {
+				dummy_c_mesh->uuid_mesh = mesh->GetUID();
+				charged_meshes[new_mesh] = mesh->GetUID();
 			}
 
-			//copy uvs
-			if (new_mesh->HasTextureCoords(0)) {
-				mesh->num_uv = new_mesh->mNumVertices;
-				mesh->uv = new float[mesh->num_uv * 2];
-				for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
-					memcpy(&mesh->uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
-					memcpy(&mesh->uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
+			if (save_mesh) {
+				// copy vertices
+				mesh->num_vertex = new_mesh->mNumVertices;
+				mesh->vertex = new float[mesh->num_vertex * 3];
+				memcpy(mesh->vertex, new_mesh->mVertices, sizeof(float) * mesh->num_vertex * 3);
+				LOG("New mesh with %d vertices", mesh->num_vertex);
 
+				if (mesh->vertex)
+					App->gui->AddLogToConsole("Mesh vertices loaded correctly");
+				else
+					App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
+
+				//copy normals
+				if (new_mesh->HasNormals()) {
+					mesh->num_normal = new_mesh->mNumVertices;
+					mesh->normal = new float[mesh->num_normal * 3];
+					memcpy(mesh->normal, new_mesh->mNormals, sizeof(float) * mesh->num_normal * 3);
+					LOG("New mesh with %d normals", mesh->num_normal);
+
+					if (mesh->normal)
+						App->gui->AddLogToConsole("Normals loaded correctly");
+					else
+						App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
 				}
 
-				if (mesh-> uv)
-					App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
-			}
+				//copy uvs
+				if (new_mesh->HasTextureCoords(0)) {
+					mesh->num_uv = new_mesh->mNumVertices;
+					mesh->uv = new float[mesh->num_uv * 2];
+					for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
+						memcpy(&mesh->uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
+						memcpy(&mesh->uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
 
+					}
 
-			// copy faces
-			if (new_mesh->HasFaces())
-			{
-				mesh->num_index = new_mesh->mNumFaces * 3;
-				mesh->index = new uint[mesh->num_index]; // assume each face is a triangle
-				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
-					memcpy(&mesh->index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
-
-
-				if (mesh->index)
-					App->gui->AddLogToConsole("Mesh indexes loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
-			}
-
-			
-
-			//Save a mesh in own file format
-
-			if (mesh)
-				if (SaveMesh(mesh, std::to_string(mesh->GetUID()).c_str())) {
-					mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
-					App->gui->loaded_meshes_uuid.push_back(mesh->GetUID());
+					if (mesh->uv)
+						App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
+					else
+						App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
 				}
-				else
-					SaveMesh(mesh, name.c_str());
 
 
-			
+				// copy faces
+				if (new_mesh->HasFaces())
+				{
+					mesh->num_index = new_mesh->mNumFaces * 3;
+					mesh->index = new uint[mesh->num_index]; // assume each face is a triangle
+					for (uint i = 0; i < new_mesh->mNumFaces; ++i)
+						memcpy(&mesh->index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 
-			//Delete the auxiliar mesh info (Resource Mesh)
-			RELEASE_ARRAY(mesh->vertex);
-			RELEASE_ARRAY(mesh->index);
-			RELEASE_ARRAY(mesh->normal);
-			RELEASE_ARRAY(mesh->uv);
-			RELEASE(mesh);
+
+					if (mesh->index)
+						App->gui->AddLogToConsole("Mesh indexes loaded correctly");
+					else
+						App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
+				}
+
+
+
+				//Save a mesh in own file format
+
+				if (mesh)
+					if (SaveMesh(mesh, std::to_string(mesh->GetUID()).c_str())) {
+						mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
+						App->gui->loaded_meshes_uuid.push_back(mesh->GetUID());
+					}
+					else
+						SaveMesh(mesh, name.c_str());
+
+
+
+
+				//Delete the auxiliar mesh info (Resource Mesh)
+				RELEASE_ARRAY(mesh->vertex);
+				RELEASE_ARRAY(mesh->index);
+				RELEASE_ARRAY(mesh->normal);
+				RELEASE_ARRAY(mesh->uv);
+				RELEASE(mesh);
+			}
 		}
 	}
 
