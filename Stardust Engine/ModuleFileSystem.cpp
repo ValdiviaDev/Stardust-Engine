@@ -275,11 +275,15 @@ FileType ModuleFileSystem::DetermineFileType(const char* file_name)
 		return File_Material;
 
 	}
+
 	else if (extension == ".meta" || extension == ".META")
 		return File_Meta;
+
+	else if (extension == ".json" || extension == ".JSON")
+		return File_Scene;
+	
 	else
 		return File_Unknown;
-
 }
 
 void ModuleFileSystem::CreateAllDirectories()

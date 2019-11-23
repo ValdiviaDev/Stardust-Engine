@@ -20,9 +20,12 @@ void PanelHierarchy::Draw()
 	if (resize) {
 		int x, y;
 		App->window->GetWinSize(x, y);
+
+		int assets_height = y - 550;
+		int edit_height = 95;
 		//height = win height - (panel edit height + panel console height menu bar height)
 		ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_Always);
-		ImGui::SetNextWindowSize(ImVec2(width, y - 349), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(width, y - (edit_height + assets_height)), ImGuiCond_Always);
 		resize = false;
 	}
 

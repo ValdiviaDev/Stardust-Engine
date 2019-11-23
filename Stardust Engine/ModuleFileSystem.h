@@ -14,8 +14,9 @@ struct aiFileIO;
 enum FileType {
 	File_Unknown,
 	File_Mesh,
-	File_Meta,
 	File_Material,
+	File_Scene,
+	File_Meta
 };
 
 class ModuleFileSystem : public Module

@@ -18,6 +18,7 @@ public:
 	void DrawAssetTree(vector<string> files, string name, int& id, bool is_directory);
 
 	void ImportFromAssets();
+	void OpenScene();
 
 private:
 	int focused_node = -1;
