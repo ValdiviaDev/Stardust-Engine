@@ -79,13 +79,15 @@ UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceTy
 
 		vector<UID> mesh_uuids;
 		bool in_uids = false;
+		bool create_meta = true;
 		if (!childs_uids.empty()) {
 			mesh_uuids = childs_uids;
 			in_uids = true;
+			create_meta = false;
 		}
 
 
-	if (App->mesh_import->ImportScene(file.c_str(), new_file_in_assets, written_file, mesh_uuids, parent_uid, in_uids)) {
+	if (App->mesh_import->ImportScene(file.c_str(), new_file_in_assets, written_file, mesh_uuids, create_meta, parent_uid, in_uids)) {
 			for (int i = 0; i < mesh_uuids.size(); ++i) {
 				if (resources.find(mesh_uuids[i]) == resources.end()) {
 					Resource* res = CreateNewResource(type, mesh_uuids[i]);

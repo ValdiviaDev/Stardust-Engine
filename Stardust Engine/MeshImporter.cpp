@@ -27,7 +27,7 @@ MeshImporter::~MeshImporter()
 {
 }
 
-bool MeshImporter::ImportScene(const char* file, const char* path, std::string& output_file, std::vector<UID>& mesh_uuids, UID parent_uid, bool in_uids)
+bool MeshImporter::ImportScene(const char* file, const char* path, std::string& output_file, std::vector<UID>& mesh_uuids, bool create_meta,  UID parent_uid, bool in_uids)
 {
 	bool ret = false;
 
@@ -61,7 +61,8 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 		ret = ImportNodeAndSerialize(scene, root, dummy, dummy->transform, (char*)path, &go_list, mesh_uuids, in_uids);
 
 		//Generate .meta
-		App->resources->GenerateMetaFile(path, ResourceType::Resource_Mesh, dummy->uuid, mesh_uuids);
+		if(create_meta)
+			App->resources->GenerateMetaFile(path, ResourceType::Resource_Mesh, dummy->uuid, mesh_uuids);
 
 
 
