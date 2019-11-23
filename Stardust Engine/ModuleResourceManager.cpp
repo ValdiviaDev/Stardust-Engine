@@ -67,7 +67,7 @@ std::vector<UID> ModuleResourceManager::FindMeshes(const char * file_in_assets)
 	return uuids;
 }
 
-UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceType type)
+UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceType type, UID parent_uid, const std::vector<UID> childs_uids)
 {
 	UID ret = 0;
 	string written_file;
@@ -76,14 +76,24 @@ UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceTy
 
 	switch (type) {
 	case Resource_Mesh: {
+
 		vector<UID> mesh_uuids;
-		if (App->mesh_import->ImportScene(file.c_str(), new_file_in_assets, written_file, mesh_uuids)) {
+		bool in_uids = false;
+		if (!childs_uids.empty()) {
+			mesh_uuids = childs_uids;
+			in_uids = true;
+		}
+
+
+	if (App->mesh_import->ImportScene(file.c_str(), new_file_in_assets, written_file, mesh_uuids, parent_uid, in_uids)) {
 			for (int i = 0; i < mesh_uuids.size(); ++i) {
-				Resource* res = CreateNewResource(type, mesh_uuids[i]);
-				res->SetFile(new_file_in_assets);
-				written_file = LIBRARY_MESH_FOLDER + std::to_string(mesh_uuids[i]) + "." + MESH_EXTENSION;
-				res->SetImportedFile(written_file);
-				ret = res->GetUID();
+				if (resources.find(mesh_uuids[i]) == resources.end()) {
+					Resource* res = CreateNewResource(type, mesh_uuids[i]);
+						res->SetFile(new_file_in_assets);
+						written_file = LIBRARY_MESH_FOLDER + std::to_string(mesh_uuids[i]) + "." + MESH_EXTENSION;
+						res->SetImportedFile(written_file);
+						ret = res->GetUID();
+				}
 			}
 		}
 	}
@@ -216,13 +226,31 @@ void ModuleResourceManager::CheckMetas() {
 
 		if (ft == FileType::File_Meta) {
 
+			std::string file_no_meta = file;
+			file_no_meta = file_no_meta.substr(0, file_no_meta.find_last_of("."));
+
 			JSON_Value* root_value = json_parse_file(file.c_str());
 			JSON_Object* object = json_value_get_object(root_value);
 
 			UID file_uid = json_object_get_number(object, "UUID");
 			int r_type = json_object_get_number(object, "Resource Type");
 			
-		
+			//get childs from json. 
+			std::vector<UID> uid_childs;
+			JSON_Array* array = json_object_get_array(object, "Children");
+			JSON_Object* obj_it;
+
+			if (array) {
+				//Put all childs uuids in a vector
+				for (uint i = 0; i < json_array_get_count(array); i++) {
+
+					//UID current_uid = 0;
+					obj_it = json_array_get_object(array, i);
+					//current_uid = json_object_get_number(obj_it, "UUID");
+					uid_childs.push_back(json_object_get_number(obj_it, "UUID"));
+				}
+			}
+
 
 			//Look if the Library file is created
 			std::string file_lib = LIBRARY_MESH_FOLDER + std::to_string(file_uid) + "." + MESH_EXTENSION;
@@ -234,34 +262,27 @@ void ModuleResourceManager::CheckMetas() {
 			}
 			else {
 				//If not created, import
-				file = file.substr(0, file.find_last_of("."));
-				ImportFile(file.c_str(), (ResourceType)r_type);
+				ImportFile(file_no_meta.c_str(), (ResourceType)r_type, file_uid, uid_childs);
 			}
 
 
-			//get childs from json. then if they dont exist in lib, ...
-			std::vector<UID> uid_childs;
-			JSON_Array* array = json_object_get_array(object, "Children");
-			JSON_Object* obj_it;
+		
 
 			if (array) {
 				//Put all childs uuids in a vector
 				for (uint i = 0; i < json_array_get_count(array); i++) {
 
-					UID current_uid = 0;
-					obj_it = json_array_get_object(array, i);
-					current_uid = json_object_get_number(obj_it, "UUID");
-					uid_childs.push_back(current_uid);
+					file_lib = LIBRARY_MESH_FOLDER + std::to_string(uid_childs[i]) + "." + MESH_EXTENSION;
 
-
-					
 					if (App->fs->Exists(file_lib.c_str())) {
 
-						CreateNewResource((ResourceType)r_type, file_uid);
+						CreateNewResource((ResourceType)r_type, uid_childs[i]);
 					}
 					else {
-
-
+						std::string out_f, only_file = (*it);
+						only_file = only_file.substr(0, only_file.find_last_of("."));
+						
+						ImportFile(file_no_meta.c_str(), (ResourceType)r_type, file_uid);
 					}
 				}
 

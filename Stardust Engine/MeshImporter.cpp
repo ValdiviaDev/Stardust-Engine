@@ -27,7 +27,7 @@ MeshImporter::~MeshImporter()
 {
 }
 
-bool MeshImporter::ImportScene(const char* file, const char* path, std::string& output_file, std::vector<UID>& mesh_uuids)
+bool MeshImporter::ImportScene(const char* file, const char* path, std::string& output_file, std::vector<UID>& mesh_uuids, UID parent_uid, bool in_uids)
 {
 	bool ret = false;
 
@@ -52,9 +52,13 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 		const aiNode* root = scene->mRootNode;
 		GameObject* dummy = App->scene->CreateGameObject(nullptr);
 
+		if (parent_uid != 0)
+			dummy->uuid = parent_uid;
+		
 		std::list<GameObject*> go_list;
 
-		ret = ImportNodeAndSerialize(scene, root, dummy, dummy->transform, (char*)path, &go_list, mesh_uuids);
+		count_import = 0;
+		ret = ImportNodeAndSerialize(scene, root, dummy, dummy->transform, (char*)path, &go_list, mesh_uuids, in_uids);
 
 		//Generate .meta
 		App->resources->GenerateMetaFile(path, ResourceType::Resource_Mesh, dummy->uuid, mesh_uuids);
@@ -76,11 +80,12 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 	return ret;
 }
 
-bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::list<GameObject*>* go_list, std::vector<UID>& mesh_uuids)
+bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* node, GameObject* parent, ComponentTransform* transform, char* path, std::list<GameObject*>* go_list, std::vector<UID>& mesh_uuids, bool in_uids)
 {
 	static int invalid_pos = std::string::npos;
 	std::string name = node->mName.C_Str();
 	GameObject* go = nullptr;
+	bool mesh_repeat = false;
 
 	//Transform of the GameObjects loaded from assimp
 	//Have to sum the transform of every node because of ghost nodes
@@ -126,7 +131,10 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 		if (has_only_triangles) {
 			//TODO push random uuid or the meta uuid???
-			ResourceMesh* mesh = new ResourceMesh(App->resources->GenerateNewUID());
+			uint u = App->resources->GenerateNewUID();
+			if (in_uids && mesh_uuids.size() > count_import)
+				u = mesh_uuids[count_import];
+			ResourceMesh* mesh = new ResourceMesh(u);
 			
 			//Used for serialization ------------------------------------
 			ComponentMesh* dummy_c_mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh);
@@ -144,6 +152,7 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 			if (it != charged_meshes.end()) {
 				dummy_c_mesh->uuid_mesh = it->second;
 				save_mesh = false;
+				mesh_repeat = true;
 			}
 			else {
 				dummy_c_mesh->uuid_mesh = mesh->GetUID();
@@ -211,15 +220,21 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 				//Save a mesh in own file format
 
-				if (mesh)
+				if (mesh) {
+					if(!mesh_repeat)
+						count_import++;
+
 					if (SaveMesh(mesh, std::to_string(mesh->GetUID()).c_str())) {
-						mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
+						if(!in_uids)
+							mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
+
 						App->gui->loaded_meshes_uuid.push_back(mesh->GetUID());
 					}
 					else
 						SaveMesh(mesh, name.c_str());
+				}
 
-
+				
 
 
 				//Delete the auxiliar mesh info (Resource Mesh)
@@ -237,7 +252,7 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 	//Recursive iteration to save all nodes
 	for (int i = 0; i < node->mNumChildren; ++i)
-		ImportNodeAndSerialize(scene, node->mChildren[i], parent, transform, path, go_list, mesh_uuids);
+		ImportNodeAndSerialize(scene, node->mChildren[i], parent, transform, path, go_list, mesh_uuids, in_uids);
 
 	return true;
 }
