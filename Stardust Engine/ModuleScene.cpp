@@ -159,9 +159,78 @@ GameObject* ModuleScene::CreateGameObject(GameObject* parent)
 	return game_object;
 }
 
-GameObject * ModuleScene::GetRootGameObject() const
+GameObject* ModuleScene::GetRootGameObject() const
 {
 	return root_object;
+}
+
+GameObject* ModuleScene::CreateGameObjectByMesh(UID mesh_uuid) const
+{
+	//Load resource mesh
+	ResourceMesh* res_mesh;
+	res_mesh = (ResourceMesh*)App->resources->Get(mesh_uuid);
+	if (res_mesh)
+		res_mesh->LoadToMemory();
+
+	//Create GameObject
+	GameObject* go = App->scene->CreateGameObject(App->scene->GetRootGameObject());
+	go->SetName(std::to_string(mesh_uuid).c_str()); //TODO: put name of the Assimp node name
+	go->CreateComponent(Comp_Mesh);
+	go->mesh->uuid_mesh = mesh_uuid;
+	go->mesh->SetPath(res_mesh->GetFile());
+	go->UpdateBoundingBox();
+	
+	return go;
+}
+
+void ModuleScene::AssignMeshToGameObject(UID mesh_uuid) const
+{
+	//If there isn't a mesh, create it
+	if(focused_object && !focused_object->mesh)
+		focused_object->CreateComponent(Comp_Mesh);
+
+	if (focused_object && !focused_object->mesh->IsPrimitive()) {
+		//Unload previous mesh resource
+		ResourceMesh* res_mesh;
+		res_mesh = (ResourceMesh*)App->resources->Get(focused_object->mesh->uuid_mesh);
+		if (res_mesh)
+			res_mesh->UnloadToMemory();
+
+		//Load new mesh resource
+		res_mesh = (ResourceMesh*)App->resources->Get(mesh_uuid);
+		if (res_mesh)
+			res_mesh->LoadToMemory();
+
+		focused_object->mesh->uuid_mesh = mesh_uuid;
+		focused_object->mesh->SetPath(res_mesh->GetFile());
+		focused_object->UpdateBoundingBox();
+	}
+	else if (focused_object->mesh->IsPrimitive())
+		App->gui->AddLogToConsole("You cannot change the mesh of a primitive.");
+}
+
+void ModuleScene::AssignTexToGameObject(UID tex_uuid) const
+{
+	ResourceTexture* res_tex;
+	if (focused_object) {
+		//Create material if there isn't one
+		if (!focused_object->material)
+			focused_object->CreateComponent(Comp_Material);
+		//Unload resource
+		else if (focused_object->material->HasTex()) {
+			res_tex = (ResourceTexture*)App->resources->Get(focused_object->material->uuid_mat);
+			res_tex->UnloadToMemory();
+		}
+		//Load new resource
+		res_tex = (ResourceTexture*)App->resources->Get(tex_uuid);
+		if (res_tex)
+			res_tex->LoadToMemory();
+		//Assign the tex to the material
+		focused_object->material->uuid_mat = res_tex->GetUID();
+		focused_object->material->SetPath(res_tex->GetFile());
+	}
+	else
+		App->gui->AddLogToConsole("Select a GameObject to assign a texture material to it.");
 }
 
 GameObject* ModuleScene::CreatePrimitiveObject(PrimitiveType type)

@@ -28,6 +28,9 @@ public:
 
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* GetRootGameObject() const;
+	GameObject* CreateGameObjectByMesh(UID mesh_uuid) const;
+	void AssignMeshToGameObject(UID mesh_uuid) const; //On the focused GO
+	void AssignTexToGameObject(UID tex_uuid) const; //On the focused GO
 
 	GameObject* CreatePrimitiveObject(PrimitiveType type);
 

@@ -216,19 +216,10 @@ void ModuleGui::HandleMainMenuBar()
 
 				if (ImGui::MenuItem(uuid_str.c_str()))
 				{
-					//Todo load resource mesh
-					ResourceMesh* res_mesh;
-					res_mesh = (ResourceMesh*)App->resources->Get(loaded_meshes_uuid[i]);
-					if (res_mesh)
-						res_mesh->LoadToMemory();
-
-					GameObject* go = App->scene->CreateGameObject(App->scene->GetRootGameObject());
-					go->SetName(uuid_str.c_str());
-					go->CreateComponent(Comp_Mesh);
-					go->mesh->uuid_mesh = loaded_meshes_uuid[i];
-					go->mesh->SetPath(res_mesh->GetFile());
-					go->UpdateBoundingBox();
-
+					if (App->scene->GetFocusedGameObject())
+						App->scene->AssignMeshToGameObject(loaded_meshes_uuid[i]);
+					else
+						App->scene->CreateGameObjectByMesh(loaded_meshes_uuid[i]);
 				}
 			}
 			ImGui::EndMenu();
@@ -237,25 +228,7 @@ void ModuleGui::HandleMainMenuBar()
 		if (ImGui::BeginMenu("Materials")) {
 			for (int i = 0; i < loaded_textures.size(); ++i)
 				if (ImGui::MenuItem(std::to_string(loaded_textures[i]).c_str()))
-				{
-					ResourceTexture* res_tex;
-					GameObject* go = App->scene->GetFocusedGameObject();
-					if (go) {
-						if (!go->material)
-							go->CreateComponent(Comp_Material);
-						else if (go->material->HasTex()) {
-							res_tex = (ResourceTexture*)App->resources->Get(go->material->uuid_mat);
-							res_tex->UnloadToMemory();
-						}
-
-						res_tex = (ResourceTexture*)App->resources->Get(loaded_textures[i]);
-						if (res_tex)
-							res_tex->LoadToMemory();
-
-						go->material->uuid_mat = res_tex->GetUID();
-						go->material->SetPath(res_tex->GetFile());
-					}
-				}
+					App->scene->AssignTexToGameObject(loaded_textures[i]);
 
 			ImGui::EndMenu();
 		}
