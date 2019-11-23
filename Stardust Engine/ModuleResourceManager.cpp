@@ -139,6 +139,8 @@ void ModuleResourceManager::GenerateMetaFile(const char* full_path, ResourceType
 				json_object_set_number(obj, "UUID", (*it));
 
 				json_array_append_value(array, v);
+
+			
 			}
 
 		}
@@ -183,12 +185,28 @@ void ModuleResourceManager::CheckMetas() {
 
 		if (ft == FileType::File_Meta) {
 
-			
 			JSON_Value* root_value = json_parse_file(file.c_str());
 			JSON_Object* object = json_value_get_object(root_value);
 
 			UID file_uid = json_object_get_number(object, "UUID");
 			int r_type = json_object_get_number(object, "Resource Type");
+			
+			//get childs from json. then if they dont exist in lib, ...
+			std::vector<UID> uid_childs;
+			JSON_Array* array = json_object_get_array(object, "Children");
+			JSON_Object* obj_it;
+
+			if (array) {
+				//Put all childs uuids in a vector
+				for (uint i = 0; i < json_array_get_count(array); i++) {
+
+					obj_it = json_array_get_object(array, i);
+					uid_childs.push_back(json_object_get_number(obj_it, "UUID"));
+
+				}
+
+
+			}
 
 
 			//Look if the Library file is created
@@ -207,6 +225,7 @@ void ModuleResourceManager::CheckMetas() {
 
 
 			json_value_free(root_value);
+			
 
 		}
 	}
