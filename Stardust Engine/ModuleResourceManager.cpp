@@ -36,6 +36,37 @@ bool ModuleResourceManager::CleanUp()
 	return true;
 }
 
+UID ModuleResourceManager::FindByFileInAssets(const char * file_in_assets) const
+{
+	for (std::map<UID, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+		if (it->second->GetFile() == file_in_assets)
+			return it->first;
+	
+	//If there is no coincidences return a 0
+	return 0;
+}
+
+UID ModuleResourceManager::FindByFileInLibrary(const char * file_in_lib) const
+{
+	for (std::map<UID, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+		if (it->second->GetImportedFile() == file_in_lib)
+			return it->first;
+
+	//If there is no coincidences return a 0
+	return 0;
+}
+
+std::vector<UID> ModuleResourceManager::FindMeshes(const char * file_in_assets) 
+{
+	//Maybe use a map of uuid string and look in the fbx scene
+	vector<UID> uuids;
+	for (std::map<UID, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+		if (it->second->GetFile() == file_in_assets)
+			uuids.push_back(it->first);
+
+	return uuids;
+}
+
 UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceType type)
 {
 	UID ret = 0;

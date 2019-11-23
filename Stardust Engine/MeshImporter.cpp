@@ -68,6 +68,7 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 		App->scene_serialization->SaveSceneFromMesh(file_name, go_list);
 		
 
+		charged_meshes.clear();
 		RELEASE(dummy);
 		aiReleaseImport(scene);
 	}
@@ -121,144 +122,118 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 		//Only charge the first mesh for each node
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
-		bool has_triangles = true;
-		for (uint i = 0; i < new_mesh->mNumFaces; ++i) {
-			if (new_mesh->mFaces[i].mNumIndices != 3) {
-				LOG("WARNING, geometry face with != 3 indices!");
-				has_triangles = false;
+		bool has_only_triangles = HasMeshOnlyTriangles(new_mesh);
 
-				if (new_mesh->mFaces[i].mNumIndices < 3)
-					App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
-
-				if (new_mesh->mFaces[i].mNumIndices > 3)
-					App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
-
-
-			}
-		}
-
-		if (has_triangles) {
-			ResourceMesh* mesh = new ResourceMesh(App->resources->GenerateNewUID()); //TODO push random uuid or the meta uuid???
+		if (has_only_triangles) {
+			//TODO push random uuid or the meta uuid???
+			ResourceMesh* mesh = new ResourceMesh(App->resources->GenerateNewUID());
 			
 			//Used for serialization ------------------------------------
 			ComponentMesh* dummy_c_mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh);
 			dummy_c_mesh->SetPath(path);
-			dummy_c_mesh->uuid_mesh = mesh->GetUID();
 			//-----------------------------------------------------------
 
-			//Material
+			//Import Material from the mesh
 			aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
-			if (material != nullptr) {
-				//Get texture path
-				uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
-				aiString mat_path;
-				material->GetTexture(aiTextureType_DIFFUSE, 0, &mat_path);
-				string mat_path_name = (string)mat_path.C_Str();
-				string mat_path_s = mat_path_name;
+			if (material != nullptr)
+				ImportMatFromMesh(material, go);
 
-				//Find the texture by its name in the textures folder
-				if (mat_path_s.find("\\") != string::npos)
-					mat_path_name = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
-				mat_path_s = ASSETS_TEX_FOLDER + mat_path_name;
-				App->fs->NormalizePath(mat_path_s);
-
-				//Create the material if the texture is found
-				if (App->fs->Exists(mat_path_s.c_str())) {
-					go->CreateComponent(Comp_Material);
-					//go->material->AssignTextureLib(mat_path_s.c_str());
-					go->material->uuid_mat = App->GenerateUUID();
-
-					string out_material;
-					App->resources->ImportFile(mat_path_s.c_str(), Resource_Texture);
-					go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
-
-					//Create json with uuid and path for Material
-					//App->mat_import->Serialize(go->material);
-				}
+			//Look if there is a repeated mesh
+			bool save_mesh = true;
+			std::map<aiMesh*, UID>::iterator it = charged_meshes.find(new_mesh);
+			if (it != charged_meshes.end()) {
+				dummy_c_mesh->uuid_mesh = it->second;
+				save_mesh = false;
 			}
-			// copy vertices
-			mesh->num_vertex = new_mesh->mNumVertices;
-			mesh->vertex = new float[mesh->num_vertex * 3];
-			memcpy(mesh->vertex, new_mesh->mVertices, sizeof(float) * mesh->num_vertex * 3);
-			LOG("New mesh with %d vertices", mesh->num_vertex);
+			else {
+				dummy_c_mesh->uuid_mesh = mesh->GetUID();
+				charged_meshes[new_mesh] = mesh->GetUID();
+			}
 
-			if (mesh->vertex)
-				App->gui->AddLogToConsole("Mesh vertices loaded correctly");
-			else
-				App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
+			if (save_mesh) {
+				// copy vertices
+				mesh->num_vertex = new_mesh->mNumVertices;
+				mesh->vertex = new float[mesh->num_vertex * 3];
+				memcpy(mesh->vertex, new_mesh->mVertices, sizeof(float) * mesh->num_vertex * 3);
+				LOG("New mesh with %d vertices", mesh->num_vertex);
 
-			//copy normals
-			if (new_mesh->HasNormals()) {
-				mesh->num_normal = new_mesh->mNumVertices;
-				mesh->normal = new float[mesh->num_normal * 3];
-				memcpy(mesh->normal, new_mesh->mNormals, sizeof(float) * mesh->num_normal * 3);
-				LOG("New mesh with %d normals", mesh->num_normal);
-
-				if (mesh->normal)
-					App->gui->AddLogToConsole("Normals loaded correctly");
+				if (mesh->vertex)
+					App->gui->AddLogToConsole("Mesh vertices loaded correctly");
 				else
-					App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
-			}
+					App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
 
-			//copy uvs
-			if (new_mesh->HasTextureCoords(0)) {
-				mesh->num_uv = new_mesh->mNumVertices;
-				mesh->uv = new float[mesh->num_uv * 2];
-				for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
-					memcpy(&mesh->uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
-					memcpy(&mesh->uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
+				//copy normals
+				if (new_mesh->HasNormals()) {
+					mesh->num_normal = new_mesh->mNumVertices;
+					mesh->normal = new float[mesh->num_normal * 3];
+					memcpy(mesh->normal, new_mesh->mNormals, sizeof(float) * mesh->num_normal * 3);
+					LOG("New mesh with %d normals", mesh->num_normal);
 
+					if (mesh->normal)
+						App->gui->AddLogToConsole("Normals loaded correctly");
+					else
+						App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
 				}
 
-				if (mesh-> uv)
-					App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
-			}
+				//copy uvs
+				if (new_mesh->HasTextureCoords(0)) {
+					mesh->num_uv = new_mesh->mNumVertices;
+					mesh->uv = new float[mesh->num_uv * 2];
+					for (uint i = 0; i < new_mesh->mNumVertices; ++i) {
+						memcpy(&mesh->uv[i * 2], &new_mesh->mTextureCoords[0][i].x, sizeof(float));
+						memcpy(&mesh->uv[(i * 2) + 1], &new_mesh->mTextureCoords[0][i].y, sizeof(float));
 
+					}
 
-			// copy faces
-			if (new_mesh->HasFaces())
-			{
-				mesh->num_index = new_mesh->mNumFaces * 3;
-				mesh->index = new uint[mesh->num_index]; // assume each face is a triangle
-				for (uint i = 0; i < new_mesh->mNumFaces; ++i)
-					memcpy(&mesh->index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
-
-
-				if (mesh->index)
-					App->gui->AddLogToConsole("Mesh indexes loaded correctly");
-				else
-					App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
-			}
-
-			
-
-			//Save a mesh in own file format
-
-			if (mesh)
-				if (SaveMesh(mesh, std::to_string(mesh->GetUID()).c_str())) {
-					mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
-					App->gui->loaded_meshes_uuid.push_back(mesh->GetUID());
+					if (mesh->uv)
+						App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
+					else
+						App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
 				}
-				else
-					SaveMesh(mesh, name.c_str());
 
 
-			
+				// copy faces
+				if (new_mesh->HasFaces())
+				{
+					mesh->num_index = new_mesh->mNumFaces * 3;
+					mesh->index = new uint[mesh->num_index]; // assume each face is a triangle
+					for (uint i = 0; i < new_mesh->mNumFaces; ++i)
+						memcpy(&mesh->index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 
-			//Delete the auxiliar mesh info (Resource Mesh)
-			RELEASE_ARRAY(mesh->vertex);
-			RELEASE_ARRAY(mesh->index);
-			RELEASE_ARRAY(mesh->normal);
-			RELEASE_ARRAY(mesh->uv);
-			RELEASE(mesh);
+
+					if (mesh->index)
+						App->gui->AddLogToConsole("Mesh indexes loaded correctly");
+					else
+						App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
+				}
+
+
+
+				//Save a mesh in own file format
+
+				if (mesh)
+					if (SaveMesh(mesh, std::to_string(mesh->GetUID()).c_str())) {
+						mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
+						App->gui->loaded_meshes_uuid.push_back(mesh->GetUID());
+					}
+					else
+						SaveMesh(mesh, name.c_str());
+
+
+
+
+				//Delete the auxiliar mesh info (Resource Mesh)
+				RELEASE_ARRAY(mesh->vertex);
+				RELEASE_ARRAY(mesh->index);
+				RELEASE_ARRAY(mesh->normal);
+				RELEASE_ARRAY(mesh->uv);
+				RELEASE(mesh);
+			}
 		}
 	}
 
 	if (go)
 		go_list->push_back(go);
-
 
 	//Recursive iteration to save all nodes
 	for (int i = 0; i < node->mNumChildren; ++i)
@@ -328,7 +303,6 @@ bool MeshImporter::LoadMesh(const char* exported_file, ResourceMesh* mesh)
 	char* cursor = buffer;
 
 	if (buffer) {
-
 		// amount of indices / vertices / texture_coords / normals
 		uint ranges[4];
 		uint bytes = sizeof(ranges);
@@ -372,4 +346,49 @@ bool MeshImporter::LoadMesh(const char* exported_file, ResourceMesh* mesh)
 	RELEASE_ARRAY(buffer);
 
 	return ret;
+}
+
+bool MeshImporter::HasMeshOnlyTriangles(aiMesh* mesh)
+{
+	for (uint i = 0; i < mesh->mNumFaces; ++i) {
+		if (mesh->mFaces[i].mNumIndices != 3) {
+			LOG("WARNING, geometry face with != 3 indices!");
+			if (mesh->mFaces[i].mNumIndices < 3)
+				App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
+
+			if (mesh->mFaces[i].mNumIndices > 3)
+				App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
+
+			return false;
+		}
+	}
+	return true;
+}
+
+void MeshImporter::ImportMatFromMesh(aiMaterial* material, GameObject* go)
+{
+	//Get texture path
+	uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
+	aiString mat_path;
+	material->GetTexture(aiTextureType_DIFFUSE, 0, &mat_path);
+	string mat_path_name = (string)mat_path.C_Str();
+	string mat_path_s = mat_path_name;
+
+	//Find the texture by its name in the textures folder
+	if (mat_path_s.find("\\") != string::npos)
+		mat_path_name = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
+	mat_path_s = ASSETS_TEX_FOLDER + mat_path_name;
+	App->fs->NormalizePath(mat_path_s);
+
+	//Create the material if the texture is found
+	if (App->fs->Exists(mat_path_s.c_str())) {
+
+		go->CreateComponent(Comp_Material);
+		UID mat_uuid = App->resources->ImportFile(mat_path_s.c_str(), Resource_Texture); //Resource Texture
+		go->material->uuid_mat = mat_uuid;
+		go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
+
+		//Create json with uuid and path for Material
+		//App->mat_import->Serialize(go->material);
+	}
 }

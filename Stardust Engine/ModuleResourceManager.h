@@ -16,10 +16,12 @@ public:
 	bool Start();
 	bool CleanUp();
 
-	UID Find(const char* file_in_assets) const; //TODO
+	UID FindByFileInAssets(const char* file_in_assets) const; //ex. Assets/Meshes/Bakerhouse.fbx
+	UID FindByFileInLibrary(const char* file_in_lib) const; //ex. Library/Meshes/31984913.stdtmesh
+	std::vector<UID> FindMeshes(const char* file_in_assets); //ex. Assets/Meshes/Bakerhouse.fbx
 	UID ImportFile(const char* full_path, ResourceType type); //ex. Assets/Meshes/Bakerhouse.fbx
-	UID GenerateNewUID(); //TODO
-	const Resource* Get(UID uid) const; //TODO
+	UID GenerateNewUID();
+	const Resource* Get(UID uid) const;
 	Resource* Get(UID uid);
 	Resource* CreateNewResource(ResourceType type, UID force_uid = 0);
 	void GenerateMetaFile(const char* full_path, ResourceType type, UID uid, std::vector<UID>uids = std::vector<UID>()); //path = "Assets/Meshes/Baker_house.png"
