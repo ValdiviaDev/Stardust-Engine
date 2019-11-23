@@ -375,3 +375,8 @@ void ModuleGui::LoadSceneMenu() {
 
 	}
 }
+
+PanelAssets* ModuleGui::GetPanelAssets() const
+{
+	return p_assets;
+}

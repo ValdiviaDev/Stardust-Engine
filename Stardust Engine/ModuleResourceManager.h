@@ -27,7 +27,7 @@ public:
 	void GenerateMetaFile(const char* full_path, ResourceType type, UID uid, std::vector<UID>uids = std::vector<UID>()); //path = "Assets/Meshes/Baker_house.png"
 	void CheckMetas();
 	
-
+	void GetAllMeshesFromScenes();
 	
 
 	void CreatePrimitiveResources();

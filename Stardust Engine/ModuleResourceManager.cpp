@@ -3,7 +3,8 @@
 #include "Resource.h"
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
-
+#include "PanelAssets.h"
+#include "mmgr/mmgr.h"
 
 ModuleResourceManager::ModuleResourceManager(Application* app, bool start_enabled) : Module(app, "Resources", start_enabled)
 {
@@ -20,6 +21,8 @@ bool ModuleResourceManager::Start() {
 
 	CheckMetas();
 	CreatePrimitiveResources();
+
+	GetAllMeshesFromScenes();
 
 	return ret;
 }
@@ -77,7 +80,8 @@ std::map<UID, string> ModuleResourceManager::FindMeshes(const char* file_in_asse
 			if (array_cmp) {
 				for (uint j = 0; j < json_array_get_count(array_cmp); j++) {
 					obj_mesh = json_array_get_object(array_cmp, j);
-					if (json_object_get_number(obj_mesh, "Component type") == 2)
+					int comp = json_object_get_number(obj_mesh, "Component Type");
+					if (comp == 2)
 						meshes[json_object_get_number(obj_mesh, "UUID Mesh")] = json_object_get_string(obj_go, "Name");
 				}
 			}
@@ -113,11 +117,11 @@ UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceTy
 	if (App->mesh_import->ImportScene(file.c_str(), new_file_in_assets, written_file, mesh_uuids, create_meta, parent_uid, in_uids)) {
 			for (int i = 0; i < mesh_uuids.size(); ++i) {
 				if (resources.find(mesh_uuids[i]) == resources.end()) {
-					Resource* res = CreateNewResource(type, mesh_uuids[i]);
-						res->SetFile(new_file_in_assets);
-						written_file = LIBRARY_MESH_FOLDER + std::to_string(mesh_uuids[i]) + "." + MESH_EXTENSION;
-						res->SetImportedFile(written_file);
-						ret = res->GetUID();
+					Resource* res = CreateNewResource(type, mesh_uuids[i]); //HERE
+					res->SetFile(new_file_in_assets); //HERE
+					written_file = LIBRARY_MESH_FOLDER + std::to_string(mesh_uuids[i]) + "." + MESH_EXTENSION;
+					res->SetImportedFile(written_file); //HERE
+					ret = res->GetUID();
 				}
 			}
 		}
@@ -253,8 +257,6 @@ void ModuleResourceManager::CheckMetas() {
 
 		case FileType::File_Meta:
 		{
-			
-
 				std::string file_no_meta = file;
 				file_no_meta = file_no_meta.substr(0, file_no_meta.find_last_of("."));
 
@@ -338,6 +340,28 @@ void ModuleResourceManager::CheckMetas() {
 		}
 
 	}
+}
+
+void ModuleResourceManager::GetAllMeshesFromScenes()
+{
+	map<string, map<UID, string>> mesh_scenes;
+
+	std::vector<std::string> files, dirs;
+	App->fs->DiscoverFiles(ASSETS_MESH_FOLDER, files, dirs);
+
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++) {
+
+		std::string file = ASSETS_MESH_FOLDER + (*it);
+		FileType ft = App->fs->DetermineFileType(file.c_str());
+
+		switch (ft) {
+
+		case FileType::File_Mesh:
+			mesh_scenes[(*it)] = FindMeshes(file.c_str());
+		
+		}
+	}
+	App->gui->GetPanelAssets()->SetMeshScenesMap(mesh_scenes);
 }
 
 

@@ -90,7 +90,7 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 			string file_no_ext = file_string;
 			//file_no_ext = file_no_ext.substr(0, file_no_ext.find_last_of("."));
 
-			SerializeNoComponent(file_string.c_str(), uuid_mat);
+			//SerializeNoComponent(file_string.c_str(), uuid_mat);
 			AddTextureToList(file_string.c_str(), uuid_mat);
 			file_no_ext = std::to_string(uuid_mat);
 			uid_out = uuid_mat;

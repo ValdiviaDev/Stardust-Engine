@@ -3,6 +3,7 @@
 #include "imgui/imgui.h"
 #include "ModuleResourceManager.h"
 #include "Resource.h"
+#include "Globals.h"
 
 PanelAssets::PanelAssets()
 {
@@ -40,9 +41,12 @@ void PanelAssets::Draw()
 	vector<string> file_list;
 	vector<string> dir_list;
 
+	file_list.clear();
+	dir_list.clear();
 	App->fs->DiscoverFiles(ASSETS_FOLDER, file_list, dir_list);
-	GestionDirectoryTree(dir_list);
 
+	GestionDirectoryTree(dir_list);
+	read_asset_changes = false;
 	ImGui::EndChild();
 
 	if (ImGui::Button("Open", { 80, 20 })) {
@@ -51,6 +55,14 @@ void PanelAssets::Draw()
 	//ImGui::SameLine();
 	//if (ImGui::Button("Import", { 80, 20 })) {
 	//	ImportFromAssets();
+	//}
+	ImGui::SameLine();
+	if (ImGui::Button("Put to GameObject", { 140, 20 })) {
+		read_asset_changes = true;
+	}
+	ImGui::SameLine();
+	//if (ImGui::Button("Read Asset Changes", { 140, 20 })) {
+	//	read_asset_changes = true;
 	//}
 
 	ImGui::End();
@@ -61,25 +73,31 @@ void PanelAssets::GestionDirectoryTree(vector<string> dir)
 	int id = 0;
 
 	for (int i = 0; i < dir.size(); ++i) {
-		vector<string> file_list;
-		vector<string> dir_list;
+		
 		string this_dir = ASSETS_FOLDER + dir[i];
 
+		vector<string> file_list;
+		vector<string> dir_list;
+		
 		App->fs->DiscoverFiles(this_dir.c_str(), file_list, dir_list);
-		DrawAssetTree(file_list, dir[i], id, true);
+		
+		if(dir[i] == "Meshes")
+			DrawAssetTree(file_list, dir[i], id, true, true);
+		else
+			DrawAssetTree(file_list, dir[i], id, true, false);
 
 		id++;
 	}
-
+	
 }
 
-void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool is_directory)
+void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool is_directory, bool is_mesh)
 {
 	ImGui::PushID(id);
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanFullWidth;
 
-	if (!is_directory) //TODO change later
+	if (!is_directory && !is_mesh)
 		flags |= ImGuiTreeNodeFlags_Leaf;
 
 	if (id == focused_node)
@@ -87,18 +105,38 @@ void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool
 
 	if (ImGui::TreeNodeEx((void*)(intptr_t)id, flags, name.c_str())) {
 	
+		//File nodes
 		if (!is_directory) {
 			if (ImGui::IsItemClicked()) {
 				focused_node = id;
 				foc_node_name = name;
 			}
+
+			if (is_mesh) {
+				//Draw the mesh nodes inside de mesh scene (.fbx, .obj) node
+				map<string, map<UID, string>>::iterator it = mesh_scenes.find(name);
+				if (it != mesh_scenes.end()) {
+					map<UID, string> mesh_scn = it->second;
+					for (std::map<UID, string>::const_iterator it = mesh_scn.begin(); it != mesh_scn.end(); ++it) {
+						id++;
+						DrawAssetTree(files, it->second, id, false);
+						
+						//Get this mesh name and uuid
+						if (ImGui::IsItemClicked())
+							foc_mesh = mesh_scn;
+					}
+				}
+			}
 		}
 
-
+		//Directory nodes
 		if (is_directory) {
 			for (int i = 0; i < files.size(); ++i) {
-				id++;
-				DrawAssetTree(files, files[i], id, false);
+				FileType ft = App->fs->DetermineFileType((char*)files[i].c_str());
+				if (ft != File_Meta) { //Don't show metas
+					id++;
+					DrawAssetTree(files, files[i], id, false, is_mesh);
+				}
 			}
 		}
 
@@ -158,4 +196,9 @@ void PanelAssets::OpenScene()
 		break;
 
 	}
+}
+
+void PanelAssets::SetMeshScenesMap(map<string, map<UID, string>> mesh_scenes)
+{
+	this->mesh_scenes = mesh_scenes;
 }

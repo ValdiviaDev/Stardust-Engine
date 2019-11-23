@@ -16,7 +16,6 @@
 #include "Assimp/include/cfileio.h"
 
 
-
 MeshImporter::MeshImporter()
 {
 }
@@ -235,16 +234,13 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 						SaveMesh(mesh, name.c_str());
 				}
 
-				
-
-
 				//Delete the auxiliar mesh info (Resource Mesh)
 				RELEASE_ARRAY(mesh->vertex);
 				RELEASE_ARRAY(mesh->index);
 				RELEASE_ARRAY(mesh->normal);
 				RELEASE_ARRAY(mesh->uv);
-				RELEASE(mesh);
 			}
+			RELEASE(mesh);
 		}
 	}
 

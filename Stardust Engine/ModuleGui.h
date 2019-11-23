@@ -38,8 +38,7 @@ public:
 	void SaveSceneMenu();
 	void LoadSceneMenu();
 
-	/*void Load(ConfigEditor* config);
-	void Save(ConfigEditor* config) const;*/
+	PanelAssets* GetPanelAssets() const;
 
 public:
 
