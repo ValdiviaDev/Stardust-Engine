@@ -36,20 +36,20 @@ bool ModuleResourceManager::CleanUp()
 	return true;
 }
 
-UID ModuleResourceManager::FindByFileInAssets(const char * file_in_assets) const
+UID ModuleResourceManager::FindByFileInAssets(const char* file_in_assets) const
 {
 	for (std::map<UID, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
-		if (it->second->GetFile() == file_in_assets)
+		if (strcmp(it->second->GetFile(), file_in_assets) == 0)
 			return it->first;
 	
 	//If there is no coincidences return a 0
 	return 0;
 }
 
-UID ModuleResourceManager::FindByFileInLibrary(const char * file_in_lib) const
+UID ModuleResourceManager::FindByFileInLibrary(const char* file_in_lib) const
 {
 	for (std::map<UID, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
-		if (it->second->GetImportedFile() == file_in_lib)
+		if (strcmp(it->second->GetImportedFile(), file_in_lib) == 0)
 			return it->first;
 
 	//If there is no coincidences return a 0

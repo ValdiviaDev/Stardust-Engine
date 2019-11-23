@@ -385,10 +385,13 @@ void MeshImporter::ImportMatFromMesh(aiMaterial* material, GameObject* go)
 
 		go->CreateComponent(Comp_Material);
 		UID mat_uuid = App->resources->ImportFile(mat_path_s.c_str(), Resource_Texture); //Resource Texture
-		go->material->uuid_mat = mat_uuid;
+
+		if (mat_uuid == 0)
+			go->material->uuid_mat = App->resources->FindByFileInAssets(mat_path_s.c_str());
+		else
+			go->material->uuid_mat = mat_uuid;
+
 		go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
 
-		//Create json with uuid and path for Material
-		//App->mat_import->Serialize(go->material);
 	}
 }

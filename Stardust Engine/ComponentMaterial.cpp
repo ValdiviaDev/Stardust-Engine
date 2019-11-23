@@ -93,6 +93,12 @@ void ComponentMaterial::Load(JSON_Object* comp_obj) {
 
 	uuid_mat = json_object_get_number(comp_obj, "UUID Material");
 
-	ResourceTexture* r_tex = (ResourceTexture*)App->resources->Get(uuid_mat);
-	r_tex->LoadToMemory();
+	if (uuid_mat != 0) {
+		ResourceTexture* r_tex = (ResourceTexture*)App->resources->Get(uuid_mat);
+		r_tex->LoadToMemory();
+	}
+	else {
+		string log = "GameObject " + (string)gameObject->GetName() + ": Charging a material with no texture";
+		App->gui->AddLogToConsole(log.c_str());
+	}
 }
