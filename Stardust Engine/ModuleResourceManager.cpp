@@ -222,23 +222,7 @@ void ModuleResourceManager::CheckMetas() {
 			UID file_uid = json_object_get_number(object, "UUID");
 			int r_type = json_object_get_number(object, "Resource Type");
 			
-			//get childs from json. then if they dont exist in lib, ...
-			std::vector<UID> uid_childs;
-			JSON_Array* array = json_object_get_array(object, "Children");
-			JSON_Object* obj_it;
-
-			if (array) {
-				//Put all childs uuids in a vector
-				for (uint i = 0; i < json_array_get_count(array); i++) {
-
-					obj_it = json_array_get_object(array, i);
-					uid_childs.push_back(json_object_get_number(obj_it, "UUID"));
-
-				}
-
-
-			}
-
+		
 
 			//Look if the Library file is created
 			std::string file_lib = LIBRARY_MESH_FOLDER + std::to_string(file_uid) + "." + MESH_EXTENSION;
@@ -253,6 +237,39 @@ void ModuleResourceManager::CheckMetas() {
 				file = file.substr(0, file.find_last_of("."));
 				ImportFile(file.c_str(), (ResourceType)r_type);
 			}
+
+
+			//get childs from json. then if they dont exist in lib, ...
+			std::vector<UID> uid_childs;
+			JSON_Array* array = json_object_get_array(object, "Children");
+			JSON_Object* obj_it;
+
+			if (array) {
+				//Put all childs uuids in a vector
+				for (uint i = 0; i < json_array_get_count(array); i++) {
+
+					UID current_uid = 0;
+					obj_it = json_array_get_object(array, i);
+					current_uid = json_object_get_number(obj_it, "UUID");
+					uid_childs.push_back(current_uid);
+
+
+					
+					if (App->fs->Exists(file_lib.c_str())) {
+
+						CreateNewResource((ResourceType)r_type, file_uid);
+					}
+					else {
+
+
+					}
+				}
+
+
+			}
+
+
+			
 
 
 			json_value_free(root_value);
