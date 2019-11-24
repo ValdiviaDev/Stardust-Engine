@@ -16,7 +16,7 @@
 	* Parson
 	* par_shapes
 	* mmgr memory manager
-	* PhysPS 2.0.3
+	* PhysFS 2.0.3
 
 ## Instalation Instructions
 Open the "Stardust Engine.exe" file that you'll find inside this folder.
@@ -59,7 +59,7 @@ David Valdivia
 	- Mesh/scene importer system
 	- Engine camera refactoring
 	- Mouse picking and gizmos implementation
-	- Quadtree and quadtree optimizations (camera culling and mouse picking
+	- Quadtree and quadtree optimizations (camera culling and mouse picking)
 	- Time manager (game and engine times)
 	- Resource manager: runtime part
 
