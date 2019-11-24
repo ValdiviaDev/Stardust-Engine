@@ -15,11 +15,13 @@ public:
 	void DrawInspector();
 	void SetPath(const char* path);
 	
+	bool HasMesh();
+
 	bool IsPrimitive() const;
 	void SetPrimitive(PrimitiveType type);
 
 public:
-	uint uuid_mesh = 0;
+	UID uuid_mesh = 0;
 
 	//Debug
 	bool debug_v_norm = false;

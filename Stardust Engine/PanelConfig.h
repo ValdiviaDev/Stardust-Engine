@@ -24,6 +24,7 @@ public:
 	void RendererMenu();
 	void SceneMenu();
 	void TimeMenu();
+	void ResourcesMenu();
 
 	void InputConsole();
 	void CheckForCaps();

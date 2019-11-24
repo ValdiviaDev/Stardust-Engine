@@ -373,6 +373,22 @@ void ModuleResourceManager::GetAllMeshesFromScenes()
 	App->gui->GetPanelAssets()->SetMeshScenesMap(mesh_scenes);
 }
 
+uint ModuleResourceManager::GetResourcesCount() const
+{
+	return resources.size();
+}
+
+uint ModuleResourceManager::GetResourcesInMemory() const
+{
+	uint num_loaded = 0;
+
+	for (std::map<UID, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+		if (it->second->CountReferences() > 0)
+			num_loaded++;
+
+	return num_loaded;
+}
+
 
 
 //Primitives

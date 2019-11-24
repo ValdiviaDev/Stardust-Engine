@@ -21,7 +21,7 @@ public:
 	void  DrawInspector();
 
 public:
-	uint uuid_mat = 0;
+	UID uuid_mat = 0;
 
 	//Debug
 	bool debug_tex_draw = true;
