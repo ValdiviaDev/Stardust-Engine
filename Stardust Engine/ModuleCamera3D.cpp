@@ -17,7 +17,7 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	engine_cam->SetNearPlane(0.6f);
 	engine_cam->SetFarPlane(512.0f);
 	current_cam = engine_cam;
-	Move({ 5.0f, 5.0f, 5.0f });
+	Move({ 25.0f, 25.0f, 25.0f });
 	LookAt({ 0.0f, 0.0f, 0.0f });
 }
 

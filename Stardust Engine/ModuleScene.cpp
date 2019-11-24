@@ -43,6 +43,9 @@ bool ModuleScene::Start()
 	//Initialize root GameObject
 	CreateRootObject();
 
+	//Charge street envoirment
+	App->scene_serialization->LoadSceneFromMesh("Assets/Meshes/Street environment_V01.FBX");
+
 	//Main camera
 	CreateCamera(true);
 
