@@ -124,10 +124,10 @@ UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceTy
 	if (App->mesh_import->ImportScene(file.c_str(), new_file_in_assets, written_file, mesh_uuids, create_meta, parent_uid, in_uids)) {
 			for (int i = 0; i < mesh_uuids.size(); ++i) {
 				if (resources.find(mesh_uuids[i]) == resources.end()) {
-					Resource* res = CreateNewResource(type, mesh_uuids[i]); //HERE
-					res->SetFile(new_file_in_assets); //HERE
+					Resource* res = CreateNewResource(type, mesh_uuids[i]);
+					res->SetFile(new_file_in_assets);
 					written_file = LIBRARY_MESH_FOLDER + std::to_string(mesh_uuids[i]) + "." + MESH_EXTENSION;
-					res->SetImportedFile(written_file); //HERE
+					res->SetImportedFile(written_file);
 					ret = res->GetUID();
 				}
 			}

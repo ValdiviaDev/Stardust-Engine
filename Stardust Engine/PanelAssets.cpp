@@ -114,32 +114,7 @@ void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool
 				foc_node_name = name;
 			}
 
-			switch(ft) {
-			case File_Mesh: {
-				//Draw the mesh nodes inside de mesh scene (.fbx, .obj) node
-				map<string, map<UID, string>>::iterator it = mesh_scenes.find(name);
-				if (it != mesh_scenes.end()) {
-					map<UID, string> mesh_scn = it->second;
-					for (std::map<UID, string>::const_iterator it = mesh_scn.begin(); it != mesh_scn.end(); ++it) {
-						id++;
-						DrawAssetTree(files, it->second, id, false, No_Extension);
-
-						//Get this mesh name and uuid
-						if (ImGui::IsItemClicked())
-							foc_mesh = mesh_scn;
-					}
-				}
-			}
-				break;
-			case File_Material:
-				//Get  this material uuid
-				if (ImGui::IsItemClicked()) {
-					map<string, UID>::iterator it = textures.find(name);
-					if (it != textures.end())
-						foc_tex_uuid = it->second;
-				}
-				break;
-			}
+			DrawAssetTreeDiferentFiles(files, name, id, ft);
 		}
 
 		//Directory nodes
@@ -158,6 +133,37 @@ void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool
 	}
 
 	ImGui::PopID();
+}
+
+void PanelAssets::DrawAssetTreeDiferentFiles(vector<string> files, string name, int & id, FileType ft)
+{
+	switch (ft) {
+	case File_Mesh: {
+		//Draw the mesh nodes inside de mesh scene (.fbx, .obj) node
+		map<string, map<UID, string>>::iterator it = mesh_scenes.find(name);
+		if (it != mesh_scenes.end()) {
+			map<UID, string> mesh_scn = it->second;
+			for (std::map<UID, string>::const_iterator it = mesh_scn.begin(); it != mesh_scn.end(); ++it) {
+				id++;
+				DrawAssetTree(files, it->second, id, false, No_Extension);
+
+				//Get this mesh name and uuid
+				if (ImGui::IsItemClicked())
+					foc_mesh = mesh_scn;
+			}
+		}
+	}
+	break;
+
+	case File_Material:
+		//Get  this material uuid
+		if (ImGui::IsItemClicked()) {
+			map<string, UID>::iterator it = textures.find(name);
+			if (it != textures.end())
+				foc_tex_uuid = it->second;
+		}
+		break;
+	}
 }
 
 void PanelAssets::ImportFromAssets()

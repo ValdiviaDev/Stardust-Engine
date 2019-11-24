@@ -210,28 +210,6 @@ void ModuleGui::HandleMainMenuBar()
 
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Meshes")) {
-			for (int i = 0; i < loaded_meshes_uuid.size(); ++i) {
-				string uuid_str = std::to_string(loaded_meshes_uuid[i]);
-
-				if (ImGui::MenuItem(uuid_str.c_str()))
-				{
-					if (App->scene->GetFocusedGameObject())
-						App->scene->AssignMeshToGameObject(loaded_meshes_uuid[i]);
-					else
-						App->scene->CreateGameObjectByMesh(loaded_meshes_uuid[i]);
-				}
-			}
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("Materials")) {
-			for (int i = 0; i < loaded_textures.size(); ++i)
-				if (ImGui::MenuItem(std::to_string(loaded_textures[i]).c_str()))
-					App->scene->AssignTexToGameObject(loaded_textures[i]);
-
-			ImGui::EndMenu();
-		}
 
 		if (ImGui::BeginMenu("Window"))
 		{

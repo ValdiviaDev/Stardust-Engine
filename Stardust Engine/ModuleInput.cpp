@@ -122,15 +122,17 @@ update_status ModuleInput::PreUpdate(float dt)
 					LOG("Scene for object already exists, load .json.");
 					App->scene_serialization->LoadSceneFromMesh(e.drop.file);
 					break;
-				case File_Material:
+				case File_Material: {
 					App->gui->AddLogToConsole("Charging texture");
-					// TODO: have to delete
-					//App->scene->ChangeGameObjectTexture(e.drop.file, App->scene->GetFocusedGameObject());
+					UID tex_uid = App->resources->GetUIDFromMeta(e.drop.file);
+					App->scene->AssignTexToGameObject(tex_uid);
+				}
 					break;
 				case File_Scene:
 					App->gui->AddLogToConsole("Charging scene");
 					App->scene_serialization->LoadScene(e.drop.file);
 
+				case File_Meta:
 				case File_Unknown:
 					App->gui->AddLogToConsole("ERROR: Couldn't charge file");
 					break;
