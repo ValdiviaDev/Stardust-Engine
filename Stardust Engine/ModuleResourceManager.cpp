@@ -25,6 +25,8 @@ bool ModuleResourceManager::Start() {
 	GetAllMeshesFromScenes();
 
 
+
+
 	return ret;
 }
 
@@ -103,7 +105,7 @@ std::map<UID, string> ModuleResourceManager::FindMeshes(const char* file_in_asse
 UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceType type, UID parent_uid, const std::vector<UID> childs_uids)
 {
 	UID ret = 0;
-	string written_file;
+	std::string written_file;
 	std::string path = "", file = "", aux = "", path_and_file = "";
 	App->fs->SplitFilePath(new_file_in_assets, &path, &file, &aux);
 
@@ -312,8 +314,8 @@ void ModuleResourceManager::CheckMetas() {
 						file_lib = LIBRARY_MESH_FOLDER + std::to_string(uid_childs[i]) + "." + MESH_EXTENSION;
 
 						if (App->fs->Exists(file_lib.c_str())) {
-
-							CreateNewResource((ResourceType)r_type, uid_childs[i]);
+							if(Get(uid_childs[i]) == nullptr)
+								CreateNewResource((ResourceType)r_type, uid_childs[i]);
 						}
 						else {
 							std::string out_f, only_file = (*it);
