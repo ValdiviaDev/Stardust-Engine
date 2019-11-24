@@ -310,18 +310,18 @@ void ModuleResourceManager::CheckMeshMetas() {
 
 				
 				//Look if the Library file is created
-				std::string file_lib = LIBRARY_MESH_FOLDER + std::to_string(file_uid) + "." + MESH_EXTENSION;
+				std::string file_lib = LIBRARY_SCENE_FOLDER + std::to_string(file_uid) + ".json";
 
 				//This looks if the fbx scene in library is created (not needed)------------------
-				//if (App->fs->Exists(file_lib.c_str())) {
-				//	//If created, do resource only
-				//	CreateNewResource((ResourceType)r_type, file_uid);
-				//
-				//}
-				//else {
-				//	//If not created, import
-				//	ImportFile(file_no_meta.c_str(), (ResourceType)r_type, file_uid, uid_childs);
-				//}
+				if (App->fs->Exists(file_lib.c_str())) {
+					//If created, do resource only
+					CreateNewResource((ResourceType)r_type, file_uid);
+				
+				}
+				else {
+					//If not created, import
+					ImportFile(file_no_meta.c_str(), (ResourceType)r_type, file_uid, uid_childs);
+				}
 				//-------------------------------------------------------------------------------
 
 
@@ -409,6 +409,8 @@ void ModuleResourceManager::CheckTextureMetas()
 				ImportFile(file_no_meta.c_str(), (ResourceType)r_type, file_uid);
 			}
 
+			json_value_free(root_value);
+
 			break;
 		}
 		case FileType::File_Material:
@@ -448,11 +450,33 @@ void ModuleResourceManager::GetAllMeshesFromScenes()
 		switch (ft) {
 
 		case FileType::File_Mesh:
-			mesh_scenes[(*it)] = FindMeshes(file.c_str());
+
+			UID aux_uid = GetUIDFromMeta(file);
+			if (aux_uid != 0) {
+			
+				file = LIBRARY_SCENE_FOLDER + std::to_string(aux_uid);
+				mesh_scenes[(*it)] = FindMeshes(file.c_str());
+
+			}
 		
+			break;
 		}
 	}
 	App->gui->GetPanelAssets()->SetMeshScenesMap(mesh_scenes);
+}
+
+UID ModuleResourceManager::GetUIDFromMeta(std::string path_no_meta)
+{
+	std::string meta = path_no_meta + ".meta";
+
+	JSON_Value* root_value = json_parse_file(meta.c_str());
+	JSON_Object* object = json_value_get_object(root_value);
+
+	if (object) 
+		return json_object_get_number(object, "UUID");
+
+
+	return 0;
 }
 
 uint ModuleResourceManager::GetResourcesCount() const

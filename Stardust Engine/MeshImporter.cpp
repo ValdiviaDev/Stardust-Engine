@@ -67,7 +67,7 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 
 		//Make .json scene for the .fbx scene
 		char file_name[100];
-		strcpy(file_name, file);
+		strcpy(file_name, std::to_string(dummy->uuid).c_str());
 		strcat(file_name, ".json");
 		App->scene_serialization->SaveSceneFromMesh(file_name, go_list);
 		
