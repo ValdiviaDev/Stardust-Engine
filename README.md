@@ -21,6 +21,35 @@
 ## Instalation Instructions
 Open the "Stardust Engine.exe" file that you'll find inside this folder.
 
+## Engine instructions
+
+  ### Move arround
+  	- With the right mouse button you can change the angle of the engine camera.
+	- You can move forwards/backards and left/right with the right mouse button and WASD and you can move up and down with Q and E.
+	
+  ### GameObject interaction
+  	- Using the hierarchy panel you can select and move gameobjects from parent to parent.
+	- Pressing the left mouse button to a GameObject with a mesh in the scene, this GameObject will be selected.
+	- With the "Supr"/"Delete" button you can delete the selected GameObject.
+	- With the "F" button you can focus your camera to the selected GameObject.
+	- By pressing "W", "E" or "R", you can use diferent translation, rotation and scale gizmos. By pressing "T" you can change the gizmo form global to local space and vice versa. You can hide the gizmos by pressing "Q".
+
+  ### Asset panel
+  	- In the asset panel you can charge mesh scenes by double clicking a .fbx/.obj/.dae and pressing the "Open" button.
+	- You can open a scene by selecting the scene and pressing the "Open" button.
+	- You can create a GameObject by pressing the "Put to GameObject"button with a selected mesh  or assign a new mesh to an already created GameObject.
+	- You can assign a texture to an already created GameObject by selecting a texture and pressing the "Put to GameObject" button.
+
+  ### Play mode
+  	- Press "Play" in the edit panel to watch the engine in the perspective of the GameObject that has a camera and the main camera property activated. Press "Stop" to resume activity on the engine
+	- Press "Pause" to pause the current simulation (only stops in-game clock for now).
+	- Move the "Time Scale" slider to increase or decrease the simulation speed (only affects the in-game clock for now).
+
+  ### Drag and drop
+  	- You can drop a mesh scene file (fbx/.obj/.dae) in assets/meshes to charge the scene in the file.
+	- You can drop a scene file (.json) that you can create in the engine to open a scene.
+	- You can drop a texture file in assets/textures to apply said texture to the object.
+
 ## Features
 	- GameObject tree structure
 	- Functioning transform, mesh, material and camera components
