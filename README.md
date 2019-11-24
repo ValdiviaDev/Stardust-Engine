@@ -22,14 +22,47 @@
 Open the "Stardust Engine.exe" file that you'll find inside this folder.
 
 ## Features
-	- Basic GameObject structure
-	- Functioning transform, mesh and material components
+	- GameObject tree structure
+	- Functioning transform, mesh, material and camera components
 	- Creating cube, sphere and plane primitives as GameObjects
-	- Mesh charge by dragging .fbx, .obj and .dae files into the engine
-	- Texture charge by dragging, .png, .jpg, .jpeg, .dds, .bmp and .tga files into the engine
-	- Config window that includes options for the application, window and renderer
+	- Fbx scene charge by dragging .fbx, .obj or .dae files into the engine
+	- Creating GameObjects selecting a mesh in the assets panel
+	- Changing GameObjects mesh by selecting a mesh in the assets panel
+	- Charging or changing textures to a GameObject by selecting one in the assets panel, (.png, .jpg, .jpeg, .dds, .bmp and .tga 	files supported)
+	- Config window that includes options for the application, window, renderer and scene, and information of other modules of the engine
 	- Save and load for the config options
-	- Console that notifies the user of the state of loading geometry, and textures
+	- Console that notifies the user of the various changes of the engine, warnings or errors
+	- Scene serialization (save and load scenes)
+	- Mouse picking of GameObjects with
+	- Moving, rotating and scaling with Gizmos
+	- Camera culling
+	- Quadtree optimizations for static GameObjects
+	- Change of game view and engine view with the edit panel
+	- Importation of assets to own format into a library folder
+	- Resource manager
+	
+
+## List of tasks done in this release (assignment)
+Ricardo Gutiérrez
+	
+	- GameObject system
+	- Transform system for the GameObjects
+	- Material importer system
+	- Camera component and camera culling
+	- Scene serialization
+	- Resource manager: offline part
+
+David Valdivia
+
+	- GameObject system
+	- Mesh and material components systems
+	- Mesh/scene importer system
+	- Engine camera refactoring
+	- Mouse picking and gizmos implementation
+	- Quadtree and quadtree optimizations (camera culling and mouse picking
+	- Time manager (game and engine times)
+	- Resource manager: runtime part
+
 
 ## [Github repository](https://github.com/ValdiviaDev/Stardust-Engine)
 
