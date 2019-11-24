@@ -19,7 +19,8 @@ bool ModuleResourceManager::Start() {
 
 	bool ret = true;
 
-	CheckMetas();
+	CheckMeshMetas();
+	CheckTextureMetas();
 	CreatePrimitiveResources();
 
 	GetAllMeshesFromScenes();
@@ -136,12 +137,19 @@ UID ModuleResourceManager::ImportFile(const char* new_file_in_assets, ResourceTy
 	}
 		break;
 	case Resource_Texture: {
-		UID tex_uuid;
-		if (App->mat_import->Import(file.c_str(), path.c_str(), written_file, tex_uuid)) {
-			Resource* res = CreateNewResource(type, tex_uuid);
+		
+		bool imp_succes = false;
+		if (parent_uid != 0)
+			imp_succes = App->mat_import->Import(file.c_str(), path.c_str(), written_file, parent_uid, true);
+		else
+			imp_succes = App->mat_import->Import(file.c_str(), path.c_str(), written_file, parent_uid);
+
+		if (imp_succes) {
+			Resource* res = CreateNewResource(type, parent_uid);
 			res->SetFile(new_file_in_assets);
 			res->SetImportedFile(written_file);
 			ret = res->GetUID();
+			GenerateMetaFile(new_file_in_assets, ResourceType::Resource_Texture, res->GetUID());
 		}
 	}
 		break;
@@ -164,28 +172,33 @@ Resource* ModuleResourceManager::Get(UID uid)
 		return nullptr;
 }
 
-Resource* ModuleResourceManager::CreateNewResource(ResourceType type, UID force_uid)
+Resource* ModuleResourceManager::CreateNewResource(ResourceType type, UID force_uid, bool is_primitive)
 {
 	Resource* ret = nullptr;
-	UID uid = 0;
+	
+	//Create resource if it doesnt exist yet	
+	if ((force_uid != 0 && !Get(force_uid)) || is_primitive) {
 
-	if (force_uid != 0)
-		uid = force_uid;
-	else
-		uid = GenerateNewUID();
+		UID uid = 0;
 
-	switch (type) {
-	case Resource_Mesh:
-		ret = (Resource*)new ResourceMesh(uid);
-		break;
-	case Resource_Texture:
-		ret = (Resource*)new ResourceTexture(uid); 
-		break;
+		if (force_uid != 0)
+			uid = force_uid;
+		else
+			uid = GenerateNewUID();
 
+		switch (type) {
+		case Resource_Mesh:
+			ret = (Resource*)new ResourceMesh(uid);
+			break;
+		case Resource_Texture:
+			ret = (Resource*)new ResourceTexture(uid);
+			break;
+
+		}
+
+		if (ret != nullptr)
+			resources[uid] = ret;
 	}
-
-	if (ret != nullptr)
-		resources[uid] = ret;
 
 	return ret;
 }
@@ -193,62 +206,67 @@ Resource* ModuleResourceManager::CreateNewResource(ResourceType type, UID force_
 
 void ModuleResourceManager::GenerateMetaFile(const char* full_path, ResourceType type, UID uid, std::vector<UID>uids) {
 
-	JSON_Value* root_value = json_value_init_object();
-	JSON_Object* object = json_value_get_object(root_value);
 
-	json_object_set_number(object, "UUID", uid);
-	json_object_set_number(object, "Resource Type", type);
+	std::string path_meta = full_path;
+	path_meta = path_meta + ".meta";
+
+	//If .meta is exists don't
+	if (!App->fs->Exists(path_meta.c_str())) {
+
+		JSON_Value* root_value = json_value_init_object();
+		JSON_Object* object = json_value_get_object(root_value);
+
+		json_object_set_number(object, "UUID", uid);
+		json_object_set_number(object, "Resource Type", type);
 
 
+		switch (type) {
+		case ResourceType::Resource_Mesh: {
+
+			JSON_Value* value_array = json_value_init_array();
+			JSON_Array* array = json_value_get_array(value_array);
+
+			if (!uids.empty()) {
+				for (std::vector<UID>::const_iterator it = uids.begin(); it != uids.end(); it++) {
+
+					JSON_Value* v = json_value_init_object();
+					JSON_Object* obj = json_value_get_object(v);
+
+					json_object_set_number(obj, "UUID", (*it));
+
+					json_array_append_value(array, v);
 
 
-	switch (type) {
-	case ResourceType::Resource_Mesh: {
+				}
 
-		JSON_Value* value_array = json_value_init_array();
-		JSON_Array* array = json_value_get_array(value_array);
-
-		if (!uids.empty()) {
-			for (std::vector<UID>::const_iterator it = uids.begin(); it != uids.end(); it++) {
-
-				JSON_Value* v = json_value_init_object();
-				JSON_Object* obj = json_value_get_object(v);
-
-				json_object_set_number(obj, "UUID", (*it));
-
-				json_array_append_value(array, v);
-
-			
 			}
 
+			json_object_set_value(object, "Children", value_array);
+
+
+
+			json_serialize_to_file_pretty(root_value, path_meta.c_str());
+			json_value_free(root_value);
+
+			break;
 		}
-
-		json_object_set_value(object, "Children", value_array);
-
+		case ResourceType::Resource_Texture: {
 
 
-		std::string path_meta = full_path;
-		path_meta = path_meta + ".meta";
+			json_serialize_to_file_pretty(root_value, path_meta.c_str());
+			json_value_free(root_value);
 
-		json_serialize_to_file_pretty(root_value, path_meta.c_str());
-		json_value_free(root_value);
+			break;
+		}
+		case ResourceType::Resource_Unknown:
+			break;
 
-
-
-		break;
-	}
-	case ResourceType::Resource_Texture:
-
-		break;
-
-	case ResourceType::Resource_Unknown:
-		break;
-
+		}
 	}
 }
 
 
-void ModuleResourceManager::CheckMetas() {
+void ModuleResourceManager::CheckMeshMetas() {
 
 	//Get all files in the folder
 	std::vector<std::string> files, dirs;
@@ -350,6 +368,70 @@ void ModuleResourceManager::CheckMetas() {
 	}
 }
 
+void ModuleResourceManager::CheckTextureMetas()
+{
+
+	//Get all files in the folder
+	std::vector<std::string> files, dirs;
+	App->fs->DiscoverFiles(ASSETS_TEX_FOLDER, files, dirs);
+
+
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++) {
+
+		//Look if they are .meta
+		std::string file = ASSETS_TEX_FOLDER + (*it);
+		FileType ft = App->fs->DetermineFileType(file.c_str());
+
+		switch (ft) {
+
+		case FileType::File_Meta:
+		{
+
+			std::string file_no_meta = file;
+			file_no_meta = file_no_meta.substr(0, file_no_meta.find_last_of("."));
+
+			JSON_Value* root_value = json_parse_file(file.c_str());
+			JSON_Object* object = json_value_get_object(root_value);
+
+			UID file_uid = json_object_get_number(object, "UUID");
+			int r_type = json_object_get_number(object, "Resource Type");
+
+			std::string file_lib = LIBRARY_MAT_FOLDER + std::to_string(file_uid) + ".dds";
+
+			if (App->fs->Exists(file_lib.c_str())) {
+				//If created, do resource only
+				CreateNewResource((ResourceType)r_type, file_uid);
+
+			}
+			else {
+				//If not created, import
+				ImportFile(file_no_meta.c_str(), (ResourceType)r_type, file_uid);
+			}
+
+			break;
+		}
+		case FileType::File_Material:
+		{
+
+			std::string meta = file + ".meta";
+			if (!App->fs->Exists(meta.c_str())) {
+
+				ImportFile(file.c_str(), ResourceType::Resource_Texture);
+
+			}
+
+			break;
+		}
+
+		}
+	}
+
+
+
+
+
+}
+
 void ModuleResourceManager::GetAllMeshesFromScenes()
 {
 	map<string, map<UID, string>> mesh_scenes;
@@ -380,7 +462,7 @@ void ModuleResourceManager::CreatePrimitiveResources()
 	ResourceMesh* primitive[3];
 
 	for (int i = 0; i < 3; ++i) {
-		primitive[i] = (ResourceMesh*)CreateNewResource(Resource_Mesh);
+		primitive[i] = (ResourceMesh*)CreateNewResource(Resource_Mesh, 0, true);
 		primitive[i]->SetFile("null");
 		primitive[i]->SetImportedFile("null");
 	}

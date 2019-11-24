@@ -25,7 +25,7 @@ MaterialImporter::~MaterialImporter()
 {
 }
 
-bool MaterialImporter::Import(const char * file, const char * path, std::string & output_file, uint& uid_out)
+bool MaterialImporter::Import(const char * file, const char * path, std::string & output_file, uint& uid_out, bool uid_in)
 {
 	bool ret = false;
 
@@ -35,6 +35,9 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 	App->fs->NormalizePath(file_string);
 
 	uint uuid_mat = App->GenerateUUID();
+
+	if (uid_in)
+		uuid_mat = uid_out;
 
 	if (!IsTextureLoaded(file_string.c_str())) {
 

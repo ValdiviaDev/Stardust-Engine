@@ -27,7 +27,7 @@ public:
 	MaterialImporter();
 	~MaterialImporter();
 
-	bool Import(const char* file, const char* path, std::string& output_file, uint& uid_out); //not necessary to pass uid_out if you dont need
+	bool Import(const char* file, const char* path, std::string& output_file, uint& uid_out, bool uid_in = false); //not necessary to pass uid_out if you dont need
 	//bool Import(const void* buffer, uint size, std::string& output_file);
 
 	bool LoadMaterial(const char* file_name, ResourceTexture* mat);

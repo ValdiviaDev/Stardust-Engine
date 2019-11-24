@@ -23,10 +23,10 @@ public:
 	UID GenerateNewUID();
 	const Resource* Get(UID uid) const;
 	Resource* Get(UID uid);
-	Resource* CreateNewResource(ResourceType type, UID force_uid = 0);
+	Resource* CreateNewResource(ResourceType type, UID force_uid = 0, bool is_primitive = false);
 	void GenerateMetaFile(const char* full_path, ResourceType type, UID uid, std::vector<UID>uids = std::vector<UID>()); //path = "Assets/Meshes/Baker_house.png"
-	void CheckMetas();
-	
+	void CheckMeshMetas();
+	void CheckTextureMetas();
 	void GetAllMeshesFromScenes();
 	
 

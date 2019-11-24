@@ -383,11 +383,11 @@ void MeshImporter::ImportMatFromMesh(aiMaterial* material, GameObject* go)
 	uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
 	aiString mat_path;
 	material->GetTexture(aiTextureType_DIFFUSE, 0, &mat_path);
-	string mat_path_name = (string)mat_path.C_Str();
-	string mat_path_s = mat_path_name;
+	std::string mat_path_name = (string)mat_path.C_Str();
+	std::string mat_path_s = mat_path_name;
 
 	//Find the texture by its name in the textures folder
-	if (mat_path_s.find("\\") != string::npos)
+	if (mat_path_s.find("\\") != std::string::npos)
 		mat_path_name = mat_path_s.erase(0, mat_path_s.find_last_of("\\") + 1);
 	mat_path_s = ASSETS_TEX_FOLDER + mat_path_name;
 	App->fs->NormalizePath(mat_path_s);
@@ -395,8 +395,21 @@ void MeshImporter::ImportMatFromMesh(aiMaterial* material, GameObject* go)
 	//Create the material if the texture is found
 	if (App->fs->Exists(mat_path_s.c_str())) {
 
+		std::string file_meta = mat_path_s + ".meta";
+		UID mat_uuid = 0;
+		if (App->fs->Exists(file_meta.c_str())) {
+
+			JSON_Value* root_value = json_parse_file(file_meta.c_str());
+			JSON_Object* object = json_value_get_object(root_value);
+
+			mat_uuid = json_object_get_number(object, "UUID");
+		}
+
+
 		go->CreateComponent(Comp_Material);
-		UID mat_uuid = App->resources->ImportFile(mat_path_s.c_str(), Resource_Texture); //Resource Texture
+
+		mat_uuid = App->resources->ImportFile(mat_path_s.c_str(), ResourceType::Resource_Texture, mat_uuid);
+
 
 		if (mat_uuid == 0)
 			go->material->uuid_mat = App->resources->FindByFileInAssets(mat_path_s.c_str());
@@ -404,6 +417,7 @@ void MeshImporter::ImportMatFromMesh(aiMaterial* material, GameObject* go)
 			go->material->uuid_mat = mat_uuid;
 
 		go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
+	
 
 	}
 }
