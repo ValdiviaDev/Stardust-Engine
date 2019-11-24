@@ -52,10 +52,10 @@ void PanelAssets::Draw()
 	if (ImGui::Button("Open", { 80, 20 })) {
 		OpenScene();
 	}
-	ImGui::SameLine();
-	if (ImGui::Button("Import", { 80, 20 })) {
-		ImportFromAssets();
-	}
+	//ImGui::SameLine();
+	//if (ImGui::Button("Import", { 80, 20 })) {
+	//	ImportFromAssets();
+	//}
 	ImGui::SameLine();
 	if (ImGui::Button("Put to GameObject", { 140, 20 })) {
 		PutOnGameObject();
@@ -82,22 +82,24 @@ void PanelAssets::GestionDirectoryTree(vector<string> dir)
 		App->fs->DiscoverFiles(this_dir.c_str(), file_list, dir_list);
 		
 		if(dir[i] == "Meshes")
-			DrawAssetTree(file_list, dir[i], id, true, true);
+			DrawAssetTree(file_list, dir[i], id, true, File_Mesh);
+		else if(dir[i] == "Textures")
+			DrawAssetTree(file_list, dir[i], id, true, File_Material);
 		else
-			DrawAssetTree(file_list, dir[i], id, true, false);
+			DrawAssetTree(file_list, dir[i], id, true, File_Unknown);
 
 		id++;
 	}
 	
 }
 
-void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool is_directory, bool is_mesh)
+void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool is_directory, FileType ft)
 {
 	ImGui::PushID(id);
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanFullWidth;
 
-	if (!is_directory && !is_mesh)
+	if (!is_directory && ft != File_Mesh)
 		flags |= ImGuiTreeNodeFlags_Leaf;
 
 	if (id == focused_node)
@@ -112,20 +114,31 @@ void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool
 				foc_node_name = name;
 			}
 
-			if (is_mesh) {
+			switch(ft) {
+			case File_Mesh: {
 				//Draw the mesh nodes inside de mesh scene (.fbx, .obj) node
 				map<string, map<UID, string>>::iterator it = mesh_scenes.find(name);
 				if (it != mesh_scenes.end()) {
 					map<UID, string> mesh_scn = it->second;
 					for (std::map<UID, string>::const_iterator it = mesh_scn.begin(); it != mesh_scn.end(); ++it) {
 						id++;
-						DrawAssetTree(files, it->second, id, false);
-						
+						DrawAssetTree(files, it->second, id, false, No_Extension);
+
 						//Get this mesh name and uuid
 						if (ImGui::IsItemClicked())
 							foc_mesh = mesh_scn;
 					}
 				}
+			}
+				break;
+			case File_Material:
+				//Get  this material uuid
+				if (ImGui::IsItemClicked()) {
+					map<string, UID>::iterator it = textures.find(name);
+					if (it != textures.end())
+						foc_tex_uuid = it->second;
+				}
+				break;
 			}
 		}
 
@@ -135,7 +148,7 @@ void PanelAssets::DrawAssetTree(vector<string> files, string name, int& id, bool
 				FileType ft = App->fs->DetermineFileType((char*)files[i].c_str());
 				if (ft != File_Meta) { //Don't show metas
 					id++;
-					DrawAssetTree(files, files[i], id, false, is_mesh);
+					DrawAssetTree(files, files[i], id, false, ft);
 				}
 			}
 		}
@@ -211,9 +224,8 @@ void PanelAssets::PutOnGameObject()
 		}
 		break;
 	case File_Material: {
-		UID mat_uuid = App->resources->FindByFileInAssets((ASSETS_TEX_FOLDER + foc_node_name).c_str());
-		if (mat_uuid != 0)
-			App->scene->AssignTexToGameObject(mat_uuid);
+		if (foc_tex_uuid != 0)
+			App->scene->AssignTexToGameObject(foc_tex_uuid);
 	}
 	break;
 	default:

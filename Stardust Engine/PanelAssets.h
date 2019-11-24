@@ -7,6 +7,7 @@
 
 using namespace std;
 typedef unsigned int UID;
+enum FileType;
 
 class PanelAssets: public Panel
 {
@@ -17,7 +18,7 @@ public:
 	void Draw();
 
 	void GestionDirectoryTree(vector<string> dir);
-	void DrawAssetTree(vector<string> files, string name, int& id, bool is_directory, bool is_mesh = false);
+	void DrawAssetTree(vector<string> files, string name, int& id, bool is_directory, FileType ft);
 
 	void ImportFromAssets();
 	void OpenScene();
@@ -31,10 +32,11 @@ private:
 	int focused_node = -1;
 	string foc_node_name;
 	map<UID, string> foc_mesh;
+	UID foc_tex_uuid;
 
 	bool read_asset_changes = true;
 	map<string, map<UID, string>> mesh_scenes;
-	map <string, UID> textures;
+	map<string, UID> textures;
 };
 
 #endif
