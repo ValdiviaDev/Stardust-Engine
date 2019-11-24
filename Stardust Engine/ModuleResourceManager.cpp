@@ -290,19 +290,20 @@ void ModuleResourceManager::CheckMetas() {
 					}
 				}
 
-				//TODO RICARDO REMEMBER DELETE THIS -------------------------------------------------------
+				
 				//Look if the Library file is created
 				std::string file_lib = LIBRARY_MESH_FOLDER + std::to_string(file_uid) + "." + MESH_EXTENSION;
 
-				if (App->fs->Exists(file_lib.c_str())) {
-					//If created, do resource only
-					CreateNewResource((ResourceType)r_type, file_uid);
-				
-				}
-				else {
-					//If not created, import
-					ImportFile(file_no_meta.c_str(), (ResourceType)r_type, file_uid, uid_childs);
-				}
+				//This looks if the fbx scene in library is created (not needed)------------------
+				//if (App->fs->Exists(file_lib.c_str())) {
+				//	//If created, do resource only
+				//	CreateNewResource((ResourceType)r_type, file_uid);
+				//
+				//}
+				//else {
+				//	//If not created, import
+				//	ImportFile(file_no_meta.c_str(), (ResourceType)r_type, file_uid, uid_childs);
+				//}
 				//-------------------------------------------------------------------------------
 
 
