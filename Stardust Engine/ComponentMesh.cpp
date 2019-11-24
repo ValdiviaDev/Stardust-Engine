@@ -63,6 +63,19 @@ void ComponentMesh::DrawInspector() {
 			ImGui::Checkbox("Face Normals", &debug_f_norm);
 		}
 
+		ImGui::Separator();
+		
+		
+		if (HasMesh()) {
+			ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
+			if (res != nullptr) {
+				ImGui::Text("Num of GameObjects that use this resource:");
+				ImGui::SameLine();
+				ImGui::TextColored({ 255,255,0,255 }, "%u", res->CountReferences());
+				ImGui::Separator();
+			}
+		}
+
 	}
 
 }
@@ -70,6 +83,11 @@ void ComponentMesh::DrawInspector() {
 void ComponentMesh::SetPath(const char* path)
 {
 	this->path = path;
+}
+
+bool ComponentMesh::HasMesh()
+{
+	return uuid_mesh != 0;
 }
 
 
@@ -102,7 +120,7 @@ void ComponentMesh::Load(JSON_Object* comp_obj) {
 
 	switch (is_primitive) {
 	case PRIMITIVE_NONE:
-		if (uuid_mesh != 0) {
+		if (HasMesh()) {
 			ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
 			if (res)
 				res->LoadToMemory();

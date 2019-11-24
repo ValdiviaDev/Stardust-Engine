@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
 #include "mmgr/mmgr.h"
 
 PanelConfig::PanelConfig()
@@ -62,6 +63,9 @@ void PanelConfig::Draw()
 
 	if (ImGui::CollapsingHeader("Time"))
 		TimeMenu();
+
+	if (ImGui::CollapsingHeader("Resources"))
+		ResourcesMenu();
 
 	ImGui::End();
 }
@@ -331,6 +335,21 @@ void PanelConfig::TimeMenu()
 	ImGui::SameLine();
 	ImGui::TextColored({ 255,255,0,255 }, "%.2f", App->time->GetTimeScale());
 
+
+}
+
+void PanelConfig::ResourcesMenu()
+{
+	ImGui::Separator();
+	ImGui::Text("Num of resources to use:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%u", App->resources->GetResourcesCount());
+	ImGui::Separator();
+
+	ImGui::Text("Num of resources charged to memory:");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%u", App->resources->GetResourcesInMemory());
+	ImGui::Separator();
 
 }
 

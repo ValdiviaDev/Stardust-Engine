@@ -69,8 +69,19 @@ void ComponentMaterial::DrawInspector() {
 		ImGui::SameLine();
 		ImGui::Checkbox("Draw Checkers", &debug_checkers);
 
-		if (HasTex())
+		if (HasTex()) {
 			ImGui::Image((ImTextureID)r_tex->tex_id, { 250,250 });
+
+			ImGui::Separator();
+
+			if (r_tex) {
+				ImGui::Text("Num of GameObjects that use this resource:");
+				ImGui::SameLine();
+				ImGui::TextColored({ 255,255,0,255 }, "%u", r_tex->CountReferences());
+				ImGui::Separator();
+			}
+
+		}
 
 	}
 

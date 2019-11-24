@@ -29,6 +29,8 @@ public:
 	void CheckTextureMetas();
 	void GetAllMeshesFromScenes();
 	
+	uint GetResourcesCount() const;
+	uint GetResourcesInMemory() const;
 
 	void CreatePrimitiveResources();
 	ResourceMesh* GetPrimitive(PrimitiveType type);
