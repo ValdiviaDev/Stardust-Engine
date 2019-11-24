@@ -16,7 +16,8 @@ enum FileType {
 	File_Mesh,
 	File_Material,
 	File_Scene,
-	File_Meta
+	File_Meta,
+	No_Extension
 };
 
 class ModuleFileSystem : public Module

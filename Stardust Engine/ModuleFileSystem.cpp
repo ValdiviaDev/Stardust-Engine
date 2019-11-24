@@ -281,7 +281,8 @@ FileType ModuleFileSystem::DetermineFileType(const char* file_name)
 
 	else if (extension == ".json" || extension == ".JSON")
 		return File_Scene;
-	
+	else if (extension == "" || extension == " ")
+		return No_Extension;
 	else
 		return File_Unknown;
 }

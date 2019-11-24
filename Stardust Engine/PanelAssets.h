@@ -21,7 +21,7 @@ public:
 
 	void ImportFromAssets();
 	void OpenScene();
-
+	void PutOnGameObject();
 
 	void SetMeshScenesMap(map<string, map<UID, string>> mesh_scenes);
 

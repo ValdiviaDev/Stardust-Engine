@@ -58,7 +58,7 @@ void PanelAssets::Draw()
 	//}
 	ImGui::SameLine();
 	if (ImGui::Button("Put to GameObject", { 140, 20 })) {
-		read_asset_changes = true;
+		PutOnGameObject();
 	}
 	ImGui::SameLine();
 	//if (ImGui::Button("Read Asset Changes", { 140, 20 })) {
@@ -193,6 +193,35 @@ void PanelAssets::OpenScene()
 	
 	default:
 		App->gui->AddLogToConsole("You can't charge this file type into the scene");
+		break;
+
+	}
+}
+
+void PanelAssets::PutOnGameObject()
+{
+	FileType ft = App->fs->DetermineFileType((char*)foc_node_name.c_str());
+	switch (ft) {
+	case No_Extension:
+		for (std::map<UID, string>::const_iterator it = foc_mesh.begin(); it != foc_mesh.end(); ++it) {
+			if (foc_node_name == it->second) {
+				if (App->scene->GetFocusedGameObject())
+					App->scene->AssignMeshToGameObject(it->first);
+				else {
+					GameObject* go = App->scene->CreateGameObjectByMesh(it->first);
+					go->SetName(it->second.c_str());
+				}
+			}
+		}
+		break;
+	case File_Material: {
+		UID mat_uuid = App->resources->FindByFileInAssets((ASSETS_TEX_FOLDER + foc_node_name).c_str());
+		if (mat_uuid != 0)
+			App->scene->AssignTexToGameObject(mat_uuid);
+	}
+	break;
+	default:
+		App->gui->AddLogToConsole("You cannot put this to a GameObject as a component");
 		break;
 
 	}
