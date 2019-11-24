@@ -52,10 +52,10 @@ void PanelAssets::Draw()
 	if (ImGui::Button("Open", { 80, 20 })) {
 		OpenScene();
 	}
-	//ImGui::SameLine();
-	//if (ImGui::Button("Import", { 80, 20 })) {
-	//	ImportFromAssets();
-	//}
+	ImGui::SameLine();
+	if (ImGui::Button("Import", { 80, 20 })) {
+		ImportFromAssets();
+	}
 	ImGui::SameLine();
 	if (ImGui::Button("Put to GameObject", { 140, 20 })) {
 		PutOnGameObject();
@@ -176,13 +176,9 @@ void PanelAssets::OpenScene()
 	FileType ft = App->fs->DetermineFileType((char*)foc_node_name.c_str());
 	switch (ft) {
 	case File_Mesh: {
-		std::string path = "", file = "", aux = "", path_and_file = "";
-		App->fs->SplitFilePath(foc_node_name.c_str(), &path, &file, &aux);
-		path_and_file = LIBRARY_SCENE_FOLDER + file + ".json";
-
-		App->scene_serialization->LoadScene(path_and_file.c_str());
+		string path = ASSETS_MESH_FOLDER + foc_node_name;
+		App->scene_serialization->LoadSceneFromMesh(path.c_str());
 	}
-
 		break;
 
 	case File_Scene: {
@@ -227,7 +223,12 @@ void PanelAssets::PutOnGameObject()
 	}
 }
 
-void PanelAssets::SetMeshScenesMap(map<string, map<UID, string>> mesh_scenes)
+void PanelAssets::FillMeshScenesMap(map<string, map<UID, string>> mesh_scenes)
 {
 	this->mesh_scenes = mesh_scenes;
+}
+
+void PanelAssets::FillTexturesMap(map<string, UID> textures)
+{
+	this->textures = textures;
 }

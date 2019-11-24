@@ -17,18 +17,16 @@ ModuleResourceManager::~ModuleResourceManager()
 
 bool ModuleResourceManager::Start() {
 
-	bool ret = true;
-
+	//Check for the importation of files and the creation of resources at the execution start
 	CheckMeshMetas();
 	CheckTextureMetas();
 	CreatePrimitiveResources();
 
+	//Save maps with the names and UIDs of the meshes and textures to use them during execution
 	GetAllMeshesFromScenes();
+	GetAllTexturesFromName();
 
-
-
-
-	return ret;
+	return true;
 }
 
 
@@ -443,26 +441,45 @@ void ModuleResourceManager::GetAllMeshesFromScenes()
 	App->fs->DiscoverFiles(ASSETS_MESH_FOLDER, files, dirs);
 
 	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++) {
-
 		std::string file = ASSETS_MESH_FOLDER + (*it);
 		FileType ft = App->fs->DetermineFileType(file.c_str());
 
-		switch (ft) {
-
-		case FileType::File_Mesh:
-
+		if (ft == File_Mesh) {
 			UID aux_uid = GetUIDFromMeta(file);
 			if (aux_uid != 0) {
-			
 				file = LIBRARY_SCENE_FOLDER + std::to_string(aux_uid);
 				mesh_scenes[(*it)] = FindMeshes(file.c_str());
-
 			}
-		
-			break;
 		}
 	}
-	App->gui->GetPanelAssets()->SetMeshScenesMap(mesh_scenes);
+
+	//Send to panel assets
+	App->gui->GetPanelAssets()->FillMeshScenesMap(mesh_scenes);
+}
+
+void ModuleResourceManager::GetAllTexturesFromName()
+{
+	map<string, UID> textures;
+
+	std::vector<std::string> files, dirs;
+	App->fs->DiscoverFiles(ASSETS_TEX_FOLDER, files, dirs);
+
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++) {
+		std::string file = ASSETS_TEX_FOLDER + (*it);
+		FileType ft = App->fs->DetermineFileType(file.c_str());
+
+		if (ft == File_Material) {
+			UID aux_uid = GetUIDFromMeta(file);
+			if (aux_uid != 0) {
+				file = LIBRARY_SCENE_FOLDER + std::to_string(aux_uid);
+				textures[(*it)] = aux_uid;
+			}
+		
+		}
+	}
+
+	//Send to panel assets
+	App->gui->GetPanelAssets()->FillTexturesMap(textures);
 }
 
 UID ModuleResourceManager::GetUIDFromMeta(std::string path_no_meta)

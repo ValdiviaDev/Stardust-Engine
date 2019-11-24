@@ -23,7 +23,8 @@ public:
 	void OpenScene();
 	void PutOnGameObject();
 
-	void SetMeshScenesMap(map<string, map<UID, string>> mesh_scenes);
+	void FillMeshScenesMap(map<string, map<UID, string>> mesh_scenes);
+	void FillTexturesMap(map <string, UID> textures);
 
 private:
 	//Focused
@@ -33,7 +34,7 @@ private:
 
 	bool read_asset_changes = true;
 	map<string, map<UID, string>> mesh_scenes;
-
+	map <string, UID> textures;
 };
 
 #endif

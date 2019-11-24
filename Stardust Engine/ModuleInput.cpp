@@ -116,40 +116,21 @@ update_status ModuleInput::PreUpdate(float dt)
 			{
 				LOG("File Drop!");
 				FileType ft = App->fs->DetermineFileType(e.drop.file);
-				std::string path = "", file = "", aux = "", path_and_file ="";
-				App->fs->SplitFilePath(e.drop.file, &path, &file, &aux);
-				path_and_file = LIBRARY_SCENE_FOLDER + file + ".json";
-				aux = ASSETS_MESH_FOLDER + file;
 				switch (ft) {
 				case File_Mesh:
-					//TODO: have to delete
-					App->gui->AddLogToConsole("Charging 3D model");
-					if (App->fs->Exists(path_and_file.c_str())) {
-						LOG("Scene for object already exists, load .json.");
-						
-						App->scene_serialization->LoadScene(path_and_file.c_str());
-					}
-					else {
-						
-						//string out_f;
-						//vector<UID> no_use;
-						//App->mesh_import->ImportScene(file.c_str(), aux.c_str(), out_f, no_use);
-						App->resources->ImportFile(e.drop.file, Resource_Mesh);
-
-						if (App->fs->Exists(path_and_file.c_str())) {
-							LOG("Scene saved and now loading from it");
-						
-							App->scene_serialization->LoadScene(path_and_file.c_str());
-
-						}
-
-					}
+					App->gui->AddLogToConsole("Charging fbx scene");
+					LOG("Scene for object already exists, load .json.");
+					App->scene_serialization->LoadSceneFromMesh(e.drop.file);
 					break;
 				case File_Material:
 					App->gui->AddLogToConsole("Charging texture");
 					// TODO: have to delete
-					App->scene->ChangeGameObjectTexture(e.drop.file, App->scene->GetFocusedGameObject());
+					//App->scene->ChangeGameObjectTexture(e.drop.file, App->scene->GetFocusedGameObject());
 					break;
+				case File_Scene:
+					App->gui->AddLogToConsole("Charging scene");
+					App->scene_serialization->LoadScene(e.drop.file);
+
 				case File_Unknown:
 					App->gui->AddLogToConsole("ERROR: Couldn't charge file");
 					break;

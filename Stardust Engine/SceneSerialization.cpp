@@ -65,6 +65,19 @@ void SceneSerialization::SaveSceneFromMesh(const char* scene_name, std::list<Gam
 	json_value_free(root_value);
 }
 
+void SceneSerialization::LoadSceneFromMesh(const char* scene_name) //scene_name -> Complete path
+{
+	UID uuid = App->resources->GetUIDFromMeta(scene_name);
+	std::string path_and_file = LIBRARY_SCENE_FOLDER + std::to_string(uuid) + ".json";
+
+	if (uuid != 0) {
+		App->scene_serialization->LoadScene(path_and_file.c_str());
+	}
+	else
+		App->gui->AddLogToConsole("Couldn't charge scene. Drag something from the assets folder");
+
+}
+
 void SceneSerialization::LoadScene(const char* scene_name) {
 
 	LOG("Loading scene %s.", scene_name);

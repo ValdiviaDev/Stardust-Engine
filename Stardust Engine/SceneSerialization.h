@@ -28,6 +28,7 @@ public:
 	void SceneSerialization::SaveGOs(GameObject* go, JSON_Array* array); //Send root first time
 
 	void SaveSceneFromMesh(const char* scene_name, std::list<GameObject*> go_list);
+	void LoadSceneFromMesh(const char* scene_name); //Complete path: exemple: Assets/Meshes/Baker_house.fbx
 };
 
 
