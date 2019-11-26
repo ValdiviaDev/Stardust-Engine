@@ -134,13 +134,13 @@ uint GameObject::GetNumChilds() const
 	return childs.size();
 }
 
-GameObject* GameObject::GetChild(uint i) 
+GameObject* GameObject::GetChild(uint i) const
 {
 	return childs[i];
 
 }
 
-GameObject* GameObject::GetParent() {
+GameObject* GameObject::GetParent() const {
 	return parent;
 }
 
@@ -297,7 +297,7 @@ void GameObject::DrawComponentsInspector() {
 
 }
 
-bool GameObject::IsObjectInHierarchy(GameObject * target, GameObject* curr_node)
+bool GameObject::IsObjectInHierarchy(GameObject* target, GameObject* curr_node)
 {
 	if (target == curr_node)
 		return true;

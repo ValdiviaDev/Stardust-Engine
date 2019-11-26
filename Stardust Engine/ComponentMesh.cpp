@@ -85,7 +85,7 @@ void ComponentMesh::SetPath(const char* path)
 	this->path = path;
 }
 
-bool ComponentMesh::HasMesh()
+bool ComponentMesh::HasMesh() const
 {
 	return uuid_mesh != 0;
 }

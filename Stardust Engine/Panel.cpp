@@ -13,7 +13,7 @@ void Panel::ToggleActive()
 	active = !active;
 }
 
-bool Panel::IsActive()
+bool Panel::IsActive() const
 {
 	return active;
 }

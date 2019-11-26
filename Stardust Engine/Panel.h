@@ -8,7 +8,7 @@ public:
 	virtual ~Panel();
 
 	void ToggleActive();
-	bool IsActive();
+	bool IsActive() const;
 	void ResizePanel();
 
 	virtual void Draw() {};

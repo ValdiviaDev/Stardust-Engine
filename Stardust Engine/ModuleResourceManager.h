@@ -18,7 +18,7 @@ public:
 
 	UID FindByFileInAssets(const char* file_in_assets) const; //ex. Assets/Meshes/Bakerhouse.fbx
 	UID FindByFileInLibrary(const char* file_in_lib) const; //ex. Library/Meshes/31984913.stdtmesh
-	std::map<UID, string> FindMeshes(const char* file_in_assets); //ex. Assets/Meshes/Bakerhouse.fbx
+	std::map<UID, string> FindMeshes(const char* file_in_assets) const; //ex. Assets/Meshes/Bakerhouse.fbx
 	UID ImportFile(const char* full_path, ResourceType type, UID parent_uid = 0, const std::vector<UID> childs_uids = vector<UID>()); //ex. Assets/Meshes/Bakerhouse.fbx
 	UID GenerateNewUID();
 	const Resource* Get(UID uid) const;
@@ -30,7 +30,7 @@ public:
 
 	void GetAllMeshesFromScenes();
 	void GetAllTexturesFromName();
-	UID GetUIDFromMeta(std::string path_no_meta); // ex. Assets/Meshes/Bakerhouse.fbx
+	UID GetUIDFromMeta(std::string path_no_meta) const; // ex. Assets/Meshes/Bakerhouse.fbx
 	
 	uint GetResourcesCount() const;
 	uint GetResourcesInMemory() const;

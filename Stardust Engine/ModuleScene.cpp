@@ -167,7 +167,7 @@ GameObject* ModuleScene::GetRootGameObject() const
 	return root_object;
 }
 
-GameObject* ModuleScene::CreateGameObjectByMesh(UID mesh_uuid) const
+GameObject* ModuleScene::CreateGameObjectByMesh(UID mesh_uuid)
 {
 	//Load resource mesh
 	ResourceMesh* res_mesh;
@@ -186,7 +186,7 @@ GameObject* ModuleScene::CreateGameObjectByMesh(UID mesh_uuid) const
 	return go;
 }
 
-void ModuleScene::AssignMeshToGameObject(UID mesh_uuid) const
+void ModuleScene::AssignMeshToGameObject(UID mesh_uuid)
 {
 	//If there isn't a mesh, create it
 	if(focused_object && !focused_object->mesh)
@@ -212,7 +212,7 @@ void ModuleScene::AssignMeshToGameObject(UID mesh_uuid) const
 		App->gui->AddLogToConsole("You cannot change the mesh of a primitive.");
 }
 
-void ModuleScene::AssignTexToGameObject(UID tex_uuid) const
+void ModuleScene::AssignTexToGameObject(UID tex_uuid)
 {
 	ResourceTexture* res_tex;
 	if (focused_object) {
@@ -268,7 +268,7 @@ GameObject* ModuleScene::CreatePrimitiveObject(PrimitiveType type)
 }
 
 
-void ModuleScene::Draw() const {
+void ModuleScene::Draw() {
 	DrawGrid();
 	DrawGameObjects(root_object);
 
@@ -277,7 +277,7 @@ void ModuleScene::Draw() const {
 		DrawSceneDebug();
 }
 
-void ModuleScene::DrawGameObjects(GameObject* go) const
+void ModuleScene::DrawGameObjects(GameObject* go)
 {
 	if (go && go->IsActive() && go->mesh && go->mesh->IsActive() && go->mesh->uuid_mesh != 0) { 
 		//Matrix
@@ -351,7 +351,7 @@ void ModuleScene::DrawGameObjects(GameObject* go) const
 
 }
 
-void ModuleScene::DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh) const
+void ModuleScene::DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh)
 {
 	//Vertex normals
 	if (c_mesh->debug_v_norm) {
@@ -417,7 +417,7 @@ void ModuleScene::DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_me
 	}
 }
 
-void ModuleScene::DrawSceneDebug() const
+void ModuleScene::DrawSceneDebug()
 {
 	glDisable(GL_LIGHTING);
 	//Draw bounding boxes
@@ -432,7 +432,7 @@ void ModuleScene::DrawSceneDebug() const
 	glEnable(GL_LIGHTING);
 }
 
-void ModuleScene::DrawAABBRecursive(GameObject * go) const
+void ModuleScene::DrawAABBRecursive(GameObject * go)
 {
 	if (go == focused_object || draw_GO_AABBs)
 		go->DrawBoundingBox();
@@ -441,7 +441,7 @@ void ModuleScene::DrawAABBRecursive(GameObject * go) const
 		DrawAABBRecursive(go->GetChild(i));
 }
 
-void ModuleScene::DrawGrid() const
+void ModuleScene::DrawGrid()
 {
 	glBegin(GL_LINES);
 
@@ -457,22 +457,6 @@ void ModuleScene::DrawGrid() const
 
 	}
 	glEnd();
-}
-
-void ModuleScene::ChangeGameObjectTexture(char* tex_path, GameObject* go)
-{
-	if (go && go->mesh) {
-		if (!go->material)
-			go->CreateComponent(Comp_Material);
-
-		std::string file, aux1, aux2;
-		App->fs->SplitFilePath(tex_path, &aux1, &file, &aux2);
-		//file = file.substr(0, file.find_last_of("."));
-
-		//App->mat_import->Import(file.c_str(), ASSETS_TEX_FOLDER, aux1, go->material->uuid_mat);
-
-
-	}
 }
 
 //Quadtree functions ----------------------------------------------
@@ -536,7 +520,7 @@ void ModuleScene::CalculateQuadtreeSize(float3& min_point, float3& max_point)
 	}
 }
 
-void ModuleScene::CheckIfRebuildQuadtree(GameObject * go)
+void ModuleScene::CheckIfRebuildQuadtree(GameObject* go)
 {
 	float3 min_point = go->bounding_box.minPoint;
 	float3 max_point = go->bounding_box.maxPoint;
@@ -652,7 +636,7 @@ GameObject* ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) cons
 	return ret;
 }
 
-void ModuleScene::DeleteGameObject(GameObject* go) const
+void ModuleScene::DeleteGameObject(GameObject* go)
 {
 	go->DeleteFromParentList();
 	RELEASE(go);

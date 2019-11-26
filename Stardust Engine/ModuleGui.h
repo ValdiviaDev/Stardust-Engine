@@ -33,7 +33,7 @@ public:
 	void HandleMainMenuBar();
 	void AddLogToConsole(const char* log);
 	void ResizePanels();
-	bool IsMouseHoveringWindow();
+	bool IsMouseHoveringWindow() const;
 
 	void SaveSceneMenu();
 	void LoadSceneMenu();

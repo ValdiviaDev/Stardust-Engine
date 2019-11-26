@@ -18,7 +18,7 @@ public:
 
 	void SetPath(const char* path);
 
-	void  DrawInspector();
+	void DrawInspector();
 
 public:
 	UID uuid_mat = 0;

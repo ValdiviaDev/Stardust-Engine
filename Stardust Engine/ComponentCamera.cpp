@@ -172,7 +172,7 @@ void ComponentCamera::DrawInspector() {
 }
 
 
-void ComponentCamera::DrawFrustum() const {
+void ComponentCamera::DrawFrustum() {
 
 	glBegin(GL_LINES);
 	glLineWidth(2.0f);
@@ -189,7 +189,7 @@ void ComponentCamera::DrawFrustum() const {
 }
 
 
-void ComponentCamera::CameraCullingStObj() const
+void ComponentCamera::CameraCullingStObj()
 {
 	vector<GameObject*> obj_to_cull;
 	vector<GameObject*> st_obj = App->scene->static_objects;
@@ -206,7 +206,7 @@ void ComponentCamera::CameraCullingStObj() const
 
 }
 
-void ComponentCamera::CameraCullingDynObj(GameObject* go) const {
+void ComponentCamera::CameraCullingDynObj(GameObject* go) {
 
 	if (!go->camera) {
 		for (std::vector<GameObject*>::const_iterator it = go->childs.begin(); it < go->childs.end(); it++) {

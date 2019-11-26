@@ -37,10 +37,10 @@ public:
 	void SetFarPlane(float far_plane);
 	float GetFarPlane() const;
 
-	void DrawFrustum() const;
+	void DrawFrustum();
 
-	void CameraCullingStObj() const;
-	void CameraCullingDynObj(GameObject* go) const;
+	void CameraCullingStObj();
+	void CameraCullingDynObj(GameObject* go);
 	int ContainsAABB(const AABB& refBox) const;
 
 	//View matrix and Projection matrix

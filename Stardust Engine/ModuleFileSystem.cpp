@@ -258,7 +258,7 @@ void ModuleFileSystem::NormalizePath(std::string & full_path) const
 	}
 }
 
-FileType ModuleFileSystem::DetermineFileType(const char* file_name)
+FileType ModuleFileSystem::DetermineFileType(const char* file_name) const
 {
 	string extension = file_name;
 	extension = extension.erase(NULL, extension.find_last_of("."));

@@ -40,8 +40,8 @@ public:
 	void SetStatic(bool staticGO);
 
 	uint GetNumChilds() const;
-	GameObject* GetChild(uint i);
-	GameObject* GetParent();
+	GameObject* GetChild(uint i) const;
+	GameObject* GetParent() const;
 	void SetParent(GameObject* parent);
 	void DeleteFromParentList();
 

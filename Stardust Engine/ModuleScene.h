@@ -26,24 +26,25 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	//GameObject creation and modification
 	GameObject* CreateGameObject(GameObject* parent);
+	void CreateRootObject();
 	GameObject* GetRootGameObject() const;
-	GameObject* CreateGameObjectByMesh(UID mesh_uuid) const;
-	void AssignMeshToGameObject(UID mesh_uuid) const; //On the focused GO
-	void AssignTexToGameObject(UID tex_uuid) const; //On the focused GO
+	GameObject* CreateGameObjectByMesh(UID mesh_uuid);
+	void AssignMeshToGameObject(UID mesh_uuid); //On the focused GO
+	void AssignTexToGameObject(UID tex_uuid); //On the focused GO
 
 	GameObject* CreatePrimitiveObject(PrimitiveType type);
 
 	//Draw functions
-	void Draw() const;
-	void DrawGameObjects(GameObject* go) const;
-	void DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh) const;
-	void DrawSceneDebug() const;
-	void DrawAABBRecursive(GameObject* go) const;
-	void DrawGrid() const;
+	void Draw();
+	void DrawGameObjects(GameObject* go);
+	void DrawGameObjectsDebug(ComponentMesh* c_mesh, ResourceMesh* r_mesh);
+	void DrawSceneDebug();
+	void DrawAABBRecursive(GameObject* go);
+	void DrawGrid();
 
-	void ChangeGameObjectTexture(char* tex_path, GameObject* go);
-
+	//Quadtree functions
 	void BuildQuadtree();
 	void GetStaticObjects(GameObject* static_candidate);
 	void CalculateQuadtreeSize(float3& min_point, float3& max_point);
@@ -51,17 +52,17 @@ public:
 	bool EraseObjFromStatic(GameObject* go);
 	void AllObjectsActive(GameObject* go);
 
+	//Focus gameobject functions
 	void FocusGameObject(GameObject* focused, GameObject* root);
 	void UnfocusGameObjects();
 	GameObject* GetFocusedGameObject() const;
 	GameObject* GetGameObjectFromUUID(uint UUID, GameObject* root) const; //Send root 1st time
-	void CreateRootObject();
 
 	GameObject* CreateCamera(bool is_main_camera = false);
 	ComponentCamera* GetMainCamera() const;
 	void SetMainCamera(ComponentCamera* cam);
 
-	void DeleteGameObject(GameObject* go) const;
+	void DeleteGameObject(GameObject* go);
 	void DestroyGOs();
 
 public:

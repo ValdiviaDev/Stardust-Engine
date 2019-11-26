@@ -15,7 +15,7 @@ public:
 	void DrawInspector();
 	void SetPath(const char* path);
 	
-	bool HasMesh();
+	bool HasMesh() const;
 
 	bool IsPrimitive() const;
 	void SetPrimitive(PrimitiveType type);

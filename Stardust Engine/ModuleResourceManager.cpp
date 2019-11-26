@@ -61,7 +61,7 @@ UID ModuleResourceManager::FindByFileInLibrary(const char* file_in_lib) const
 	return 0;
 }
 
-std::map<UID, string> ModuleResourceManager::FindMeshes(const char* file_in_assets) 
+std::map<UID, string> ModuleResourceManager::FindMeshes(const char* file_in_assets) const
 {
 	map<UID, string> meshes;
 
@@ -482,7 +482,7 @@ void ModuleResourceManager::GetAllTexturesFromName()
 	App->gui->GetPanelAssets()->FillTexturesMap(textures);
 }
 
-UID ModuleResourceManager::GetUIDFromMeta(std::string path_no_meta)
+UID ModuleResourceManager::GetUIDFromMeta(std::string path_no_meta) const
 {
 	std::string meta = path_no_meta + ".meta";
 
@@ -491,7 +491,6 @@ UID ModuleResourceManager::GetUIDFromMeta(std::string path_no_meta)
 
 	if (object) 
 		return json_object_get_number(object, "UUID");
-
 
 	return 0;
 }
