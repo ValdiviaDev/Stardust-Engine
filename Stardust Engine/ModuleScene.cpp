@@ -180,9 +180,9 @@ GameObject* ModuleScene::CreateGameObjectByMesh(UID mesh_uuid)
 	//Create GameObject
 	GameObject* go = App->scene->CreateGameObject(App->scene->GetRootGameObject());
 	go->SetName(std::to_string(mesh_uuid).c_str()); //TODO: put name of the Assimp node name
-	go->CreateComponent(Comp_Mesh);
-	go->mesh->uuid_mesh = mesh_uuid;
-	go->mesh->SetPath(res_mesh->GetFile());
+	ComponentMesh* mesh = (ComponentMesh*)go->CreateComponent(Comp_Mesh);
+	mesh->uuid_mesh = mesh_uuid;
+	mesh->SetPath(res_mesh->GetFile());
 	go->UpdateBoundingBox();
 	
 	return go;
@@ -191,27 +191,32 @@ GameObject* ModuleScene::CreateGameObjectByMesh(UID mesh_uuid)
 void ModuleScene::AssignMeshToGameObject(UID mesh_uuid)
 {
 	//If there isn't a mesh, create it
-	if(focused_object && !focused_object->mesh)
+	if(focused_object && !focused_object->GetComponent(Comp_Mesh))
 		focused_object->CreateComponent(Comp_Mesh);
+	
+	if (focused_object) {
 
-	if (focused_object && !focused_object->mesh->IsPrimitive()) {
-		//Unload previous mesh resource
-		ResourceMesh* res_mesh;
-		res_mesh = (ResourceMesh*)App->resources->Get(focused_object->mesh->uuid_mesh);
-		if (res_mesh)
-			res_mesh->UnloadToMemory();
+		ComponentMesh* mesh = (ComponentMesh*)focused_object->GetComponent(Comp_Mesh);
 
-		//Load new mesh resource
-		res_mesh = (ResourceMesh*)App->resources->Get(mesh_uuid);
-		if (res_mesh)
-			res_mesh->LoadToMemory();
+		if (!mesh->IsPrimitive()) {
+			//Unload previous mesh resource
+			ResourceMesh* res_mesh;
+			res_mesh = (ResourceMesh*)App->resources->Get(mesh->uuid_mesh);
+			if (res_mesh)
+				res_mesh->UnloadToMemory();
 
-		focused_object->mesh->uuid_mesh = mesh_uuid;
-		focused_object->mesh->SetPath(res_mesh->GetFile());
-		focused_object->UpdateBoundingBox();
+			//Load new mesh resource
+			res_mesh = (ResourceMesh*)App->resources->Get(mesh_uuid);
+			if (res_mesh)
+				res_mesh->LoadToMemory();
+
+			mesh->uuid_mesh = mesh_uuid;
+			mesh->SetPath(res_mesh->GetFile());
+			focused_object->UpdateBoundingBox();
+		}
+		else
+			App->gui->AddLogToConsole("You cannot change the mesh of a primitive.");
 	}
-	else if (focused_object->mesh->IsPrimitive())
-		App->gui->AddLogToConsole("You cannot change the mesh of a primitive.");
 }
 
 void ModuleScene::AssignTexToGameObject(UID tex_uuid)
@@ -261,9 +266,9 @@ GameObject* ModuleScene::CreatePrimitiveObject(PrimitiveType type)
 		break;
 	}
 	
-	primitiveGO->CreateComponent(Comp_Mesh);
-	primitiveGO->mesh->SetPrimitive(type);
-	primitiveGO->mesh->uuid_mesh = r_primitive->GetUID();
+	ComponentMesh* mesh = (ComponentMesh*)primitiveGO->CreateComponent(Comp_Mesh);
+	mesh->SetPrimitive(type);
+	mesh->uuid_mesh = r_primitive->GetUID();
 	primitiveGO->UpdateBoundingBox();
 
 	return primitiveGO;
@@ -281,67 +286,69 @@ void ModuleScene::Draw() {
 
 void ModuleScene::DrawGameObjects(GameObject* go)
 {
-	if (go && go->IsActive() && go->mesh && go->mesh->IsActive() && go->mesh->uuid_mesh != 0) { 
-		//Matrix
-		glPushMatrix();
-		float4x4 matrix = go->transform->GetGlobalMatrix();
-		glMultMatrixf((GLfloat*)matrix.Transposed().ptr());
+	if (go && go->IsActive()) {
+		ComponentMesh* c_mesh = (ComponentMesh*)go->GetComponent(Comp_Mesh);
 		
-		//Texture
-		ComponentMaterial* c_mat = go->material;
-		if (c_mat && c_mat->debug_tex_draw) { //Draw texture
-			if (c_mat->debug_checkers) //Checkers
-				glBindTexture(GL_TEXTURE_2D, App->renderer3D->checkersImgId);
+		if (c_mesh && c_mesh->IsActive() && c_mesh->uuid_mesh != 0) {
+			//Matrix
+			glPushMatrix();
+			float4x4 matrix = go->transform->GetGlobalMatrix();
+			glMultMatrixf((GLfloat*)matrix.Transposed().ptr());
 
-			else if (c_mat && c_mat->uuid_mat != 0) { //Charged texture
-				ResourceTexture* tex = (ResourceTexture*)App->resources->Get(c_mat->uuid_mat);
-				glBindTexture(GL_TEXTURE_2D, tex->tex_id);
-			}
-		}
+			//Texture
+			ComponentMaterial* c_mat = go->material;
+			if (c_mat && c_mat->debug_tex_draw) { //Draw texture
+				if (c_mat->debug_checkers) //Checkers
+					glBindTexture(GL_TEXTURE_2D, App->renderer3D->checkersImgId);
 
-		//Model
-		ComponentMesh* c_mesh = go->mesh;
-		ResourceMesh* mesh = (ResourceMesh*)App->resources->Get(c_mesh->uuid_mesh);
-		//geo_info mesh = go->mesh->GetInfo();
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertex);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		
-		if (!go->mesh->IsPrimitive()) {
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normal);
-			glNormalPointer(GL_FLOAT, 0, NULL);
-
-			if (mesh->uv != nullptr) {
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uv);
-				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+				else if (c_mat && c_mat->uuid_mat != 0) { //Charged texture
+					ResourceTexture* tex = (ResourceTexture*)App->resources->Get(c_mat->uuid_mat);
+					glBindTexture(GL_TEXTURE_2D, tex->tex_id);
+				}
 			}
 
+			//Model
+			ResourceMesh* mesh = (ResourceMesh*)App->resources->Get(c_mesh->uuid_mesh);
+
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertex);
+			glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+			if (!c_mesh->IsPrimitive()) {
+				glEnableClientState(GL_NORMAL_ARRAY);
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normal);
+				glNormalPointer(GL_FLOAT, 0, NULL);
+
+				if (mesh->uv != nullptr) {
+					glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+					glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uv);
+					glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+				}
+
+			}
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_index);
+
+			if (!c_mesh->IsPrimitive())
+				glDrawElements(GL_TRIANGLES, mesh->num_index * 3, GL_UNSIGNED_INT, NULL);
+			else
+				glDrawElements(GL_TRIANGLES, mesh->num_index * 3, GL_UNSIGNED_SHORT, NULL);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_NORMAL_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+
+			if (c_mesh->debug_v_norm || c_mesh->debug_f_norm)
+				DrawGameObjectsDebug(c_mesh, mesh);
+
+			glPopMatrix();
+
 		}
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_index);
-
-		if(!go->mesh->IsPrimitive())
-			glDrawElements(GL_TRIANGLES, mesh->num_index * 3, GL_UNSIGNED_INT, NULL);
-		else
-			glDrawElements(GL_TRIANGLES, mesh->num_index * 3, GL_UNSIGNED_SHORT, NULL);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-
-		if(c_mesh->debug_v_norm || c_mesh->debug_f_norm)
-			DrawGameObjectsDebug(c_mesh, mesh);
-
-		glPopMatrix();
-
 	}
 
 	//Look for every other GameObject to draw

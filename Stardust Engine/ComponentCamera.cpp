@@ -27,9 +27,12 @@ ComponentCamera::ComponentCamera(GameObject* game_object) :Component(game_object
 
 ComponentCamera::~ComponentCamera() {
 
+	//TODO Change
 	if(gameObject)
 		gameObject->camera = nullptr;
 
+	if(gameObject != nullptr) //Condition that should only apply for the engine camera
+		gameObject->DeleteFromComponentList(this);
 }
 
 void ComponentCamera::Update() {
@@ -215,7 +218,7 @@ void ComponentCamera::CameraCullingDynObj(GameObject* go) {
 
 			AABB refBox = (*it)->bounding_box;
 
-			if (!(*it)->IsStatic() && (*it)->mesh && refBox.IsFinite()) {
+			if (!(*it)->IsStatic() && (*it)->GetComponent(Comp_Mesh) && refBox.IsFinite()) {
 
 				
 				//if (!frustum.Intersects(refBox)) {    //MathGeoLib func. Slow but works better

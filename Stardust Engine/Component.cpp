@@ -19,6 +19,11 @@ void Component::SetActive(bool active)
 	this->active = active;
 }
 
+ComponentType Component::GetType() const
+{
+	return type;
+}
+
 GameObject* Component::GetGameObject() const
 {
 	return gameObject;

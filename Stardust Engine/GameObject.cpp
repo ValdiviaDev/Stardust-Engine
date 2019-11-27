@@ -37,6 +37,13 @@ GameObject::~GameObject()
 		RELEASE(childs[i]);
 	childs.clear();
 
+
+	//for (int i = components.size() - 1; i >= 0; --i) {
+	//
+	//	RELEASE(components[i]);
+	//}
+	//components.clear();
+
 	RELEASE(transform);
 	RELEASE(mesh);
 	RELEASE(material);
@@ -71,7 +78,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 		break;
 	case Comp_Mesh:
-		if (mesh == nullptr) {
+		if (GetComponent(Comp_Mesh) == nullptr) {
 			mesh = new ComponentMesh(this);
 			component = mesh;
 		}
@@ -93,7 +100,34 @@ Component* GameObject::CreateComponent(ComponentType type)
 		break;
 	}
 
+	if (component)
+		components.push_back(component);
+
 	return component;
+}
+
+Component* GameObject::GetComponent(ComponentType type) const
+{
+	for (int i = 0; i < components.size(); ++i) {
+		if (type == components[i]->GetType())
+			return components[i];
+	}
+
+	return nullptr;
+}
+
+void GameObject::DeleteFromComponentList(Component* comp)
+{
+	for (std::vector<Component*>::const_iterator it = components.begin(); it < components.end(); it++) {
+		if ((*it) == comp) {
+
+			components.erase(it);
+
+			break;
+
+		}
+	}
+
 }
 
 bool GameObject::IsActive() const
@@ -159,7 +193,7 @@ void GameObject::DeleteFromParentList()
 {
 	if (parent) {
 		for (std::vector<GameObject*>::const_iterator it = parent->childs.begin(); it < parent->childs.end(); it++)
-			if ((*it) == this) { //TODO: probably wont have to change this
+			if ((*it) == this) {
 				parent->childs.erase(it);
 				break;
 			}
@@ -264,8 +298,8 @@ void GameObject::DrawComponentsInspector() {
 	if (transform)
 		transform->DrawInspector();
 
-	if (mesh)
-		mesh->DrawInspector();
+	if (GetComponent(Comp_Mesh))
+		GetComponent(Comp_Mesh)->DrawInspector();
 
 	if (material)
 		material->DrawInspector();
@@ -280,7 +314,7 @@ void GameObject::DrawComponentsInspector() {
 	
 	if (ImGui::BeginPopupContextItem("New Component"))
 	{
-		if (mesh == nullptr) {
+		if (GetComponent(Comp_Mesh) == nullptr) {
 			if (ImGui::MenuItem("Mesh"))
 				CreateComponent(Comp_Mesh);
 		}
@@ -333,6 +367,7 @@ void GameObject::UpdateBoundingBox() {
 
 	bounding_box.SetNegativeInfinity();
 
+	ComponentMesh* mesh = (ComponentMesh*)GetComponent(Comp_Mesh);
 	if (mesh && mesh->uuid_mesh != 0) {
 		ResourceMesh* res_mesh = (ResourceMesh*)App->resources->Get(mesh->uuid_mesh);
 		bounding_box.Enclose((const math::float3*)res_mesh->vertex, res_mesh->num_vertex);
@@ -402,14 +437,15 @@ void GameObject::Load(JSON_Object* object)
 
 		case ComponentType::Comp_Transform:
 
-			CreateComponent((ComponentType)comp_type);
+			if(transform == nullptr)
+				CreateComponent((ComponentType)comp_type);
 			transform->Load(it);
 			break;
 
 		case ComponentType::Comp_Mesh:
 
 			CreateComponent((ComponentType)comp_type);
-			mesh->Load(it);
+			GetComponent(Comp_Mesh)->Load(it);
 			break;
 
 		case ComponentType::Comp_Material:
@@ -458,8 +494,8 @@ void GameObject::Save(JSON_Array* go_array) const{
 	
 	if (transform)
 		transform->Save(array_comps);
-	if (mesh)
-		mesh->Save(array_comps);
+	if (GetComponent(Comp_Mesh))
+		GetComponent(Comp_Mesh)->Save(array_comps);
 	if (material)
 		material->Save(array_comps);
 	if (camera)

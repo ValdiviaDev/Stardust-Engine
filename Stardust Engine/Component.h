@@ -45,6 +45,8 @@ public:
 	bool IsActive() const;
 	void SetActive(bool active);
 
+	ComponentType GetType() const;
+
 	GameObject* GetGameObject() const;
 
 protected:

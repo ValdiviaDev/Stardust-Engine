@@ -33,6 +33,8 @@ public:
 
 	void Update(); //TODO
 	Component* CreateComponent(ComponentType type);
+	Component* GetComponent(ComponentType type) const;
+	void DeleteFromComponentList(Component* comp);
 
 	bool IsActive() const;
 	void SetActive(bool active);
@@ -69,6 +71,7 @@ private:
 	char name[100];
 	GameObject* parent = nullptr;
 	
+	std::vector<Component*> components;
 
 public:
 	//There can be only one component of each type

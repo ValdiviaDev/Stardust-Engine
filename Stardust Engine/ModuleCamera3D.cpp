@@ -220,8 +220,12 @@ void ModuleCamera3D::ZoomInOut(float wheel_speed)
 void ModuleCamera3D::FocusInObject()
 {
 	GameObject* focus = App->scene->GetFocusedGameObject();
-	if (focus != nullptr && focus->mesh != nullptr)
-		focus->CenterCameraOnGO();
+
+	if (focus != nullptr) {
+		ComponentMesh* mesh = (ComponentMesh*)focus->GetComponent(Comp_Mesh);
+		if(mesh != nullptr && mesh->HasMesh())
+			focus->CenterCameraOnGO();
+	}
 }
 
 //Mouse picking ---------------------------------------------------------------------------
@@ -256,7 +260,8 @@ void ModuleCamera3D::CheckForMousePicking()
 	GetAABBClosestObject(picking, intersected_objs, nearest_GO);
 
 	if (nearest_GO) { //If there's something to pick
-		if (nearest_GO->mesh->IsPrimitive()) //If the nearest GO AABB is a primitive automaticaly focus
+		ComponentMesh* mesh = (ComponentMesh*)nearest_GO->GetComponent(Comp_Mesh);
+		if (mesh->IsPrimitive()) //If the nearest GO AABB is a primitive automaticaly focus
 			App->scene->FocusGameObject(nearest_GO, App->scene->GetRootGameObject());
 		else 
 		{
@@ -305,8 +310,9 @@ bool ModuleCamera3D::TestTrianglePicking(LineSegment ray, vector<GameObject*> in
 
 	//Check all the intersected objects in triangle level to check which is the nearest
 	for (int i = 0; i < intersected_objs.size(); ++i) {
+		ComponentMesh* mesh = (ComponentMesh*)intersected_objs[i]->GetComponent(Comp_Mesh);
 
-		if (intersected_objs[i]->mesh->IsPrimitive()) //If we got a primitive don't check the triangles
+		if (mesh->IsPrimitive()) //If we got a primitive don't check the triangles
 			continue;
 
 		//Pass ray to local coordinates
@@ -314,7 +320,7 @@ bool ModuleCamera3D::TestTrianglePicking(LineSegment ray, vector<GameObject*> in
 		local_ray.Transform(intersected_objs[i]->transform->GetGlobalMatrix().Inverted());
 
 		//Check every mesh triangle
-		ResourceMesh* m = (ResourceMesh*)App->resources->Get(intersected_objs[i]->mesh->uuid_mesh);
+		ResourceMesh* m = (ResourceMesh*)App->resources->Get(mesh->uuid_mesh);
 
 		for (int j = 0; j < m->num_index; j += 3) {
 			//Triangle points

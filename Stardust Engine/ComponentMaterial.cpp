@@ -22,8 +22,11 @@ ComponentMaterial::~ComponentMaterial()
 			res->UnloadToMemory();
 	}
 
+	//TODO change
 	if (gameObject)
 		gameObject->material = nullptr;
+
+	gameObject->DeleteFromComponentList(this);
 }
 
 
