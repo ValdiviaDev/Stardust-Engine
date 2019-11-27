@@ -2,9 +2,13 @@
 #define __ModuleResourceManager_H__
 
 #include "Module.h"
+#include "Component.h"
 #include <map>
+#include <string>
+#include <vector>
 
 class Resource;
+class ResourceMesh;
 enum ResourceType;
 
 class ModuleResourceManager : public Module

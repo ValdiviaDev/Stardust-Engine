@@ -2,6 +2,8 @@
 #include "MaterialImporter.h"
 #include "ComponentMaterial.h"
 #include "ResourceTexture.h"
+#include "ModuleFileSystem.h"
+#include "ModuleGui.h"
 
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
 #pragma comment (lib, "DevIL/libx86/ILU.lib")

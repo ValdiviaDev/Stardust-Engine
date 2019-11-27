@@ -5,19 +5,24 @@
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleScene.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
-#include "ModuleGui.h"
-#include "ModuleFileSystem.h"
-#include "MeshImporter.h"
-#include "MaterialImporter.h"
-#include "ModuleTimeManager.h"
-#include "SceneSerialization.h"
-#include "ModuleResourceManager.h"
-//#include "MathGeoLib/include/Algorithm/Random/LCG.h"
+
+
+
+#include "MathGeoLib/include/Algorithm/Random/LCG.h"
+
+class ModuleWindow;
+class ModuleInput;
+class ModuleScene;
+class ModuleRenderer3D;
+class ModuleCamera3D;
+class ModuleGui;
+class ModuleFileSystem;
+class MeshImporter;
+class MaterialImporter;
+class ModuleTimeManager;
+class ModuleResourceManager;
+class SceneSerialization;
+
 
 using namespace std;
 

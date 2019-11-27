@@ -3,6 +3,8 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "MathGeoLib/include/Math/float3.h"
+#include <vector>
 
 class GameObject;
 class ComponentCamera;

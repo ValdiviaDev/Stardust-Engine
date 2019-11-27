@@ -4,6 +4,12 @@
 #include "ModuleResourceManager.h"
 #include "Resource.h"
 #include "Globals.h"
+#include "SceneSerialization.h"
+#include "GameObject.h"
+#include "ModuleFileSystem.h"
+#include "ModuleGui.h"
+#include "ModuleScene.h"
+#include "ModuleWindow.h"
 
 PanelAssets::PanelAssets()
 {

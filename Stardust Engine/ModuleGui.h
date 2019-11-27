@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include <list>
+#include <vector>
 
 class Panel;
 class PanelAbout;

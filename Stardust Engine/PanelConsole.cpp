@@ -1,6 +1,7 @@
 #include "PanelConsole.h"
 #include "imgui/imgui.h"
 #include "Application.h"
+#include "ModuleWindow.h"
 
 PanelConsole::PanelConsole()
 {

@@ -8,7 +8,11 @@
 #include "ComponentCamera.h"
 #include "MathGeoLib/include/Math/MathAll.h"
 #include "Quadtree.h"
+#include "ModuleResourceManager.h"
+#include "ModuleScene.h"
+#include "ModuleInput.h"
 #include "ResourceMesh.h"
+#include "ModuleWindow.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, "Camera3D", start_enabled)
 {

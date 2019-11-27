@@ -7,7 +7,10 @@
 #include "ModuleFileSystem.h"
 #include "SceneSerialization.h"
 #include "ResourceMesh.h"
-
+#include "ModuleResourceManager.h"
+#include "MaterialImporter.h"
+#include "ModuleGui.h"
+#include "ModuleScene.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 #include "Assimp/include/cimport.h"

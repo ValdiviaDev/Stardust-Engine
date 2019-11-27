@@ -4,6 +4,10 @@
 #include "imgui/imgui.h"
 #include "MeshImporter.h"
 #include "GameObject.h"
+#include "ModuleResourceManager.h"
+#include "ModuleFileSystem.h"
+#include "ModuleGui.h"
+
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
 

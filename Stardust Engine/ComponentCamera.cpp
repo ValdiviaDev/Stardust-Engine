@@ -5,6 +5,8 @@
 #include "imgui/imgui.h"
 #include "GameObject.h"
 #include "Quadtree.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleScene.h"
 #include "Glew/include/glew.h"
 
 

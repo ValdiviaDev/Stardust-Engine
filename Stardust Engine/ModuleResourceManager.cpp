@@ -4,7 +4,13 @@
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
 #include "PanelAssets.h"
+#include "MaterialImporter.h"
+#include "MeshImporter.h"
+#include "ModuleFileSystem.h"
+#include "ModuleGui.h"
+
 #include "mmgr/mmgr.h"
+#include "Parson/parson.h"
 
 ModuleResourceManager::ModuleResourceManager(Application* app, bool start_enabled) : Module(app, "Resources", start_enabled)
 {

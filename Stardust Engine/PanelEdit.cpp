@@ -1,7 +1,8 @@
 #include "PanelEdit.h"
 #include "Application.h"
 #include "imgui/imgui.h"
-
+#include "ModuleTimeManager.h"
+#include "ModuleWindow.h"
 
 PanelEdit::PanelEdit()
 {

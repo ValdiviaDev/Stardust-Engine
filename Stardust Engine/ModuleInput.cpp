@@ -6,6 +6,10 @@
 #include "ModuleFileSystem.h"
 #include "SceneSerialization.h"
 #include "Resource.h"
+#include "ModuleGui.h"
+#include "ModuleResourceManager.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleScene.h"
 
 #define MAX_KEYS 300
 

@@ -5,7 +5,9 @@
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleResourceManager.h"
+#include "ModuleScene.h"
 #include "mmgr/mmgr.h"
+#include "ModuleTimeManager.h"
 
 PanelConfig::PanelConfig()
 {

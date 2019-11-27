@@ -6,6 +6,10 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentCamera.h"
+#include "ModuleGui.h"
+#include "ModuleCamera3D.h"
+#include "ModuleScene.h"
+#include "ModuleWindow.h"
 
 #include "Glew/include/glew.h"
 #include "SDL\include\SDL_opengl.h"

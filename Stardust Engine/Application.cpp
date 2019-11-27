@@ -2,6 +2,19 @@
 #include "ConfigEditor.h"
 
 
+#include "ModuleWindow.h"
+#include "ModuleInput.h"
+#include "ModuleScene.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleCamera3D.h"
+#include "ModuleGui.h"
+#include "ModuleFileSystem.h"
+#include "MeshImporter.h"
+#include "MaterialImporter.h"
+#include "ModuleTimeManager.h"
+#include "SceneSerialization.h"
+#include "ModuleResourceManager.h"
+
 Application::Application()
 {
 	last_frame_ms = -1;

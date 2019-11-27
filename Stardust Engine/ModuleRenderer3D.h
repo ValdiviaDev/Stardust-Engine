@@ -10,6 +10,8 @@
 #define CHECKERS_HEIGHT 128
 #define CHECKERS_WIDTH 128
 
+class GameObject;
+
 struct GPU_Info {
 	const char* GPU_vendor = nullptr;
 	const char* GPU_renderer = nullptr;

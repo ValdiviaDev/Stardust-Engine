@@ -13,6 +13,8 @@
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 #include "SceneSerialization.h"
+#include "ModuleScene.h"
+#include "ModuleInput.h"
 
 #include "Panel.h"
 #include "PanelAbout.h"
@@ -22,9 +24,10 @@
 #include "PanelInspector.h"
 #include "PanelAssets.h"
 #include "PanelEdit.h"
-
+#include "ModuleRenderer3D.h"
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
+#include "ModuleWindow.h"
 
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, "Gui", start_enabled)
 {

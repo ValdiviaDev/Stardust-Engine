@@ -23,9 +23,11 @@
 #include "SceneSerialization.h"
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
-
+#include "ModuleGui.h"
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
+#include "ModuleResourceManager.h"
+#include "ModuleInput.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, "Scene", start_enabled)

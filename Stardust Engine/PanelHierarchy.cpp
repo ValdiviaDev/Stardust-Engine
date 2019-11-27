@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "imgui/imgui.h"
 #include "Application.h"
+#include "ModuleScene.h"
+#include "ModuleWindow.h"
 
 PanelHierarchy::PanelHierarchy()
 {

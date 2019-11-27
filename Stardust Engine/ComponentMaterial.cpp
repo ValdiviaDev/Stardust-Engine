@@ -3,8 +3,9 @@
 #include "Application.h"
 #include "imgui/imgui.h"
 #include "GameObject.h"
-
+#include "ModuleResourceManager.h"
 #include "ResourceTexture.h"
+#include "ModuleGui.h"
 
 ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 {

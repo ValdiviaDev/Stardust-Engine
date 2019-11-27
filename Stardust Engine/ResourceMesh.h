@@ -1,7 +1,10 @@
 #ifndef __ResourceMesh_H__
 #define __ResourceMesh_H__
 
+
 #include "Resource.h"
+#include "Component.h"
+#include "Par/par_shapes.h"
 
 class ResourceMesh : public Resource
 {

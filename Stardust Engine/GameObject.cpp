@@ -9,7 +9,10 @@
 #include "ConfigEditor.h"
 #include "Parson/parson.h"
 #include "ResourceMesh.h"
-
+#include "ModuleResourceManager.h"
+#include "ModuleGui.h"
+#include "ModuleCamera3D.h"
+#include "ModuleScene.h"
 #include "imgui/imgui.h"
 #include "Glew/include/glew.h"
 

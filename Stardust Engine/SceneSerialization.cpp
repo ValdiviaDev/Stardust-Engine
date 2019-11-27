@@ -3,6 +3,8 @@
 #include "ModuleScene.h"
 #include "Component.h"
 #include "ConfigEditor.h"
+#include "ModuleResourceManager.h"
+#include "ModuleGui.h"
 
 SceneSerialization::SceneSerialization() {
 
