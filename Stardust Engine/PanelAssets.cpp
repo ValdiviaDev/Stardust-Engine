@@ -46,24 +46,16 @@ void PanelAssets::Draw()
 	App->fs->DiscoverFiles(ASSETS_FOLDER, file_list, dir_list);
 
 	GestionDirectoryTree(dir_list);
-	read_asset_changes = false;
 	ImGui::EndChild();
 
 	if (ImGui::Button("Open", { 80, 20 })) {
 		OpenScene();
 	}
-	//ImGui::SameLine();
-	//if (ImGui::Button("Import", { 80, 20 })) {
-	//	ImportFromAssets();
-	//}
 	ImGui::SameLine();
 	if (ImGui::Button("Put to GameObject", { 140, 20 })) {
 		PutOnGameObject();
 	}
 	ImGui::SameLine();
-	//if (ImGui::Button("Read Asset Changes", { 140, 20 })) {
-	//	read_asset_changes = true;
-	//}
 
 	ImGui::End();
 }
@@ -163,30 +155,6 @@ void PanelAssets::DrawAssetTreeDiferentFiles(vector<string> files, string name, 
 				foc_tex_uuid = it->second;
 		}
 		break;
-	}
-}
-
-void PanelAssets::ImportFromAssets()
-{
-	FileType ft = App->fs->DetermineFileType((char*)foc_node_name.c_str());
-	switch (ft) {
-	case File_Mesh: { //TODO import
-		string path = ASSETS_MESH_FOLDER + foc_node_name;
-		App->resources->ImportFile(path.c_str(), Resource_Mesh);
-		}
-		break;
-
-	case File_Material: { //TODO import
-		string path = ASSETS_TEX_FOLDER + foc_node_name;
-		App->resources->ImportFile(path.c_str(), Resource_Texture);
-		}
-		break;
-
-	case File_Scene:
-	default:
-		App->gui->AddLogToConsole("ERROR: Couldn't import file!!");
-		break;
-
 	}
 }
 

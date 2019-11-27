@@ -37,7 +37,6 @@ private:
 	map<UID, string> foc_mesh;
 	UID foc_tex_uuid;
 
-	bool read_asset_changes = true;
 	map<string, map<UID, string>> mesh_scenes;
 	map<string, UID> textures;
 };
