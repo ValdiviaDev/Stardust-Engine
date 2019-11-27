@@ -224,11 +224,12 @@ void ModuleScene::AssignTexToGameObject(UID tex_uuid)
 	ResourceTexture* res_tex;
 	if (focused_object) {
 		//Create material if there isn't one
-		if (!focused_object->material)
-			focused_object->CreateComponent(Comp_Material);
+		ComponentMaterial* mat = (ComponentMaterial*)focused_object->GetComponent(Comp_Material);
+		if (!mat)
+			mat = (ComponentMaterial*)focused_object->CreateComponent(Comp_Material);
 		//Unload resource
-		else if (focused_object->material->HasTex()) {
-			res_tex = (ResourceTexture*)App->resources->Get(focused_object->material->uuid_mat);
+		else if (mat->HasTex()) {
+			res_tex = (ResourceTexture*)App->resources->Get(mat->uuid_mat);
 			res_tex->UnloadToMemory();
 		}
 		//Load new resource
@@ -236,8 +237,8 @@ void ModuleScene::AssignTexToGameObject(UID tex_uuid)
 		if (res_tex) {
 			res_tex->LoadToMemory();
 			//Assign the tex to the material
-			focused_object->material->uuid_mat = res_tex->GetUID();
-			focused_object->material->SetPath(res_tex->GetFile());
+			mat->uuid_mat = res_tex->GetUID();
+			mat->SetPath(res_tex->GetFile());
 		}
 		App->gui->AddLogToConsole("Put a texture from the assets folder");
 	}

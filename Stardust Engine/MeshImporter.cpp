@@ -409,17 +409,17 @@ void MeshImporter::ImportMatFromMesh(aiMaterial* material, GameObject* go)
 		}
 
 
-		go->CreateComponent(Comp_Material);
+		ComponentMaterial* mat = (ComponentMaterial*)go->CreateComponent(Comp_Material);
 
 		mat_uuid = App->resources->ImportFile(mat_path_s.c_str(), ResourceType::Resource_Texture, mat_uuid);
 
 
 		if (mat_uuid == 0)
-			go->material->uuid_mat = App->resources->FindByFileInAssets(mat_path_s.c_str());
+			mat->uuid_mat = App->resources->FindByFileInAssets(mat_path_s.c_str());
 		else
-			go->material->uuid_mat = mat_uuid;
+			mat->uuid_mat = mat_uuid;
 
-		go->material->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
+		mat->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
 	
 
 	}

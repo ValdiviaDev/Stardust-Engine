@@ -29,7 +29,6 @@ ComponentMesh::~ComponentMesh()
 			res->UnloadToMemory();
 	}
 
-	gameObject->DeleteFromComponentList(this);
 }
 
 bool ComponentMesh::IsPrimitive() const

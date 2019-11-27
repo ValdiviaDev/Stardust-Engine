@@ -31,8 +31,8 @@ ComponentCamera::~ComponentCamera() {
 	if(gameObject)
 		gameObject->camera = nullptr;
 
-	if(gameObject != nullptr) //Condition that should only apply for the engine camera
-		gameObject->DeleteFromComponentList(this);
+	//if(gameObject != nullptr) //Condition that should only apply for the engine camera
+	//	gameObject->DeleteFromComponentList(this);
 }
 
 void ComponentCamera::Update() {

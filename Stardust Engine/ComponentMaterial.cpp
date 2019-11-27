@@ -26,7 +26,7 @@ ComponentMaterial::~ComponentMaterial()
 	if (gameObject)
 		gameObject->material = nullptr;
 
-	gameObject->DeleteFromComponentList(this);
+	//gameObject->DeleteFromComponentList(this);
 }
 
 

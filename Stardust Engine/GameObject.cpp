@@ -38,16 +38,16 @@ GameObject::~GameObject()
 	childs.clear();
 
 
-	//for (int i = components.size() - 1; i >= 0; --i) {
-	//
-	//	RELEASE(components[i]);
-	//}
-	//components.clear();
+	for (int i = components.size() - 1; i >= 0; --i) {
+	
+		RELEASE(components[i]);
+	}
+	components.clear();
 
-	RELEASE(transform);
-	RELEASE(mesh);
-	RELEASE(material);
-	RELEASE(camera);
+	//RELEASE(transform);
+	//RELEASE(mesh);
+	//RELEASE(material);
+	//RELEASE(camera);
 
 	parent = nullptr;
 }
@@ -79,8 +79,8 @@ Component* GameObject::CreateComponent(ComponentType type)
 		break;
 	case Comp_Mesh:
 		if (GetComponent(Comp_Mesh) == nullptr) {
-			mesh = new ComponentMesh(this);
-			component = mesh;
+			component = new ComponentMesh(this);
+			//component = mesh;
 		}
 		break;
 	case Comp_Material:
@@ -443,11 +443,11 @@ void GameObject::Load(JSON_Object* object)
 			break;
 
 		case ComponentType::Comp_Mesh:
-
-			CreateComponent((ComponentType)comp_type);
-			GetComponent(Comp_Mesh)->Load(it);
+		{
+			ComponentMesh* mesh = (ComponentMesh*)CreateComponent((ComponentType)comp_type);
+			mesh->Load(it);
 			break;
-
+		}
 		case ComponentType::Comp_Material:
 
 			CreateComponent((ComponentType)comp_type);
@@ -494,8 +494,12 @@ void GameObject::Save(JSON_Array* go_array) const{
 	
 	if (transform)
 		transform->Save(array_comps);
-	if (GetComponent(Comp_Mesh))
-		GetComponent(Comp_Mesh)->Save(array_comps);
+
+	if (GetComponent(Comp_Mesh)) {
+		ComponentMesh* mesh = (ComponentMesh*)GetComponent(Comp_Mesh);
+		mesh->Save(array_comps);
+	}
+
 	if (material)
 		material->Save(array_comps);
 	if (camera)

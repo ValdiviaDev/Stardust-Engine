@@ -25,7 +25,7 @@ ComponentTransform::~ComponentTransform()
 	if (gameObject)
 		gameObject->transform = nullptr;
 
-	gameObject->DeleteFromComponentList(this);
+	//gameObject->DeleteFromComponentList(this);
 }
 
 void ComponentTransform::Update()
