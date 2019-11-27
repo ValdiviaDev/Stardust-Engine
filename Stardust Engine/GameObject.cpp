@@ -62,8 +62,8 @@ void GameObject::Update()
 	if (transform && this != App->scene->GetRootGameObject())
 		transform->Update();
 
-	if (camera)
-		camera->Update();
+	if (GetComponent(Comp_Camera))
+		GetComponent(Comp_Camera)->Update();
 }
 
 Component* GameObject::CreateComponent(ComponentType type)
@@ -90,10 +90,10 @@ Component* GameObject::CreateComponent(ComponentType type)
 			return nullptr;
 		break;
 	case Comp_Camera:
-		if (camera == nullptr) {
-			camera = new ComponentCamera(this);
-			component = camera;
-		}
+		if (GetComponent(Comp_Camera) == nullptr)
+			component = new ComponentCamera(this);
+		else
+			return nullptr;
 		break;
 	case Comp_Default:
 		return nullptr;
@@ -304,8 +304,8 @@ void GameObject::DrawComponentsInspector() {
 	if (GetComponent(Comp_Material))
 		GetComponent(Comp_Material)->DrawInspector();
 
-	if (camera)
-		camera->DrawInspector();
+	if (GetComponent(Comp_Camera))
+		GetComponent(Comp_Camera)->DrawInspector();
 
 	//Add component TODO
 	ImGui::Separator();
@@ -324,7 +324,7 @@ void GameObject::DrawComponentsInspector() {
 				CreateComponent(Comp_Material);
 		}
 
-		if (camera == nullptr) {
+		if (GetComponent(Comp_Camera) == nullptr) {
 			if (ImGui::MenuItem("Camera"))
 				CreateComponent(Comp_Camera);
 		}
@@ -450,11 +450,11 @@ void GameObject::Load(JSON_Object* object)
 			break;
 		}
 		case ComponentType::Comp_Camera:
-
-			CreateComponent((ComponentType)comp_type);
-			camera->Load(it);
+		{
+			ComponentCamera* cam = (ComponentCamera*)CreateComponent((ComponentType)comp_type);
+			cam->Load(it);
 			break;
-
+		}
 		}
 	}
 
@@ -500,9 +500,11 @@ void GameObject::Save(JSON_Array* go_array) const {
 		ComponentMaterial* mat = (ComponentMaterial*)GetComponent(Comp_Material);
 		mat->Save(array_comps);
 	}
-	if (camera)
-		camera->Save(array_comps);
-
+	if (GetComponent(Comp_Camera))
+	{
+		ComponentCamera* cam = (ComponentCamera*)GetComponent(Comp_Camera);
+		cam->Save(array_comps);
+	}
 
 
 	json_object_set_value(obj, "Components", value_comps);

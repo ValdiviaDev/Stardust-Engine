@@ -64,14 +64,14 @@ void ModuleScene::CreateRootObject() {
 
 }
 
-GameObject * ModuleScene::CreateCamera(bool is_main_camera)
+GameObject* ModuleScene::CreateCamera(bool is_main_camera)
 {
 	GameObject* camera = new GameObject(root_object);
-	camera->CreateComponent(Comp_Camera);
+	ComponentCamera* cam = (ComponentCamera*)camera->CreateComponent(Comp_Camera);
 	camera->SetName("camera");
 
 	if(is_main_camera)
-		SetMainCamera(camera->camera);
+		SetMainCamera(cam);
 
 	return camera;
 }

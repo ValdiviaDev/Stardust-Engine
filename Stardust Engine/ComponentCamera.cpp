@@ -27,12 +27,6 @@ ComponentCamera::ComponentCamera(GameObject* game_object) :Component(game_object
 
 ComponentCamera::~ComponentCamera() {
 
-	//TODO Change
-	if(gameObject)
-		gameObject->camera = nullptr;
-
-	//if(gameObject != nullptr) //Condition that should only apply for the engine camera
-	//	gameObject->DeleteFromComponentList(this);
 }
 
 void ComponentCamera::Update() {
@@ -213,7 +207,7 @@ void ComponentCamera::CameraCullingStObj()
 
 void ComponentCamera::CameraCullingDynObj(GameObject* go) {
 
-	if (!go->camera) {
+	if (!go->GetComponent(Comp_Camera)) {
 		for (std::vector<GameObject*>::const_iterator it = go->childs.begin(); it < go->childs.end(); it++) {
 
 			AABB refBox = (*it)->bounding_box;

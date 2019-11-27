@@ -161,18 +161,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	
-	/*GameObject* focused = App->scene->GetFocusedGameObject(App->scene->GetRootGameObject());
-	if (focused && focused->camera) {
-		glDisable(GL_LIGHTING);
-		focused->camera->DrawFrustum();
-		glEnable(GL_LIGHTING);
-
-
-	}*/
-
-
-
 	App->scene->Draw();
 
 	App->gui->Draw();

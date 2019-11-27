@@ -76,9 +76,6 @@ private:
 public:
 	//There can be only one component of each type
 	ComponentTransform* transform = nullptr;
-	//ComponentMesh* mesh = nullptr;
-	//ComponentMaterial* material = nullptr;
-	ComponentCamera* camera = nullptr;
 	math::AABB bounding_box;
 	math::OBB obb;
 	std::vector<GameObject*> childs;
