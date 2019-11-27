@@ -419,8 +419,7 @@ void MeshImporter::ImportMatFromMesh(aiMaterial* material, GameObject* go)
 		else
 			mat->uuid_mat = mat_uuid;
 
-		mat->SetPath(App->mat_import->GetTexturePathFromUUID(go->material->uuid_mat));
+		mat->SetPath(App->mat_import->GetTexturePathFromUUID(mat->uuid_mat));
 	
-
 	}
 }

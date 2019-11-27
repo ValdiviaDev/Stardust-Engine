@@ -78,16 +78,16 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 		break;
 	case Comp_Mesh:
-		if (GetComponent(Comp_Mesh) == nullptr) {
+		if (GetComponent(Comp_Mesh) == nullptr)
 			component = new ComponentMesh(this);
-			//component = mesh;
-		}
+		else
+			return nullptr;
 		break;
 	case Comp_Material:
-		if (material == nullptr) {
-			material = new ComponentMaterial(this);
-			component = material;
-		}
+		if (GetComponent(Comp_Material) == nullptr)
+			component = new ComponentMaterial(this);
+		else
+			return nullptr;
 		break;
 	case Comp_Camera:
 		if (camera == nullptr) {
@@ -301,8 +301,8 @@ void GameObject::DrawComponentsInspector() {
 	if (GetComponent(Comp_Mesh))
 		GetComponent(Comp_Mesh)->DrawInspector();
 
-	if (material)
-		material->DrawInspector();
+	if (GetComponent(Comp_Material))
+		GetComponent(Comp_Material)->DrawInspector();
 
 	if (camera)
 		camera->DrawInspector();
@@ -319,7 +319,7 @@ void GameObject::DrawComponentsInspector() {
 				CreateComponent(Comp_Mesh);
 		}
 
-		if (material == nullptr) {
+		if (GetComponent(Comp_Material) == nullptr) {
 			if (ImGui::MenuItem("Material"))
 				CreateComponent(Comp_Material);
 		}
@@ -404,11 +404,6 @@ void GameObject::DrawBoundingBox()
 	glEnd();
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	//for (uint i = 0; i < childs.size(); ++i)
-	//{
-	//	childs[i]->DrawBoundingBox();
-	//}
-
 }
 
 
@@ -449,11 +444,11 @@ void GameObject::Load(JSON_Object* object)
 			break;
 		}
 		case ComponentType::Comp_Material:
-
-			CreateComponent((ComponentType)comp_type);
-			material->Load(it);
+		{
+			ComponentMaterial* mat = (ComponentMaterial*)CreateComponent((ComponentType)comp_type);
+			mat->Load(it);
 			break;
-
+		}
 		case ComponentType::Comp_Camera:
 
 			CreateComponent((ComponentType)comp_type);
@@ -466,11 +461,11 @@ void GameObject::Load(JSON_Object* object)
 }
 
 //Used for saving scene, so we save all GOs in array
-void GameObject::Save(JSON_Array* go_array) const{
+void GameObject::Save(JSON_Array* go_array) const {
 
 	LOG("Saving GameObject: %s", name);
 	std::string uuid_s = std::to_string(uuid);
-	
+
 
 	JSON_Value* val = json_value_init_object();
 	JSON_Object* obj = json_value_get_object(val);
@@ -491,17 +486,20 @@ void GameObject::Save(JSON_Array* go_array) const{
 	//Save Components
 	JSON_Value* value_comps = json_value_init_array();
 	JSON_Array* array_comps = json_value_get_array(value_comps);
-	
+
 	if (transform)
 		transform->Save(array_comps);
 
-	if (GetComponent(Comp_Mesh)) {
+	if (GetComponent(Comp_Mesh)) 
+	{
 		ComponentMesh* mesh = (ComponentMesh*)GetComponent(Comp_Mesh);
 		mesh->Save(array_comps);
 	}
-
-	if (material)
-		material->Save(array_comps);
+	if (GetComponent(Comp_Material))
+	{
+		ComponentMaterial* mat = (ComponentMaterial*)GetComponent(Comp_Material);
+		mat->Save(array_comps);
+	}
 	if (camera)
 		camera->Save(array_comps);
 

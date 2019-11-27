@@ -297,7 +297,7 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 			glMultMatrixf((GLfloat*)matrix.Transposed().ptr());
 
 			//Texture
-			ComponentMaterial* c_mat = go->material;
+			ComponentMaterial* c_mat = (ComponentMaterial*)go->GetComponent(Comp_Material);
 			if (c_mat && c_mat->debug_tex_draw) { //Draw texture
 				if (c_mat->debug_checkers) //Checkers
 					glBindTexture(GL_TEXTURE_2D, App->renderer3D->checkersImgId);
