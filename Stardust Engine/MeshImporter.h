@@ -13,6 +13,7 @@ struct aiMesh;
 struct aiMaterial;
 
 class ComponentTransform;
+class ComponentMesh;
 class GameObject;
 class ResourceMesh;
 
@@ -28,6 +29,8 @@ public:
 	bool LoadMesh(const char* exported_file, ResourceMesh* mesh);
 
 	bool HasMeshOnlyTriangles(aiMesh* mesh);
+	bool IsMeshRepeated(aiMesh* new_mesh, ComponentMesh* c_mesh, ResourceMesh* r_mesh);
+
 	void ImportMatFromMesh(aiMaterial* material, GameObject* go);
 
 private:

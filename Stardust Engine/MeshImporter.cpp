@@ -88,7 +88,6 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 	static int invalid_pos = std::string::npos;
 	std::string name = node->mName.C_Str();
 	GameObject* go = nullptr;
-	bool mesh_repeat = false;
 
 	//Transform of the GameObjects loaded from assimp
 	//Have to sum the transform of every node because of ghost nodes
@@ -130,10 +129,9 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 		//Only charge the first mesh for each node
 		aiMesh* new_mesh = scene->mMeshes[node->mMeshes[0]];
 
-		bool has_only_triangles = HasMeshOnlyTriangles(new_mesh);
-
-		if (has_only_triangles) {
-			//TODO push random uuid or the meta uuid???
+		//If the mesh has only triangles, save it
+		if (HasMeshOnlyTriangles(new_mesh)) {
+			//Look if generate random uuid or get the uuid we have
 			uint u = App->resources->GenerateNewUID();
 			if (in_uids && mesh_uuids.size() > count_import)
 				u = mesh_uuids[count_import];
@@ -149,20 +147,8 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 			if (material != nullptr)
 				ImportMatFromMesh(material, go);
 
-			//Look if there is a repeated mesh
-			bool save_mesh = true;
-			std::map<aiMesh*, UID>::iterator it = charged_meshes.find(new_mesh);
-			if (it != charged_meshes.end()) {
-				dummy_c_mesh->uuid_mesh = it->second;
-				save_mesh = false;
-				mesh_repeat = true;
-			}
-			else {
-				dummy_c_mesh->uuid_mesh = mesh->GetUID();
-				charged_meshes[new_mesh] = mesh->GetUID();
-			}
-
-			if (save_mesh) {
+			//Look if there is a repeated mesh. If there isn't one, import the non-repeated mesh
+			if (!IsMeshRepeated(new_mesh, dummy_c_mesh, mesh)) {
 				// copy vertices
 				mesh->num_vertex = new_mesh->mNumVertices;
 				mesh->vertex = new float[mesh->num_vertex * 3];
@@ -222,20 +208,14 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 
 				//Save a mesh in own file format
+				count_import++;
 
-				if (mesh) {
-					if(!mesh_repeat)
-						count_import++;
-
-					if (SaveMesh(mesh, std::to_string(mesh->GetUID()).c_str())) {
-						if(!in_uids)
-							mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
-
-						App->gui->loaded_meshes_uuid.push_back(mesh->GetUID());
-					}
-					else
-						SaveMesh(mesh, name.c_str());
+				if (SaveMesh(mesh, std::to_string(mesh->GetUID()).c_str())) {
+					if (!in_uids)
+						mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
 				}
+				else
+					App->gui->AddLogToConsole("ERROR: Something failed when trying to save a mesh into Library.");
 
 				//Delete the auxiliar mesh info (Resource Mesh)
 				RELEASE_ARRAY(mesh->vertex);
@@ -243,10 +223,12 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 				RELEASE_ARRAY(mesh->normal);
 				RELEASE_ARRAY(mesh->uv);
 			}
+			//Delete the auxiliar Resource Mesh
 			RELEASE(mesh);
 		}
 	}
 
+	//Used for fbx scene serialization
 	if (go)
 		go_list->push_back(go);
 
@@ -378,6 +360,24 @@ bool MeshImporter::HasMeshOnlyTriangles(aiMesh* mesh)
 		}
 	}
 	return true;
+}
+
+bool MeshImporter::IsMeshRepeated(aiMesh* new_mesh, ComponentMesh* c_mesh, ResourceMesh* r_mesh)
+{
+	bool save_mesh = true;
+	std::map<aiMesh*, UID>::iterator it = charged_meshes.find(new_mesh);
+	if (it != charged_meshes.end()) {
+		c_mesh->uuid_mesh = it->second;
+
+		return true;
+	}
+	else {
+		c_mesh->uuid_mesh = r_mesh->GetUID();
+		charged_meshes[new_mesh] = r_mesh->GetUID();
+
+		return false;
+	}
+
 }
 
 void MeshImporter::ImportMatFromMesh(aiMaterial* material, GameObject* go)

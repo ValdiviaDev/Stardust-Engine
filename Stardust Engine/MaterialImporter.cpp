@@ -93,15 +93,10 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 			App->gui->AddLogToConsole(str.c_str());
 
 			string file_no_ext = file_string;
-			//file_no_ext = file_no_ext.substr(0, file_no_ext.find_last_of("."));
 
-			//SerializeNoComponent(file_string.c_str(), uuid_mat);
 			AddTextureToList(file_string.c_str(), uuid_mat);
 			file_no_ext = std::to_string(uuid_mat);
 			uid_out = uuid_mat;
-			//App->gui->loaded_materials.push_back((string)file_no_ext);
-			App->gui->loaded_textures.push_back(uuid_mat);
-
 		}
 		else {
 			LOG("Can't import texture %s from path %s", file_string.c_str(), path);
