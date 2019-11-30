@@ -47,11 +47,13 @@ void ComponentCamera::Update() {
 		}
 	}
 	
+#ifndef GAME_MODE
 	if (App->GetEngineState() == Engine_State_Editor) {
 		glDisable(GL_LIGHTING);
 		DrawFrustum();
 		glEnable(GL_LIGHTING);
 	}
+#endif
 	
 }
 

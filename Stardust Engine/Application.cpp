@@ -193,8 +193,6 @@ bool Application::CleanUp()
 
 void Application::SaveConfig() const {
 
-	
-	
 	ConfigEditor module_location("config.json", "App");
 
 	for (list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); item++) {
@@ -208,7 +206,6 @@ void Application::SaveConfig() const {
 
 void Application:: LoadConfig() {
 
-	
 	ConfigEditor module_location("config.json", "App");
 
 	for (list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); item++) {
@@ -220,7 +217,6 @@ void Application:: LoadConfig() {
 
 void Application::SetAllConfigToDefault() {
 
-	
 	ConfigEditor module_location("config.json", "App");
 
 	for (list<Module*>::const_iterator item = list_modules.begin(); item != list_modules.end(); item++) {

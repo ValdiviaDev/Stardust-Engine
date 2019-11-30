@@ -28,6 +28,8 @@
 #include "ResourceTexture.h"
 #include "ModuleResourceManager.h"
 #include "ModuleInput.h"
+#include "ModuleFileSystem.h"
+#include "ModuleCamera3D.h"
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, "Scene", start_enabled)
@@ -45,15 +47,26 @@ bool ModuleScene::Start()
 	//Initialize root GameObject
 	CreateRootObject();
 
-	//Charge street envoirment
-	App->scene_serialization->LoadSceneFromMesh("Assets/Meshes/Street environment_V01.FBX");
+	//If the main scene exists, charge it
+	string main_scene_path = ASSETS_SCENE_FOLDER + (string)"main scene.json";
+	if (App->fs->Exists(main_scene_path.c_str())) {
+		App->scene_serialization->LoadScene(main_scene_path.c_str());
+	}
+	else {
+		//Charge street envoirment and camera, and save it a s main scene
+		App->scene_serialization->LoadSceneFromMesh("Assets/Meshes/Street environment_V01.FBX");
+		CreateCamera(true);
 
-	//Main camera
-	CreateCamera(true);
-
+		App->scene_serialization->SaveScene(main_scene_path.c_str());
+	}
+	
 	//Quadtree init
 	BuildQuadtree();
 
+	//If in GAME_MODE, put the application view in the game camera
+#ifdef GAME_MODE
+	App->camera->current_cam = GetMainCamera();
+#endif
 
 	return true;
 }
@@ -279,12 +292,17 @@ GameObject* ModuleScene::CreatePrimitiveObject(PrimitiveType type)
 
 
 void ModuleScene::Draw() {
+#ifndef GAME_MODE
 	DrawGrid();
+#endif
+
 	DrawGameObjects(root_object);
 
+#ifndef GAME_MODE
 	//Draw bounding boxes and Quadtree
 	if(App->GetEngineState() == Engine_State_Editor)
 		DrawSceneDebug();
+#endif
 }
 
 void ModuleScene::DrawGameObjects(GameObject* go)
