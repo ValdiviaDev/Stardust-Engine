@@ -29,8 +29,10 @@ bool ModuleResourceManager::Start() {
 	CreatePrimitiveResources();
 
 	//Save maps with the names and UIDs of the meshes and textures to use them during execution
+#ifndef GAME_MODE
 	GetAllMeshesFromScenes();
 	GetAllTexturesFromName();
+#endif
 
 	return true;
 }

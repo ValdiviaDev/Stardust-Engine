@@ -97,7 +97,9 @@ update_status ModuleInput::PreUpdate(float dt)
 	SDL_Event e;
 	while(SDL_PollEvent(&e))
 	{
+#ifndef GAME_MODE
 		ImGui_ImplSDL2_ProcessEvent(&e);
+#endif
 		switch(e.type)
 		{
 			case SDL_MOUSEWHEEL:
@@ -116,6 +118,7 @@ update_status ModuleInput::PreUpdate(float dt)
 			quit = true;
 			break;
 
+#ifndef GAME_MODE
 			case SDL_DROPFILE:
 			{
 				LOG("File Drop!");
@@ -143,12 +146,15 @@ update_status ModuleInput::PreUpdate(float dt)
 				}
 			}
 			break;
+#endif
 
 			case SDL_WINDOWEVENT:
 			{
 				if (e.window.event == SDL_WINDOWEVENT_RESIZED || e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
 					App->renderer3D->OnResize(e.window.data1, e.window.data2);
+#ifndef GAME_MODE
 					App->gui->ResizePanels();
+#endif
 				}
 			}
 

@@ -116,13 +116,14 @@ update_status ModuleScene::PostUpdate(float dt) {
 		BuildQuadtree();
 	}
 
+#ifndef GAME_MODE
 	if (want_to_save) {
 		want_to_save = false;
 
 		std::string aux = ASSETS_SCENE_FOLDER;
 		aux += App->gui->scene_name;
 		aux.append(".json");
-	
+
 		App->scene_serialization->SaveScene(aux.c_str());
 	}
 
@@ -136,6 +137,7 @@ update_status ModuleScene::PostUpdate(float dt) {
 		App->scene_serialization->LoadScene(aux.c_str());
 		rebuild_quadtree = true;
 	}
+#endif
 
 	if (want_to_delete_go) {
 		want_to_delete_go = false;

@@ -32,7 +32,9 @@ ModuleCamera3D::~ModuleCamera3D()
 bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
+#ifndef GAME_MODE
 	App->gui->AddLogToConsole("Setting up the camera");
+#endif
 	bool ret = true;
 
 	return ret;
@@ -50,6 +52,7 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
+#ifndef GAME_MODE
 	if (App->GetEngineState() == Engine_State_Editor) {
 		// Mouse picking ----------------
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
@@ -81,6 +84,7 @@ update_status ModuleCamera3D::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 			FocusInObject();
 	}
+#endif
 
 	return UPDATE_CONTINUE;
 }

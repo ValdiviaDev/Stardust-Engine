@@ -163,7 +163,9 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->scene->Draw();
 
+#ifndef GAME_MODE
 	App->gui->Draw();
+#endif
 
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;

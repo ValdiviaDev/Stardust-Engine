@@ -75,9 +75,10 @@ void SceneSerialization::LoadSceneFromMesh(const char* scene_name) //scene_name 
 	if (uuid != 0) {
 		App->scene_serialization->LoadScene(path_and_file.c_str());
 	}
+#ifndef GAME_MODE
 	else
 		App->gui->AddLogToConsole("Couldn't charge scene. Drag something from the assets folder");
-
+#endif
 }
 
 void SceneSerialization::LoadScene(const char* scene_name) {

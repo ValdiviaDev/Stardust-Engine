@@ -22,12 +22,15 @@ Application::Application()
 		capped_ms = 1000 / cap;
 	SaveHardwareInfo();
 
+#ifndef GAME_MODE
+	gui = new ModuleGui(this);
+#endif
+
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	scene = new ModuleScene(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
-	gui = new ModuleGui(this);
 	fs = new ModuleFileSystem(this);
 	time = new ModuleTimeManager(this);
 	resources = new ModuleResourceManager(this);
@@ -51,7 +54,9 @@ Application::Application()
 	AddModule(scene);
 
 	//imGui
+#ifndef GAME_MODE
 	AddModule(gui);
+#endif
 
 	// Renderer last!
 	AddModule(renderer3D);

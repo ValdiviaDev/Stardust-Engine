@@ -42,10 +42,15 @@ bool MeshImporter::ImportScene(const char* file, const char* path, std::string& 
 
 
 	const aiScene* scene = aiImportFile(path, flags);
-	if (scene)
+	if (scene) {
+#ifndef GAME_MODE
 		App->gui->AddLogToConsole("Assimp scene loaded correctly");
+#endif
+	}
 	else {
+#ifndef GAME_MODE
 		App->gui->AddLogToConsole("ERROR: Assimp scene not loaded correctly");
+#endif
 		return false;
 	}
 
@@ -155,10 +160,12 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 				memcpy(mesh->vertex, new_mesh->mVertices, sizeof(float) * mesh->num_vertex * 3);
 				LOG("New mesh with %d vertices", mesh->num_vertex);
 
+#ifndef GAME_MODE
 				if (mesh->vertex)
 					App->gui->AddLogToConsole("Mesh vertices loaded correctly");
 				else
 					App->gui->AddLogToConsole("ERROR: Mesh vertices not loaded correctly");
+#endif
 
 				//copy normals
 				if (new_mesh->HasNormals()) {
@@ -167,10 +174,12 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 					memcpy(mesh->normal, new_mesh->mNormals, sizeof(float) * mesh->num_normal * 3);
 					LOG("New mesh with %d normals", mesh->num_normal);
 
+#ifndef GAME_MODE
 					if (mesh->normal)
 						App->gui->AddLogToConsole("Normals loaded correctly");
 					else
 						App->gui->AddLogToConsole("ERROR: Normals not loaded correctly");
+#endif
 				}
 
 				//copy uvs
@@ -183,10 +192,12 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 
 					}
 
+#ifndef GAME_MODE
 					if (mesh->uv)
 						App->gui->AddLogToConsole("Texture Coordinates loaded correctly");
 					else
 						App->gui->AddLogToConsole("ERROR: Texture Coordinates not loaded correctly");
+#endif
 				}
 
 
@@ -198,11 +209,12 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 					for (uint i = 0; i < new_mesh->mNumFaces; ++i)
 						memcpy(&mesh->index[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 
-
+#ifndef GAME_MODE
 					if (mesh->index)
 						App->gui->AddLogToConsole("Mesh indexes loaded correctly");
 					else
 						App->gui->AddLogToConsole("ERROR: Mesh indexes not loaded correctly");
+#endif
 				}
 
 
@@ -214,8 +226,10 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 					if (!in_uids)
 						mesh_uuids.push_back(mesh->GetUID()); //Get the mesh UUIDS for the resources
 				}
+#ifndef GAME_MODE
 				else
 					App->gui->AddLogToConsole("ERROR: Something failed when trying to save a mesh into Library.");
+#endif
 
 				//Delete the auxiliar mesh info (Resource Mesh)
 				RELEASE_ARRAY(mesh->vertex);
@@ -350,11 +364,13 @@ bool MeshImporter::HasMeshOnlyTriangles(aiMesh* mesh)
 	for (uint i = 0; i < mesh->mNumFaces; ++i) {
 		if (mesh->mFaces[i].mNumIndices != 3) {
 			LOG("WARNING, geometry face with != 3 indices!");
+#ifndef GAME_MODE
 			if (mesh->mFaces[i].mNumIndices < 3)
 				App->gui->AddLogToConsole("WARNING, geometry face with < 3 indices!");
 
 			if (mesh->mFaces[i].mNumIndices > 3)
 				App->gui->AddLogToConsole("WARNING, geometry face with > 3 indices!");
+#endif
 
 			return false;
 		}

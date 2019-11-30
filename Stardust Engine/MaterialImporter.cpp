@@ -89,9 +89,10 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 
 		if (ret) {
 			LOG("Texture imported correctly: %s from path %s", file_string.c_str(), path);
+#ifndef GAME_MODE
 			string str = "Texture imported correctly: " + file_string + " from path: " + path;
 			App->gui->AddLogToConsole(str.c_str());
-
+#endif
 			string file_no_ext = file_string;
 
 			AddTextureToList(file_string.c_str(), uuid_mat);
@@ -100,8 +101,10 @@ bool MaterialImporter::Import(const char * file, const char * path, std::string 
 		}
 		else {
 			LOG("Can't import texture %s from path %s", file_string.c_str(), path);
+#ifndef GAME_MODE
 			string str = "Can't import texture: " + file_string + " from path: " + path;
 			App->gui->AddLogToConsole(str.c_str());
+#endif
 		}
 
 	}
@@ -124,17 +127,23 @@ bool MaterialImporter::LoadMaterial(const char* file_name, ResourceTexture* mat)
 	ilGenImages(1, &image_id);
 	ilBindImage(image_id);
 
+#ifndef GAME_MODE
 	string tex_str = "Loading texture: " + (string)exported_file;
 	App->gui->AddLogToConsole(tex_str.c_str());
+#endif
 
 	//Load image
 	if (ilLoad(IL_TYPE_UNKNOWN, exported_file.c_str())) {
 		LOG("Texture Loaded Correctly");
+#ifndef GAME_MODE
 		App->gui->AddLogToConsole("Texture Loaded Correctly");
+#endif
 	}
 	else {
 		LOG("Error: Couldn't load texture");
+#ifndef GAME_MODE
 		App->gui->AddLogToConsole("Error: Couldn't load texture");
+#endif
 		ILenum Error;
 		while ((Error = ilGetError()) != IL_NO_ERROR) {
 			LOG("%d: %s", Error, iluErrorString(Error));
@@ -143,16 +152,13 @@ bool MaterialImporter::LoadMaterial(const char* file_name, ResourceTexture* mat)
 		return false;
 	}
 
-	//mat->uuid_mat = GetUUIDFromJSON(file_name);
-	//std::string json_file = LIBRARY_MAT_FOLDER + (string)file_name + ".json";
-	//mat->uuid = GetUUIDFromJSON(json_file.c_str());
-	//mat->SetPath(GetTexturePathFromUUID(mat->uuid_mat));
-
 	//Get width and height
 	mat->tex_width = ilGetInteger(IL_IMAGE_WIDTH);
 	mat->tex_height = ilGetInteger(IL_IMAGE_HEIGHT);
+#ifndef GAME_MODE
 	string size_str = "Texture size: " + std::to_string(mat->tex_width) + " x " + std::to_string(mat->tex_height);
 	App->gui->AddLogToConsole(size_str.c_str());
+#endif
 
 	//Bind DevIL to OpenGL texture buffer
 	mat->tex_id = ilutGLBindTexImage();

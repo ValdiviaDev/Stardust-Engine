@@ -1,6 +1,14 @@
 #ifndef __Application__H__
 #define __Application__H__
 
+#ifndef GAME_MODE
+
+//#define GAME_MODE
+
+#endif //GAME_MODE
+
+
+
 #include <list>
 #include "Globals.h"
 #include "Timer.h"

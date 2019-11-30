@@ -126,10 +126,12 @@ void ComponentMesh::Load(JSON_Object* comp_obj) {
 			ResourceMesh* res = (ResourceMesh*)App->resources->Get(uuid_mesh);
 			if (res)
 				res->LoadToMemory();
+#ifndef GAME_MODE
 			else {
 				string log = "GameObject " + (string)gameObject->GetName() + ": Charging a mesh component with no mesh";
 				App->gui->AddLogToConsole(log.c_str());
 			}
+#endif
 		}
 
 		break;
