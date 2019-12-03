@@ -139,6 +139,7 @@ void PanelAssets::DrawAssetTreeDiferentFiles(vector<string> files, string name, 
 	case File_Mesh: {
 		//Draw the mesh nodes inside de mesh scene (.fbx, .obj) node
 		map<string, map<UID, string>>::iterator it = mesh_scenes.find(name);
+
 		if (it != mesh_scenes.end()) {
 			map<UID, string> mesh_scn = it->second;
 			for (std::map<UID, string>::const_iterator it = mesh_scn.begin(); it != mesh_scn.end(); ++it) {
@@ -149,10 +150,11 @@ void PanelAssets::DrawAssetTreeDiferentFiles(vector<string> files, string name, 
 				if (ImGui::IsItemClicked())
 					foc_mesh = mesh_scn;
 
+				//Initiate drag and drop, to put a mesh to a component mesh
 				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
 				{
 					UID uuid = it->first;
-					ImGui::SetDragDropPayload("Assets", &uuid, sizeof(UID));
+					ImGui::SetDragDropPayload("Assets_Mesh", &uuid, sizeof(UID));
 
 					ImGui::EndDragDropSource();
 				}
@@ -162,11 +164,21 @@ void PanelAssets::DrawAssetTreeDiferentFiles(vector<string> files, string name, 
 	break;
 
 	case File_Material:
+		map<string, UID>::iterator it = textures.find(name);
+
 		//Get  this material uuid
 		if (ImGui::IsItemClicked()) {
-			map<string, UID>::iterator it = textures.find(name);
 			if (it != textures.end())
 				foc_tex_uuid = it->second;
+		}
+
+		//Initiate drag and drop, to put a texture to a component material
+		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+		{
+			UID uuid = it->second;
+			ImGui::SetDragDropPayload("Assets_Tex", &uuid, sizeof(UID));
+
+			ImGui::EndDragDropSource();
 		}
 		break;
 	}

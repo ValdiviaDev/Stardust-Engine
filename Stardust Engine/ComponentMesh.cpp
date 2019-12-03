@@ -60,7 +60,7 @@ void ComponentMesh::DrawInspector() {
 
 		ImGui::Button(drag_msg);
 		if (ImGui::BeginDragDropTarget()) {
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Assets")) {
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Assets_Mesh")) {
 				UID uuid = *(UID*)payload->Data;
 				if (App->resources->Get(uuid) != nullptr)
 					App->scene->AssignMeshToGameObject(uuid);

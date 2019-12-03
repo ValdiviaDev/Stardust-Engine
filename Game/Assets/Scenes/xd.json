@@ -4,7 +4,7 @@
         "UUID": 161585567,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1886296073,
+        "Parent UUID": 844015145,
         "Components": [
             {
                 "Component Type": 1,
@@ -26,7 +26,7 @@
         "UUID": 1229417121,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1886296073,
+        "Parent UUID": 844015145,
         "Components": [
             {
                 "Component Type": 1,
@@ -307,20 +307,20 @@
                 "Component Type": 1,
                 "PosX": -42.288055419921875,
                 "PosY": 33.201576232910156,
-                "PosZ": 5.0146059038524982e-07,
-                "RotX": 2.5121466203510386e-15,
-                "RotY": -1.0048592410634785e-14,
+                "PosZ": 5.0146070407208754e-07,
+                "RotX": 0,
+                "RotY": 0,
                 "RotZ": 0.7071068286895752,
                 "RotW": 0.70710670948028564,
                 "ScaleX": 1,
-                "ScaleY": 0.99999982118606567,
+                "ScaleY": 1,
                 "ScaleZ": 1
             },
             {
                 "Component Type": 2,
                 "UUID Mesh": 1072648162,
                 "is primitive": 0,
-                "Active": false
+                "Active": true
             },
             {
                 "Component Type": 3,
@@ -340,24 +340,26 @@
                 "Component Type": 1,
                 "PosX": -19.439706802368164,
                 "PosY": 32.061729431152344,
-                "PosZ": 0,
-                "RotX": 0,
-                "RotY": 0,
-                "RotZ": 1,
-                "RotW": -4.3711388286737929e-08,
-                "ScaleX": 1,
-                "ScaleY": 1,
-                "ScaleZ": 1
+                "PosZ": 4.9318623542785645,
+                "RotX": 2.0594971061882461e-08,
+                "RotY": 0.47115850448608398,
+                "RotZ": 0.88204854726791382,
+                "RotW": -3.8555537429374453e-08,
+                "ScaleX": 1.0000035762786865,
+                "ScaleY": 1.0000026226043701,
+                "ScaleZ": 1.0000033378601074
             },
             {
                 "Component Type": 2,
                 "UUID Mesh": 916438766,
+                "path": "",
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 846708925,
+                "UUID Material": 1143751074,
+                "path": "",
                 "Active": true
             }
         ]
@@ -706,7 +708,7 @@
     {
         "Name": "City_building_033",
         "UUID": 93366458,
-        "Active": false,
+        "Active": true,
         "Static": false,
         "Parent UUID": 1229417121,
         "Components": [
@@ -813,18 +815,18 @@
                 "Component Type": 1,
                 "PosX": -31.216331481933594,
                 "PosY": 33.201576232910156,
-                "PosZ": 5.0146059038524982e-07,
-                "RotX": 0.70711064338684082,
-                "RotY": -0.70710289478302002,
-                "RotZ": -1.2471492709664744e-06,
-                "RotW": -1.458682845623116e-06,
-                "ScaleX": 1.0000225305557251,
-                "ScaleY": 1.0000230073928833,
-                "ScaleZ": 1.0000402927398682
+                "PosZ": 5.0146070407208754e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 49470337,
+                "UUID Mesh": 1072648162,
                 "is primitive": 0,
                 "Active": true
             },
@@ -1005,7 +1007,7 @@
         "UUID": 1371748674,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1886296073,
+        "Parent UUID": 844015145,
         "Components": [
             {
                 "Component Type": 1,
@@ -1027,7 +1029,7 @@
         "UUID": 1769166817,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1886296073,
+        "Parent UUID": 844015145,
         "Components": [
             {
                 "Component Type": 1,
@@ -1049,7 +1051,7 @@
         "UUID": 90909025,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1886296073,
+        "Parent UUID": 844015145,
         "Components": [
             {
                 "Component Type": 1,
@@ -1071,7 +1073,7 @@
         "UUID": 542921816,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1886296073,
+        "Parent UUID": 844015145,
         "Components": [
             {
                 "Component Type": 1,
@@ -1093,7 +1095,7 @@
         "UUID": 944686782,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1886296073,
+        "Parent UUID": 844015145,
         "Components": [
             {
                 "Component Type": 1,
@@ -1117,6 +1119,41 @@
                 "Near Plane": 1,
                 "Active": true,
                 "culling": false
+            }
+        ]
+    },
+    {
+        "Name": "Default GO name",
+        "UUID": 1982602973,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 844015145,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1033660190,
+                "path": "",
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1933150801,
+                "path": "",
+                "Active": true
             }
         ]
     }

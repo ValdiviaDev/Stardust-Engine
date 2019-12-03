@@ -6,6 +6,7 @@
 #include "ModuleResourceManager.h"
 #include "ResourceTexture.h"
 #include "ModuleGui.h"
+#include "ModuleScene.h"
 
 ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 {
@@ -41,6 +42,27 @@ void ComponentMaterial::DrawInspector() {
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen)) {
 
 		ImGui::Checkbox("Material Active", &active);
+
+		//Drag and drop for the texture
+		const char* drag_msg = "";
+		if (HasTex())
+			drag_msg = "Drag tex here";
+		else
+			drag_msg = "Drag new tex here";
+		ImGui::Button(drag_msg);
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Assets_Tex")) {
+				UID uuid = *(UID*)payload->Data;
+				if (App->resources->Get(uuid) != nullptr)
+					App->scene->AssignTexToGameObject(uuid);
+				else
+					App->gui->AddLogToConsole("This texture isn't loaded as a resource");
+
+			}
+			ImGui::EndDragDropTarget();
+		}
+		
+		ImGui::Separator();
 
 		ImGui::Text("UUID: ");
 		ImGui::SameLine();
