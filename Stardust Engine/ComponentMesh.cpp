@@ -105,7 +105,7 @@ void ComponentMesh::Save(JSON_Array* comp_array) const {
 	json_object_set_number(obj, "UUID Mesh", uuid_mesh);
 	json_object_set_string(obj, "path", path);
 	json_object_set_number(obj, "is primitive", is_primitive);
-	
+	json_object_set_boolean(obj, "Active", active);
 
 	json_array_append_value(comp_array, value);
 
@@ -117,6 +117,7 @@ void ComponentMesh::Load(JSON_Object* comp_obj) {
 	int aux = json_object_get_number(comp_obj, "is primitive");
 	is_primitive = (PrimitiveType)aux;
 	uuid_mesh = json_object_get_number(comp_obj, "UUID Mesh");
+	active = json_object_get_boolean(comp_obj, "Active");
 	const char* p = json_object_get_string(comp_obj, "path");
 	char* ap = (char*)p;
 	std::string fullpath;

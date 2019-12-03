@@ -98,6 +98,7 @@ void ComponentMaterial::Save(JSON_Array* comp_array) const {
 	json_object_set_number(obj, "Component Type", type);
 	json_object_set_number(obj, "UUID Material", uuid_mat);
 	json_object_set_string(obj, "path", tex_path);
+	json_object_set_boolean(obj, "Active", active);
 
 	json_array_append_value(comp_array, value);
 }
@@ -105,6 +106,7 @@ void ComponentMaterial::Save(JSON_Array* comp_array) const {
 void ComponentMaterial::Load(JSON_Object* comp_obj) {
 
 	uuid_mat = json_object_get_number(comp_obj, "UUID Material");
+	active = json_object_get_boolean(comp_obj, "Active");
 
 	if (uuid_mat != 0) {
 		ResourceTexture* r_tex = (ResourceTexture*)App->resources->Get(uuid_mat);

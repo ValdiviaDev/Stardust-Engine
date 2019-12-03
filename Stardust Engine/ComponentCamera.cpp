@@ -310,7 +310,7 @@ void ComponentCamera::Save(JSON_Array* comp_array) const {
 	json_object_set_number(obj, "FOV", GetFOV());
 	json_object_set_number(obj, "Far Plane", frustum.farPlaneDistance);
 	json_object_set_number(obj, "Near Plane", frustum.nearPlaneDistance);
-
+	json_object_set_boolean(obj, "Active", active);
 	json_object_set_boolean(obj, "culling", culling);
 	
 	json_array_append_value(comp_array, value);
@@ -328,5 +328,6 @@ void ComponentCamera::Load(JSON_Object* comp_obj) {
 	SetFarPlane(json_object_get_number(comp_obj, "Far Plane"));
 	SetNearPlane(json_object_get_number(comp_obj, "Near Plane"));
 	culling = json_object_get_boolean(comp_obj, "culling");
+	active = json_object_get_boolean(comp_obj, "Active");
 
 }
