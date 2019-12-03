@@ -301,10 +301,10 @@ void ModuleCamera3D::GetAABBClosestObject(LineSegment ray, std::vector<GameObjec
 	for (int i = 0; i < intersected_objs.size(); ++i) {
 		float hit_dist = intersected_objs[i]->bounding_box.Distance(ray.a);
 		if (hit_dist < min_dist) {
-
-			nearest = intersected_objs[i];
-			min_dist = hit_dist;
-
+			if (intersected_objs[i]->IsActive() && intersected_objs[i]->GetComponent(Comp_Mesh)->IsActive()) {
+				nearest = intersected_objs[i];
+				min_dist = hit_dist;
+			}
 		}
 	}
 }
