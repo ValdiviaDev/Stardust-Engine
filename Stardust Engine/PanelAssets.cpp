@@ -148,6 +148,14 @@ void PanelAssets::DrawAssetTreeDiferentFiles(vector<string> files, string name, 
 				//Get this mesh name and uuid
 				if (ImGui::IsItemClicked())
 					foc_mesh = mesh_scn;
+
+				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+				{
+					UID uuid = it->first;
+					ImGui::SetDragDropPayload("Assets", &uuid, sizeof(UID));
+
+					ImGui::EndDragDropSource();
+				}
 			}
 		}
 	}
