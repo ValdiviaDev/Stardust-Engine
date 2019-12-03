@@ -15,6 +15,8 @@
 #include "SceneSerialization.h"
 #include "ModuleResourceManager.h"
 
+#include "ComponentCamera.h"
+
 Application::Application()
 {
 	last_frame_ms = -1;
@@ -312,9 +314,10 @@ bool Application::Play()
 {
 	switch(engine_state){
 	case Engine_State_Editor:
-		if (scene->GetMainCamera() != nullptr) {
+		ComponentCamera* main_cam = scene->GetMainCamera();
+		if (main_cam != nullptr && main_cam->GetGameObject()->IsActive() && main_cam->IsActive()) {
 			//Change camera view
-			camera->current_cam = scene->GetMainCamera();
+			camera->current_cam = main_cam;
 			renderer3D->RecalculateProjMat();
 
 			//Save scene tmp
@@ -328,7 +331,7 @@ bool Application::Play()
 			return true;
 		}
 		else
-			gui->AddLogToConsole("ERROR: You don't have a Main Camera GameObject on the scene!");
+			gui->AddLogToConsole("ERROR: You don't have an active Main Camera GameObject on the scene!");
 		
 		break;
 	}
