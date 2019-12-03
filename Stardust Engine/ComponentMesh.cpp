@@ -47,6 +47,9 @@ void ComponentMesh::SetPrimitive(PrimitiveType type)
 void ComponentMesh::DrawInspector() {
 
 	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+		ImGui::Checkbox("Mesh Active", &active);
+
 		ImGui::Text("Mesh path: ");
 		ImGui::SameLine();
 

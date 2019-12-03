@@ -56,6 +56,7 @@ private:
 	float4x4 proj_mat;
 	float aspect_ratio = 0.0f;
 	bool culling = false;
+	bool last_active = true;
 
 };
 

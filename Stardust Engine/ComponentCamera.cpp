@@ -31,30 +31,39 @@ ComponentCamera::~ComponentCamera() {
 
 void ComponentCamera::Update() {
 
-	if (gameObject && gameObject->transform) {
-		ComponentTransform* transform = gameObject->transform;
-		math::float4x4 global_mat = transform->GetGlobalMatrix();
+	if (active) {
 
-		frustum.pos = transform->GetGlobalPos();
-		frustum.front = global_mat.WorldZ().Normalized();
-		frustum.up = global_mat.WorldY().Normalized();
-	}
+		if (gameObject && gameObject->transform) {
+			ComponentTransform* transform = gameObject->transform;
+			math::float4x4 global_mat = transform->GetGlobalMatrix();
 
-	if (culling) {
-		if (App->scene->GetRootGameObject()) {
-			CameraCullingStObj();
-			CameraCullingDynObj(App->scene->GetRootGameObject());
+			frustum.pos = transform->GetGlobalPos();
+			frustum.front = global_mat.WorldZ().Normalized();
+			frustum.up = global_mat.WorldY().Normalized();
 		}
-	}
-	
+
+		if (culling) {
+			if (App->scene->GetRootGameObject()) {
+				CameraCullingStObj();
+				CameraCullingDynObj(App->scene->GetRootGameObject());
+			}
+		}
+
 #ifndef GAME_MODE
-	if (App->GetEngineState() == Engine_State_Editor) {
-		glDisable(GL_LIGHTING);
-		DrawFrustum();
-		glEnable(GL_LIGHTING);
-	}
+		if (App->GetEngineState() == Engine_State_Editor) {
+			glDisable(GL_LIGHTING);
+			DrawFrustum();
+			glEnable(GL_LIGHTING);
+		}
 #endif
-	
+
+	}
+	else {
+		if(last_active != active)
+			App->scene->AllObjectsActive(App->scene->GetRootGameObject());
+	}
+
+	last_active = active;
 }
 
 
@@ -115,6 +124,7 @@ void ComponentCamera::DrawInspector() {
 
 	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		ImGui::Checkbox("Camera Active", &active);
 
 		if (ImGui::Checkbox("Main Camera", &main_camera)) {
 			if (main_camera)
