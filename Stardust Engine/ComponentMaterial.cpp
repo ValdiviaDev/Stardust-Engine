@@ -66,9 +66,6 @@ void ComponentMaterial::DrawInspector() {
 		ImGui::Separator();
 
 		ImGui::Text("Debug Options");
-
-		ImGui::Checkbox("Draw Texture", &debug_tex_draw);
-		ImGui::SameLine();
 		ImGui::Checkbox("Draw Checkers", &debug_checkers);
 
 		if (HasTex()) {

@@ -318,7 +318,7 @@ void ModuleScene::DrawGameObjects(GameObject* go)
 
 			//Texture
 			ComponentMaterial* c_mat = (ComponentMaterial*)go->GetComponent(Comp_Material);
-			if (c_mat && c_mat->IsActive() && c_mat->debug_tex_draw) { //Draw texture
+			if (c_mat && c_mat->IsActive()) { //Draw texture
 				if (c_mat->debug_checkers) //Checkers
 					glBindTexture(GL_TEXTURE_2D, App->renderer3D->checkersImgId);
 
