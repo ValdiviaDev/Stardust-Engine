@@ -30,8 +30,7 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Update()
 {
-	if (gameObject->focused && 
-		App->GetEngineState() == Engine_State_Editor)
+	if (gameObject->focused && App->GetEngineState() == Engine_State_Editor)
 		HandleGizmos();
 }
 

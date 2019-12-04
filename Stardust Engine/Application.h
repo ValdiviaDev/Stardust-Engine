@@ -30,6 +30,7 @@ class MaterialImporter;
 class ModuleTimeManager;
 class ModuleResourceManager;
 class SceneSerialization;
+class NodeGraph;
 
 
 using namespace std;
@@ -76,6 +77,7 @@ public:
 	MaterialImporter* mat_import;
 	MeshImporter* mesh_import;
 	SceneSerialization* scene_serialization;
+	NodeGraph* node_graph;
 
 private:
 

@@ -235,6 +235,12 @@
     <ClCompile Include="ResourceTexture.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="imgui_node_graph_test.cpp">
+      <Filter>Sources\VisualScript</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeGraph.cpp">
+      <Filter>Sources\VisualScript</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -579,6 +585,9 @@
     <ClInclude Include="ResourceTexture.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="NodeGraph.h">
+      <Filter>Sources\VisualScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -640,6 +649,9 @@
     </Filter>
     <Filter Include="Sources\Resources">
       <UniqueIdentifier>{2081c8b3-98a0-49ac-baad-b0ce159311cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\VisualScript">
+      <UniqueIdentifier>{842d1481-5ed6-4011-a834-a9c215bdb8f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

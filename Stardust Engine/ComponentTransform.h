@@ -48,6 +48,7 @@ public:
 	void UpdateMatrix();
 
 private:
+
 	math::float4x4 local_matrix = math::float4x4::identity;
 	math::float4x4 global_matrix = math::float4x4::identity;
 
@@ -58,6 +59,8 @@ private:
 	math::Quat quaternion_rot = math::Quat::identity;
 	math::float3 scale = math::float3::one;
 	
+
+
 };
 
 #endif
