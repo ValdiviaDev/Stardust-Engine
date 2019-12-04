@@ -65,7 +65,7 @@ static void ShowExampleAppCustomNodeGraph(bool* opened)
 		links.push_back(NodeLink(0, 0, 2, 0));
 		links.push_back(NodeLink(1, 0, 2, 1));
 		inited = true;
-	}
+	}	
 
 	// Draw a list of nodes on the left side
 	bool open_context_menu = false;
@@ -88,6 +88,8 @@ static void ShowExampleAppCustomNodeGraph(bool* opened)
 		ImGui::PopID();
 	}
 	ImGui::EndChild();
+	//Dont need this code above *********
+
 
 	ImGui::SameLine();
 	ImGui::BeginGroup();
@@ -107,7 +109,7 @@ static void ShowExampleAppCustomNodeGraph(bool* opened)
 
 	ImVec2 offset = ImGui::GetCursorScreenPos() + scrolling;
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
-	// Display grid
+	// Display grid, prob dont need
 	if (show_grid)
 	{
 		ImU32 GRID_COLOR = IM_COL32(200, 200, 200, 40);

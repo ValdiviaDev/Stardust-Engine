@@ -29,6 +29,8 @@
 #include "ResourceTexture.h"
 #include "ModuleWindow.h"
 
+#include "NodeGraph.h"
+
 ModuleGui::ModuleGui(Application* app, bool start_enabled) : Module(app, "Gui", start_enabled)
 {
 }
@@ -108,6 +110,7 @@ update_status ModuleGui::Update(float dt)
 	if (load_scene_clicked)
 		LoadSceneMenu();
 
+	App->node_graph->Draw();
 
 	return decide_if_update;
 }
