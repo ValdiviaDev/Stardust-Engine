@@ -7,6 +7,7 @@
 #include "ModuleResourceManager.h"
 #include "ModuleFileSystem.h"
 #include "ModuleGui.h"
+#include "ModuleScene.h"
 
 #include "Glew/include/glew.h"
 #include <gl/GL.h>
@@ -49,6 +50,28 @@ void ComponentMesh::DrawInspector() {
 	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen)) {
 
 		ImGui::Checkbox("Mesh Active", &active);
+
+		//Change mesh via drag and drop
+		const char* drag_msg = "";
+		if (HasMesh())
+			drag_msg = "Drag mesh here";
+		else
+			drag_msg = "Drag new mesh here";
+
+		ImGui::Button(drag_msg);
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Assets_Mesh")) {
+				UID uuid = *(UID*)payload->Data;
+				if (App->resources->Get(uuid) != nullptr)
+					App->scene->AssignMeshToGameObject(uuid);
+				else
+					App->gui->AddLogToConsole("This mesh isn't loaded as a resource");
+
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+		ImGui::Separator();
 
 		ImGui::Text("Mesh path: ");
 		ImGui::SameLine();

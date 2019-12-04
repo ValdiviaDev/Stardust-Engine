@@ -24,7 +24,6 @@ public:
 	UID uuid_mat = 0;
 
 	//Debug
-	bool debug_tex_draw = true;
 	bool debug_checkers = false;
 
 private:

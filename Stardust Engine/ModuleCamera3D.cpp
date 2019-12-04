@@ -301,8 +301,10 @@ void ModuleCamera3D::GetAABBClosestObject(LineSegment ray, std::vector<GameObjec
 	for (int i = 0; i < intersected_objs.size(); ++i) {
 		float hit_dist = intersected_objs[i]->bounding_box.Distance(ray.a);
 		if (hit_dist < min_dist) {
-			nearest = intersected_objs[i];
-			min_dist = hit_dist;
+			if (intersected_objs[i]->IsActive() && intersected_objs[i]->GetComponent(Comp_Mesh)->IsActive()) {
+				nearest = intersected_objs[i];
+				min_dist = hit_dist;
+			}
 		}
 	}
 }
@@ -317,6 +319,10 @@ bool ModuleCamera3D::TestTrianglePicking(LineSegment ray, vector<GameObject*> in
 		ComponentMesh* mesh = (ComponentMesh*)intersected_objs[i]->GetComponent(Comp_Mesh);
 
 		if (mesh->IsPrimitive()) //If we got a primitive don't check the triangles
+			continue;
+
+		//If GameObject or mesh in inactive, don't pick anything
+		if (!intersected_objs[i]->IsActive() || !intersected_objs[i]->GetComponent(Comp_Mesh)->IsActive()) //If GO and mesh are active)
 			continue;
 
 		//Pass ray to local coordinates
