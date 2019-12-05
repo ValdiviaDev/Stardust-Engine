@@ -92,7 +92,7 @@ void NodeGraph::Draw() {
 		bool old_any_active = ImGui::IsAnyItemActive();
 		ImGui::SetCursorScreenPos(node_rect_min + NODE_WINDOW_PADDING);
 		ImGui::BeginGroup(); // Lock horizontal position
-		ImGui::Text("%s", node->Name);
+		ImGui::InputText("##namenode", node->Name, IM_ARRAYSIZE(node->Name));
 		ImGui::SliderFloat("##value", &node->Value, 0.0f, 1.0f, "Alpha %.2f");
 		ImGui::ColorEdit3("##color", &node->Color.x);
 		ImGui::EndGroup();
@@ -206,7 +206,6 @@ void NodeGraph::Draw() {
 		{
 			ImGui::Text("Node '%s'", node->Name);
 			ImGui::Separator();
-			if (ImGui::MenuItem("Rename..", NULL, false, false)) {}
 			if (ImGui::MenuItem("Delete", NULL, false, true)) {
 				
 				DeleteNode(node);
@@ -214,11 +213,24 @@ void NodeGraph::Draw() {
 			}
 
 			if (ImGui::MenuItem("Copy", NULL, false, false)) {}
+
+			ImGui::Separator();
+			if (ImGui::MenuItem("Add input", NULL, false, true)) 
+				node->SetInputsCount(node->InputsCount + 1);
+			if (ImGui::MenuItem("Reduce input", NULL, false, true)) 
+				node->SetInputsCount(node->InputsCount - 1);
+			if (ImGui::MenuItem("Add output", NULL, false, true)) 
+				node->SetOutputsCount(node->OutputsCount + 1);
+			if (ImGui::MenuItem("Reduce output", NULL, false, true)) 
+				node->SetOutputsCount(node->OutputsCount - 1);
+		
 		}
 		else
 		{
 			if (ImGui::MenuItem("Add")) { nodes.push_back(new Node(nodes.size(), "New node", scene_pos, 0.5f, ImColor(100, 100, 200), 2, 2)); }
 			if (ImGui::MenuItem("Paste", NULL, false, false)) {}
+			
+			
 		}
 		ImGui::EndPopup();
 	}
@@ -233,8 +245,6 @@ void NodeGraph::Draw() {
 	ImGui::PopStyleColor();
 	ImGui::PopStyleVar(2);
 	ImGui::EndGroup();
-
-	//ImGui::End();
 }
 
 
@@ -245,14 +255,10 @@ Node* NodeGraph::AddNode(const char* name, const ImVec2& pos, int inputs_count, 
 	Node* n = new Node(last_node_id, name, pos, value, color, inputs_count, outputs_count);
 	nodes.push_back(n);
 
-
 	return n;
 }
 
 void NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int output_slot) {
-
-	
-
 
 	
 	if (input_idx != output_idx) {
@@ -295,7 +301,6 @@ void NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int outpu
 		links.push_back(l);
 
 	}
-
 }
 
 
@@ -336,9 +341,7 @@ void NodeGraph::DeleteLink(int node_id, int slot_num) {
 			i = 0;
 
 		}
-
 	}
-
 }
 
 
@@ -352,8 +355,6 @@ Node* NodeGraph::GetNodeByID(int ID) {
 	}
 
 	return nullptr;
-
-
 }
 
 void NodeGraph::DeleteNode(Node* node) {
@@ -378,19 +379,6 @@ void NodeGraph::DeleteNode(Node* node) {
 
 	}
 
-	//Delete links related to node from links vec
-	//for (uint i = 0; i < deleted_links.size(); i++) {
-
-	//	std::vector<NodeLink>::const_iterator it = std::find(links.begin(), links.end(), deleted_links[i]);
-
-	//	if (it != links.end()) {
-
-	//		links.erase(it);
-	//		links.shrink_to_fit();
-	//	}
-
-	//	deleted_links.clear();
-	//}
 
 
 	for (int i = deleted_links.size() - 1; i >= 0; i--) {
@@ -412,7 +400,6 @@ void NodeGraph::DeleteNode(Node* node) {
 	}
 
 	//reduce id if avobe nodeID and delete node from outputs and inputs lists
-
 	for (it = nodes.begin(); it != nodes.end(); it++) {
 
 		bool vectors_clear = false;
@@ -445,11 +432,9 @@ void NodeGraph::DeleteNode(Node* node) {
 
 		if ((*it)->ID >= nodeID) 
 			(*it)->ID--;
-		
 
 	}
 
-	
-
 
 }
+
