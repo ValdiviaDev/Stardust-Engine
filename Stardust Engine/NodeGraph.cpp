@@ -207,7 +207,12 @@ void NodeGraph::Draw() {
 			ImGui::Text("Node '%s'", node->Name);
 			ImGui::Separator();
 			if (ImGui::MenuItem("Rename..", NULL, false, false)) {}
-			if (ImGui::MenuItem("Delete", NULL, false, false)) {}
+			if (ImGui::MenuItem("Delete", NULL, false, true)) {
+				
+				DeleteNode(node);
+				node_selected = -1;
+			}
+
 			if (ImGui::MenuItem("Copy", NULL, false, false)) {}
 		}
 		else
@@ -244,38 +249,52 @@ Node* NodeGraph::AddNode(const char* name, const ImVec2& pos, int inputs_count, 
 	return n;
 }
 
-NodeLink NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int output_slot) {
+void NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int output_slot) {
+
+	
 
 
-	Node* in = nullptr;
-	Node* out = nullptr;
+	
+	if (input_idx != output_idx) {
 
-	for (uint i = 0; i < nodes.size(); i++) {
+		//If on the same slot of another link, delete it
+		for (int i = links.size() - 1; i >= 0; i--) {
 
-		if (input_idx == nodes[i]->ID) {
-			in = nodes[i];
+			if (links[i].InputIdx == input_idx && links[i].InputSlot == input_slot)
+				DeleteLink(input_idx, input_slot);
+			else {
+				if (links[i].OutputIdx == output_idx && links[i].OutputSlot == output_slot)
+					DeleteLink(output_idx, output_slot);
+			}
 		}
 
-		if (output_idx == nodes[i]->ID) {
-			out = nodes[i];
+
+		//Create link
+		Node* in = nullptr;
+		Node* out = nullptr;
+
+		for (uint i = 0; i < nodes.size(); i++) {
+
+			if (input_idx == nodes[i]->ID) {
+				in = nodes[i];
+			}
+
+			if (output_idx == nodes[i]->ID) {
+				out = nodes[i];
+			}
+
 		}
 
+		if (in != nullptr && out != nullptr) {
+
+			in->outputs.push_back(out);
+			out->inputs.push_back(in);
+		}
+
+		NodeLink l(input_idx, input_slot, output_idx, output_slot);
+		links.push_back(l);
+
 	}
-
-	if (in != nullptr && out != nullptr) {
-
-		in->outputs.push_back(out);
-		out->inputs.push_back(in);
-	}
-
-	NodeLink l(input_idx, input_slot, output_idx, output_slot);
-	links.push_back(l);
-
-
-
-
-
-	return l;
 
 }
 
@@ -333,6 +352,104 @@ Node* NodeGraph::GetNodeByID(int ID) {
 	}
 
 	return nullptr;
+
+
+}
+
+void NodeGraph::DeleteNode(Node* node) {
+
+	std::vector<Node*>::iterator it = std::find(nodes.begin(), nodes.end(), node);
+	std::vector<int> deleted_links; 
+	
+	//If we find node->ID delete that link later. If the link id is bigger than node->ID, then lower it 1 or we will have gaps
+	for (uint i = 0; i < links.size(); i++){
+
+		if (links[i].InputIdx == node->ID)
+			deleted_links.push_back(i);
+
+		if (links[i].OutputIdx == node->ID)
+			deleted_links.push_back(i);
+
+		if (links[i].InputIdx > node->ID)
+			links[i].InputIdx--;
+
+		if (links[i].OutputIdx > node->ID)
+			links[i].OutputIdx--;
+
+	}
+
+	//Delete links related to node from links vec
+	//for (uint i = 0; i < deleted_links.size(); i++) {
+
+	//	std::vector<NodeLink>::const_iterator it = std::find(links.begin(), links.end(), deleted_links[i]);
+
+	//	if (it != links.end()) {
+
+	//		links.erase(it);
+	//		links.shrink_to_fit();
+	//	}
+
+	//	deleted_links.clear();
+	//}
+
+
+	for (int i = deleted_links.size() - 1; i >= 0; i--) {
+
+		std::vector<NodeLink>::const_iterator it_link = links.begin() + deleted_links[i];
+		links.erase(it_link);
+		links.shrink_to_fit();
+
+	}
+
+	int nodeID = node->ID;
+
+	//Delete node from nodes vec
+	std::vector<Node*>::const_iterator it_n = std::find(nodes.begin(), nodes.end(), node);
+
+	if(it_n != nodes.end()){
+		nodes.erase(it_n);
+		nodes.shrink_to_fit();
+	}
+
+	//reduce id if avobe nodeID and delete node from outputs and inputs lists
+
+	for (it = nodes.begin(); it != nodes.end(); it++) {
+
+		bool vectors_clear = false;
+		while (!vectors_clear) {
+
+			vectors_clear = true;
+
+			for (std::vector<Node*>::const_iterator it_in = (*it)->inputs.begin(); it_in != (*it)->inputs.end(); it_in++) {
+
+				if ((*it_in)->ID == nodeID) {
+					(*it)->inputs.erase(it_in);
+					(*it)->inputs.shrink_to_fit();
+					vectors_clear = false;
+					break;
+				}
+
+			}
+
+			for (std::vector<Node*>::const_iterator it_out = (*it)->outputs.begin(); it_out != (*it)->outputs.end(); it_out++) {
+
+				if ((*it_out)->ID == nodeID) {
+					(*it)->outputs.erase(it_out);
+					(*it)->outputs.shrink_to_fit();
+					vectors_clear = false;
+					break;
+				}
+			}
+
+		}
+
+		if ((*it)->ID >= nodeID) 
+			(*it)->ID--;
+		
+
+	}
+
+	
 
 
 }
