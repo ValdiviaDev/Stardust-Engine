@@ -137,6 +137,10 @@ void NodeGraph::Draw() {
 					input_id_clicked = node_idx;
 					input_slot_clicked = slot_idx;
 				}
+
+				if (ImGui::IsMouseClicked(1)) {
+					DeleteLink(node_idx, slot_idx);
+				}
 			}
 		}
 
@@ -155,6 +159,10 @@ void NodeGraph::Draw() {
 					LOG("Node output: %i, Output num: %i", node_idx, slot_idx);
 					output_id_clicked = node_idx;
 					output_slot_clicked = slot_idx;
+				}
+
+				if (ImGui::IsMouseClicked(1)) {
+					DeleteLink(node_idx, slot_idx);
 				}
 			}
 		}
@@ -268,5 +276,63 @@ NodeLink NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int o
 
 
 	return l;
+
+}
+
+
+void NodeGraph::DeleteLink(int node_id, int slot_num) {
+
+
+	for (uint i = 0; i < links.size(); i++) {
+
+
+		if (links[i].InputIdx == node_id && links[i].InputSlot == slot_num || links[i].OutputIdx == node_id && links[i].OutputSlot == slot_num) {
+
+			
+			Node* aux = GetNodeByID(links[i].OutputIdx);
+
+			//Look for link's Out. Then if it exists in the Out vector of the Input, erase it. Same the other way around later.
+			if (aux) {
+				std::vector<Node*>::iterator it = std::find(nodes[links[i].InputIdx]->outputs.begin(), nodes[links[i].InputIdx]->outputs.end(), aux);
+
+				if (it != nodes[links[i].InputIdx]->outputs.end())
+					nodes[links[i].InputIdx]->outputs.erase(it);
+					
+			}
+
+			aux = GetNodeByID(links[i].InputIdx);
+			if (aux) {
+				std::vector<Node*>::iterator it = std::find(nodes[links[i].OutputIdx]->inputs.begin(), nodes[links[i].OutputIdx]->inputs.end(), aux);
+
+				if (it != nodes[links[i].OutputIdx]->inputs.end())
+					nodes[links[i].OutputIdx]->inputs.erase(it);
+					
+			}
+			
+			std::vector<NodeLink>::const_iterator link_to_delete = links.begin() + i;
+
+			links.erase(link_to_delete);
+			links.shrink_to_fit();
+			
+			i = 0;
+
+		}
+
+	}
+
+}
+
+
+
+Node* NodeGraph::GetNodeByID(int ID) {
+
+	for (std::vector<Node*>::const_iterator it = nodes.begin(); it != nodes.end(); it++) {
+
+		if ((*it)->ID == ID)
+			return (*it);
+	}
+
+	return nullptr;
+
 
 }

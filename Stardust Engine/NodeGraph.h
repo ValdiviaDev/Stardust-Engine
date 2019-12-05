@@ -62,6 +62,8 @@ public:
 
 	Node* AddNode(const char* name, const ImVec2& pos, int inputs_count, int outputs_count, float value = 0.0f, const ImVec4& color = ImColor(255, 100, 100));
 	NodeLink AddLink(int input_idx, int input_slot, int output_idx, int output_slot);
+	void DeleteLink(int node_id, int slot_num);
+	Node* GetNodeByID(int ID);
 private:
 
 	
