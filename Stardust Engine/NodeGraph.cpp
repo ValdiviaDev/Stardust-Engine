@@ -10,22 +10,15 @@ NodeGraph::NodeGraph() {
 
 void NodeGraph::Draw() {
 
-	static ImVec2 scrolling = ImVec2(0.0f, 0.0f);
-	static bool show_grid = true;
-	static ImVector<Node> nodes;
-	static ImVector<NodeLink> links;
-	static int node_selected = -1;
-
-	int node_hovered_in_list = -1;
-	int node_hovered_in_scene = -1;
-
-	static bool inited = false;
-
-	const float NODE_SLOT_RADIUS = 4.0f;
-	const ImVec2 NODE_WINDOW_PADDING(8.0f, 8.0f);
+	
 
 	bool open_context_menu = false;
+	static int node_selected = -1;
+	
+	static int node_hovered_in_scene = -1;
 
+	//DELETE THIS AFTER ***************
+	static bool inited = false;
 	if (!inited)
 	{
 		nodes.push_back(Node(0, "MainTex", ImVec2(40, 50), 0.5f, ImColor(255, 100, 100), 1, 1));
@@ -34,7 +27,7 @@ void NodeGraph::Draw() {
 		links.push_back(NodeLink(0, 0, 2, 0));
 		links.push_back(NodeLink(1, 0, 2, 1));
 		inited = true;
-	}
+	}//**********************************
 
 	ImGui::BeginGroup();
 	ImGui::Text("Hold middle mouse button to scroll (%.2f,%.2f)", scrolling.x, scrolling.y);
@@ -48,6 +41,7 @@ void NodeGraph::Draw() {
 
 	ImVec2 offset = ImGui::GetCursorScreenPos() + scrolling;
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	
 	if (show_grid)
 	{
 		ImU32 GRID_COLOR = IM_COL32(200, 200, 200, 40);
@@ -111,7 +105,7 @@ void NodeGraph::Draw() {
 		if (node_moving_active && ImGui::IsMouseDragging(0))
 			node->Pos = node->Pos + ImGui::GetIO().MouseDelta;
 
-		ImU32 node_bg_color = (node_hovered_in_list == node->ID || node_hovered_in_scene == node->ID || (node_hovered_in_list == -1 && node_selected == node->ID)) ? IM_COL32(75, 75, 75, 255) : IM_COL32(60, 60, 60, 255);
+		ImU32 node_bg_color = (node_hovered_in_scene == node->ID || (node_selected == node->ID)) ? IM_COL32(75, 75, 75, 255) : IM_COL32(60, 60, 60, 255);
 		draw_list->AddRectFilled(node_rect_min, node_rect_max, node_bg_color, 4.0f);
 		draw_list->AddRect(node_rect_min, node_rect_max, IM_COL32(100, 100, 100, 255), 4.0f);
 		for (int slot_idx = 0; slot_idx < node->InputsCount; slot_idx++)
@@ -121,7 +115,47 @@ void NodeGraph::Draw() {
 
 		ImGui::PopID();
 	}
+	draw_list->ChannelsMerge();
 
+	// Open context menu (Right Click options)
+	if (!ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(1))
+	{
+		node_selected = node_hovered_in_scene = -1;
+		open_context_menu = true;
+	}
+	if (open_context_menu)
+	{
+		ImGui::OpenPopup("context_menu");
+		if (node_hovered_in_scene != -1)
+			node_selected = node_hovered_in_scene;
+	}
+
+	// Draw context menu (Right Click options)
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 8));
+	if (ImGui::BeginPopup("context_menu"))
+	{
+		Node* node = node_selected != -1 ? &nodes[node_selected] : NULL;
+		ImVec2 scene_pos = ImGui::GetMousePosOnOpeningCurrentPopup() - offset;
+		if (node)
+		{
+			ImGui::Text("Node '%s'", node->Name);
+			ImGui::Separator();
+			if (ImGui::MenuItem("Rename..", NULL, false, false)) {}
+			if (ImGui::MenuItem("Delete", NULL, false, false)) {}
+			if (ImGui::MenuItem("Copy", NULL, false, false)) {}
+		}
+		else
+		{
+			if (ImGui::MenuItem("Add")) { nodes.push_back(Node(nodes.Size, "New node", scene_pos, 0.5f, ImColor(100, 100, 200), 2, 2)); }
+			if (ImGui::MenuItem("Paste", NULL, false, false)) {}
+		}
+		ImGui::EndPopup();
+	}
+	ImGui::PopStyleVar();
+
+	// Scrolling
+	if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemActive() && ImGui::IsMouseDragging(2, 0.0f))
+		scrolling = scrolling + ImGui::GetIO().MouseDelta;
 
 	ImGui::PopItemWidth();
 	ImGui::EndChild();
