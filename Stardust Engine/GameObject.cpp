@@ -5,6 +5,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "ComponentGraphScript.h"
 #include "Quadtree.h"
 #include "ConfigEditor.h"
 #include "Parson/parson.h"
@@ -91,6 +92,9 @@ Component* GameObject::CreateComponent(ComponentType type)
 			component = new ComponentCamera(this);
 		else
 			return nullptr;
+		break;
+	case Comp_Graph_Script:
+		component = new ComponentGraphScript(this);
 		break;
 	case Comp_Default:
 		return nullptr;
@@ -289,12 +293,11 @@ void GameObject::DrawComponentsInspector() {
 			App->scene->EraseObjFromStatic(this);
 		}
 	}
-	
-	//TODO Tag and Layer maybe?
 
 	if (transform)
 		transform->DrawInspector();
 
+	//TODO: Change this structure probably
 	if (GetComponent(Comp_Mesh))
 		GetComponent(Comp_Mesh)->DrawInspector();
 
@@ -303,6 +306,12 @@ void GameObject::DrawComponentsInspector() {
 
 	if (GetComponent(Comp_Camera))
 		GetComponent(Comp_Camera)->DrawInspector();
+
+	//Draw all component scripts
+	for (int i = 0; i < components.size(); ++i) {
+		if (components[i]->GetType() == Comp_Graph_Script)
+			components[i]->DrawInspector();
+	}
 
 	//Add component TODO
 	ImGui::Separator();
@@ -325,6 +334,9 @@ void GameObject::DrawComponentsInspector() {
 			if (ImGui::MenuItem("Camera"))
 				CreateComponent(Comp_Camera);
 		}
+
+		if (ImGui::MenuItem("Graph Script")) //There can be multiple graph scripts in one GameObject
+			CreateComponent(Comp_Graph_Script);
 
 		ImGui::EndPopup();
 	}

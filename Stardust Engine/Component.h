@@ -18,7 +18,8 @@ enum ComponentType {
 	Comp_Transform,
 	Comp_Mesh,
 	Comp_Material,
-	Comp_Camera
+	Comp_Camera,
+	Comp_Graph_Script
 };
 
 enum PrimitiveType {

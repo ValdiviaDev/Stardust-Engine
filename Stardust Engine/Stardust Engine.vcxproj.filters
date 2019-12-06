@@ -241,6 +241,9 @@
     <ClCompile Include="NodeGraph.cpp">
       <Filter>Sources\VisualScript</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentGraphScript.cpp">
+      <Filter>Sources\Game Object\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -587,6 +590,9 @@
     </ClInclude>
     <ClInclude Include="NodeGraph.h">
       <Filter>Sources\VisualScript</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentGraphScript.h">
+      <Filter>Sources\Game Object\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

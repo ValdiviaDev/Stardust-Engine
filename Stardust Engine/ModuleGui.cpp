@@ -207,11 +207,11 @@ void ModuleGui::HandleMainMenuBar()
 			if (ImGui::MenuItem("Create cube"))
 				App->scene->CreatePrimitiveObject(PRIMITIVE_CUBE);
 			
-			if (ImGui::MenuItem("Create sphere"))
-				App->scene->CreatePrimitiveObject(PRIMITIVE_SPHERE);
-
-			if (ImGui::MenuItem("Create plane"))
-				App->scene->CreatePrimitiveObject(PRIMITIVE_PLANE);
+			//if (ImGui::MenuItem("Create sphere"))
+			//	App->scene->CreatePrimitiveObject(PRIMITIVE_SPHERE);
+			//
+			//if (ImGui::MenuItem("Create plane"))
+			//	App->scene->CreatePrimitiveObject(PRIMITIVE_PLANE);
 
 
 			ImGui::EndMenu();
