@@ -111,7 +111,8 @@ void ModuleScene::SetMainCamera(ComponentCamera* cam)
 // Update
 update_status ModuleScene::Update(float dt)
 {
-	root_object->Update();
+	//GameObjexts update
+	root_object->Update(dt);
 
 	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
 		if (focused_object)

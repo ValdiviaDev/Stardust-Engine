@@ -31,7 +31,7 @@ public:
 	GameObject(GameObject* parent);
 	virtual ~GameObject();
 
-	void Update(); //TODO
+	void Update(float dt); //TODO
 	Component* CreateComponent(ComponentType type);
 	Component* GetComponent(ComponentType type) const;
 	void DeleteFromComponentList(Component* comp);

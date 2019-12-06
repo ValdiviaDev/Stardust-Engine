@@ -22,7 +22,7 @@ public:
 	ComponentCamera(GameObject* game_object = nullptr);
 	~ComponentCamera();
 	
-	void Update();
+	void Update(float dt);
 
 	void Save(JSON_Array* comp_array) const;
 	void Load(JSON_Object* comp_obj);

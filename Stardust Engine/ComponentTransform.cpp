@@ -28,7 +28,7 @@ ComponentTransform::~ComponentTransform()
 	//gameObject->DeleteFromComponentList(this);
 }
 
-void ComponentTransform::Update()
+void ComponentTransform::Update(float dt)
 {
 	if (gameObject->focused && App->GetEngineState() == Engine_State_Editor)
 		HandleGizmos();

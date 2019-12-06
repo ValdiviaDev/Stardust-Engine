@@ -184,7 +184,7 @@ void NodeGraph::Draw() {
 	}
 
 	// Open context menu (Right Click options)
-	if (!ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(1))
+	if (!ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(1) && ImGui::IsWindowHovered())
 	{
 		node_selected = node_hovered_in_scene = -1;
 		open_context_menu = true;
@@ -245,6 +245,13 @@ void NodeGraph::Draw() {
 	ImGui::PopStyleColor();
 	ImGui::PopStyleVar(2);
 	ImGui::EndGroup();
+}
+
+void NodeGraph::Update(float dt)
+{
+	for (int i = 0; i < nodes.size(); ++i) {
+		nodes[i]->Update(dt);
+	}
 }
 
 

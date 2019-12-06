@@ -52,18 +52,15 @@ GameObject::~GameObject()
 	parent = nullptr;
 }
 
-void GameObject::Update()
+void GameObject::Update(float dt)
 {
+	//Child GameObjects update
+	for (uint i = 0; i < childs.size(); i++)
+		childs[i]->Update(dt);
 
-	for (uint i = 0; i < childs.size(); i++) {
-		childs[i]->Update();
-	}
-
-	if (transform && this != App->scene->GetRootGameObject())
-		transform->Update();
-
-	if (GetComponent(Comp_Camera))
-		GetComponent(Comp_Camera)->Update();
+	//Components update
+	for (int i = 0; i < components.size(); ++i)
+		components[i]->Update(dt);
 }
 
 Component* GameObject::CreateComponent(ComponentType type)

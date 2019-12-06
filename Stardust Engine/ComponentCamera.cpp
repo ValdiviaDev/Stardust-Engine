@@ -29,7 +29,7 @@ ComponentCamera::~ComponentCamera() {
 
 }
 
-void ComponentCamera::Update() {
+void ComponentCamera::Update(float dt) {
 
 	if (active) {
 

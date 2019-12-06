@@ -16,8 +16,9 @@ static inline ImVec2 operator-(const ImVec2& lhs, const ImVec2& rhs) { return Im
 
 
 // Dummy
-struct Node
+class Node
 {
+public:
 	int     ID;
 	char    Name[32];
 	ImVec2  Pos, Size;
@@ -43,6 +44,8 @@ struct Node
 	void SetInputsCount(int num) { InputsCount = num; }
 	void SetOutputsCount(int num) { OutputsCount = num; }
 
+	virtual void Draw() {}
+	virtual void Update(float dt) {}
 
 };
 struct NodeLink
@@ -64,6 +67,7 @@ public:
 	NodeGraph();
 	~NodeGraph();
 	void Draw();
+	void Update(float dt);
 
 	Node* AddNode(const char* name, const ImVec2& pos, int inputs_count, int outputs_count, float value = 0.0f, const ImVec4& color = ImColor(255, 100, 100));
 	void AddLink(int input_idx, int input_slot, int output_idx, int output_slot);
