@@ -3,6 +3,7 @@
 #include "Resource.h"
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
+#include "ResourceGraphScript.h"
 #include "PanelAssets.h"
 #include "MaterialImporter.h"
 #include "MeshImporter.h"
@@ -199,11 +200,17 @@ Resource* ModuleResourceManager::CreateNewResource(ResourceType type, UID force_
 		case Resource_Texture:
 			ret = (Resource*)new ResourceTexture(uid);
 			break;
-
+		case Resource_Graph_Script:
+			ret = (Resource*)new ResourceGraphScript(uid);
+			break;
 		}
 
 		if (ret != nullptr)
 			resources[uid] = ret;
+	}
+	else {
+		force_uid = force_uid;
+
 	}
 
 	return ret;

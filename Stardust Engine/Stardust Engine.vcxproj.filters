@@ -244,6 +244,9 @@
     <ClCompile Include="ComponentGraphScript.cpp">
       <Filter>Sources\Game Object\Components</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceGraphScript.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -593,6 +596,9 @@
     </ClInclude>
     <ClInclude Include="ComponentGraphScript.h">
       <Filter>Sources\Game Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceGraphScript.h">
+      <Filter>Sources\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,6 @@
 #include "ModuleTimeManager.h"
 #include "SceneSerialization.h"
 #include "ModuleResourceManager.h"
-#include "NodeGraph.h"
 
 
 #include "ComponentCamera.h"
@@ -41,7 +40,6 @@ Application::Application()
 	mat_import = new MaterialImporter();
 	mesh_import = new MeshImporter();
 	scene_serialization = new SceneSerialization();
-	node_graph = new NodeGraph();
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -192,7 +190,6 @@ bool Application::CleanUp()
 	RELEASE(mat_import);
 	RELEASE(mesh_import);
 	RELEASE(scene_serialization);
-	RELEASE(node_graph);
 
 	return ret;
 }

@@ -7,6 +7,7 @@
 enum ResourceType {
 	Resource_Mesh,
 	Resource_Texture,
+	Resource_Graph_Script,
 	Resource_Unknown
 };
 

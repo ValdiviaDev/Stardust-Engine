@@ -9,10 +9,15 @@ public:
 	ComponentGraphScript(GameObject* parent);
 	~ComponentGraphScript();
 
+	void Update(float dt);
 	void DrawInspector();
+
+public:
+	UID uuid_script = 0;
 
 private:
 	bool has_script = false;
+	bool show_graph = false;
 
 };
 

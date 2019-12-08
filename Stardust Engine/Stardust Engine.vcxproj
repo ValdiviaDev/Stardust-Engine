@@ -189,6 +189,7 @@
     <ClInclude Include="Par\par_shapes.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceGraphScript.h" />
     <ClInclude Include="ResourceMesh.h" />
     <ClInclude Include="ResourceTexture.h" />
     <ClInclude Include="SceneSerialization.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="Parson\parson.c" />
     <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceGraphScript.cpp" />
     <ClCompile Include="ResourceMesh.cpp" />
     <ClCompile Include="ResourceTexture.cpp" />
     <ClCompile Include="SceneSerialization.cpp" />
