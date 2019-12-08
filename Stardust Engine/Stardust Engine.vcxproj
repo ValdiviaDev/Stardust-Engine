@@ -176,7 +176,9 @@
     <ClInclude Include="ModuleScene.h" />
     <ClInclude Include="ModuleTimeManager.h" />
     <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="NodeGraph.h" />
+    <ClInclude Include="NodeKeyInput.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="PanelAssets.h" />
@@ -261,7 +263,9 @@
     <ClCompile Include="ModuleScene.cpp" />
     <ClCompile Include="ModuleTimeManager.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="NodeGraph.cpp" />
+    <ClCompile Include="NodeKeyInput.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="PanelAssets.cpp" />

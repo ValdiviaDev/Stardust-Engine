@@ -247,6 +247,12 @@
     <ClCompile Include="ResourceGraphScript.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="NodeKeyInput.cpp">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -600,6 +606,12 @@
     <ClInclude Include="ResourceGraphScript.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="NodeKeyInput.h">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -664,6 +676,9 @@
     </Filter>
     <Filter Include="Sources\VisualScript">
       <UniqueIdentifier>{842d1481-5ed6-4011-a834-a9c215bdb8f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\VisualScript\Nodes">
+      <UniqueIdentifier>{a19cfa80-9a45-4771-8f4b-a34fea5ed2dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

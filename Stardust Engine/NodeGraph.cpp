@@ -1,7 +1,7 @@
-
 #include "NodeGraph.h"
 
-
+#include "Node.h"
+#include "NodeKeyInput.h"
 
 NodeGraph::NodeGraph() {
 
@@ -20,26 +20,27 @@ NodeGraph::~NodeGraph() {
 
 void NodeGraph::Draw() {
 
-	
-
 	bool open_context_menu = false;
 	static int node_selected = -1;
-	
+	static bool open_win = true;
+
 	static int node_hovered_in_scene = -1;
 
 	//DELETE THIS AFTER ***************
-	static bool inited = false;
+	
 	if (!inited)
 	{
-		
-		AddNode("MainTex", ImVec2(40, 50), 1, 1, 0.5f, ImColor(255, 100, 100));
-		AddNode("BumpMap", ImVec2(40, 150), 1, 1, 0.42f, ImColor(200, 100, 200));
-		AddNode("Combine", ImVec2(270, 80), 3, 3, 1.0f, ImColor(0, 200, 100));
-		
+		AddNode("MainTex", ImVec2(40, 50), 1, 1, Node_Default, 0.5f, ImColor(255, 100, 100));
+		AddNode("BumpMap", ImVec2(40, 150), 1, 1, Node_Default, 0.42f, ImColor(200, 100, 200));
+		AddNode("Combine", ImVec2(270, 80), 3, 3, Node_Default, 1.0f, ImColor(0, 200, 100));
+		AddNode("N", ImVec2(300, 100), 3, 3, Node_KeyInput, 1.0f, ImColor(0, 200, 100));
+
 		AddLink(0, 0, 2, 0);
 		AddLink(1, 0, 2, 1);
 		inited = true;
 	}//**********************************
+
+	ImGui::Begin("Graph", &open_win);
 
 	ImGui::BeginGroup();
 	ImGui::Text("Hold middle mouse button to scroll (%.2f,%.2f)", scrolling.x, scrolling.y);
@@ -93,8 +94,10 @@ void NodeGraph::Draw() {
 		ImGui::SetCursorScreenPos(node_rect_min + NODE_WINDOW_PADDING);
 		ImGui::BeginGroup(); // Lock horizontal position
 		ImGui::InputText("##namenode", node->Name, IM_ARRAYSIZE(node->Name));
-		ImGui::SliderFloat("##value", &node->Value, 0.0f, 1.0f, "Alpha %.2f");
-		ImGui::ColorEdit3("##color", &node->Color.x);
+
+		node->Draw();
+		//ImGui::SliderFloat("##value", &node->Value, 0.0f, 1.0f, "Alpha %.2f");
+		//ImGui::ColorEdit3("##color", &node->Color.x);
 		ImGui::EndGroup();
 
 		// Save the size of what we have emitted and whether any of the widgets are being used
@@ -227,7 +230,7 @@ void NodeGraph::Draw() {
 		}
 		else
 		{
-			if (ImGui::MenuItem("Add")) { nodes.push_back(new Node(nodes.size(), "New node", scene_pos, 0.5f, ImColor(100, 100, 200), 2, 2)); }
+			if (ImGui::MenuItem("Add")) { nodes.push_back(new Node(nodes.size(), "New node", scene_pos, 0.5f, ImColor(100, 100, 200), 2, 2, Node_Type_Default, Node_Default)); }
 			if (ImGui::MenuItem("Paste", NULL, false, false)) {}
 			
 			
@@ -245,6 +248,8 @@ void NodeGraph::Draw() {
 	ImGui::PopStyleColor();
 	ImGui::PopStyleVar(2);
 	ImGui::EndGroup();
+
+	ImGui::End();
 }
 
 void NodeGraph::Update(float dt)
@@ -255,14 +260,26 @@ void NodeGraph::Update(float dt)
 }
 
 
-Node* NodeGraph::AddNode(const char* name, const ImVec2& pos, int inputs_count, int outputs_count, float value, const ImVec4& color) {
+Node* NodeGraph::AddNode(const char* name, const ImVec2& pos, int inputs_count, int outputs_count, NodeSubType node_sub_type, float value, const ImVec4& color) {
 
 	last_node_id++;
 
-	Node* n = new Node(last_node_id, name, pos, value, color, inputs_count, outputs_count);
-	nodes.push_back(n);
+	Node* node = nullptr;
 
-	return n;
+	switch (node_sub_type) {
+	case Node_KeyInput:
+		node = (Node*)new NodeKeyInput(last_node_id, pos);
+		break;
+
+	case Node_Default:
+		node = new Node(last_node_id, name, pos, value, color, inputs_count, outputs_count, Node_Type_Default, node_sub_type);
+		break;
+	}
+
+	if(node)
+		nodes.push_back(node);
+
+	return node;
 }
 
 void NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int output_slot) {
