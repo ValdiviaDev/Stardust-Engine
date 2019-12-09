@@ -21,7 +21,7 @@ public:
 
 	Node(int id, const char* name, const ImVec2& pos, int inputs_count, int outputs_count, NodeType type, NodeSubType sub_type);
 
-	~Node();
+	virtual ~Node();
 
 	ImVec2 GetInputSlotPos(int slot_no) const;
 	ImVec2 GetOutputSlotPos(int slot_no) const;
@@ -30,7 +30,7 @@ public:
 	void SetOutputsCount(int num);
 
 	virtual void Draw() {}
-	virtual void Update(float dt) {}
+	virtual bool Update(float dt) { return false; }
 
 public:
 
@@ -46,6 +46,7 @@ public:
 	NodeType type;
 	NodeSubType sub_type;
 
+	bool updating = false;
 };
 
 #endif

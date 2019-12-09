@@ -273,7 +273,15 @@ void NodeGraph::Draw() {
 void NodeGraph::Update(float dt)
 {
 	for (int i = 0; i < nodes.size(); ++i) {
-		nodes[i]->Update(dt);
+		if (nodes[i]->type == Node_Type_Event) { //TODO: function nodes also?
+			bool updating = nodes[i]->Update(dt);
+			
+			if (updating) {
+				for (int j = 0; j < nodes[i]->outputs.size(); ++j)
+					nodes[i]->outputs[j]->Update(dt);
+
+			}
+		}
 	}
 }
 

@@ -25,9 +25,12 @@ ComponentGraphScript::~ComponentGraphScript()
 
 void ComponentGraphScript::Update(float dt)
 {
-	if (has_script && show_graph){
+	if (has_script){
 		ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
-		res->node_graph->Draw();
+		res->node_graph->Update(dt);
+
+		if(show_graph)
+			res->node_graph->Draw();
 	}
 		
 }
