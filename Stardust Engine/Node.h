@@ -19,7 +19,7 @@ class Node
 {
 public:
 
-	Node(int id, const char* name, const ImVec2& pos, float value, const ImVec4& color, int inputs_count, int outputs_count, NodeType type, NodeSubType sub_type);
+	Node(int id, const char* name, const ImVec2& pos, int inputs_count, int outputs_count, NodeType type, NodeSubType sub_type);
 
 	~Node();
 

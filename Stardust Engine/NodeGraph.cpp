@@ -30,10 +30,10 @@ void NodeGraph::Draw() {
 	
 	if (!inited)
 	{
-		AddNode("MainTex", ImVec2(40, 50), 1, 1, Node_Default, 0.5f, ImColor(255, 100, 100));
-		AddNode("BumpMap", ImVec2(40, 150), 1, 1, Node_Default, 0.42f, ImColor(200, 100, 200));
-		AddNode("Combine", ImVec2(270, 80), 3, 3, Node_Default, 1.0f, ImColor(0, 200, 100));
-		AddNode("N", ImVec2(300, 100), 3, 3, Node_KeyInput, 1.0f, ImColor(0, 200, 100));
+		AddNode(Node_Default, ImVec2(40, 50));
+		AddNode(Node_Default, ImVec2(40, 150));
+		AddNode(Node_Default, ImVec2(270, 80));
+		AddNode(Node_KeyInput, ImVec2(300, 100));
 
 		AddLink(0, 0, 2, 0);
 		AddLink(1, 0, 2, 1);
@@ -93,11 +93,11 @@ void NodeGraph::Draw() {
 		bool old_any_active = ImGui::IsAnyItemActive();
 		ImGui::SetCursorScreenPos(node_rect_min + NODE_WINDOW_PADDING);
 		ImGui::BeginGroup(); // Lock horizontal position
-		ImGui::InputText("##namenode", node->Name, IM_ARRAYSIZE(node->Name));
+		//ImGui::InputText("##namenode", node->Name, IM_ARRAYSIZE(node->Name));
+		ImGui::Text(node->Name);
 
 		node->Draw();
-		//ImGui::SliderFloat("##value", &node->Value, 0.0f, 1.0f, "Alpha %.2f");
-		//ImGui::ColorEdit3("##color", &node->Color.x);
+
 		ImGui::EndGroup();
 
 		// Save the size of what we have emitted and whether any of the widgets are being used
@@ -218,10 +218,13 @@ void NodeGraph::Draw() {
 			if (ImGui::MenuItem("Copy", NULL, false, false)) {}
 
 			ImGui::Separator();
-			if (ImGui::MenuItem("Add input", NULL, false, true)) 
-				node->SetInputsCount(node->InputsCount + 1);
-			if (ImGui::MenuItem("Reduce input", NULL, false, true)) 
-				node->SetInputsCount(node->InputsCount - 1);
+			if (node->type != Node_Type_Event) {
+				if (ImGui::MenuItem("Add input", NULL, false, true))
+					node->SetInputsCount(node->InputsCount + 1);
+				if (ImGui::MenuItem("Reduce input", NULL, false, true))
+					node->SetInputsCount(node->InputsCount - 1);
+			}
+
 			if (ImGui::MenuItem("Add output", NULL, false, true)) 
 				node->SetOutputsCount(node->OutputsCount + 1);
 			if (ImGui::MenuItem("Reduce output", NULL, false, true)) 
@@ -230,7 +233,22 @@ void NodeGraph::Draw() {
 		}
 		else
 		{
-			if (ImGui::MenuItem("Add")) { nodes.push_back(new Node(nodes.size(), "New node", scene_pos, 0.5f, ImColor(100, 100, 200), 2, 2, Node_Type_Default, Node_Default)); }
+			if (ImGui::BeginMenu("Add")) {
+				if (ImGui::BeginMenu("Event")) {
+					if (ImGui::MenuItem("Key Input"))
+						AddNode(Node_KeyInput, scene_pos);
+
+					ImGui::EndMenu();
+				}
+				if (ImGui::BeginMenu("Function")) {
+					if (ImGui::MenuItem("Translate GameObject"))
+						AddNode(Node_KeyInput, scene_pos); //TODO: Change
+
+					ImGui::EndMenu();
+				}
+
+				ImGui::EndMenu();
+			}
 			if (ImGui::MenuItem("Paste", NULL, false, false)) {}
 			
 			
@@ -260,7 +278,7 @@ void NodeGraph::Update(float dt)
 }
 
 
-Node* NodeGraph::AddNode(const char* name, const ImVec2& pos, int inputs_count, int outputs_count, NodeSubType node_sub_type, float value, const ImVec4& color) {
+Node* NodeGraph::AddNode(NodeSubType node_sub_type, const ImVec2& pos) {
 
 	last_node_id++;
 
@@ -272,7 +290,7 @@ Node* NodeGraph::AddNode(const char* name, const ImVec2& pos, int inputs_count, 
 		break;
 
 	case Node_Default:
-		node = new Node(last_node_id, name, pos, value, color, inputs_count, outputs_count, Node_Type_Default, node_sub_type);
+		node = new Node(last_node_id, "Default", pos, 2, 2, Node_Type_Default, node_sub_type);
 		break;
 	}
 
