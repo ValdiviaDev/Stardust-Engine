@@ -446,6 +446,7 @@ void NodeGraph::DeleteNode(Node* node) {
 
 	if(it_n != nodes.end()){
 		nodes.erase(it_n);
+		RELEASE(node);
 		nodes.shrink_to_fit();
 	}
 
