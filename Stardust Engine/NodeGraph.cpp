@@ -1,7 +1,9 @@
 #include "NodeGraph.h"
+#include "GameObject.h"
 
 #include "Node.h"
 #include "NodeKeyInput.h"
+#include "NodeMoveObject.h"
 
 NodeGraph::NodeGraph() {
 
@@ -30,13 +32,10 @@ void NodeGraph::Draw() {
 	
 	if (!inited)
 	{
-		AddNode(Node_Default, ImVec2(40, 50));
-		AddNode(Node_Default, ImVec2(40, 150));
-		AddNode(Node_Default, ImVec2(270, 80));
-		AddNode(Node_KeyInput, ImVec2(300, 100));
+		AddNode(Func_KeyInput, ImVec2(40, 50));
+		AddNode(Func_MoveObject, ImVec2(500, 50));
 
-		AddLink(0, 0, 2, 0);
-		AddLink(1, 0, 2, 1);
+		AddLink(0, 0, 1, 0);
 		inited = true;
 	}//**********************************
 
@@ -93,7 +92,6 @@ void NodeGraph::Draw() {
 		bool old_any_active = ImGui::IsAnyItemActive();
 		ImGui::SetCursorScreenPos(node_rect_min + NODE_WINDOW_PADDING);
 		ImGui::BeginGroup(); // Lock horizontal position
-		//ImGui::InputText("##namenode", node->Name, IM_ARRAYSIZE(node->Name));
 		ImGui::Text(node->Name);
 
 		node->Draw();
@@ -236,13 +234,13 @@ void NodeGraph::Draw() {
 			if (ImGui::BeginMenu("Add")) {
 				if (ImGui::BeginMenu("Event")) {
 					if (ImGui::MenuItem("Key Input"))
-						AddNode(Node_KeyInput, scene_pos);
+						AddNode(Func_KeyInput, scene_pos);
 
 					ImGui::EndMenu();
 				}
-				if (ImGui::BeginMenu("Function")) {
-					if (ImGui::MenuItem("Translate GameObject"))
-						AddNode(Node_KeyInput, scene_pos); //TODO: Change
+				if (ImGui::BeginMenu("Action")) {
+					if (ImGui::MenuItem("Move GameObject"))
+						AddNode(Func_MoveObject, scene_pos); //TODO: Change
 
 					ImGui::EndMenu();
 				}
@@ -270,15 +268,15 @@ void NodeGraph::Draw() {
 	ImGui::End();
 }
 
-void NodeGraph::Update(float dt)
+void NodeGraph::Update(float dt, GameObject* object)
 {
 	for (int i = 0; i < nodes.size(); ++i) {
-		if (nodes[i]->type == Node_Type_Event) { //TODO: function nodes also?
-			bool updating = nodes[i]->Update(dt);
+		if (nodes[i]->type == Node_Type_Event) { //TODO: action nodes also?
+			bool updating = nodes[i]->Update(dt, object);
 			
 			if (updating) {
 				for (int j = 0; j < nodes[i]->outputs.size(); ++j)
-					nodes[i]->outputs[j]->Update(dt);
+					nodes[i]->outputs[j]->Update(dt, object);
 
 			}
 		}
@@ -286,19 +284,23 @@ void NodeGraph::Update(float dt)
 }
 
 
-Node* NodeGraph::AddNode(NodeSubType node_sub_type, const ImVec2& pos) {
+Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 
 	last_node_id++;
 
 	Node* node = nullptr;
 
-	switch (node_sub_type) {
-	case Node_KeyInput:
+	switch (node_function) {
+	case Func_KeyInput:
 		node = (Node*)new NodeKeyInput(last_node_id, pos);
 		break;
 
-	case Node_Default:
-		node = new Node(last_node_id, "Default", pos, 2, 2, Node_Type_Default, node_sub_type);
+	case Func_MoveObject:
+		node = (Node*)new NodeMoveObject(last_node_id, pos);
+		break;
+
+	case Func_Default:
+		node = new Node(last_node_id, "Default", pos, 2, 2, Node_Type_Default, node_function);
 		break;
 	}
 

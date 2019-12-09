@@ -1,6 +1,6 @@
 #include "Node.h"
 
-Node::Node(int id, const char * name, const ImVec2 & pos, int inputs_count, int outputs_count, NodeType type, NodeSubType sub_type)
+Node::Node(int id, const char * name, const ImVec2 & pos, int inputs_count, int outputs_count, NodeType type, NodeFunction function)
 {
 	ID = id;
 	strncpy(Name, name, 31);
@@ -9,7 +9,7 @@ Node::Node(int id, const char * name, const ImVec2 & pos, int inputs_count, int 
 	InputsCount = inputs_count;
 	OutputsCount = outputs_count;
 	this->type = type;
-	this->sub_type = sub_type;
+	this->function = function;
 }
 
 Node::~Node()

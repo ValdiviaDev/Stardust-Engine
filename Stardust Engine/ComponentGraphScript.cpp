@@ -27,7 +27,7 @@ void ComponentGraphScript::Update(float dt)
 {
 	if (has_script){
 		ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
-		res->node_graph->Update(dt);
+		res->node_graph->Update(dt, gameObject);
 
 		if(show_graph)
 			res->node_graph->Draw();

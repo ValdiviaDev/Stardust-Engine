@@ -9,17 +9,17 @@ enum NodeType {
 	Node_Type_Function
 };
 
-enum NodeSubType {
-	Node_Default,
-	Node_KeyInput,
-
+enum NodeFunction {
+	Func_Default,
+	Func_KeyInput,
+	Func_MoveObject,
 };
 
 class Node
 {
 public:
 
-	Node(int id, const char* name, const ImVec2& pos, int inputs_count, int outputs_count, NodeType type, NodeSubType sub_type);
+	Node(int id, const char* name, const ImVec2& pos, int inputs_count, int outputs_count, NodeType type, NodeFunction function);
 
 	virtual ~Node();
 
@@ -30,7 +30,7 @@ public:
 	void SetOutputsCount(int num);
 
 	virtual void Draw() {}
-	virtual bool Update(float dt) { return false; }
+	virtual bool Update(float dt, GameObject* object) { return false; }
 
 public:
 
@@ -44,7 +44,7 @@ public:
 	std::vector<Node*>outputs;
 
 	NodeType type;
-	NodeSubType sub_type;
+	NodeFunction function;
 
 	bool updating = false;
 };

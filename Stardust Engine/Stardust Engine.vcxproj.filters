@@ -253,6 +253,9 @@
     <ClCompile Include="Node.cpp">
       <Filter>Sources\VisualScript\Nodes</Filter>
     </ClCompile>
+    <ClCompile Include="NodeMoveObject.cpp">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -610,6 +613,9 @@
       <Filter>Sources\VisualScript\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeMoveObject.h">
       <Filter>Sources\VisualScript\Nodes</Filter>
     </ClInclude>
   </ItemGroup>

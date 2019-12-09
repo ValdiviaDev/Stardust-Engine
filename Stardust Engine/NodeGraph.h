@@ -13,8 +13,9 @@
 static inline ImVec2 operator+(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x + rhs.x, lhs.y + rhs.y); }
 static inline ImVec2 operator-(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x - rhs.x, lhs.y - rhs.y); }
 
+class GameObject;
 class Node;
-enum NodeSubType;
+enum NodeFunction;
 
 struct NodeLink
 {
@@ -33,9 +34,9 @@ public:
 	NodeGraph();
 	~NodeGraph();
 	void Draw();
-	void Update(float dt);
+	void Update(float dt, GameObject* object);
 
-	Node* AddNode(NodeSubType node_sub_type, const ImVec2& pos);
+	Node* AddNode(NodeFunction node_function, const ImVec2& pos);
 	void AddLink(int input_idx, int input_slot, int output_idx, int output_slot);
 	void DeleteLink(int node_id, int slot_num);
 	void DeleteNode(Node* node);
