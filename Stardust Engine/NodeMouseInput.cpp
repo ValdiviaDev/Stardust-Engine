@@ -5,7 +5,7 @@
 
 NodeMouseInput::NodeMouseInput(int id, const ImVec2& pos) : Node(id, "Event: MouseInput", pos, 0, 1, Node_Type_Event, Func_MouseInput)
 {
-	
+	key_state = KEY_REPEAT;
 }
 
 
@@ -17,7 +17,7 @@ bool NodeMouseInput::Update(float dt, GameObject * object)
 {
 	updating = false;
 	
-	if (App->input->GetMouseButton(mouse_butt_id))
+	if (App->input->GetMouseButton(mouse_butt_id) == key_state)
 		updating = true;
 
 	return updating;
@@ -25,6 +25,7 @@ bool NodeMouseInput::Update(float dt, GameObject * object)
 
 void NodeMouseInput::Draw()
 {
+	//Mouse Button
 	static const char* mouse_butt[] = { "Left", "Right", "Wheel" };
 
 	if (ImGui::BeginCombo("Mouse button", curr_butt)) {
@@ -45,5 +46,26 @@ void NodeMouseInput::Draw()
 		ImGui::EndCombo();
 	}
 	
+	//Mouse state
+	static const char* key_state_str[] = { "Key Down", "Key Repeat", "Key Up" };
+
+	if (ImGui::BeginCombo("Mouse state", curr_state_str)) {
+
+		if (ImGui::Selectable("Key Down")) {
+			curr_state_str = key_state_str[0];
+			key_state = KEY_DOWN;
+		}
+		if (ImGui::Selectable("Key Repeat")) {
+			curr_state_str = key_state_str[1];
+			key_state = KEY_REPEAT;
+		}
+
+		if (ImGui::Selectable("Key Up")) {
+			curr_state_str = key_state_str[2];
+			key_state = KEY_UP;
+		}
+
+		ImGui::EndCombo();
+	}
 
 }

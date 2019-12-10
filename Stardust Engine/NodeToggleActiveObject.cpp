@@ -28,7 +28,6 @@ bool NodeToggleActiveObject::Update(float dt, GameObject* object)
 		case False:
 			object->SetActive(false);
 			break;
-
 		}
 
 		updating = true;
