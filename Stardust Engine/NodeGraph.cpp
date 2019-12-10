@@ -118,9 +118,18 @@ void NodeGraph::Draw() {
 		if (node_moving_active && ImGui::IsMouseDragging(0))
 			node->Pos = node->Pos + ImGui::GetIO().MouseDelta;
 
+		//Node color if selected and if updating
 		ImU32 node_bg_color = (node_hovered_in_scene == node->ID || (node_selected == node->ID)) ? IM_COL32(75, 75, 75, 255) : IM_COL32(60, 60, 60, 255);
+		ImU32 node_outline_color = IM_COL32(100, 100, 100, 255);
+		float node_outline_thickness = 4.0f;
+		if (node->updating) {
+			node_outline_color = IM_COL32(0, 255, 0, 255);
+			node_outline_thickness = 8.0f;
+		}
+
+		//Print node
 		draw_list->AddRectFilled(node_rect_min, node_rect_max, node_bg_color, 4.0f);
-		draw_list->AddRect(node_rect_min, node_rect_max, IM_COL32(100, 100, 100, 255), 4.0f);
+		draw_list->AddRect(node_rect_min, node_rect_max, node_outline_color, node_outline_thickness);
 		for (int slot_idx = 0; slot_idx < node->InputsCount; slot_idx++) {
 		
 			if (node_idx == input_id_clicked && slot_idx == input_slot_clicked) 
@@ -274,10 +283,11 @@ void NodeGraph::Update(float dt, GameObject* object)
 		if (nodes[i]->type == Node_Type_Event) { //TODO: action nodes also?
 			bool updating = nodes[i]->Update(dt, object);
 			
-			if (updating) {
-				for (int j = 0; j < nodes[i]->outputs.size(); ++j)
+			for (int j = 0; j < nodes[i]->outputs.size(); ++j) {
+				if (updating)
 					nodes[i]->outputs[j]->Update(dt, object);
-
+				else
+					nodes[i]->outputs[j]->updating = false;
 			}
 		}
 	}
