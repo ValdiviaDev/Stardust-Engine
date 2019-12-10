@@ -4,6 +4,7 @@
 #include "Node.h"
 #include "NodeKeyInput.h"
 #include "NodeMoveObject.h"
+#include "NodeMouseInput.h"
 
 NodeGraph::NodeGraph() {
 
@@ -244,12 +245,14 @@ void NodeGraph::Draw() {
 				if (ImGui::BeginMenu("Event")) {
 					if (ImGui::MenuItem("Key Input"))
 						AddNode(Func_KeyInput, scene_pos);
+					if (ImGui::MenuItem("Mouse Input"))
+						AddNode(Func_MouseInput, scene_pos);
 
 					ImGui::EndMenu();
 				}
 				if (ImGui::BeginMenu("Action")) {
 					if (ImGui::MenuItem("Move GameObject"))
-						AddNode(Func_MoveObject, scene_pos); //TODO: Change
+						AddNode(Func_MoveObject, scene_pos);
 
 					ImGui::EndMenu();
 				}
@@ -307,6 +310,10 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 
 	case Func_MoveObject:
 		node = (Node*)new NodeMoveObject(last_node_id, pos);
+		break;
+
+	case Func_MouseInput:
+		node = (Node*)new NodeMouseInput(last_node_id, pos);
 		break;
 
 	case Func_Default:

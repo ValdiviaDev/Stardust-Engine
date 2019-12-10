@@ -6,13 +6,14 @@
 enum NodeType {
 	Node_Type_Default,
 	Node_Type_Event,
-	Node_Type_Function
+	Node_Type_Action
 };
 
 enum NodeFunction {
 	Func_Default,
 	Func_KeyInput,
-	Func_MoveObject,
+	Func_MouseInput,
+	Func_MoveObject
 };
 
 class Node

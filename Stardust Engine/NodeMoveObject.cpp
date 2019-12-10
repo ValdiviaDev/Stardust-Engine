@@ -5,7 +5,7 @@
 #include "ComponentTransform.h"
 
 
-NodeMoveObject::NodeMoveObject(int id, const ImVec2& pos) : Node(id, "Action: MoveObject", pos, 1, 0, Node_Type_Function, Func_MoveObject)
+NodeMoveObject::NodeMoveObject(int id, const ImVec2& pos) : Node(id, "Action: MoveObject", pos, 1, 0, Node_Type_Action, Func_MoveObject)
 {
 	for (int i = 0; i < 3; ++i)
 		direction[i] = 0;
@@ -25,7 +25,7 @@ bool NodeMoveObject::Update(float dt, GameObject* object)
 	if (trans)
 		updating = true;
 
-	float3 new_pos = { direction[0] * velocity, direction[1] * velocity, direction[2] * velocity };
+	float3 new_pos = { direction[0] * velocity * dt, direction[1] * velocity * dt, direction[2] * velocity * dt };
 
 	trans->SumPosition(new_pos);
 
