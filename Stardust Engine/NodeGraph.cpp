@@ -5,6 +5,8 @@
 #include "NodeKeyInput.h"
 #include "NodeMoveObject.h"
 #include "NodeMouseInput.h"
+#include "NodeMouseMove.h"
+#include "NodeToggleActiveObject.h"
 
 NodeGraph::NodeGraph() {
 
@@ -247,12 +249,16 @@ void NodeGraph::Draw() {
 						AddNode(Func_KeyInput, scene_pos);
 					if (ImGui::MenuItem("Mouse Input"))
 						AddNode(Func_MouseInput, scene_pos);
+					if (ImGui::MenuItem("Mouse Move"))
+						AddNode(Func_MouseMove, scene_pos);
 
 					ImGui::EndMenu();
 				}
 				if (ImGui::BeginMenu("Action")) {
 					if (ImGui::MenuItem("Move GameObject"))
 						AddNode(Func_MoveObject, scene_pos);
+					if (ImGui::MenuItem("Active GameObject"))
+						AddNode(Func_ToggleActiveObject, scene_pos);
 
 					ImGui::EndMenu();
 				}
@@ -302,7 +308,7 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 	last_node_id++;
 
 	Node* node = nullptr;
-
+	
 	switch (node_function) {
 	case Func_KeyInput:
 		node = (Node*)new NodeKeyInput(last_node_id, pos);
@@ -314,6 +320,14 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 
 	case Func_MouseInput:
 		node = (Node*)new NodeMouseInput(last_node_id, pos);
+		break;
+
+	case Func_MouseMove:
+		node = (Node*)new NodeMouseMove(last_node_id, pos);
+		break;
+
+	case Func_ToggleActiveObject:
+		node = (Node*)new NodeToggleActiveObject(last_node_id, pos);
 		break;
 
 	case Func_Default:

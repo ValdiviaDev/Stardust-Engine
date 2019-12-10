@@ -180,7 +180,9 @@
     <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="NodeKeyInput.h" />
     <ClInclude Include="NodeMouseInput.h" />
+    <ClInclude Include="NodeMouseMove.h" />
     <ClInclude Include="NodeMoveObject.h" />
+    <ClInclude Include="NodeToggleActiveObject.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="PanelAssets.h" />
@@ -269,7 +271,9 @@
     <ClCompile Include="NodeGraph.cpp" />
     <ClCompile Include="NodeKeyInput.cpp" />
     <ClCompile Include="NodeMouseInput.cpp" />
+    <ClCompile Include="NodeMouseMove.cpp" />
     <ClCompile Include="NodeMoveObject.cpp" />
+    <ClCompile Include="NodeToggleActiveObject.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="PanelAssets.cpp" />

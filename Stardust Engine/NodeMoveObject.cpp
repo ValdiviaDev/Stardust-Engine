@@ -19,15 +19,14 @@ NodeMoveObject::~NodeMoveObject()
 bool NodeMoveObject::Update(float dt, GameObject* object)
 {
 	updating = false;
-
-	ComponentTransform* trans = (ComponentTransform*)object->GetComponent(Comp_Transform);
-
-	if (trans)
+	if (object) {
 		updating = true;
+		ComponentTransform* trans = (ComponentTransform*)object->GetComponent(Comp_Transform);
 
-	float3 new_pos = { direction[0] * velocity * dt, direction[1] * velocity * dt, direction[2] * velocity * dt };
+		float3 new_pos = { direction[0] * velocity * dt, direction[1] * velocity * dt, direction[2] * velocity * dt };
 
-	trans->SumPosition(new_pos);
+		trans->SumPosition(new_pos);
+	}
 
 	return updating;
 }

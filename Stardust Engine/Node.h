@@ -13,7 +13,9 @@ enum NodeFunction {
 	Func_Default,
 	Func_KeyInput,
 	Func_MouseInput,
-	Func_MoveObject
+	Func_MouseMove,
+	Func_MoveObject,
+	Func_ToggleActiveObject
 };
 
 class Node

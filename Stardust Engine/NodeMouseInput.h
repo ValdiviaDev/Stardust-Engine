@@ -2,6 +2,7 @@
 #define __NodeMouseInput_H__
 
 #include "Node.h"
+
 class NodeMouseInput : public Node
 {
 public:
