@@ -3,12 +3,14 @@
 #include "ModuleResourceManager.h"
 #include "ResourceGraphScript.h"
 #include "NodeGraph.h"
+#include "GameObject.h"
 #include "imgui/imgui.h"
 
 
 ComponentGraphScript::ComponentGraphScript(GameObject* parent) : Component(parent)
 {
 	type = Comp_Graph_Script;
+	BB_objects.push_back(gameObject);
 }
 
 
@@ -32,7 +34,7 @@ void ComponentGraphScript::Update(float dt)
 			res->node_graph->Draw();
 
 		if(App->GetEngineState() != Engine_State_Editor)
-			res->node_graph->Update(dt, gameObject);
+			res->node_graph->Update(dt, BB_objects);
 	}
 		
 }
@@ -55,9 +57,31 @@ void ComponentGraphScript::DrawInspector()
 				has_script = true;
 			}
 		}
-		else
+		else {
 			if (ImGui::Button("Show Graph", { 80,30 }))
 				show_graph = !show_graph;
+			
+			ImGui::Separator();
+
+			//Blackboard
+			ImGui::Text("Blackboard (GameObjects)");
+			ImGui::Separator();
+			ImGui::Button("Drag GameObject to add to Blackboard");
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Hierarchy")) {
+					GameObject* go = *(GameObject**)payload->Data;
+					if (go)
+						BB_objects.push_back(go);
+
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			//Print objects in blackboard
+			for (int i = 1; i < BB_objects.size(); ++i) {
+				ImGui::Text(BB_objects[i]->GetName());
+			}
+		}
 
 	}
 

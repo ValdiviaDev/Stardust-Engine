@@ -33,7 +33,7 @@ public:
 	void SetOutputsCount(int num);
 
 	virtual void Draw() {}
-	virtual bool Update(float dt, GameObject* object) { return false; }
+	virtual bool Update(float dt, std::vector<GameObject*> BB_objects) { return false; }
 
 public:
 

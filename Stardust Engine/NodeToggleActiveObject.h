@@ -16,7 +16,7 @@ public:
 	NodeToggleActiveObject(int id, const ImVec2& pos);
 	~NodeToggleActiveObject();
 
-	bool Update(float dt, GameObject* object);
+	bool Update(float dt, std::vector<GameObject*> BB_objects);
 	void Draw();
 
 private:

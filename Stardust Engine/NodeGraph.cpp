@@ -283,27 +283,27 @@ void NodeGraph::Draw() {
 	ImGui::End();
 }
 
-void NodeGraph::Update(float dt, GameObject* object)
+void NodeGraph::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	for (int i = 0; i < fst_ev_nodes.size(); ++i) {
 		//This nodes update always (first event nodes)
-		fst_ev_nodes[i]->Update(dt, object);
+		fst_ev_nodes[i]->Update(dt, BB_objects);
 			
 		//Look for every output update
 		for (int j = 0; j < fst_ev_nodes[i]->outputs.size(); ++j)
-			UpdateOutputNodes(dt, object, fst_ev_nodes[i]->outputs[j], fst_ev_nodes[i]->updating);
+			UpdateOutputNodes(dt, BB_objects, fst_ev_nodes[i]->outputs[j], fst_ev_nodes[i]->updating);
 	}
 }
 
-void NodeGraph::UpdateOutputNodes(float dt, GameObject* object, Node* output, bool input_updating)
+void NodeGraph::UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, bool input_updating)
 {
 	if (input_updating)
-		output->Update(dt, object); //Update of the node
+		output->Update(dt, BB_objects); //Update of the node
 	else
 		output->updating = false;
 
 	for (int i = 0; i < output->outputs.size(); ++i)
-		UpdateOutputNodes(dt, object, output->outputs[i], output->updating);
+		UpdateOutputNodes(dt, BB_objects, output->outputs[i], output->updating);
 
 }
 

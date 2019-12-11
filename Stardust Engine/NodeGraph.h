@@ -1,6 +1,9 @@
 #ifndef __NodeGraph_H__
 #define __NodeGraph_H__
 
+//Nodes: Inputs -> left,  Outputs -> right
+//Links: Outputs-> left,  Inputs -> right
+
 #include "Globals.h"
 #include <string>
 #include "imgui/imgui.h"
@@ -35,8 +38,8 @@ public:
 	~NodeGraph();
 
 	void Draw();
-	void Update(float dt, GameObject* object);
-	void UpdateOutputNodes(float dt, GameObject* object, Node* output, bool input_updating);
+	void Update(float dt, std::vector<GameObject*> BB_objects);
+	void UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, bool input_updating);
 
 	Node* AddNode(NodeFunction node_function, const ImVec2& pos);
 	void AddLink(int input_idx, int input_slot, int output_idx, int output_slot);

@@ -14,6 +14,7 @@
 #include "ModuleGui.h"
 #include "ModuleCamera3D.h"
 #include "ModuleScene.h"
+#include "ModuleInput.h"
 #include "imgui/imgui.h"
 #include "Glew/include/glew.h"
 
@@ -222,8 +223,15 @@ void GameObject::GUIHierarchyPrint(int& i, bool& clicked) {
 		if (ImGui::IsItemClicked() && !clicked) {
 			LOG("%s node clicked", name);
 			clicked = true;
-			App->scene->GetRootGameObject()->focused = false;
-			App->scene->FocusGameObject(this, App->scene->GetRootGameObject());
+			hierarchy_clicked = true;
+		}
+		//Item only pressed when the mouse is released inside the hierarchy
+		if (App->input->GetMouseButton(1) == KEY_UP && hierarchy_clicked) {
+			hierarchy_clicked = false;
+			if (ImGui::IsItemHovered()) {
+				App->scene->GetRootGameObject()->focused = false;
+				App->scene->FocusGameObject(this, App->scene->GetRootGameObject());
+			}
 		}
 
 		//The GameObject that has begun to be dragged
@@ -264,13 +272,7 @@ void GameObject::GUIHierarchyPrint(int& i, bool& clicked) {
 		
 		ImGui::TreePop();
 	}
-	//Set focused to print Inspector
-	if (ImGui::IsItemClicked() && !clicked) {
-		LOG("%s node clicked", name);
-		clicked = true;
-		App->scene->GetRootGameObject()->focused = false;
-		App->scene->FocusGameObject(this, App->scene->GetRootGameObject());
-	}
+
 	ImGui::PopID();
 }
 

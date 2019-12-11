@@ -16,12 +16,12 @@ NodeMoveObject::~NodeMoveObject()
 {
 }
 
-bool NodeMoveObject::Update(float dt, GameObject* object)
+bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	updating = false;
-	if (object) {
+	if (BB_objects[0]) {
 		updating = true;
-		ComponentTransform* trans = (ComponentTransform*)object->GetComponent(Comp_Transform);
+		ComponentTransform* trans = (ComponentTransform*)BB_objects[0]->GetComponent(Comp_Transform);
 
 		float3 new_pos = { direction[0] * velocity * dt, direction[1] * velocity * dt, direction[2] * velocity * dt };
 

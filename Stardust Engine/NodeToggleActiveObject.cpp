@@ -11,22 +11,22 @@ NodeToggleActiveObject::~NodeToggleActiveObject()
 {
 }
 
-bool NodeToggleActiveObject::Update(float dt, GameObject* object)
+bool NodeToggleActiveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	updating = false;
 
-	if (object) {
+	if (BB_objects[0]) {
 		switch (active_set) {
 		case Toggle:
-			object->SetActive(!object->IsActive());
+			BB_objects[0]->SetActive(!BB_objects[0]->IsActive());
 			break;
 
 		case True:
-			object->SetActive(true);
+			BB_objects[0]->SetActive(true);
 			break;
 
 		case False:
-			object->SetActive(false);
+			BB_objects[0]->SetActive(false);
 			break;
 		}
 

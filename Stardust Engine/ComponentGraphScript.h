@@ -2,6 +2,7 @@
 #define __ComponentGraphScript__H__
 
 #include "Component.h"
+#include <vector>
 
 class ComponentGraphScript : public Component
 {
@@ -19,6 +20,7 @@ private:
 	bool has_script = false;
 	bool show_graph = false;
 
+	std::vector<GameObject*> BB_objects;
 };
 
 #endif

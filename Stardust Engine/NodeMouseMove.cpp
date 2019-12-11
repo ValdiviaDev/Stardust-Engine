@@ -12,7 +12,7 @@ NodeMouseMove::~NodeMouseMove()
 {
 }
 
-bool NodeMouseMove::Update(float dt, GameObject * object)
+bool NodeMouseMove::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	updating = false;
 

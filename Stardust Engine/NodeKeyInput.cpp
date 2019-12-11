@@ -16,7 +16,7 @@ NodeKeyInput::~NodeKeyInput()
 {
 }
 
-bool NodeKeyInput::Update(float dt, GameObject* object)
+bool NodeKeyInput::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	updating = false;
 

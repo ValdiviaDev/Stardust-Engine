@@ -13,7 +13,7 @@ NodeMouseInput::~NodeMouseInput()
 {
 }
 
-bool NodeMouseInput::Update(float dt, GameObject * object)
+bool NodeMouseInput::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	updating = false;
 	
