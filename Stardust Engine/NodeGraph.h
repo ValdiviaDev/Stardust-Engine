@@ -48,6 +48,7 @@ private:
 	
 	bool show_grid = true;
 	std::vector<Node*> nodes;
+	std::vector<Node*> fst_ev_nodes;
 	std::vector<NodeLink> links;
 	
 	ImVec2 scrolling = ImVec2(0.0f, 0.0f);

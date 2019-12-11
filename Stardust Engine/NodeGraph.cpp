@@ -20,7 +20,7 @@ NodeGraph::~NodeGraph() {
 
 	}
 	nodes.clear();
-
+	fst_ev_nodes.clear();
 }
 
 void NodeGraph::Draw() {
@@ -228,13 +228,10 @@ void NodeGraph::Draw() {
 			if (ImGui::MenuItem("Copy", NULL, false, false)) {}
 
 			ImGui::Separator();
-			if (node->type != Node_Type_Event) {
-				if (ImGui::MenuItem("Add input", NULL, false, true))
-					node->SetInputsCount(node->InputsCount + 1);
-				if (ImGui::MenuItem("Reduce input", NULL, false, true))
-					node->SetInputsCount(node->InputsCount - 1);
-			}
-
+			if (ImGui::MenuItem("Add input", NULL, false, true))
+				node->SetInputsCount(node->InputsCount + 1);
+			if (ImGui::MenuItem("Reduce input", NULL, false, true))
+				node->SetInputsCount(node->InputsCount - 1);
 			if (ImGui::MenuItem("Add output", NULL, false, true)) 
 				node->SetOutputsCount(node->OutputsCount + 1);
 			if (ImGui::MenuItem("Reduce output", NULL, false, true)) 
@@ -288,15 +285,13 @@ void NodeGraph::Draw() {
 
 void NodeGraph::Update(float dt, GameObject* object)
 {
-	for (int i = 0; i < nodes.size(); ++i) {
-		//This nodes update always
-		if (nodes[i]->type == Node_Type_Event) { //TODO: action nodes also?
-			nodes[i]->Update(dt, object);
+	for (int i = 0; i < fst_ev_nodes.size(); ++i) {
+		//This nodes update always (first event nodes)
+		fst_ev_nodes[i]->Update(dt, object);
 			
-			//Look for every output update
-			for (int j = 0; j < nodes[i]->outputs.size(); ++j)
-				UpdateOutputNodes(dt, object, nodes[i]->outputs[j], nodes[i]->updating);
-		}
+		//Look for every output update
+		for (int j = 0; j < fst_ev_nodes[i]->outputs.size(); ++j)
+			UpdateOutputNodes(dt, object, fst_ev_nodes[i]->outputs[j], fst_ev_nodes[i]->updating);
 	}
 }
 
@@ -345,9 +340,12 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 		break;
 	}
 
-	if(node)
+	if (node) {
 		nodes.push_back(node);
 
+		if (node->type == Node_Type_Event)
+			fst_ev_nodes.push_back(node);
+	}
 	return node;
 }
 
@@ -388,6 +386,16 @@ void NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int outpu
 
 			in->outputs.push_back(out);
 			out->inputs.push_back(in);
+
+			//Erase from the first event nodes if the output is an event
+			if (out->type == Node_Type_Event && out->inputs.size() == 1) {
+				std::vector<Node*>::const_iterator it_fst_ev_n = std::find(fst_ev_nodes.begin(), fst_ev_nodes.end(), out);
+
+				if (it_fst_ev_n != fst_ev_nodes.end()) {
+					fst_ev_nodes.erase(it_fst_ev_n);
+					fst_ev_nodes.shrink_to_fit();
+				}
+			}
 		}
 
 		NodeLink l(input_idx, input_slot, output_idx, output_slot);
@@ -414,7 +422,12 @@ void NodeGraph::DeleteLink(int node_id, int slot_num) {
 
 				if (it != nodes[links[i].InputIdx]->outputs.end())
 					nodes[links[i].InputIdx]->outputs.erase(it);
-					
+
+
+				//Check if the out is an event node, if it is and no other node points to it, add it to first event nodes
+				if (aux->type == Node_Type_Event && aux->outputs.size() == 0)
+					fst_ev_nodes.push_back(aux);
+			
 			}
 
 			aux = GetNodeByID(links[i].InputIdx);
@@ -423,7 +436,7 @@ void NodeGraph::DeleteLink(int node_id, int slot_num) {
 
 				if (it != nodes[links[i].OutputIdx]->inputs.end())
 					nodes[links[i].OutputIdx]->inputs.erase(it);
-					
+
 			}
 			
 			std::vector<NodeLink>::const_iterator link_to_delete = links.begin() + i;
@@ -436,7 +449,6 @@ void NodeGraph::DeleteLink(int node_id, int slot_num) {
 		}
 	}
 }
-
 
 
 Node* NodeGraph::GetNodeByID(int ID) {
@@ -473,7 +485,6 @@ void NodeGraph::DeleteNode(Node* node) {
 	}
 
 
-
 	for (int i = deleted_links.size() - 1; i >= 0; i--) {
 
 		std::vector<NodeLink>::const_iterator it_link = links.begin() + deleted_links[i];
@@ -483,6 +494,14 @@ void NodeGraph::DeleteNode(Node* node) {
 	}
 
 	int nodeID = node->ID;
+
+	//Delete from first event nodes, if it is in there
+	std::vector<Node*>::const_iterator it_fst_ev_n = std::find(fst_ev_nodes.begin(), fst_ev_nodes.end(), node);
+
+	if (it_fst_ev_n != fst_ev_nodes.end()) {
+		fst_ev_nodes.erase(it_fst_ev_n);
+		fst_ev_nodes.shrink_to_fit();
+	}
 
 	//Delete node from nodes vec
 	std::vector<Node*>::const_iterator it_n = std::find(nodes.begin(), nodes.end(), node);
