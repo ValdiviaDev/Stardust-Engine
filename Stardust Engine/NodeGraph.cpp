@@ -289,17 +289,27 @@ void NodeGraph::Draw() {
 void NodeGraph::Update(float dt, GameObject* object)
 {
 	for (int i = 0; i < nodes.size(); ++i) {
+		//This nodes update always
 		if (nodes[i]->type == Node_Type_Event) { //TODO: action nodes also?
-			bool updating = nodes[i]->Update(dt, object);
+			nodes[i]->Update(dt, object);
 			
-			for (int j = 0; j < nodes[i]->outputs.size(); ++j) {
-				if (updating)
-					nodes[i]->outputs[j]->Update(dt, object);
-				else
-					nodes[i]->outputs[j]->updating = false;
-			}
+			//Look for every output update
+			for (int j = 0; j < nodes[i]->outputs.size(); ++j)
+				UpdateOutputNodes(dt, object, nodes[i]->outputs[j], nodes[i]->updating);
 		}
 	}
+}
+
+void NodeGraph::UpdateOutputNodes(float dt, GameObject* object, Node* output, bool input_updating)
+{
+	if (input_updating)
+		output->Update(dt, object); //Update of the node
+	else
+		output->updating = false;
+
+	for (int i = 0; i < output->outputs.size(); ++i)
+		UpdateOutputNodes(dt, object, output->outputs[i], output->updating);
+
 }
 
 

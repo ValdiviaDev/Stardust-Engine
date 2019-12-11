@@ -5,7 +5,7 @@
 #include "ComponentTransform.h"
 
 
-NodeMoveObject::NodeMoveObject(int id, const ImVec2& pos) : Node(id, "Action: MoveObject", pos, 1, 0, Node_Type_Action, Func_MoveObject)
+NodeMoveObject::NodeMoveObject(int id, const ImVec2& pos) : Node(id, "Action: MoveObject", pos, 1, 1, Node_Type_Action, Func_MoveObject)
 {
 	for (int i = 0; i < 3; ++i)
 		direction[i] = 0;

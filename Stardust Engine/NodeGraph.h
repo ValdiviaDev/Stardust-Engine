@@ -33,8 +33,10 @@ public:
 
 	NodeGraph();
 	~NodeGraph();
+
 	void Draw();
 	void Update(float dt, GameObject* object);
+	void UpdateOutputNodes(float dt, GameObject* object, Node* output, bool input_updating);
 
 	Node* AddNode(NodeFunction node_function, const ImVec2& pos);
 	void AddLink(int input_idx, int input_slot, int output_idx, int output_slot);

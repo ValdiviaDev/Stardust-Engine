@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 
-NodeToggleActiveObject::NodeToggleActiveObject(int id, const ImVec2& pos) : Node(id, "Action: ToggleActiveObject", pos, 1, 0, Node_Type_Action, Func_ToggleActiveObject)
+NodeToggleActiveObject::NodeToggleActiveObject(int id, const ImVec2& pos) : Node(id, "Action: ToggleActiveObject", pos, 1, 1, Node_Type_Action, Func_ToggleActiveObject)
 {
 }
 
