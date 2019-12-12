@@ -152,7 +152,7 @@ void NodeGraph::Draw() {
 				}
 
 				if (ImGui::IsMouseClicked(1)) {
-					DeleteLink(node_idx, slot_idx);
+					DeleteLink(node_idx, slot_idx, true);
 				}
 			}
 		}
@@ -175,7 +175,7 @@ void NodeGraph::Draw() {
 				}
 
 				if (ImGui::IsMouseClicked(1)) {
-					DeleteLink(node_idx, slot_idx);
+					DeleteLink(node_idx, slot_idx, false);
 				}
 			}
 		}
@@ -358,10 +358,10 @@ void NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int outpu
 		for (int i = links.size() - 1; i >= 0; i--) {
 
 			if (links[i].InputIdx == input_idx && links[i].InputSlot == input_slot)
-				DeleteLink(input_idx, input_slot);
+				DeleteLink(input_idx, input_slot, true);
 			else {
 				if (links[i].OutputIdx == output_idx && links[i].OutputSlot == output_slot)
-					DeleteLink(output_idx, output_slot);
+					DeleteLink(output_idx, output_slot, false);
 			}
 		}
 
@@ -405,13 +405,13 @@ void NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int outpu
 }
 
 
-void NodeGraph::DeleteLink(int node_id, int slot_num) {
+void NodeGraph::DeleteLink(int node_id, int slot_num, bool input) {
 
 
 	for (uint i = 0; i < links.size(); i++) {
 
 
-		if (links[i].InputIdx == node_id && links[i].InputSlot == slot_num || links[i].OutputIdx == node_id && links[i].OutputSlot == slot_num) {
+		if ((input == false && links[i].InputIdx == node_id && links[i].InputSlot == slot_num) || (input == true && links[i].OutputIdx == node_id && links[i].OutputSlot == slot_num )) {
 
 			
 			Node* aux = GetNodeByID(links[i].OutputIdx);
@@ -510,6 +510,7 @@ void NodeGraph::DeleteNode(Node* node) {
 		nodes.erase(it_n);
 		RELEASE(node);
 		nodes.shrink_to_fit();
+		last_node_id--;
 	}
 
 	//reduce id if avobe nodeID and delete node from outputs and inputs lists
