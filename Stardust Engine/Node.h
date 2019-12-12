@@ -32,7 +32,7 @@ public:
 	void SetInputsCount(int num);
 	void SetOutputsCount(int num);
 
-	virtual void Draw() {}
+	virtual void Draw(std::vector<GameObject*> BB_objects) {}
 	virtual bool Update(float dt, std::vector<GameObject*> BB_objects) { return false; }
 
 public:
@@ -50,6 +50,8 @@ public:
 	NodeFunction function;
 
 	bool updating = false;
+	uint obj_indx = 0;
+	bool obj_using_this = true;
 };
 
 #endif

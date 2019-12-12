@@ -15,18 +15,18 @@ bool NodeToggleActiveObject::Update(float dt, std::vector<GameObject*> BB_object
 {
 	updating = false;
 
-	if (BB_objects[0]) {
+	if (BB_objects[obj_indx]) {
 		switch (active_set) {
 		case Toggle:
-			BB_objects[0]->SetActive(!BB_objects[0]->IsActive());
+			BB_objects[obj_indx]->SetActive(!BB_objects[obj_indx]->IsActive());
 			break;
 
 		case True:
-			BB_objects[0]->SetActive(true);
+			BB_objects[obj_indx]->SetActive(true);
 			break;
 
 		case False:
-			BB_objects[0]->SetActive(false);
+			BB_objects[obj_indx]->SetActive(false);
 			break;
 		}
 
@@ -36,10 +36,28 @@ bool NodeToggleActiveObject::Update(float dt, std::vector<GameObject*> BB_object
 	return false;
 }
 
-void NodeToggleActiveObject::Draw()
+void NodeToggleActiveObject::Draw(std::vector<GameObject*> BB_objects)
 {
+	//GameObject reference
+	if (ImGui::Checkbox("This object", &obj_using_this)) {
+		if (obj_using_this)
+			obj_indx = 0;
+	}
+
+	if (!obj_using_this) {
+		if (ImGui::BeginCombo("GameObject reference", BB_objects[obj_indx]->GetName())) {
+			for (int i = 1; i < BB_objects.size(); ++i) {
+				if (ImGui::Selectable(BB_objects[i]->GetName()))
+					obj_indx = i;
+			}
+
+			ImGui::EndCombo();
+		}
+	}
+
+	//Set active options
 	static const char* active_set_str[] = { "Toggle", "True", "False" };
-	
+
 	if (ImGui::BeginCombo("Set active", curr_active_set_str)) {
 
 		if (ImGui::Selectable("Toggle")) {

@@ -17,7 +17,7 @@ public:
 	~NodeToggleActiveObject();
 
 	bool Update(float dt, std::vector<GameObject*> BB_objects);
-	void Draw();
+	void Draw(std::vector<GameObject*> BB_objects);
 
 private:
 	const char* curr_active_set_str = "Toggle";

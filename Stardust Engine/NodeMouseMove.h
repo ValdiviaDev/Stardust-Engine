@@ -10,7 +10,7 @@ public:
 	~NodeMouseMove();
 
 	bool Update(float dt, std::vector<GameObject*> BB_objects);
-	void Draw();
+	void Draw(std::vector<GameObject*> BB_objects);
 
 private:
 

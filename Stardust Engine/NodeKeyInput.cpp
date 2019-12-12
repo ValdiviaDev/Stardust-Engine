@@ -26,7 +26,7 @@ bool NodeKeyInput::Update(float dt, std::vector<GameObject*> BB_objects)
 	return updating;
 }
 
-void NodeKeyInput::Draw()
+void NodeKeyInput::Draw(std::vector<GameObject*> BB_objects)
 {
 	if (ImGui::InputText("Key", &key, 2)) {
 		key_id = SDL_GetScancodeFromName(&key);

@@ -30,8 +30,8 @@ void ComponentGraphScript::Update(float dt)
 	if (has_script){
 		ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
-		if(show_graph)
-			res->node_graph->Draw();
+		if(show_graph && gameObject->focused)
+			res->node_graph->Draw(BB_objects);
 
 		if(App->GetEngineState() != Engine_State_Editor)
 			res->node_graph->Update(dt, BB_objects);
@@ -58,7 +58,13 @@ void ComponentGraphScript::DrawInspector()
 			}
 		}
 		else {
-			if (ImGui::Button("Show Graph", { 80,30 }))
+			const char* graph_visib_str;
+			if (!show_graph)
+				graph_visib_str = "Show Graph";
+			else
+				graph_visib_str = "Hide Graph";
+
+			if (ImGui::Button(graph_visib_str, { 80,30 }))
 				show_graph = !show_graph;
 			
 			ImGui::Separator();

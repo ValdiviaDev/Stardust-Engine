@@ -22,6 +22,6 @@ bool NodeMouseMove::Update(float dt, std::vector<GameObject*> BB_objects)
 	return updating;
 }
 
-void NodeMouseMove::Draw()
+void NodeMouseMove::Draw(std::vector<GameObject*> BB_objects)
 {
 }

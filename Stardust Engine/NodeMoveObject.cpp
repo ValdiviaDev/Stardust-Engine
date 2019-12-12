@@ -19,9 +19,9 @@ NodeMoveObject::~NodeMoveObject()
 bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	updating = false;
-	if (BB_objects[0]) {
+	if (BB_objects[obj_indx]) {
 		updating = true;
-		ComponentTransform* trans = (ComponentTransform*)BB_objects[0]->GetComponent(Comp_Transform);
+		ComponentTransform* trans = (ComponentTransform*)BB_objects[obj_indx]->GetComponent(Comp_Transform);
 
 		float3 new_pos = { direction[0] * velocity * dt, direction[1] * velocity * dt, direction[2] * velocity * dt };
 
@@ -31,8 +31,26 @@ bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 	return updating;
 }
 
-void NodeMoveObject::Draw()
+void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 {
+	//GameObject reference
+	if (ImGui::Checkbox("This object", &obj_using_this)) {
+		if (obj_using_this)
+			obj_indx = 0;
+	}
+
+	if (!obj_using_this) {
+		if (ImGui::BeginCombo("GameObject reference", BB_objects[obj_indx]->GetName())) {
+			for (int i = 1; i < BB_objects.size(); ++i) {
+				if (ImGui::Selectable(BB_objects[i]->GetName()))
+					obj_indx = i;
+			}
+
+			ImGui::EndCombo();
+		}
+	}
+
+	//Direction
 	if (ImGui::InputInt3("Direction", direction)) {
 		for (int i = 0; i < 3; ++i) {
 			//Clamp vector

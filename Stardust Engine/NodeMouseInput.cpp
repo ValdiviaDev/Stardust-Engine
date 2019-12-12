@@ -23,7 +23,7 @@ bool NodeMouseInput::Update(float dt, std::vector<GameObject*> BB_objects)
 	return updating;
 }
 
-void NodeMouseInput::Draw()
+void NodeMouseInput::Draw(std::vector<GameObject*> BB_objects)
 {
 	//Mouse Button
 	static const char* mouse_butt[] = { "Left", "Right", "Wheel" };

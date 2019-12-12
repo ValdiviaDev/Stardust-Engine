@@ -37,7 +37,7 @@ public:
 	NodeGraph();
 	~NodeGraph();
 
-	void Draw();
+	void Draw(std::vector<GameObject*> BB_objects);
 	void Update(float dt, std::vector<GameObject*> BB_objects);
 	void UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, bool input_updating);
 

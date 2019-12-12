@@ -23,7 +23,7 @@ NodeGraph::~NodeGraph() {
 	fst_ev_nodes.clear();
 }
 
-void NodeGraph::Draw() {
+void NodeGraph::Draw(std::vector<GameObject*> BB_objects) {
 
 	bool open_context_menu = false;
 	static int node_selected = -1;
@@ -97,7 +97,7 @@ void NodeGraph::Draw() {
 		ImGui::BeginGroup(); // Lock horizontal position
 		ImGui::Text(node->Name);
 
-		node->Draw();
+		node->Draw(BB_objects);
 
 		ImGui::EndGroup();
 
