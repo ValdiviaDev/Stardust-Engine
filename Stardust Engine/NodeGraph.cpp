@@ -7,6 +7,7 @@
 #include "NodeMouseInput.h"
 #include "NodeMouseMove.h"
 #include "NodeToggleActiveObject.h"
+#include "NodeRotateObject.h"
 
 NodeGraph::NodeGraph() {
 
@@ -95,8 +96,8 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects) {
 		bool old_any_active = ImGui::IsAnyItemActive();
 		ImGui::SetCursorScreenPos(node_rect_min + NODE_WINDOW_PADDING);
 		ImGui::BeginGroup(); // Lock horizontal position
+		
 		ImGui::Text(node->Name);
-
 		node->Draw(BB_objects);
 
 		ImGui::EndGroup();
@@ -254,6 +255,8 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects) {
 				if (ImGui::BeginMenu("Action")) {
 					if (ImGui::MenuItem("Move GameObject"))
 						AddNode(Func_MoveObject, scene_pos);
+					if (ImGui::MenuItem("Rotate GameObject"))
+						AddNode(Func_RotateObject, scene_pos);
 					if (ImGui::MenuItem("Active GameObject"))
 						AddNode(Func_ToggleActiveObject, scene_pos);
 
@@ -330,9 +333,13 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 	case Func_MouseMove:
 		node = (Node*)new NodeMouseMove(last_node_id, pos);
 		break;
-
+		
 	case Func_ToggleActiveObject:
 		node = (Node*)new NodeToggleActiveObject(last_node_id, pos);
+		break;
+
+	case Func_RotateObject:
+		node = (Node*)new NodeRotateObject(last_node_id, pos);
 		break;
 
 	case Func_Default:

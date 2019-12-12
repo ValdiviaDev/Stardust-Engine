@@ -15,6 +15,7 @@ enum NodeFunction {
 	Func_MouseInput,
 	Func_MouseMove,
 	Func_MoveObject,
+	Func_RotateObject,
 	Func_ToggleActiveObject
 };
 

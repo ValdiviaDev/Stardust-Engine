@@ -182,6 +182,7 @@
     <ClInclude Include="NodeMouseInput.h" />
     <ClInclude Include="NodeMouseMove.h" />
     <ClInclude Include="NodeMoveObject.h" />
+    <ClInclude Include="NodeRotateObject.h" />
     <ClInclude Include="NodeToggleActiveObject.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="PanelAbout.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="NodeMouseInput.cpp" />
     <ClCompile Include="NodeMouseMove.cpp" />
     <ClCompile Include="NodeMoveObject.cpp" />
+    <ClCompile Include="NodeRotateObject.cpp" />
     <ClCompile Include="NodeToggleActiveObject.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="PanelAbout.cpp" />
