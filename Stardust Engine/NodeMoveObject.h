@@ -15,6 +15,7 @@ public:
 private:
 
 	int direction[3];
+	const char* dir_str = "Forward";
 	float velocity = 0.0f;
 	bool this_go = true;
 	GameObject* go;

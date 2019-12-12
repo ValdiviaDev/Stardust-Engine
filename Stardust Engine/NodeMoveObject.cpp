@@ -7,8 +7,7 @@
 
 NodeMoveObject::NodeMoveObject(int id, const ImVec2& pos) : Node(id, "Action: MoveObject", pos, 1, 1, Node_Type_Action, Func_MoveObject)
 {
-	for (int i = 0; i < 3; ++i)
-		direction[i] = 0;
+	direction[0] = 0; direction[1] = 0; direction[2] = 1;
 }
 
 
@@ -51,18 +50,40 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 	}
 
 	//Direction
-	if (ImGui::InputInt3("Direction", direction)) {
-		for (int i = 0; i < 3; ++i) {
-			//Clamp vector
-			if (direction[i] != 0 && direction[i] != 1 && direction[i] != -1) {
-				if (direction[i] > 0)
-					direction[i] = 1;
-				else
-					direction[i] = -1;
-			}
+	if (ImGui::BeginCombo("Direction", dir_str)) {
+		if (ImGui::Selectable("Forward")) {
+			direction[0] = 0; direction[1] = 0; direction[2] = 1;
+			dir_str = "Forward";
 		}
+
+		if (ImGui::Selectable("Backward")) {
+			direction[0] = 0; direction[1] = 0; direction[2] = -1;
+			dir_str = "Backward";
+		}
+
+		if (ImGui::Selectable("Left")) {
+			direction[0] = -1; direction[1] = 0; direction[2] = 0;
+			dir_str = "Left";
+		}
+
+		if (ImGui::Selectable("Right")) {
+			direction[0] = 1; direction[1] = 0; direction[2] = 0;
+			dir_str = "Right";
+		}
+
+		if (ImGui::Selectable("Up")) {
+			direction[0] = 0; direction[1] = 1; direction[2] = 0;
+			dir_str = "Up";
+		}
+
+		if (ImGui::Selectable("Down")) {
+			direction[0] = 0; direction[1] = -1; direction[2] = 0;
+			dir_str = "Down";
+		}
+
+		ImGui::EndCombo();
 	}
 
-
+	//Velocity
 	ImGui::InputFloat("Velocity", &velocity, 0.0f, 0.0f, 1);
 }
