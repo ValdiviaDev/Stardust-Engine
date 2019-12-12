@@ -268,6 +268,10 @@
     <ClCompile Include="NodeRotateObject.cpp">
       <Filter>Sources\VisualScript\Nodes</Filter>
     </ClCompile>
+    <ClCompile Include="NodeToggleActiveComp.cpp">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeLogToConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -642,6 +646,10 @@
     <ClInclude Include="NodeRotateObject.h">
       <Filter>Sources\VisualScript\Nodes</Filter>
     </ClInclude>
+    <ClInclude Include="NodeToggleActiveComp.h">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeLogToConsole.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

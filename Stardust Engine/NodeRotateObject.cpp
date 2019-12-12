@@ -20,7 +20,7 @@ bool NodeRotateObject::Update(float dt, std::vector<GameObject*> BB_objects)
 		ComponentTransform* trans = (ComponentTransform*)BB_objects[obj_indx]->GetComponent(Comp_Transform);
 		
 		if(!rot_with_mouse)
-			trans->SumRotation(rot_vel);
+			trans->SumRotation(rot_vel * dt);
 	}
 
 	return updating;

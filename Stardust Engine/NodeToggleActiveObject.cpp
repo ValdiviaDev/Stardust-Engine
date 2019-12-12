@@ -33,7 +33,7 @@ bool NodeToggleActiveObject::Update(float dt, std::vector<GameObject*> BB_object
 		updating = true;
 	}
 
-	return false;
+	return updating;
 }
 
 void NodeToggleActiveObject::Draw(std::vector<GameObject*> BB_objects)

@@ -16,7 +16,9 @@ enum NodeFunction {
 	Func_MouseMove,
 	Func_MoveObject,
 	Func_RotateObject,
-	Func_ToggleActiveObject
+	Func_ToggleActiveObject,
+	Func_ToggleActiveComp,
+	Func_LogToConsole
 };
 
 class Node

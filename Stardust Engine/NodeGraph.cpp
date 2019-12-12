@@ -8,6 +8,8 @@
 #include "NodeMouseMove.h"
 #include "NodeToggleActiveObject.h"
 #include "NodeRotateObject.h"
+#include "NodeToggleActiveComp.h"
+#include "NodeLogToConsole.h"
 
 NodeGraph::NodeGraph() {
 
@@ -259,7 +261,11 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects) {
 						AddNode(Func_RotateObject, scene_pos);
 					if (ImGui::MenuItem("Active GameObject"))
 						AddNode(Func_ToggleActiveObject, scene_pos);
-
+					if(ImGui::MenuItem("Active Component"))
+						AddNode(Func_ToggleActiveComp, scene_pos);
+					if (ImGui::MenuItem("Log to Console"))
+						AddNode(Func_LogToConsole, scene_pos);
+					
 					ImGui::EndMenu();
 				}
 
@@ -340,6 +346,14 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 
 	case Func_RotateObject:
 		node = (Node*)new NodeRotateObject(last_node_id, pos);
+		break;
+
+	case Func_ToggleActiveComp:
+		node = (Node*)new NodeToggleActiveComp(last_node_id, pos);
+		break;
+		
+	case Func_LogToConsole:
+		node = (Node*)new NodeLogToConsole(last_node_id, pos);
 		break;
 
 	case Func_Default:

@@ -179,10 +179,12 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="NodeGraph.h" />
     <ClInclude Include="NodeKeyInput.h" />
+    <ClInclude Include="NodeLogToConsole.h" />
     <ClInclude Include="NodeMouseInput.h" />
     <ClInclude Include="NodeMouseMove.h" />
     <ClInclude Include="NodeMoveObject.h" />
     <ClInclude Include="NodeRotateObject.h" />
+    <ClInclude Include="NodeToggleActiveComp.h" />
     <ClInclude Include="NodeToggleActiveObject.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="PanelAbout.h" />
@@ -271,10 +273,12 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NodeGraph.cpp" />
     <ClCompile Include="NodeKeyInput.cpp" />
+    <ClCompile Include="NodeLogToConsole.cpp" />
     <ClCompile Include="NodeMouseInput.cpp" />
     <ClCompile Include="NodeMouseMove.cpp" />
     <ClCompile Include="NodeMoveObject.cpp" />
     <ClCompile Include="NodeRotateObject.cpp" />
+    <ClCompile Include="NodeToggleActiveComp.cpp" />
     <ClCompile Include="NodeToggleActiveObject.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="PanelAbout.cpp" />
