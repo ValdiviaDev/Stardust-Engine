@@ -34,6 +34,8 @@ public:
 	void Update(float dt);
 	Component* CreateComponent(ComponentType type);
 	Component* GetComponent(ComponentType type) const;
+	Component* GetComponentByIndex(uint i) const;
+	uint GetNumComp()const;
 	void DeleteFromComponentList(Component* comp);
 
 	bool IsActive() const;

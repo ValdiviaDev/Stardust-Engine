@@ -19,6 +19,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "ComponentGraphScript.h"
 #include "MaterialImporter.h"
 #include "SceneSerialization.h"
 #include "Glew/include/glew.h"
@@ -156,6 +157,11 @@ update_status ModuleScene::PostUpdate(float dt) {
 	if (want_to_delete_go) {
 		want_to_delete_go = false;
 
+		//Delete references from every gameobject
+		for (int i = 0; i < root_object->GetNumChilds(); ++i)
+			DeleteReferenceFromGraphs(root_object->GetChild(i), focused_object);
+
+		//Delete
 		DeleteGameObject(focused_object);
 		focused_object = nullptr;
 	}
@@ -665,6 +671,19 @@ GameObject* ModuleScene::GetGameObjectFromUUID(uint UUID, GameObject* root) cons
 		}
 	}
 	return ret;
+}
+
+void ModuleScene::DeleteReferenceFromGraphs(GameObject* root, GameObject* to_delete)
+{
+	for(int j = 0; j < root->GetNumComp(); ++j){
+		if (root->GetComponentByIndex(j)->GetType() == Comp_Graph_Script) {
+			ComponentGraphScript* comp_g = (ComponentGraphScript*)root->GetComponentByIndex(j);
+			comp_g->DeleteGameObjectFromBlackboard(to_delete);
+		}
+	}
+
+	for (int i = 0; i < root->GetNumChilds(); ++i)
+		DeleteReferenceFromGraphs(root->GetChild(i), to_delete);
 }
 
 void ModuleScene::DeleteGameObject(GameObject* go)

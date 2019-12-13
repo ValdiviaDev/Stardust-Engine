@@ -55,6 +55,8 @@ public:
 	bool updating = false;
 	uint obj_indx = 0;
 	bool obj_using_this = true;
+
+	bool error = false;
 };
 
 #endif

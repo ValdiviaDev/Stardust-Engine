@@ -18,6 +18,13 @@ NodeMoveObject::~NodeMoveObject()
 bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	updating = false;
+
+	//If reference gets deleted, reference is the original object
+	if (obj_indx >= BB_objects.size()) {
+		obj_using_this = true;
+		obj_indx = 0;
+	}
+
 	if (BB_objects[obj_indx]) {
 		updating = true;
 		ComponentTransform* trans = (ComponentTransform*)BB_objects[obj_indx]->GetComponent(Comp_Transform);
@@ -25,6 +32,12 @@ bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 		float3 new_pos = { direction[0] * velocity * dt, direction[1] * velocity * dt, direction[2] * velocity * dt };
 
 		trans->SumPosition(new_pos);
+
+		error = false;
+	}
+	else {
+		error = true;
+		App->gui->AddLogToConsole("ERROR: Can't move object: Object is NULL");
 	}
 
 	return updating;
@@ -39,6 +52,12 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 	}
 
 	if (!obj_using_this) {
+		//If reference gets deleted, reference is the original object
+		if (obj_indx >= BB_objects.size()) {
+			obj_using_this = true;
+			obj_indx = 0;
+		}
+
 		if (ImGui::BeginCombo("GameObject reference", BB_objects[obj_indx]->GetName())) {
 			for (int i = 1; i < BB_objects.size(); ++i) {
 				if (ImGui::Selectable(BB_objects[i]->GetName()))

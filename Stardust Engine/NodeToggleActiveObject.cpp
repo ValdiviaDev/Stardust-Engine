@@ -1,5 +1,7 @@
+#include "Application.h"
 #include "NodeToggleActiveObject.h"
 #include "GameObject.h"
+#include "ModuleGui.h"
 
 
 NodeToggleActiveObject::NodeToggleActiveObject(int id, const ImVec2& pos) : Node(id, "Action: ToggleActiveObject", pos, 1, 1, Node_Type_Action, Func_ToggleActiveObject)
@@ -15,7 +17,19 @@ bool NodeToggleActiveObject::Update(float dt, std::vector<GameObject*> BB_object
 {
 	updating = false;
 
-	if (BB_objects[obj_indx]) {
+	//If reference gets deleted, reference is the original object
+	if (obj_indx >= BB_objects.size()) {
+		obj_using_this = true;
+		obj_indx = 0;
+	}
+
+	if (dt == 0.0f) {
+		updating = true;
+		return updating; //Show that node is updating, but nothing happens, because the simulation is paused
+	}
+
+	if (BB_objects[obj_indx] != nullptr) {
+		error = false;
 		switch (active_set) {
 		case Toggle:
 			BB_objects[obj_indx]->SetActive(!BB_objects[obj_indx]->IsActive());
@@ -32,6 +46,10 @@ bool NodeToggleActiveObject::Update(float dt, std::vector<GameObject*> BB_object
 
 		updating = true;
 	}
+	else {
+		error = true;
+		App->gui->AddLogToConsole("ERROR: Can't toggle active: Object is NULL");
+	}
 
 	return updating;
 }
@@ -45,6 +63,12 @@ void NodeToggleActiveObject::Draw(std::vector<GameObject*> BB_objects)
 	}
 
 	if (!obj_using_this) {
+		//If reference gets deleted, reference is the original object
+		if (obj_indx >= BB_objects.size()) {
+			obj_using_this = true;
+			obj_indx = 0;
+		}
+
 		if (ImGui::BeginCombo("GameObject reference", BB_objects[obj_indx]->GetName())) {
 			for (int i = 1; i < BB_objects.size(); ++i) {
 				if (ImGui::Selectable(BB_objects[i]->GetName()))

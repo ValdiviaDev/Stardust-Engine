@@ -1,6 +1,8 @@
+#include "Application.h"
 #include "NodeRotateObject.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ModuleGui.h"
 
 
 NodeRotateObject::NodeRotateObject(int id, const ImVec2& pos) : Node(id, "Action: RotateObject", pos, 1, 1, Node_Type_Action, Func_RotateObject)
@@ -15,12 +17,25 @@ NodeRotateObject::~NodeRotateObject()
 bool NodeRotateObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	updating = false;
+
+	//If reference gets deleted, reference is the original object
+	if (obj_indx >= BB_objects.size()) {
+		obj_using_this = true;
+		obj_indx = 0;
+	}
+
 	if (BB_objects[obj_indx]) {
 		updating = true;
 		ComponentTransform* trans = (ComponentTransform*)BB_objects[obj_indx]->GetComponent(Comp_Transform);
 		
 		if(!rot_with_mouse)
 			trans->SumRotation(rot_vel * dt);
+
+		error = false;
+	}
+	else {
+		error = true;
+		App->gui->AddLogToConsole("ERROR: Can't rotate object: Object is NULL");
 	}
 
 	return updating;
@@ -35,6 +50,12 @@ void NodeRotateObject::Draw(std::vector<GameObject*> BB_objects)
 	}
 
 	if (!obj_using_this) {
+		//If reference gets deleted, reference is the original object
+		if (obj_indx >= BB_objects.size()) {
+			obj_using_this = true;
+			obj_indx = 0;
+		}
+
 		if (ImGui::BeginCombo("GameObject reference", BB_objects[obj_indx]->GetName())) {
 			for (int i = 1; i < BB_objects.size(); ++i) {
 				if (ImGui::Selectable(BB_objects[i]->GetName()))

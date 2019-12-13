@@ -62,6 +62,7 @@ public:
 	ComponentCamera* GetMainCamera() const;
 	void SetMainCamera(ComponentCamera* cam);
 
+	void DeleteReferenceFromGraphs(GameObject* root, GameObject* to_delete);
 	void DeleteGameObject(GameObject* go);
 	void DestroyGOs();
 

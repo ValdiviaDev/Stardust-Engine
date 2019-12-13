@@ -92,3 +92,17 @@ void ComponentGraphScript::DrawInspector()
 	}
 
 }
+
+bool ComponentGraphScript::DeleteGameObjectFromBlackboard(GameObject * to_delete)
+{
+	//Search for every reference, if it exists, delete it off the list
+	for (std::vector<GameObject*>::const_iterator it = BB_objects.begin(); it < BB_objects.end(); it++)
+		if ((*it) == to_delete) {
+			BB_objects.erase(it);
+			BB_objects.shrink_to_fit();
+			return true;
+		}
+
+
+	return false;
+}

@@ -13,6 +13,8 @@ public:
 	void Update(float dt);
 	void DrawInspector();
 
+	bool DeleteGameObjectFromBlackboard(GameObject* to_delete);
+
 public:
 	UID uuid_script = 0;
 

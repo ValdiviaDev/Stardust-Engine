@@ -118,6 +118,11 @@ Component* GameObject::GetComponent(ComponentType type) const
 	return nullptr;
 }
 
+Component* GameObject::GetComponentByIndex(uint i) const
+{
+	return components[i];
+}
+
 void GameObject::DeleteFromComponentList(Component* comp)
 {
 	for (std::vector<Component*>::const_iterator it = components.begin(); it < components.end(); it++) {
@@ -200,6 +205,11 @@ void GameObject::DeleteFromParentList()
 				break;
 			}
 	}
+}
+
+uint GameObject::GetNumComp() const
+{
+	return components.size();
 }
 
 
