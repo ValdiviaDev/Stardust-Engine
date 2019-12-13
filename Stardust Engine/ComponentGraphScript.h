@@ -14,6 +14,7 @@ public:
 	void DrawInspector();
 
 	bool DeleteGameObjectFromBlackboard(GameObject* to_delete);
+	void HideOtherGraphsFromSameObject();
 
 public:
 	UID uuid_script = 0;

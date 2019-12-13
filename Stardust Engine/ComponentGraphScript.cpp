@@ -64,8 +64,12 @@ void ComponentGraphScript::DrawInspector()
 			else
 				graph_visib_str = "Hide Graph";
 
-			if (ImGui::Button(graph_visib_str, { 80,30 }))
+			if (ImGui::Button(graph_visib_str, { 80,30 })) {
+				if (!show_graph) 
+					HideOtherGraphsFromSameObject();
+				
 				show_graph = !show_graph;
+			}
 			
 			ImGui::Separator();
 
@@ -105,4 +109,14 @@ bool ComponentGraphScript::DeleteGameObjectFromBlackboard(GameObject * to_delete
 
 
 	return false;
+}
+
+void ComponentGraphScript::HideOtherGraphsFromSameObject()
+{
+	for (int i = 0; i < gameObject->GetNumComp(); ++i) {
+		if (gameObject->GetComponentByIndex(i)->GetType() == Comp_Graph_Script) {
+			ComponentGraphScript* g = (ComponentGraphScript*)gameObject->GetComponentByIndex(i);
+			g->show_graph = false;
+		}
+	}
 }
