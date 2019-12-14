@@ -18,7 +18,11 @@ enum NodeFunction {
 	Func_RotateObject,
 	Func_ToggleActiveObject,
 	Func_ToggleActiveComp,
-	Func_LogToConsole
+	Func_LogToConsole,
+	Func_InstObject,
+	Func_DelObject,
+	Func_LoadScene,
+	Func_Timer
 };
 
 class Node

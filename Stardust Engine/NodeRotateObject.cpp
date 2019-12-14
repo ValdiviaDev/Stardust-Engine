@@ -2,6 +2,7 @@
 #include "NodeRotateObject.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ModuleInput.h"
 #include "ModuleGui.h"
 
 
@@ -28,7 +29,15 @@ bool NodeRotateObject::Update(float dt, std::vector<GameObject*> BB_objects)
 		updating = true;
 		ComponentTransform* trans = (ComponentTransform*)BB_objects[obj_indx]->GetComponent(Comp_Transform);
 		
-		if(!rot_with_mouse)
+		if (rot_with_mouse) {
+			float mouse_motion = -App->input->GetMouseXMotion();
+			mouse_motion += App->input->GetMouseYMotion();
+			//App->input->GetMouseX();
+
+			math::float3 rot = ((rot_vel  * DEGTORAD) * (mouse_motion)) * dt;
+			trans->SumRotation(rot * RADTODEG);
+		}
+		else
 			trans->SumRotation(rot_vel * dt);
 
 		error = false;
@@ -67,9 +76,9 @@ void NodeRotateObject::Draw(std::vector<GameObject*> BB_objects)
 	}
 
 	ImGui::Checkbox("Rot with mouse", &rot_with_mouse);
-	if (!rot_with_mouse) {
-		//Normal rotation
-		ImGui::Text("Rot velocity (degrees)");
-		ImGui::DragFloat3(" ", &rot_vel[0], 0.1f);
-	}
+
+	//Normal rotation
+	ImGui::Text("Rot velocity (degrees)");
+	ImGui::DragFloat3(" ", &rot_vel[0], 0.1f);
+
 }

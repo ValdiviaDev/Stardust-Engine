@@ -10,6 +10,10 @@
 #include "NodeRotateObject.h"
 #include "NodeToggleActiveComp.h"
 #include "NodeLogToConsole.h"
+#include "NodeInstantiateObject.h"
+#include "NodeDeleteObject.h"
+#include "NodeLoadScene.h"
+#include "NodeTimer.h"
 
 NodeGraph::NodeGraph() {
 
@@ -251,6 +255,8 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects) {
 						AddNode(Func_MouseInput, scene_pos);
 					if (ImGui::MenuItem("Mouse Move"))
 						AddNode(Func_MouseMove, scene_pos);
+					if (ImGui::MenuItem("Timer"))
+						AddNode(Func_Timer, scene_pos);
 
 					ImGui::EndMenu();
 				}
@@ -263,6 +269,12 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects) {
 						AddNode(Func_ToggleActiveObject, scene_pos);
 					if(ImGui::MenuItem("Active Component"))
 						AddNode(Func_ToggleActiveComp, scene_pos);
+					if (ImGui::MenuItem("Instantiate GameObject"))
+						AddNode(Func_InstObject, scene_pos);
+					if (ImGui::MenuItem("Delete GameObject"))
+						AddNode(Func_DelObject, scene_pos);
+					if (ImGui::MenuItem("Load Scene"))
+						AddNode(Func_LoadScene, scene_pos);
 					if (ImGui::MenuItem("Log to Console"))
 						AddNode(Func_LogToConsole, scene_pos);
 					
@@ -356,6 +368,22 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 		node = (Node*)new NodeLogToConsole(last_node_id, pos);
 		break;
 
+	case Func_InstObject:
+		node = (Node*)new NodeInstantiateObject(last_node_id, pos);
+		break;
+
+	case Func_DelObject:
+		node = (Node*)new NodeDeleteObject(last_node_id, pos);
+		break;
+
+	case Func_LoadScene:
+		node = (Node*)new NodeLoadScene(last_node_id, pos);
+		break;
+
+	case Func_Timer:
+		node = (Node*)new NodeTimer(last_node_id, pos);
+		break;
+
 	case Func_Default:
 		node = new Node(last_node_id, "Default", pos, 2, 2, Node_Type_Default, node_function);
 		break;
@@ -367,6 +395,7 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 		if (node->type == Node_Type_Event)
 			fst_ev_nodes.push_back(node);
 	}
+
 	return node;
 }
 

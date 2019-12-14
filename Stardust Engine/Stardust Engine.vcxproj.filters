@@ -271,7 +271,21 @@
     <ClCompile Include="NodeToggleActiveComp.cpp">
       <Filter>Sources\VisualScript\Nodes</Filter>
     </ClCompile>
-    <ClCompile Include="NodeLogToConsole.cpp" />
+    <ClCompile Include="NodeInstantiateObject.cpp">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeLogToConsole.cpp">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeDeleteObject.cpp">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeLoadScene.cpp">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeTimer.cpp">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -649,7 +663,21 @@
     <ClInclude Include="NodeToggleActiveComp.h">
       <Filter>Sources\VisualScript\Nodes</Filter>
     </ClInclude>
-    <ClInclude Include="NodeLogToConsole.h" />
+    <ClInclude Include="NodeInstantiateObject.h">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeLogToConsole.h">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeDeleteObject.h">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeLoadScene.h">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeTimer.h">
+      <Filter>Sources\VisualScript\Nodes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
