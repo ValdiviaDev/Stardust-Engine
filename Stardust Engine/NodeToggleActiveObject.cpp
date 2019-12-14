@@ -57,27 +57,7 @@ bool NodeToggleActiveObject::Update(float dt, std::vector<GameObject*> BB_object
 void NodeToggleActiveObject::Draw(std::vector<GameObject*> BB_objects)
 {
 	//GameObject reference
-	if (ImGui::Checkbox("This object", &obj_using_this)) {
-		if (obj_using_this)
-			obj_indx = 0;
-	}
-
-	if (!obj_using_this) {
-		//If reference gets deleted, reference is the original object
-		if (obj_indx >= BB_objects.size()) {
-			obj_using_this = true;
-			obj_indx = 0;
-		}
-
-		if (ImGui::BeginCombo("GameObject reference", BB_objects[obj_indx]->GetName())) {
-			for (int i = 1; i < BB_objects.size(); ++i) {
-				if (ImGui::Selectable(BB_objects[i]->GetName()))
-					obj_indx = i;
-			}
-
-			ImGui::EndCombo();
-		}
-	}
+	DrawObjectsInstance(BB_objects);
 
 	//Set active options
 	static const char* active_set_str[] = { "Toggle", "True", "False" };

@@ -157,10 +157,6 @@ update_status ModuleScene::PostUpdate(float dt) {
 	if (want_to_delete_go) {
 		want_to_delete_go = false;
 
-		//Delete references from every gameobject
-		for (int i = 0; i < root_object->GetNumChilds(); ++i)
-			DeleteReferenceFromGraphs(root_object->GetChild(i), focused_object);
-
 		//Delete
 		DeleteGameObject(focused_object);
 		focused_object = nullptr;
@@ -688,6 +684,10 @@ void ModuleScene::DeleteReferenceFromGraphs(GameObject* root, GameObject* to_del
 
 void ModuleScene::DeleteGameObject(GameObject* go)
 {
+	//Delete references from every gameobject
+	for (int i = 0; i < root_object->GetNumChilds(); ++i)
+		DeleteReferenceFromGraphs(root_object->GetChild(i), focused_object);
+
 	go->DeleteFromParentList();
 	RELEASE(go);
 }

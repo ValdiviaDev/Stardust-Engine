@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "GameObject.h"
 
 Node::Node(int id, const char * name, const ImVec2 & pos, int inputs_count, int outputs_count, NodeType type, NodeFunction function)
 {
@@ -35,4 +36,29 @@ void Node::SetInputsCount(int num)
 void Node::SetOutputsCount(int num)
 {
 	OutputsCount = num;
+}
+
+void Node::DrawObjectsInstance(std::vector<GameObject*> BB_objects)
+{
+	if (ImGui::Checkbox("This object", &obj_using_this)) {
+		if (obj_using_this)
+			obj_indx = 0;
+	}
+
+	if (!obj_using_this) {
+		//If reference gets deleted, reference is the original object
+		if (obj_indx >= BB_objects.size()) {
+			obj_using_this = true;
+			obj_indx = 0;
+		}
+
+		if (ImGui::BeginCombo("GameObject reference", BB_objects[obj_indx]->GetName())) {
+			for (int i = 1; i < BB_objects.size(); ++i) {
+				if (ImGui::Selectable(BB_objects[i]->GetName()))
+					obj_indx = i;
+			}
+
+			ImGui::EndCombo();
+		}
+	}
 }

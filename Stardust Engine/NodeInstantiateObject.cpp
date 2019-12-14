@@ -20,4 +20,7 @@ bool NodeInstantiateObject::Update(float dt, std::vector<GameObject*> BB_objects
 
 void NodeInstantiateObject::Draw(std::vector<GameObject*> BB_objects)
 {
+	//GameObject reference
+	DrawObjectsInstance(BB_objects);
+
 }
