@@ -70,17 +70,21 @@ public:
 	std::vector<GameObject*> static_objects;
 
 	Quadtree* quadtree = nullptr;
-	bool want_to_save = false;
-	bool want_to_load = false;
 	bool rebuild_quadtree = false;
 
+	GameObject* GO_to_delete = nullptr;
+	bool want_to_delete_go = false;
+	bool want_to_save = false;
+	bool want_to_load = false;
+
+
+	//Debug
 	bool draw_GO_AABBs = false;
 	bool draw_quadtree = false;
 private:
 	
 	GameObject* root_object = nullptr;
 	GameObject* focused_object = nullptr;
-	bool want_to_delete_go = false;
 	ComponentCamera* main_camera = nullptr;
 };
 

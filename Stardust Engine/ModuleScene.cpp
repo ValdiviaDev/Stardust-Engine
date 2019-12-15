@@ -116,8 +116,10 @@ update_status ModuleScene::Update(float dt)
 	root_object->Update(dt);
 
 	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
-		if (focused_object)
+		if (focused_object) {
+			GO_to_delete = focused_object;
 			want_to_delete_go = true;
+		}
 
 	return UPDATE_CONTINUE;
 }
@@ -158,8 +160,19 @@ update_status ModuleScene::PostUpdate(float dt) {
 		want_to_delete_go = false;
 
 		//Delete
-		DeleteGameObject(focused_object);
-		focused_object = nullptr;
+		if (GO_to_delete) {
+			bool go_to_del_is_focused = false;
+			if (GO_to_delete == focused_object)
+				go_to_del_is_focused = true;
+
+			DeleteGameObject(GO_to_delete);
+			GO_to_delete = nullptr;
+
+			if (go_to_del_is_focused)
+				focused_object = nullptr;
+		}
+		else
+			App->gui->AddLogToConsole("Couldn't delete GameObject, GO_to_delete is NULL");
 	}
 
 	return UPDATE_CONTINUE;

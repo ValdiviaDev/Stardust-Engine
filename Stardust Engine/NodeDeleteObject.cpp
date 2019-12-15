@@ -25,7 +25,8 @@ bool NodeDeleteObject::Update(float dt, std::vector<GameObject*> BB_objects)
 		to_delete = BB_objects[obj_indx];
 
 	if (to_delete) {
-		App->scene->DeleteGameObject(to_delete); //TO_FIX------------------------------- TODO
+		App->scene->GO_to_delete = to_delete;
+		App->scene->want_to_delete_go = true;
 
 		updating = true;
 	}
