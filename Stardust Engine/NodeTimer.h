@@ -13,6 +13,11 @@ public:
 	void Draw(std::vector<GameObject*> BB_objects);
 
 private:
+	bool reset = false;
+	bool repeat_action = false;
+
+	float time = 0.0f;
+	float timer = 0.0f;
 
 };
 

@@ -14,10 +14,37 @@ NodeTimer::~NodeTimer()
 bool NodeTimer::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	updating = false;
+	static bool make_action = true;
+
+	//Time count
+	timer += dt;
+
+	if (timer >= time) {
+		if (make_action)
+			updating = true;
+
+		if (!repeat_action)
+			make_action = false;
+		else
+			make_action = true;
+
+		if (reset) {
+			make_action = true;
+			timer = 0.0f;
+		}
+
+	}
 
 	return updating;
 }
 
 void NodeTimer::Draw(std::vector<GameObject*> BB_objects)
 {
+	ImGui::Checkbox("Reset", &reset);
+	ImGui::Checkbox("Repeat action", &repeat_action);
+
+	ImGui::InputFloat("Time", &time, 0.0f, 0.0f, 2);
+
+	ImGui::Text("Time since action:");
+	ImGui::TextColored({ 255,255,0,255 }," %0.2f", timer);
 }
