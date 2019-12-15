@@ -13,6 +13,7 @@ public:
 	void Draw(std::vector<GameObject*> BB_objects);
 
 private:
+	char scene_to_load[100] = "";
 
 };
 

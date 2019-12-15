@@ -13,7 +13,7 @@ public:
 	void Draw(std::vector<GameObject*> BB_objects);
 
 private:
-	char log[150] = " ";
+	char log[150] = "";
 
 };
 

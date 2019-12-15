@@ -22,5 +22,6 @@ bool NodeLogToConsole::Update(float dt, std::vector<GameObject*> BB_objects)
 
 void NodeLogToConsole::Draw(std::vector<GameObject*> BB_objects)
 {
+	ImGui::Text("Log to print");
 	ImGui::InputText("", log, IM_ARRAYSIZE(log));
 }
