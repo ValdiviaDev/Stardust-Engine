@@ -20,7 +20,7 @@ NodeToggleActiveComp::~NodeToggleActiveComp()
 
 bool NodeToggleActiveComp::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = false;
+	node_state = Node_State_Idle;
 
 	//If reference gets deleted, reference is the original object
 	if (obj_indx >= BB_objects.size()) {
@@ -29,12 +29,11 @@ bool NodeToggleActiveComp::Update(float dt, std::vector<GameObject*> BB_objects)
 	}
 
 	if (dt == 0.0f) {
-		updating = true;
-		return updating; //Show that node is updating, but nothing happens, because the simulation is paused
+		node_state = Node_State_ToUpdate;
+		return true; //Show that node is updating, but nothing happens, because the simulation is paused
 	}
 
 	if (BB_objects[obj_indx]) {
-		error = false;
 		Component* comp = BB_objects[obj_indx]->GetComponent(comp_type);
 		
 		if (comp) {
@@ -52,19 +51,19 @@ bool NodeToggleActiveComp::Update(float dt, std::vector<GameObject*> BB_objects)
 				break;
 			}
 
-			updating = true;
+			node_state = Node_State_Updating;
 		}
 		else {
-			error = true;
+			node_state = Node_State_Error;
 			App->gui->AddLogToConsole("ERROR: Can't toggle active component: Component is NULL");
 		}
 	}
 	else {
-		error = true;
+		node_state = Node_State_Error;
 		App->gui->AddLogToConsole("ERROR: Can't toggle active component: Object is NULL");
 	}
 
-	return updating;
+	return true;
 }
 
 void NodeToggleActiveComp::Draw(std::vector<GameObject*> BB_objects)

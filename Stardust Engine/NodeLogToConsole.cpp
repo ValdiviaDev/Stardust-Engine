@@ -14,10 +14,11 @@ NodeLogToConsole::~NodeLogToConsole()
 
 bool NodeLogToConsole::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = true;
+	node_state = Node_State_Updating;
+
 	App->gui->AddLogToConsole(log);
 
-	return updating;
+	return true;
 }
 
 void NodeLogToConsole::Draw(std::vector<GameObject*> BB_objects)

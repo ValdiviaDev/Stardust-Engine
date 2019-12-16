@@ -25,6 +25,13 @@ enum NodeFunction {
 	Func_Timer
 };
 
+enum NodeState {
+	Node_State_Updating,
+	Node_State_ToUpdate,
+	Node_State_Error,
+	Node_State_Idle
+};
+
 class Node
 {
 public:
@@ -58,11 +65,10 @@ public:
 	NodeType type;
 	NodeFunction function;
 
-	bool updating = false;
+	NodeState node_state = Node_State_Idle;
 	uint obj_indx = 0;
 	bool obj_using_this = true;
 
-	bool error = false;
 };
 
 #endif

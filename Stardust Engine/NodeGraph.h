@@ -19,6 +19,7 @@ static inline ImVec2 operator-(const ImVec2& lhs, const ImVec2& rhs) { return Im
 class GameObject;
 class Node;
 enum NodeFunction;
+enum NodeState;
 
 struct NodeLink
 {
@@ -39,7 +40,7 @@ public:
 
 	void Draw(std::vector<GameObject*> BB_objects);
 	void Update(float dt, std::vector<GameObject*> BB_objects);
-	void UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, bool input_updating);
+	void UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, NodeState input_updating);
 
 	Node* AddNode(NodeFunction node_function, const ImVec2& pos);
 	void AddLink(int input_idx, int input_slot, int output_idx, int output_slot);

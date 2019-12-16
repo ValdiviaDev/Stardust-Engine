@@ -16,14 +16,12 @@ NodeLoadScene::~NodeLoadScene()
 
 bool NodeLoadScene::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = false;
+	node_state = Node_State_Updating;
 
 	strcpy(App->gui->scene_name, scene_to_load);
 	App->scene->want_to_load = true;
-	
-	updating = true;
 
-	return updating;
+	return true;
 }
 
 void NodeLoadScene::Draw(std::vector<GameObject*> BB_objects)

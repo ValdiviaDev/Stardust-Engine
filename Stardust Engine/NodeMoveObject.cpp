@@ -17,7 +17,7 @@ NodeMoveObject::~NodeMoveObject()
 
 bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = false;
+	node_state = Node_State_Idle;
 
 	//If reference gets deleted, reference is the original object
 	if (obj_indx >= BB_objects.size()) {
@@ -26,21 +26,19 @@ bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 	}
 
 	if (BB_objects[obj_indx]) {
-		updating = true;
+		node_state = Node_State_Updating;
 		ComponentTransform* trans = (ComponentTransform*)BB_objects[obj_indx]->GetComponent(Comp_Transform);
 
 		float3 new_pos = { direction[0] * velocity * dt, direction[1] * velocity * dt, direction[2] * velocity * dt };
 
 		trans->SumPosition(new_pos);
-
-		error = false;
 	}
 	else {
-		error = true;
+		node_state = Node_State_Error;
 		App->gui->AddLogToConsole("ERROR: Can't move object: Object is NULL");
 	}
 
-	return updating;
+	return true;
 }
 
 void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)

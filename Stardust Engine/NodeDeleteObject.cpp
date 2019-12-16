@@ -15,12 +15,12 @@ NodeDeleteObject::~NodeDeleteObject()
 
 bool NodeDeleteObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = false;
+	node_state = Node_State_Idle;
 	GameObject* to_delete = nullptr;
 
 	//If reference gets deleted, send error
 	if (obj_indx >= BB_objects.size())
-		error = true;
+		node_state = Node_State_Error;
 	else
 		to_delete = BB_objects[obj_indx];
 
@@ -28,10 +28,10 @@ bool NodeDeleteObject::Update(float dt, std::vector<GameObject*> BB_objects)
 		App->scene->GO_to_delete = to_delete;
 		App->scene->want_to_delete_go = true;
 
-		updating = true;
+		node_state = Node_State_Updating;
 	}
 
-	return updating;
+	return true;
 }
 
 void NodeDeleteObject::Draw(std::vector<GameObject*> BB_objects)

@@ -15,12 +15,12 @@ NodeMouseInput::~NodeMouseInput()
 
 bool NodeMouseInput::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = false;
+	node_state = Node_State_Idle;
 	
 	if (App->input->GetMouseButton(mouse_butt_id) == key_state)
-		updating = true;
+		node_state = Node_State_Updating;
 
-	return updating;
+	return true;
 }
 
 void NodeMouseInput::Draw(std::vector<GameObject*> BB_objects)

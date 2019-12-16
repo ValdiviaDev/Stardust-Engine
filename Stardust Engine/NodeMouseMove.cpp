@@ -14,12 +14,12 @@ NodeMouseMove::~NodeMouseMove()
 
 bool NodeMouseMove::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = false;
+	node_state = Node_State_Idle;
 
 	if (App->input->GetMouseXMotion() != 0 || App->input->GetMouseYMotion() != 0)
-		updating = true;
+		node_state = Node_State_Updating;
 
-	return updating;
+	return true;
 }
 
 void NodeMouseMove::Draw(std::vector<GameObject*> BB_objects)

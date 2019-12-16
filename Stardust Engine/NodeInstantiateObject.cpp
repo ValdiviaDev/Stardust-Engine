@@ -13,14 +13,13 @@ NodeInstantiateObject::~NodeInstantiateObject()
 
 bool NodeInstantiateObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = false;
+	node_state = Node_State_Idle;
 
-	return updating;
+	return true;
 }
 
 void NodeInstantiateObject::Draw(std::vector<GameObject*> BB_objects)
 {
 	//GameObject reference
 	DrawObjectsInstance(BB_objects);
-
 }

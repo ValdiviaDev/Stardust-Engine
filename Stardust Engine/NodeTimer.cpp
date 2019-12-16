@@ -13,7 +13,7 @@ NodeTimer::~NodeTimer()
 
 bool NodeTimer::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = false;
+	node_state = Node_State_Idle;
 	static bool make_action = true;
 
 	//Time count
@@ -21,7 +21,7 @@ bool NodeTimer::Update(float dt, std::vector<GameObject*> BB_objects)
 
 	if (timer >= time) {
 		if (make_action)
-			updating = true;
+			node_state = Node_State_Updating;
 
 		if (!repeat_action)
 			make_action = false;
@@ -34,8 +34,10 @@ bool NodeTimer::Update(float dt, std::vector<GameObject*> BB_objects)
 		}
 
 	}
+	else
+		node_state = Node_State_ToUpdate;
 
-	return updating;
+	return true;
 }
 
 void NodeTimer::Draw(std::vector<GameObject*> BB_objects)

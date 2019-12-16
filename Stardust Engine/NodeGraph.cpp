@@ -132,9 +132,26 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects) {
 		ImU32 node_bg_color = (node_hovered_in_scene == node->ID || (node_selected == node->ID)) ? IM_COL32(75, 75, 75, 255) : IM_COL32(60, 60, 60, 255);
 		ImU32 node_outline_color = IM_COL32(100, 100, 100, 255);
 		float node_outline_thickness = 4.0f;
-		if (node->updating) {
-			node_outline_color = IM_COL32(0, 255, 0, 255);
+
+		switch (node->node_state)
+		{
+		case Node_State_Updating:
+			node_outline_color = IM_COL32(0, 255, 0, 255); //Green
 			node_outline_thickness = 8.0f;
+			break;
+
+		case Node_State_ToUpdate:
+			node_outline_color = IM_COL32(255, 255, 0, 255); //Yellow
+			node_outline_thickness = 8.0f;
+			break;
+
+		case Node_State_Error:
+			node_outline_color = IM_COL32(255, 0, 0, 255); //Red
+			node_outline_thickness = 8.0f;
+			break;
+
+		default:
+			break;
 		}
 
 		//Print node
@@ -312,19 +329,19 @@ void NodeGraph::Update(float dt, std::vector<GameObject*> BB_objects)
 			
 		//Look for every output update
 		for (int j = 0; j < fst_ev_nodes[i]->outputs.size(); ++j)
-			UpdateOutputNodes(dt, BB_objects, fst_ev_nodes[i]->outputs[j], fst_ev_nodes[i]->updating);
+			UpdateOutputNodes(dt, BB_objects, fst_ev_nodes[i]->outputs[j], fst_ev_nodes[i]->node_state);
 	}
 }
 
-void NodeGraph::UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, bool input_updating)
+void NodeGraph::UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, NodeState input_state)
 {
-	if (input_updating)
+	if (input_state == Node_State_Updating)
 		output->Update(dt, BB_objects); //Update of the node
 	else
-		output->updating = false;
+		output->node_state = Node_State_Idle;
 
 	for (int i = 0; i < output->outputs.size(); ++i)
-		UpdateOutputNodes(dt, BB_objects, output->outputs[i], output->updating);
+		UpdateOutputNodes(dt, BB_objects, output->outputs[i], output->node_state);
 
 }
 

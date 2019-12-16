@@ -18,12 +18,12 @@ NodeKeyInput::~NodeKeyInput()
 
 bool NodeKeyInput::Update(float dt, std::vector<GameObject*> BB_objects)
 {
-	updating = false;
+	node_state = Node_State_Idle;
 
 	if (App->input->GetKey(key_id) == key_state)
-		updating = true;
+		node_state = Node_State_Updating;
 
-	return updating;
+	return true;
 }
 
 void NodeKeyInput::Draw(std::vector<GameObject*> BB_objects)
