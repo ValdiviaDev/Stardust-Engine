@@ -4,6 +4,7 @@
 #include "ResourceGraphScript.h"
 #include "NodeGraph.h"
 #include "GameObject.h"
+#include "ModuleGui.h"
 #include "imgui/imgui.h"
 
 
@@ -57,6 +58,7 @@ void ComponentGraphScript::DrawInspector()
 				has_script = true;
 			}
 		}
+		//If a graph node is already associated with this component
 		else {
 			const char* graph_visib_str;
 			if (!show_graph)
@@ -80,9 +82,7 @@ void ComponentGraphScript::DrawInspector()
 			if (ImGui::BeginDragDropTarget()) {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Hierarchy")) {
 					GameObject* go = *(GameObject**)payload->Data;
-					if (go)
-						BB_objects.push_back(go);
-
+					AddReferenceToBlackboard(go);
 				}
 				ImGui::EndDragDropTarget();
 			}
@@ -97,15 +97,36 @@ void ComponentGraphScript::DrawInspector()
 
 }
 
-bool ComponentGraphScript::DeleteGameObjectFromBlackboard(GameObject * to_delete)
+void ComponentGraphScript::AddReferenceToBlackboard(GameObject* ref)
 {
+	if (ref) {
+		bool is_ref_added = false;
+
+		for (std::vector<GameObject*>::const_iterator it = BB_objects.begin(); it < BB_objects.end(); it++) {
+			if ((*it) == ref) {
+				is_ref_added = true;
+				break;
+			}
+		}
+		if (!is_ref_added)
+			BB_objects.push_back(ref);
+		else
+			App->gui->AddLogToConsole("This reference is already added to this blackboard");
+
+	}
+}
+
+bool ComponentGraphScript::DeleteGameObjectFromBlackboard(GameObject* to_delete)
+{
+
 	//Search for every reference, if it exists, delete it off the list
-	for (std::vector<GameObject*>::const_iterator it = BB_objects.begin(); it < BB_objects.end(); it++)
+	for (std::vector<GameObject*>::const_iterator it = BB_objects.begin(); it < BB_objects.end(); it++) {
 		if ((*it) == to_delete) {
 			BB_objects.erase(it);
 			BB_objects.shrink_to_fit();
 			return true;
-		}
+		}	
+	}
 
 
 	return false;

@@ -13,6 +13,7 @@ public:
 	void Update(float dt);
 	void DrawInspector();
 
+	void AddReferenceToBlackboard(GameObject* ref);
 	bool DeleteGameObjectFromBlackboard(GameObject* to_delete);
 	void HideOtherGraphsFromSameObject();
 
