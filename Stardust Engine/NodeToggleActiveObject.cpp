@@ -16,11 +16,11 @@ NodeToggleActiveObject::~NodeToggleActiveObject()
 bool NodeToggleActiveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	node_state = Node_State_Idle;
+	GameObject* object = BB_objects[obj_indx];
 
 	//If reference gets deleted, reference is the original object
 	if (obj_indx >= BB_objects.size()) {
-		obj_using_this = true;
-		obj_indx = 0;
+		object = nullptr;
 	}
 
 	if (dt == 0.0f) {
@@ -28,18 +28,18 @@ bool NodeToggleActiveObject::Update(float dt, std::vector<GameObject*> BB_object
 		return true; //Show that node is updating, but nothing happens, because the simulation is paused
 	}
 
-	if (BB_objects[obj_indx] != nullptr) {
+	if (object != nullptr) {
 		switch (active_set) {
 		case Toggle:
-			BB_objects[obj_indx]->SetActive(!BB_objects[obj_indx]->IsActive());
+			object->SetActive(!object->IsActive());
 			break;
 
 		case True:
-			BB_objects[obj_indx]->SetActive(true);
+			object->SetActive(true);
 			break;
 
 		case False:
-			BB_objects[obj_indx]->SetActive(false);
+			object->SetActive(false);
 			break;
 		}
 

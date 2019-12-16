@@ -18,16 +18,16 @@ NodeRotateObject::~NodeRotateObject()
 bool NodeRotateObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	node_state = Node_State_Idle;
+	GameObject* object = BB_objects[obj_indx];
 
 	//If reference gets deleted, reference is the original object
 	if (obj_indx >= BB_objects.size()) {
-		obj_using_this = true;
-		obj_indx = 0;
+		object = nullptr;
 	}
 
-	if (BB_objects[obj_indx]) {
+	if (object) {
 		node_state = Node_State_Updating;
-		ComponentTransform* trans = (ComponentTransform*)BB_objects[obj_indx]->GetComponent(Comp_Transform);
+		ComponentTransform* trans = (ComponentTransform*)object->GetComponent(Comp_Transform);
 		
 		if (rot_with_mouse) {
 			float mouse_motion = -App->input->GetMouseXMotion();

@@ -46,13 +46,15 @@ void Node::DrawObjectsInstance(std::vector<GameObject*> BB_objects)
 	}
 
 	if (!obj_using_this) {
-		//If reference gets deleted, reference is the original object
-		if (obj_indx >= BB_objects.size()) {
-			obj_using_this = true;
-			obj_indx = 0;
-		}
+		const char* object_name;
 
-		if (ImGui::BeginCombo("GameObject reference", BB_objects[obj_indx]->GetName())) {
+		//Check if reference has been deleted
+		if (obj_indx < BB_objects.size())
+			object_name = BB_objects[obj_indx]->GetName();
+		else
+			object_name = "null";
+
+		if (ImGui::BeginCombo("GameObject reference", object_name)) {
 			for (int i = 1; i < BB_objects.size(); ++i) {
 				if (ImGui::Selectable(BB_objects[i]->GetName()))
 					obj_indx = i;

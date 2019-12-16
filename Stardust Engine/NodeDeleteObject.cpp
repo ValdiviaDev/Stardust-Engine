@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "NodeDeleteObject.h"
 #include "ModuleScene.h"
+#include "ModuleGui.h"
 
 
 
@@ -30,6 +31,8 @@ bool NodeDeleteObject::Update(float dt, std::vector<GameObject*> BB_objects)
 
 		node_state = Node_State_Updating;
 	}
+	else
+		App->gui->AddLogToConsole("ERROR: You are trying to delete a GameObject that is already deleted");
 
 	return true;
 }
