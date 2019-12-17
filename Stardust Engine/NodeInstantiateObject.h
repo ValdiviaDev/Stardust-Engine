@@ -2,6 +2,7 @@
 #define __NodeInstantiateObject_H__
 
 #include "Node.h"
+#include "MathGeoLib/include/MathGeoLib.h"
 
 class NodeInstantiateObject : public Node
 {
@@ -13,7 +14,13 @@ public:
 	void Draw(std::vector<GameObject*> BB_objects);
 
 private:
+	bool get_ref_trans = false;
+	bool get_inst_trans = false;
 
+	math::float3 pos_to_inst;
+	math::float3 rot_to_inst;
+
+	uint inst_indx = 0;
 
 };
 

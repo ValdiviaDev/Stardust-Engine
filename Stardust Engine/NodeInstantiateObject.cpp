@@ -15,11 +15,20 @@ bool NodeInstantiateObject::Update(float dt, std::vector<GameObject*> BB_objects
 {
 	node_state = Node_State_Idle;
 
+
 	return true;
 }
 
 void NodeInstantiateObject::Draw(std::vector<GameObject*> BB_objects)
 {
-	//GameObject reference
-	DrawObjectsInstance(BB_objects);
+
+	ImGui::Checkbox("Get transform from reference", &get_ref_trans);
+	ImGui::Checkbox("Get transform fron instance", &get_inst_trans);
+
+
+	if (get_ref_trans) {
+		//GameObject reference
+		DrawObjectsInstance(BB_objects);
+	}
+
 }

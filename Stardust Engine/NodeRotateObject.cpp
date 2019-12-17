@@ -18,12 +18,14 @@ NodeRotateObject::~NodeRotateObject()
 bool NodeRotateObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	node_state = Node_State_Idle;
-	GameObject* object = BB_objects[obj_indx];
+	GameObject* object = nullptr;
 
-	//If reference gets deleted, reference is the original object
-	if (obj_indx >= BB_objects.size()) {
-		object = nullptr;
-	}
+	//If reference gets deleted, send error
+	if (obj_indx >= BB_objects.size())
+		node_state = Node_State_Error;
+	else
+		object = BB_objects[obj_indx];
+
 
 	if (object) {
 		node_state = Node_State_Updating;
@@ -41,10 +43,8 @@ bool NodeRotateObject::Update(float dt, std::vector<GameObject*> BB_objects)
 			trans->SumRotation(rot_vel * dt);
 
 	}
-	else {
-		node_state = Node_State_Error;
+	else
 		App->gui->AddLogToConsole("ERROR: Can't rotate object: Object is NULL");
-	}
 
 	return true;
 }
