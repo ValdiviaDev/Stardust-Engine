@@ -106,7 +106,7 @@ bool MeshImporter::ImportNodeAndSerialize(const aiScene* scene, const aiNode* no
 		Quat go_rot = { rotation.x, rotation.y, rotation.z, rotation.w };
 		float3 go_scale = { scale.x, scale.y, scale.z };
 
-		transform->SumPosition(go_pos);
+		transform->SumPositionGlobal(go_pos);
 		transform->SumRotation(go_rot.ToEulerXYZ() * RADTODEG);
 		transform->SumScale(go_scale);
 	}

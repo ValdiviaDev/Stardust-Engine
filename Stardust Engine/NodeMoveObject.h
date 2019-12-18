@@ -18,8 +18,8 @@ private:
 	const char* dir_str = "Forward";
 	float velocity = 0.0f;
 	bool this_go = true;
-	GameObject* go;
-
+	bool move_global = true;
+	bool move_local = false;
 };
 
 #endif

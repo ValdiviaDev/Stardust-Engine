@@ -33,7 +33,10 @@ bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 
 		float3 new_pos = { direction[0] * velocity * dt, direction[1] * velocity * dt, direction[2] * velocity * dt };
 
-		trans->SumPosition(new_pos);
+		if (move_global)
+			trans->SumPositionGlobal(new_pos);
+		else if(move_local) //Move Local
+			trans->SumPositionLocal(new_pos);
 	}
 	else
 		App->gui->AddLogToConsole("ERROR: Can't move object: Object is NULL");
@@ -45,6 +48,17 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 {
 	//GameObject reference
 	DrawObjectsInstance(BB_objects);
+
+	//Move the object in global space or local space
+	if (ImGui::Checkbox("Global", &move_global)) {
+		move_global = true;
+		move_local = false;
+	}
+	ImGui::SameLine();
+	if (ImGui::Checkbox("Local", &move_local)) {
+		move_local = true;
+		move_global = false;
+	}
 
 	//Direction
 	if (ImGui::BeginCombo("Direction", dir_str)) {

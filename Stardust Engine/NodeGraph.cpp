@@ -30,7 +30,7 @@ NodeGraph::~NodeGraph() {
 	fst_ev_nodes.clear();
 }
 
-void NodeGraph::Draw(std::vector<GameObject*> BB_objects) {
+void NodeGraph::Draw(std::vector<GameObject*> BB_objects, bool go_active) {
 
 	bool open_context_menu = false;
 	static int node_selected = -1;
@@ -129,29 +129,35 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects) {
 			node->Pos = node->Pos + ImGui::GetIO().MouseDelta;
 
 		//Node color if selected and if updating
-		ImU32 node_bg_color = (node_hovered_in_scene == node->ID || (node_selected == node->ID)) ? IM_COL32(75, 75, 75, 255) : IM_COL32(60, 60, 60, 255);
+		uint bg_opatcity = 255;
+		if (!go_active)
+			bg_opatcity = 100;
+
+		ImU32 node_bg_color = (node_hovered_in_scene == node->ID || (node_selected == node->ID)) ? IM_COL32(75, 75, 75, bg_opatcity) : IM_COL32(60, 60, 60, bg_opatcity);
 		ImU32 node_outline_color = IM_COL32(100, 100, 100, 255);
 		float node_outline_thickness = 4.0f;
+		
+		if (go_active) {
+			switch (node->node_state)
+			{
+			case Node_State_Updating:
+				node_outline_color = IM_COL32(0, 255, 0, 255); //Green
+				node_outline_thickness = 8.0f;
+				break;
 
-		switch (node->node_state)
-		{
-		case Node_State_Updating:
-			node_outline_color = IM_COL32(0, 255, 0, 255); //Green
-			node_outline_thickness = 8.0f;
-			break;
+			case Node_State_ToUpdate:
+				node_outline_color = IM_COL32(255, 255, 0, 255); //Yellow
+				node_outline_thickness = 8.0f;
+				break;
 
-		case Node_State_ToUpdate:
-			node_outline_color = IM_COL32(255, 255, 0, 255); //Yellow
-			node_outline_thickness = 8.0f;
-			break;
+			case Node_State_Error:
+				node_outline_color = IM_COL32(255, 0, 0, 255); //Red
+				node_outline_thickness = 8.0f;
+				break;
 
-		case Node_State_Error:
-			node_outline_color = IM_COL32(255, 0, 0, 255); //Red
-			node_outline_thickness = 8.0f;
-			break;
-
-		default:
-			break;
+			default:
+				break;
+			}
 		}
 
 		//Print node
