@@ -576,52 +576,54 @@ void NodeGraph::DeleteNode(Node* node) {
 		fst_ev_nodes.shrink_to_fit();
 	}
 
+
+	//reduce id if above nodeID and delete node from outputs and inputs lists
+	for (it = nodes.begin(); it != nodes.end(); it++) {
+
+		if ((*it) != node) {
+			bool vectors_clear = false;
+			while (!vectors_clear) {
+
+				vectors_clear = true;
+
+				for (std::vector<Node*>::const_iterator it_in = (*it)->inputs.begin(); it_in != (*it)->inputs.end(); it_in++) {
+
+					if ((*it_in)->ID == nodeID) {
+						(*it)->inputs.erase(it_in);
+						(*it)->inputs.shrink_to_fit();
+						vectors_clear = false;
+						break;
+					}
+
+				}
+
+				for (std::vector<Node*>::const_iterator it_out = (*it)->outputs.begin(); it_out != (*it)->outputs.end(); it_out++) {
+
+					if ((*it_out)->ID == nodeID) {
+						(*it)->outputs.erase(it_out);
+						(*it)->outputs.shrink_to_fit();
+						vectors_clear = false;
+						break;
+					}
+				}
+
+			}
+
+			if ((*it)->ID >= nodeID)
+				(*it)->ID--;
+
+		}
+	}
+
 	//Delete node from nodes vec
 	std::vector<Node*>::const_iterator it_n = std::find(nodes.begin(), nodes.end(), node);
 
-	if(it_n != nodes.end()){
+	if (it_n != nodes.end()) {
 		nodes.erase(it_n);
 		RELEASE(node);
 		nodes.shrink_to_fit();
 		last_node_id--;
 	}
-
-	//reduce id if avobe nodeID and delete node from outputs and inputs lists
-	for (it = nodes.begin(); it != nodes.end(); it++) {
-
-		bool vectors_clear = false;
-		while (!vectors_clear) {
-
-			vectors_clear = true;
-
-			for (std::vector<Node*>::const_iterator it_in = (*it)->inputs.begin(); it_in != (*it)->inputs.end(); it_in++) {
-
-				if ((*it_in)->ID == nodeID) {
-					(*it)->inputs.erase(it_in);
-					(*it)->inputs.shrink_to_fit();
-					vectors_clear = false;
-					break;
-				}
-
-			}
-
-			for (std::vector<Node*>::const_iterator it_out = (*it)->outputs.begin(); it_out != (*it)->outputs.end(); it_out++) {
-
-				if ((*it_out)->ID == nodeID) {
-					(*it)->outputs.erase(it_out);
-					(*it)->outputs.shrink_to_fit();
-					vectors_clear = false;
-					break;
-				}
-			}
-
-		}
-
-		if ((*it)->ID >= nodeID) 
-			(*it)->ID--;
-
-	}
-
 
 }
 
