@@ -31,12 +31,17 @@ bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 		node_state = Node_State_Updating;
 		ComponentTransform* trans = (ComponentTransform*)object->GetComponent(Comp_Transform);
 
-		float3 new_pos = { direction[0] * velocity * dt, direction[1] * velocity * dt, direction[2] * velocity * dt };
-
-		if (move_global)
+		
+		if (move_global) {
+			float3 new_pos = { (float)direction[0] * velocity * dt, 
+							   (float)direction[1] * velocity * dt, 
+							   (float)direction[2] * velocity * dt };
 			trans->SumPositionGlobal(new_pos);
-		else if(move_local) //Move Local
-			trans->SumPositionLocal(new_pos);
+		}
+		else {//Move Local
+			float3 dir = { (float)direction[0] , (float)direction[1], (float)direction[2] };
+			trans->SumPositionLocal(dir, velocity * dt);
+		}
 	}
 	else
 		App->gui->AddLogToConsole("ERROR: Can't move object: Object is NULL");
@@ -50,15 +55,11 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 	DrawObjectsInstance(BB_objects);
 
 	//Move the object in global space or local space
-	if (ImGui::Checkbox("Global", &move_global)) {
+	if (ImGui::RadioButton("Global", move_global == true))
 		move_global = true;
-		move_local = false;
-	}
 	ImGui::SameLine();
-	if (ImGui::Checkbox("Local", &move_local)) {
-		move_local = true;
+	if (ImGui::RadioButton("Local", move_global == false))
 		move_global = false;
-	}
 
 	//Direction
 	if (ImGui::BeginCombo("Direction", dir_str)) {
@@ -83,12 +84,12 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 		}
 
 		if (ImGui::Selectable("Up")) {
-			direction[0] = 0; direction[1] = 1; direction[2] = 0;
+			direction[0] = 0; direction[1] = -1; direction[2] = 0;
 			dir_str = "Up";
 		}
 
 		if (ImGui::Selectable("Down")) {
-			direction[0] = 0; direction[1] = -1; direction[2] = 0;
+			direction[0] = 0; direction[1] = 1; direction[2] = 0;
 			dir_str = "Down";
 		}
 

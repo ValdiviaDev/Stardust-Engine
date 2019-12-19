@@ -217,31 +217,36 @@ void ComponentTransform::SumPositionGlobal(math::float3 pos)
 	position += pos;
 }
 
-void ComponentTransform::SumPositionLocal(math::float3 pos)
+void ComponentTransform::SumPositionLocal(math::float3 dir, float vel)
 {
-	float3 rot = local_matrix.ToEulerXYZ();
-	float4x4 vec;
+	float3 rot = rotation * DEGTORAD;
+	float4x4 vec; //Matrix to store the values needed when calculation the rotation
 
-	float3 dir = pos.Normalized();
+	float3 aux_dir = { 0.0f,0.0f,0.0f };
 
 	if (rot.z > 0.01f || rot.z < -0.01f) {
 		vec.SetRotatePartZ(rot.z);
-		pos.x += dir.x * vec[0][0] + dir.y * vec[0][1];
-		pos.y += dir.x * vec[1][0] + dir.y * vec[1][1];
+		aux_dir.x += dir.x * vec[0][0] + dir.y * vec[0][1];
+		aux_dir.y += dir.x * vec[1][0] + dir.y * vec[1][1];
 	}
 
 	if (rot.y > 0.01f || rot.y < -0.01f) {
 		vec.SetRotatePartY(rot.y);
-		pos.x += dir.x * vec[0][0] + dir.z * vec[0][2];
-		pos.z += dir.x * vec[2][0] + dir.z * vec[2][2];
+		aux_dir.x += dir.x * vec[0][0] + dir.z * vec[0][2];
+		aux_dir.z += dir.x * vec[2][0] + dir.z * vec[2][2];
 	}
 
 	if (rot.x > 0.01f || rot.x < -0.01f) {
 		vec.SetRotatePartX(rot.x);
-		pos.y += dir.y * vec[1][1] + dir.z * vec[1][2];
-		pos.z += dir.y * vec[2][1] + dir.z * vec[2][2];
+		aux_dir.y += dir.y * vec[1][1] + dir.z * vec[1][2];
+		aux_dir.z += dir.y * vec[2][1] + dir.z * vec[2][2];
 	}
-	pos.Normalize();
+	if (aux_dir.IsZero())
+		aux_dir = dir;
+
+	aux_dir.Normalize();
+	
+	float3 pos = aux_dir * vel;
 
 	position += pos;
 }
