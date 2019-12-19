@@ -23,7 +23,7 @@ void PanelInspector::Draw()
 		int x, y;
 		App->window->GetWinSize(x, y);
 		ImGui::SetNextWindowPos(ImVec2(x - width, pos_y), ImGuiCond_Always);
-		ImGui::SetNextWindowSize(ImVec2(width, y), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(width, y - 99), ImGuiCond_Always);
 		resize = false;
 	}
 
