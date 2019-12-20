@@ -4,6 +4,8 @@
 #include "Node.h"
 #include "MathGeoLib/include/MathGeoLib.h"
 
+class ComponentMesh;
+
 class NodeInstantiateObject : public Node
 {
 public:
@@ -12,6 +14,8 @@ public:
 	
 	bool Update(float dt, std::vector<GameObject*> BB_objects);
 	void Draw(std::vector<GameObject*> BB_objects);
+
+	void CopyMesh(GameObject* new_inst, ComponentMesh* to_instance);
 
 	void ObjectToInstanceDropDown(std::vector<GameObject*> BB_objects);
 

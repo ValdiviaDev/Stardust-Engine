@@ -1,6 +1,11 @@
+#include "Application.h"
 #include "NodeInstantiateObject.h"
+#include "ModuleScene.h"
+#include "ModuleResourceManager.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
+#include "ResourceMesh.h"
 
 
 
@@ -34,6 +39,25 @@ bool NodeInstantiateObject::Update(float dt, std::vector<GameObject*> BB_objects
 
 	//Instance the gameobject
 	if (to_instance) {
+
+		GameObject* new_inst = App->scene->CreateGameObject(App->scene->GetRootGameObject());
+		new_inst->SetName(to_instance->GetName());
+
+		//Transform
+		new_inst->transform->SetPosition(pos_to_inst);
+		new_inst->transform->SetRotation(rot_to_inst);
+		new_inst->transform->SetScale(to_instance->transform->GetScale());
+
+		for (int i = 0; i < to_instance->GetNumComp(); ++i) {
+			if (to_instance->GetComponentByIndex(i)->GetType() == Comp_Mesh)
+				CopyMesh(new_inst, (ComponentMesh*)to_instance->GetComponentByIndex(i));
+
+			//TODO: material
+			//TODO: camera
+			//TODO: graph scripts
+
+		}
+
 		node_state = Node_State_Updating;
 	}
 
@@ -61,6 +85,23 @@ void NodeInstantiateObject::Draw(std::vector<GameObject*> BB_objects)
 		DrawObjectsInstance(BB_objects);
 	}
 
+}
+
+void NodeInstantiateObject::CopyMesh(GameObject* new_inst, ComponentMesh* to_instance)
+{
+	ComponentMesh* mesh = (ComponentMesh*)new_inst->CreateComponent(Comp_Mesh);
+	
+	if (!mesh->IsPrimitive()) {
+		//Load new mesh resource
+		ResourceMesh* res_mesh = nullptr;
+		res_mesh = (ResourceMesh*)App->resources->Get(to_instance->uuid_mesh);
+		if (res_mesh)
+			res_mesh->LoadToMemory();
+	
+		mesh->uuid_mesh = to_instance->uuid_mesh;
+		mesh->SetPath(res_mesh->GetFile());
+		new_inst->UpdateBoundingBox();
+	}
 }
 
 void NodeInstantiateObject::ObjectToInstanceDropDown(std::vector<GameObject*> BB_objects)
