@@ -13,14 +13,15 @@ public:
 	bool Update(float dt, std::vector<GameObject*> BB_objects);
 	void Draw(std::vector<GameObject*> BB_objects);
 
+	void ObjectToInstanceDropDown(std::vector<GameObject*> BB_objects);
+
 private:
 	bool get_ref_trans = false;
-	bool get_inst_trans = false;
 
-	math::float3 pos_to_inst;
-	math::float3 rot_to_inst;
+	math::float3 pos_to_inst = math::float3::zero;
+	math::float3 rot_to_inst = math::float3::zero;
 
-	uint inst_indx = 0;
+	int inst_indx = 0;
 
 };
 

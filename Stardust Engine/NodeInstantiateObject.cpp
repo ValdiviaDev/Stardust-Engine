@@ -1,4 +1,6 @@
 #include "NodeInstantiateObject.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 
 
@@ -14,21 +16,71 @@ NodeInstantiateObject::~NodeInstantiateObject()
 bool NodeInstantiateObject::Update(float dt, std::vector<GameObject*> BB_objects)
 {
 	node_state = Node_State_Idle;
+	GameObject* to_instance = nullptr;
+	GameObject* ref = nullptr;
 
+	if (dt == 0.0f) {
+		node_state = Node_State_ToUpdate;
+		return true; //Show that node is updating, but nothing happens, because the simulation is paused
+	}
+
+	//If reference gets deleted, send error
+	if (inst_indx >= BB_objects.size() || inst_indx <= 0 || obj_indx >= BB_objects.size())
+		node_state = Node_State_Error;
+	else {
+		to_instance = BB_objects[inst_indx];
+		ref = BB_objects[obj_indx];
+	}
+
+	//Instance the gameobject
+	if (to_instance) {
+		node_state = Node_State_Updating;
+	}
 
 	return true;
 }
 
 void NodeInstantiateObject::Draw(std::vector<GameObject*> BB_objects)
 {
+	ImGui::TextColored({ 255,255,0,255 }, "Object to instance");
+	ObjectToInstanceDropDown(BB_objects);
+
+	ImGui::TextColored({ 255,255,0,255 }, "Transform");
 
 	ImGui::Checkbox("Get transform from reference", &get_ref_trans);
-	ImGui::Checkbox("Get transform fron instance", &get_inst_trans);
 
+	if (!get_ref_trans) {
 
-	if (get_ref_trans) {
+		ImGui::DragFloat3("Position", &pos_to_inst[0], 0.1f);
+		ImGui::DragFloat3("Rotation", &rot_to_inst[0], 0.1f);
+	}
+
+	else  {
 		//GameObject reference
+		ImGui::Text("Object to get transform from");
 		DrawObjectsInstance(BB_objects);
 	}
 
+}
+
+void NodeInstantiateObject::ObjectToInstanceDropDown(std::vector<GameObject*> BB_objects)
+{
+	const char* object_name;
+
+	//Check if reference has been deleted
+	if (inst_indx < BB_objects.size() && inst_indx > 0)
+		object_name = BB_objects[inst_indx]->GetName();
+	else
+		object_name = "null";
+
+	if (ImGui::BeginCombo(" ", object_name)) {
+		for (int i = 1; i < BB_objects.size(); ++i) {
+			if (ImGui::Selectable(BB_objects[i]->GetName())) {
+				inst_indx = i;
+				pos_to_inst = BB_objects[i]->transform->GetPosition();
+				rot_to_inst = BB_objects[i]->transform->GetRotation();
+			}
+		}
+		ImGui::EndCombo();
+	}
 }
