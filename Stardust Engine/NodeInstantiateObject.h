@@ -5,6 +5,9 @@
 #include "MathGeoLib/include/MathGeoLib.h"
 
 class ComponentMesh;
+class ComponentMaterial;
+class ComponentCamera; 
+class ComponentGraphScript;
 
 class NodeInstantiateObject : public Node
 {
@@ -15,7 +18,11 @@ public:
 	bool Update(float dt, std::vector<GameObject*> BB_objects);
 	void Draw(std::vector<GameObject*> BB_objects);
 
+	void InstanceObject(GameObject* to_instance);
 	void CopyMesh(GameObject* new_inst, ComponentMesh* to_instance);
+	void CopyMaterial(GameObject* new_inst, ComponentMaterial* to_instance);
+	void CopyCamera(GameObject* new_inst, ComponentCamera* to_instance);
+	void CopyCompGraph(GameObject* new_inst, ComponentGraphScript* to_instance);
 
 	void ObjectToInstanceDropDown(std::vector<GameObject*> BB_objects);
 

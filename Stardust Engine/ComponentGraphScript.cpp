@@ -28,7 +28,7 @@ ComponentGraphScript::~ComponentGraphScript()
 
 void ComponentGraphScript::Update(float dt)
 {
-	if (has_script){
+	if (HasScript()){
 		ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
 		if(show_graph && gameObject->focused)
@@ -46,7 +46,7 @@ void ComponentGraphScript::DrawInspector()
 	if (ImGui::CollapsingHeader("Graph Script", ImGuiTreeNodeFlags_DefaultOpen)) {
 		ImGui::Checkbox("Script Active", &active);
 
-		if (!has_script) {
+		if (!HasScript()) {
 			ImGui::Button("Drag script here");
 			if (ImGui::Button("New Script", { 80,30 })) {
 				uuid_script = App->GenerateUUID();
@@ -55,7 +55,6 @@ void ComponentGraphScript::DrawInspector()
 				ResourceGraphScript* res = (ResourceGraphScript*)App->resources->CreateNewResource(Resource_Graph_Script, uuid_script);
 				res->LoadToMemory();
 
-				has_script = true;
 			}
 		}
 		//If a graph node is already associated with this component
@@ -95,6 +94,14 @@ void ComponentGraphScript::DrawInspector()
 
 	}
 
+}
+
+bool ComponentGraphScript::HasScript()
+{
+	if (uuid_script != 0)
+		return true;
+
+	return false;
 }
 
 void ComponentGraphScript::AddReferenceToBlackboard(GameObject* ref)

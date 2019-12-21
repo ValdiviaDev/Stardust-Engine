@@ -12,6 +12,7 @@ public:
 
 	void Update(float dt);
 	void DrawInspector();
+	bool HasScript();
 
 	void AddReferenceToBlackboard(GameObject* ref);
 	bool DeleteGameObjectFromBlackboard(GameObject* to_delete);
@@ -21,7 +22,6 @@ public:
 	UID uuid_script = 0;
 
 private:
-	bool has_script = false;
 	bool show_graph = false;
 
 	std::vector<GameObject*> BB_objects;

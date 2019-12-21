@@ -5,7 +5,12 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
+#include "ComponentCamera.h"
+#include "ComponentGraphScript.h"
 #include "ResourceMesh.h"
+#include "ResourceTexture.h"
+#include "ResourceGraphScript.h"
 
 
 
@@ -40,24 +45,14 @@ bool NodeInstantiateObject::Update(float dt, std::vector<GameObject*> BB_objects
 	//Instance the gameobject
 	if (to_instance) {
 
-		GameObject* new_inst = App->scene->CreateGameObject(App->scene->GetRootGameObject());
-		new_inst->SetName(to_instance->GetName());
-
-		//Transform
-		new_inst->transform->SetPosition(pos_to_inst);
-		new_inst->transform->SetRotation(rot_to_inst);
-		new_inst->transform->SetScale(to_instance->transform->GetScale());
-
-		for (int i = 0; i < to_instance->GetNumComp(); ++i) {
-			if (to_instance->GetComponentByIndex(i)->GetType() == Comp_Mesh)
-				CopyMesh(new_inst, (ComponentMesh*)to_instance->GetComponentByIndex(i));
-
-			//TODO: material
-			//TODO: camera
-			//TODO: graph scripts
-
+		//Set position
+		if (get_ref_trans) {
+			pos_to_inst = ref->transform->GetPosition();
+			rot_to_inst = ref->transform->GetRotation();
 		}
 
+		InstanceObject(to_instance);
+		
 		node_state = Node_State_Updating;
 	}
 
@@ -87,6 +82,38 @@ void NodeInstantiateObject::Draw(std::vector<GameObject*> BB_objects)
 
 }
 
+void NodeInstantiateObject::InstanceObject(GameObject* to_instance)
+{
+	GameObject* new_inst = App->scene->CreateGameObject(App->scene->GetRootGameObject());
+	new_inst->SetName(to_instance->GetName());
+
+	//Transform
+	new_inst->transform->SetPosition(pos_to_inst);
+	new_inst->transform->SetRotation(rot_to_inst);
+	new_inst->transform->SetScale(to_instance->transform->GetScale());
+
+	//Components
+	for (int i = 0; i < to_instance->GetNumComp(); ++i) {
+		switch (to_instance->GetComponentByIndex(i)->GetType()) {
+		case Comp_Mesh:
+			CopyMesh(new_inst, (ComponentMesh*)to_instance->GetComponentByIndex(i));
+			break;
+		case Comp_Material:
+			CopyMaterial(new_inst, (ComponentMaterial*)to_instance->GetComponentByIndex(i));
+			break;
+		case Comp_Camera:
+			CopyCamera(new_inst, (ComponentCamera*)to_instance->GetComponentByIndex(i));
+			break;
+		case Comp_Graph_Script:
+			CopyCompGraph(new_inst, (ComponentGraphScript*)to_instance->GetComponentByIndex(i));
+			break;
+		}
+	}
+
+	//Active the object if instance is inactive
+	new_inst->SetActive(true);
+}
+
 void NodeInstantiateObject::CopyMesh(GameObject* new_inst, ComponentMesh* to_instance)
 {
 	ComponentMesh* mesh = (ComponentMesh*)new_inst->CreateComponent(Comp_Mesh);
@@ -95,12 +122,50 @@ void NodeInstantiateObject::CopyMesh(GameObject* new_inst, ComponentMesh* to_ins
 		//Load new mesh resource
 		ResourceMesh* res_mesh = nullptr;
 		res_mesh = (ResourceMesh*)App->resources->Get(to_instance->uuid_mesh);
-		if (res_mesh)
+		if (res_mesh) {
 			res_mesh->LoadToMemory();
-	
-		mesh->uuid_mesh = to_instance->uuid_mesh;
-		mesh->SetPath(res_mesh->GetFile());
-		new_inst->UpdateBoundingBox();
+			mesh->uuid_mesh = to_instance->uuid_mesh;
+			mesh->SetPath(res_mesh->GetFile());
+			new_inst->UpdateBoundingBox();
+		}
+	}
+}
+
+void NodeInstantiateObject::CopyMaterial(GameObject* new_inst, ComponentMaterial* to_instance)
+{
+	ComponentMaterial* mat = (ComponentMaterial*)new_inst->CreateComponent(Comp_Material);
+
+	//Load new resource
+	ResourceTexture* res_tex = nullptr;
+	res_tex = (ResourceTexture*)App->resources->Get(to_instance->uuid_mat);
+	if (res_tex) {
+		res_tex->LoadToMemory();
+		//Assign the tex to the material
+		mat->uuid_mat = res_tex->GetUID();
+		mat->SetPath(res_tex->GetFile());
+	}
+
+}
+
+void NodeInstantiateObject::CopyCamera(GameObject* new_inst, ComponentCamera* to_instance)
+{
+	ComponentCamera* cam = (ComponentCamera*)new_inst->CreateComponent(Comp_Camera);
+	cam->SetFOV(to_instance->GetFOV());
+	cam->SetNearPlane(to_instance->GetNearPlane());
+	cam->SetFarPlane(to_instance->GetFarPlane());
+
+}
+
+void NodeInstantiateObject::CopyCompGraph(GameObject * new_inst, ComponentGraphScript * to_instance)
+{
+	ComponentGraphScript* gs = (ComponentGraphScript*)new_inst->CreateComponent(Comp_Graph_Script);
+
+	ResourceGraphScript* res_gs = nullptr;
+	res_gs = (ResourceGraphScript*)App->resources->Get(to_instance->uuid_script);
+	if (res_gs) {
+		res_gs->LoadToMemory();
+		gs->uuid_script = to_instance->uuid_script;
+
 	}
 }
 
@@ -118,6 +183,7 @@ void NodeInstantiateObject::ObjectToInstanceDropDown(std::vector<GameObject*> BB
 		for (int i = 1; i < BB_objects.size(); ++i) {
 			if (ImGui::Selectable(BB_objects[i]->GetName())) {
 				inst_indx = i;
+				//Set the transform of the object to instance
 				pos_to_inst = BB_objects[i]->transform->GetPosition();
 				rot_to_inst = BB_objects[i]->transform->GetRotation();
 			}
