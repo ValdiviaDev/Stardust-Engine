@@ -19,6 +19,10 @@ private:
 	bool rot_with_mouse;
 	int rot_axis[3];
 
+	bool mouse_rot_X = true;
+	bool mouse_rot_Y = false;
+	bool reset_rot = false;
+
 };
 
 #endif
