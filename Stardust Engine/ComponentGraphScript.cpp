@@ -104,6 +104,11 @@ bool ComponentGraphScript::HasScript()
 	return false;
 }
 
+std::vector<GameObject*> ComponentGraphScript::GetBlackboard() const
+{
+	return BB_objects;
+}
+
 void ComponentGraphScript::AddReferenceToBlackboard(GameObject* ref)
 {
 	if (ref) {
@@ -121,6 +126,11 @@ void ComponentGraphScript::AddReferenceToBlackboard(GameObject* ref)
 			App->gui->AddLogToConsole("This reference is already added to this blackboard");
 
 	}
+}
+
+void ComponentGraphScript::ForceAddReferenceToBlackboard(GameObject * ref)
+{
+	BB_objects.push_back(ref);
 }
 
 bool ComponentGraphScript::DeleteGameObjectFromBlackboard(GameObject* to_delete)

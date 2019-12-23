@@ -20,6 +20,9 @@ bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 	node_state = Node_State_Idle;
 	GameObject* object = nullptr;
 
+	static float3 dir = math::float3::zero;
+	static bool local_dir_changed = false;
+
 	//If reference gets deleted, send error
 	if (obj_indx >= BB_objects.size())
 		node_state = Node_State_Error;
@@ -30,17 +33,25 @@ bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 	if (object) {
 		node_state = Node_State_Updating;
 		ComponentTransform* trans = (ComponentTransform*)object->GetComponent(Comp_Transform);
-
 		
 		if (move_global) {
-			float3 new_pos = { (float)direction[0] * velocity * dt, 
-							   (float)direction[1] * velocity * dt, 
-							   (float)direction[2] * velocity * dt };
-			trans->SumPositionGlobal(new_pos);
+			dir = { (float)direction[0] , (float)direction[1] ,(float)direction[2] };
+			trans->SumPositionGlobal(dir * velocity * dt);
 		}
+
 		else {//Move Local
-			float3 dir = { (float)direction[0] , (float)direction[1], (float)direction[2] };
-			trans->SumPositionLocal(dir, velocity * dt);
+
+			//If we don't change directions, we simply sum positions
+			if (dont_change_dir_local && local_dir_changed)
+				trans->SumPositionGlobal(dir * velocity * dt);
+
+			//If we need to change directions, we calculate the direction vector every frame
+			else {
+				dir = { (float)direction[0] , (float)direction[1], (float)direction[2] };
+				trans->SumPositionLocal(dir, velocity * dt);
+
+				local_dir_changed = true;
+			}
 		}
 	}
 	else
@@ -60,6 +71,9 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Local", move_global == false))
 		move_global = false;
+
+	if (!move_global)
+		ImGui::Checkbox("Don't change direction", &dont_change_dir_local);
 
 	//Direction
 	if (ImGui::BeginCombo("Direction", dir_str)) {

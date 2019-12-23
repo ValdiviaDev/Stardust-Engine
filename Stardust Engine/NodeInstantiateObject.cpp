@@ -156,7 +156,7 @@ void NodeInstantiateObject::CopyCamera(GameObject* new_inst, ComponentCamera* to
 
 }
 
-void NodeInstantiateObject::CopyCompGraph(GameObject * new_inst, ComponentGraphScript * to_instance)
+void NodeInstantiateObject::CopyCompGraph(GameObject* new_inst, ComponentGraphScript* to_instance)
 {
 	ComponentGraphScript* gs = (ComponentGraphScript*)new_inst->CreateComponent(Comp_Graph_Script);
 
@@ -165,6 +165,11 @@ void NodeInstantiateObject::CopyCompGraph(GameObject * new_inst, ComponentGraphS
 	if (res_gs) {
 		res_gs->LoadToMemory();
 		gs->uuid_script = to_instance->uuid_script;
+
+		//Copy the blackboard
+		std::vector<GameObject*> blackboard = to_instance->GetBlackboard();
+		for (int i = 1; i < blackboard.size(); ++i)
+			gs->ForceAddReferenceToBlackboard(blackboard[i]);
 
 	}
 }

@@ -217,7 +217,7 @@ void ComponentTransform::SumPositionGlobal(math::float3 pos)
 	position += pos;
 }
 
-void ComponentTransform::SumPositionLocal(math::float3 dir, float vel)
+void ComponentTransform::SumPositionLocal(math::float3& dir, float vel)
 {
 	float3 rot = rotation * DEGTORAD;
 	float4x4 vec; //Matrix to store the values needed when calculation the rotation
@@ -245,8 +245,9 @@ void ComponentTransform::SumPositionLocal(math::float3 dir, float vel)
 		aux_dir = dir;
 
 	aux_dir.Normalize();
+	dir = aux_dir;
 	
-	float3 pos = aux_dir * vel;
+	float3 pos = dir * vel;
 
 	position += pos;
 }

@@ -14,7 +14,9 @@ public:
 	void DrawInspector();
 	bool HasScript();
 
-	void AddReferenceToBlackboard(GameObject* ref);
+	std::vector<GameObject*> GetBlackboard()const;
+	void AddReferenceToBlackboard(GameObject* ref); //To use when the user adds something via engine
+	void ForceAddReferenceToBlackboard(GameObject* ref); //Only to use via code
 	bool DeleteGameObjectFromBlackboard(GameObject* to_delete);
 	void HideOtherGraphsFromSameObject();
 
@@ -23,7 +25,6 @@ public:
 
 private:
 	bool show_graph = false;
-
 	std::vector<GameObject*> BB_objects;
 };
 

@@ -37,7 +37,7 @@ public:
 	math::float4x4 GetGlobalMatrix() const;
 	
 	void SumPositionGlobal(math::float3 pos);
-	void SumPositionLocal(math::float3 dir, float vel);
+	void SumPositionLocal(math::float3& dir, float vel);
 	void SumRotation(math::float3 rot);
 	void SumScale(math::float3 scale);
 	void Reset();
