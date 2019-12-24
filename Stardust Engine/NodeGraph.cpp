@@ -355,7 +355,7 @@ void NodeGraph::UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects,
 Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 
 	last_node_id++;
-
+	
 	Node* node = nullptr;
 	
 	switch (node_function) {
@@ -419,6 +419,7 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 			fst_ev_nodes.push_back(node);
 	}
 
+
 	return node;
 }
 
@@ -426,6 +427,7 @@ void NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int outpu
 
 	
 	if (input_idx != output_idx) {
+
 
 		//If on the same slot of another link, delete it
 		for (int i = links.size() - 1; i >= 0; i--) {
@@ -455,8 +457,18 @@ void NodeGraph::AddLink(int input_idx, int input_slot, int output_idx, int outpu
 
 		}
 
+		
+
 		if (in != nullptr && out != nullptr) {
 
+			//If the nodes don't have as many inputs as the slot, add slots
+			if (input_slot + 1 > in->OutputsCount)
+				in->OutputsCount = input_slot + 1;
+
+			if (output_slot + 1> out->InputsCount)
+				out->InputsCount = output_slot + 1;
+
+			
 			in->outputs.push_back(out);
 			out->inputs.push_back(in);
 
@@ -632,7 +644,7 @@ void NodeGraph::DeleteNode(Node* node) {
 void NodeGraph::SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const {
 
 	
-
+	//SAVE NODES
 	for (std::vector<Node*>::const_iterator it = nodes.begin(); it != nodes.end(); it++) {
 
 		JSON_Value* value = json_value_init_object();
@@ -642,22 +654,23 @@ void NodeGraph::SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const {
 		//json_object_set_string(obj, "Name", (*it)->Name);
 		json_object_set_number(obj, "Type", (*it)->type);
 		json_object_set_number(obj, "Function", (*it)->function);	
+		json_object_set_number(obj, "PosX", (*it)->Pos.x);
+		json_object_set_number(obj, "PosY", (*it)->Pos.y);
+		json_object_set_number(obj, "InputsCount", (*it)->InputsCount);
+		json_object_set_number(obj, "OutputsCount", (*it)->OutputsCount);
+
 
 		switch ((*it)->function) {
 
 		case NodeFunction::Func_Default:
 
 			break;
-
 			//TODO SAVE INFO OF ALL THE REST OF FUNCS
-
-
 		}
-
 		json_array_append_value(arr_nodes, value);
-
 	}
 
+	//SAVE LINKS
 	for (std::vector<NodeLink>::const_iterator it = links.begin(); it != links.end(); it++) {
 
 		JSON_Value* value = json_value_init_object();
@@ -670,5 +683,45 @@ void NodeGraph::SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const {
 
 		json_array_append_value(arr_links, value);
 	}
+
+}
+
+
+
+
+void NodeGraph::LoadFile(UID uuid) {
+
+	std::string file = ASSETS_SCRIPT_FOLDER + std::to_string(uuid) + ".script";
+
+	JSON_Value* root_value = json_parse_file(file.c_str());
+	JSON_Object* object = json_value_get_object(root_value);
+
+	JSON_Array* array_nodes = json_object_get_array(object, "Nodes");
+	JSON_Array* array_links = json_object_get_array(object, "Links");
+
+	JSON_Object* it;
+
+	for (uint i = 0; i < json_array_get_count(array_nodes); i++) {
+
+		it = json_array_get_object(array_nodes, i);
+
+		int func = json_object_get_number(it, "Function");
+
+		Node* n = AddNode((NodeFunction)func, ImVec2(json_object_get_number(it, "PosX"), json_object_get_number(it, "PosY")));
+		n->ID = json_object_get_number(it, "NodeID");
+		n->type = (NodeType)((int)json_object_get_number(it, "Type"));
+		n->InputsCount = json_object_get_number(it, "InputsCount");
+		n->OutputsCount = json_object_get_number(it, "OutputsCount");
+	}
+
+	for (uint i = 0; i < json_array_get_count(array_links); i++) {
+
+		it = json_array_get_object(array_links, i);
+	
+		AddLink(json_object_get_number(it, "Input ID"), json_object_get_number(it, "Input Slot"), json_object_get_number(it, "Output ID"), json_object_get_number(it, "Output Slot"));
+	
+	}
+
+
 
 }

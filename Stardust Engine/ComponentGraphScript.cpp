@@ -185,8 +185,12 @@ void ComponentGraphScript::Load(JSON_Object* comp_obj) {
 
 	ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
-	if (res)
-		res->node_graph;// ->Draw(BB_objects, active);
+	if (res) {
+		
+		res->LoadToMemory();
+		//res->node_graph->LoadFile(uuid_script);
+		
+	}
 }
 
 
@@ -223,24 +227,6 @@ void ComponentGraphScript::SaveScriptFile(UID uuid) const{
 
 		json_value_free(value);
 	}
-
-	/*PARA HACER LUEGO SAVE DE UN COMPONENTE DE LA ARRAY
-	
-	
-	JSON_Value* value = json_value_init_object();
-	JSON_Object* obj = json_value_get_object(value);
-
-	json_object_set_number(obj, "Component Type", type);
-	json_object_set_number(obj, "UUID Mesh", uuid_mesh);
-	json_object_set_string(obj, "path", path);
-	json_object_set_number(obj, "is primitive", is_primitive);
-	json_object_set_boolean(obj, "Active", active);
-
-	json_array_append_value(comp_array, value);
-
-	*/
-
-
 
 
 }

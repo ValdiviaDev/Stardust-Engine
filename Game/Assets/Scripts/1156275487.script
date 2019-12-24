@@ -5,17 +5,47 @@
         {
             "NodeID": 0,
             "Type": 1,
-            "Function": 1
+            "Function": 1,
+            "PosX": 100,
+            "PosY": 200,
+            "InputsCount": 1,
+            "OutputsCount": 1
         },
         {
             "NodeID": 1,
             "Type": 2,
-            "Function": 4
+            "Function": 4,
+            "PosX": 412,
+            "PosY": 103,
+            "InputsCount": 2,
+            "OutputsCount": 1
         },
         {
             "NodeID": 2,
             "Type": 1,
-            "Function": 2
+            "Function": 2,
+            "PosX": 76,
+            "PosY": 90,
+            "InputsCount": 1,
+            "OutputsCount": 1
+        },
+        {
+            "NodeID": 3,
+            "Type": 2,
+            "Function": 5,
+            "PosX": 741,
+            "PosY": 125,
+            "InputsCount": 3,
+            "OutputsCount": 1
+        },
+        {
+            "NodeID": 4,
+            "Type": 1,
+            "Function": 1,
+            "PosX": 372,
+            "PosY": 319,
+            "InputsCount": 0,
+            "OutputsCount": 1
         }
     ],
     "Links": [
@@ -23,13 +53,25 @@
             "Input ID": 2,
             "Output ID": 1,
             "Input Slot": 0,
-            "Output Slot": 1
+            "Output Slot": 0
         },
         {
             "Input ID": 0,
             "Output ID": 1,
             "Input Slot": 0,
+            "Output Slot": 1
+        },
+        {
+            "Input ID": 1,
+            "Output ID": 3,
+            "Input Slot": 0,
             "Output Slot": 0
+        },
+        {
+            "Input ID": 4,
+            "Output ID": 3,
+            "Input Slot": 0,
+            "Output Slot": 1
         }
     ]
 }
