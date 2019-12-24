@@ -26,8 +26,8 @@ public:
 
 	void ObjectToInstanceDropDown(std::vector<GameObject*> BB_objects);
 
-	void Save() const;
-	void Load();
+	void Save(JSON_Object* obj) const;
+	void Load(JSON_Object* obj);
 
 private:
 	bool get_ref_trans = false;

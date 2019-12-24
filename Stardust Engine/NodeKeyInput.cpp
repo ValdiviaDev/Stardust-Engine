@@ -57,10 +57,14 @@ void NodeKeyInput::Draw(std::vector<GameObject*> BB_objects)
 
 }
 
-void NodeKeyInput::Save() const {
-
+void NodeKeyInput::Save(JSON_Object* obj) const {
+	json_object_set_number(obj, "key id", key_id);
+	json_object_set_number(obj, "key state", key_state);
 }
 
-void NodeKeyInput::Load() {
+void NodeKeyInput::Load(JSON_Object* obj) {
 
+	//TODO1
+	key_id = json_object_get_number(obj, "key id");
+	key_state = (KEY_STATE)((int)json_object_get_number(obj, "key state"));
 }

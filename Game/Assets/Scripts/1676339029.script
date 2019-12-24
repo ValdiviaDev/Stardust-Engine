@@ -1,6 +1,17 @@
 {
     "UUID": 1676339029,
     "Resource Type": 5,
-    "Nodes": [],
+    "Nodes": [
+        {
+            "NodeID": 0,
+            "Type": 2,
+            "Function": 11,
+            "PosX": 428,
+            "PosY": 182,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "scene to load": "asdf"
+        }
+    ],
     "Links": []
 }

@@ -9,7 +9,9 @@
             "PosX": 100,
             "PosY": 200,
             "InputsCount": 1,
-            "OutputsCount": 1
+            "OutputsCount": 1,
+            "key id": 0,
+            "key state": 0
         },
         {
             "NodeID": 1,
@@ -45,7 +47,9 @@
             "PosX": 372,
             "PosY": 319,
             "InputsCount": 0,
-            "OutputsCount": 1
+            "OutputsCount": 1,
+            "key id": 0,
+            "key state": 0
         },
         {
             "NodeID": 5,

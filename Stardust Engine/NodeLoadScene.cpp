@@ -30,10 +30,12 @@ void NodeLoadScene::Draw(std::vector<GameObject*> BB_objects)
 	ImGui::InputText("", scene_to_load, IM_ARRAYSIZE(scene_to_load));
 }
 
-void NodeLoadScene::Save() const {
+void NodeLoadScene::Save(JSON_Object* obj) const {
 
+	json_object_set_string(obj, "scene to load", scene_to_load);
 }
 
-void NodeLoadScene::Load() {
+void NodeLoadScene::Load(JSON_Object* obj) {
 
+	std::strcpy(scene_to_load, json_object_get_string(obj, "scene to load"));
 }

@@ -197,10 +197,42 @@ void NodeInstantiateObject::ObjectToInstanceDropDown(std::vector<GameObject*> BB
 	}
 }
 
-void NodeInstantiateObject::Save() const {
+void NodeInstantiateObject::Save(JSON_Object* obj) const {
 
+
+	json_object_set_boolean(obj, "get ref trans", get_ref_trans);
+
+	json_object_set_number(obj, "posX", pos_to_inst.x);
+	json_object_set_number(obj, "posY", pos_to_inst.y);
+	json_object_set_number(obj, "posZ", pos_to_inst.z);
+
+	json_object_set_number(obj, "rotX", rot_to_inst.x);
+	json_object_set_number(obj, "rotY", rot_to_inst.y);
+	json_object_set_number(obj, "rotZ", rot_to_inst.z);
+
+	json_object_set_number(obj, "inst indx", inst_indx);
+
+	json_object_set_boolean(obj, "using this", obj_using_this);
+	json_object_set_number(obj, "id using", obj_indx);
 }
 
-void NodeInstantiateObject::Load() {
+
+void NodeInstantiateObject::Load(JSON_Object* obj) {
+
+
+	get_ref_trans= json_object_get_boolean(obj, "get ref trans");
+
+	pos_to_inst.x = json_object_get_number(obj, "posX");
+	pos_to_inst.y = json_object_get_number(obj, "posY");
+	pos_to_inst.z = json_object_get_number(obj, "posZ");
+
+	rot_to_inst.x = json_object_get_number(obj, "rotX");
+	rot_to_inst.y = json_object_get_number(obj, "rotY");
+	rot_to_inst.z = json_object_get_number(obj, "rotZ");
+
+	inst_indx = json_object_get_number(obj, "inst indx");
+
+	obj_using_this = json_object_get_boolean(obj, "using this");
+	obj_indx = json_object_get_number(obj, "id using");
 
 }
