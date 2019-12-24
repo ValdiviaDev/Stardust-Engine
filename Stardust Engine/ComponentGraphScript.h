@@ -14,6 +14,9 @@ public:
 	void DrawInspector();
 	bool HasScript();
 
+	void Save(JSON_Array* comp_array) const;
+	void Load(JSON_Object* comp_obj);
+
 	std::vector<GameObject*> GetBlackboard()const;
 	void AddReferenceToBlackboard(GameObject* ref); //To use when the user adds something via engine
 	void ForceAddReferenceToBlackboard(GameObject* ref); //Only to use via code

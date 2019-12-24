@@ -476,6 +476,11 @@ void GameObject::Load(JSON_Object* object)
 			cam->Load(it);
 			break;
 		}
+		case ComponentType::Comp_Graph_Script:
+			//TODOSERIALIZE
+			ComponentGraphScript* script = (ComponentGraphScript*)CreateComponent((ComponentType)comp_type);
+			script->Load(it);
+			break;
 		}
 	}
 
@@ -526,7 +531,12 @@ void GameObject::Save(JSON_Array* go_array) const {
 		ComponentCamera* cam = (ComponentCamera*)GetComponent(Comp_Camera);
 		cam->Save(array_comps);
 	}
+	if (GetComponent(Comp_Graph_Script)) {
 
+		ComponentGraphScript* script = (ComponentGraphScript*)GetComponent(Comp_Graph_Script);
+		script->Save(array_comps);
+		//TODOSERIALIZE
+	}
 
 	json_object_set_value(obj, "Components", value_comps);
 	

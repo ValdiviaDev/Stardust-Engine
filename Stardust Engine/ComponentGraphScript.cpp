@@ -158,3 +158,31 @@ void ComponentGraphScript::HideOtherGraphsFromSameObject()
 		}
 	}
 }
+
+
+
+
+void ComponentGraphScript::Save(JSON_Array* comp_array) const {
+
+	JSON_Value* value = json_value_init_object();
+	JSON_Object* obj = json_value_get_object(value);
+
+	json_object_set_number(obj, "Component Type", type);
+	json_object_set_number(obj, "Script UUID", uuid_script);
+
+	json_array_append_value(comp_array, value);
+}
+
+
+
+void ComponentGraphScript::Load(JSON_Object* comp_obj) {
+
+	uuid_script = json_object_get_number(comp_obj, "Script UUID");
+
+	//TODOSERALIZE  seguramente haga falta llamar al load del fichero del script des de aqui con la UUID
+
+	ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
+
+	if (res)
+		res->node_graph->Draw(BB_objects, active);
+}

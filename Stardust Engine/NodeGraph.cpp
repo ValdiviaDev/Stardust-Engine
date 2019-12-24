@@ -39,7 +39,7 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects, bool go_active) {
 	static int node_hovered_in_scene = -1;
 
 	//DELETE THIS AFTER ***************
-	
+	/*
 	if (!inited)
 	{
 		AddNode(Func_KeyInput, ImVec2(40, 50));
@@ -47,7 +47,7 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects, bool go_active) {
 
 		AddLink(0, 0, 1, 0);
 		inited = true;
-	}//**********************************
+	}*/
 
 	ImGui::Begin("Graph", &open_win);
 
