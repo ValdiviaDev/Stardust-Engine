@@ -79,3 +79,12 @@ void NodeToggleActiveObject::Draw(std::vector<GameObject*> BB_objects)
 		ImGui::EndCombo();
 	}
 }
+
+
+void NodeToggleActiveObject::Save() const {
+
+}
+
+void NodeToggleActiveObject::Load() {
+
+}

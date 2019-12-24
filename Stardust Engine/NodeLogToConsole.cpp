@@ -26,3 +26,12 @@ void NodeLogToConsole::Draw(std::vector<GameObject*> BB_objects)
 	ImGui::Text("Log to print");
 	ImGui::InputText("", log, IM_ARRAYSIZE(log));
 }
+
+
+void NodeLogToConsole::Save() const {
+
+}
+
+void NodeLogToConsole::Load() {
+
+}

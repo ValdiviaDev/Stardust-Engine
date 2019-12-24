@@ -29,3 +29,11 @@ void NodeLoadScene::Draw(std::vector<GameObject*> BB_objects)
 	ImGui::Text("Scene to load");
 	ImGui::InputText("", scene_to_load, IM_ARRAYSIZE(scene_to_load));
 }
+
+void NodeLoadScene::Save() const {
+
+}
+
+void NodeLoadScene::Load() {
+
+}

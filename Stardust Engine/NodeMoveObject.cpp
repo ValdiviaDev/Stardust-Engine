@@ -113,3 +113,12 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 	//Velocity
 	ImGui::InputFloat("Velocity", &velocity, 0.0f, 0.0f, 1);
 }
+
+
+void NodeMoveObject::Save() const {
+
+}
+
+void NodeMoveObject::Load() {
+
+}

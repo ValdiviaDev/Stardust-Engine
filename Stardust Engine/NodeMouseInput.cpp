@@ -69,3 +69,11 @@ void NodeMouseInput::Draw(std::vector<GameObject*> BB_objects)
 	}
 
 }
+
+void NodeMouseInput::Save() const {
+
+}
+
+void NodeMouseInput::Load() {
+
+}

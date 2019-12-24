@@ -56,3 +56,11 @@ void NodeKeyInput::Draw(std::vector<GameObject*> BB_objects)
 	}
 
 }
+
+void NodeKeyInput::Save() const {
+
+}
+
+void NodeKeyInput::Load() {
+
+}

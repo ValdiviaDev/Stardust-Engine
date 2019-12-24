@@ -64,3 +64,12 @@ void Node::DrawObjectsInstance(std::vector<GameObject*> BB_objects)
 		}
 	}
 }
+
+
+void Node::Save() const {
+
+}
+
+void Node::Load() {
+
+}

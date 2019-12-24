@@ -25,3 +25,11 @@ bool NodeMouseMove::Update(float dt, std::vector<GameObject*> BB_objects)
 void NodeMouseMove::Draw(std::vector<GameObject*> BB_objects)
 {
 }
+
+void NodeMouseMove::Save() const {
+
+}
+
+void NodeMouseMove::Load() {
+
+}

@@ -196,3 +196,11 @@ void NodeInstantiateObject::ObjectToInstanceDropDown(std::vector<GameObject*> BB
 		ImGui::EndCombo();
 	}
 }
+
+void NodeInstantiateObject::Save() const {
+
+}
+
+void NodeInstantiateObject::Load() {
+
+}

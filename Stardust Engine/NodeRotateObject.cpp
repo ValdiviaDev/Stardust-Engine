@@ -75,3 +75,12 @@ void NodeRotateObject::Draw(std::vector<GameObject*> BB_objects)
 	ImGui::Checkbox("Reset rotation", &reset_rot);
 
 }
+
+
+void NodeRotateObject::Save() const {
+
+}
+
+void NodeRotateObject::Load() {
+
+}

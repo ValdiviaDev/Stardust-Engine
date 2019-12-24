@@ -115,3 +115,11 @@ void NodeToggleActiveComp::Draw(std::vector<GameObject*> BB_objects)
 	}
 
 }
+
+void NodeToggleActiveComp::Save() const {
+
+}
+
+void NodeToggleActiveComp::Load() {
+
+}

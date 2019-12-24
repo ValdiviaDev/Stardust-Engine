@@ -12,6 +12,9 @@ public:
 	bool Update(float dt, std::vector<GameObject*> BB_objects);
 	void Draw(std::vector<GameObject*> BB_objects);
 
+	void Save() const;
+	void Load();
+
 private:
 	bool reset = false;
 	bool repeat_action = false;

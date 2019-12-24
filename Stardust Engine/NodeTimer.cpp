@@ -50,3 +50,13 @@ void NodeTimer::Draw(std::vector<GameObject*> BB_objects)
 	ImGui::Text("Time since action:");
 	ImGui::TextColored({ 255,255,0,255 }," %0.2f", timer);
 }
+
+
+
+void NodeTimer::Save() const {
+
+}
+
+void NodeTimer::Load() {
+
+}

@@ -43,3 +43,11 @@ void NodeDeleteObject::Draw(std::vector<GameObject*> BB_objects)
 	DrawObjectsInstance(BB_objects);
 
 }
+
+void NodeDeleteObject::Save() const {
+
+}
+
+void NodeDeleteObject::Load() {
+
+}
