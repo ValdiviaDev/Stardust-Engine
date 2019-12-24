@@ -235,9 +235,6 @@
     <ClCompile Include="ResourceTexture.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="imgui_node_graph_test.cpp">
-      <Filter>Sources\VisualScript</Filter>
-    </ClCompile>
     <ClCompile Include="NodeGraph.cpp">
       <Filter>Sources\VisualScript</Filter>
     </ClCompile>
