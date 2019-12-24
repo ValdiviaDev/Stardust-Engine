@@ -170,6 +170,8 @@ void ComponentGraphScript::Save(JSON_Array* comp_array) const {
 	json_object_set_number(obj, "Component Type", type);
 	json_object_set_number(obj, "Script UUID", uuid_script);
 
+	SaveScriptFile(uuid_script);
+
 	json_array_append_value(comp_array, value);
 }
 
@@ -184,5 +186,58 @@ void ComponentGraphScript::Load(JSON_Object* comp_obj) {
 	ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
 	if (res)
-		res->node_graph->Draw(BB_objects, active);
+		res->node_graph;// ->Draw(BB_objects, active);
 }
+
+
+void ComponentGraphScript::SaveScriptFile(UID uuid) const{
+
+	if (uuid != 0) {
+
+		std::string file = ASSETS_SCRIPT_FOLDER + std::to_string(uuid) + ".script";
+
+		//JSON_Value* root_value = json_value_init_array();
+		//JSON_Array* array = json_value_get_array(root_value);
+
+		JSON_Value* value = json_value_init_object();
+		JSON_Object* obj = json_value_get_object(value);
+
+		ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
+
+		//res->node_graph->
+		json_object_set_number(obj, "UUID", uuid);
+		json_object_set_number(obj, "Resource Type", type);
+
+
+		json_serialize_to_file_pretty(value, file.c_str());
+
+		json_value_free(value);
+	}
+
+
+
+
+//
+//	JSON_Value* root_value = json_value_init_array();
+//	JSON_Array* array = json_value_get_array(root_value);
+//
+//
+//	//Do individual GameObject->Save instead of iterating all
+//	for (std::list<GameObject*>::const_iterator it = go_list.begin(); it != go_list.end(); it++) {
+//
+//		(*it)->Save(array);
+//	}
+//
+//	char folder_and_file[128];
+//	strcpy(folder_and_file, LIBRARY_SCENE_FOLDER);
+//	strcat(folder_and_file, scene_name);
+//
+//	json_serialize_to_file_pretty(root_value, folder_and_file);
+//
+//	json_value_free(root_value);
+//}
+
+
+}
+
+

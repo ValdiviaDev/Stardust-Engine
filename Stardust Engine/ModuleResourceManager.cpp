@@ -28,6 +28,7 @@ bool ModuleResourceManager::Start() {
 	CheckMeshMetas();
 	CheckTextureMetas();
 	CreatePrimitiveResources();
+	CheckScripts();
 
 	//Save maps with the names and UIDs of the meshes and textures to use them during execution
 #ifndef GAME_MODE
@@ -441,9 +442,32 @@ void ModuleResourceManager::CheckTextureMetas()
 
 		}
 	}
+}
+
+void ModuleResourceManager::CheckScripts() {
+
+	std::vector<std::string> files, dirs;
+	App->fs->DiscoverFiles(ASSETS_SCRIPT_FOLDER, files, dirs);
+
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++) {
+
+		//Look if they are .meta
+		std::string file = ASSETS_SCRIPT_FOLDER + (*it);
+		//FileType ft = App->fs->DetermineFileType(file.c_str());
+
+		JSON_Value* root_value = json_parse_file(file.c_str());
+		JSON_Object* object = json_value_get_object(root_value);
+
+		UID file_uid = json_object_get_number(object, "UUID");
+		int r_type = json_object_get_number(object, "Resource Type");
 
 
+		Resource* res = CreateNewResource(ResourceType::Resource_Graph_Script, file_uid);
 
+		res->LoadInMemory();
+
+		json_value_free(root_value);
+	}
 
 
 }

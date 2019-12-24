@@ -16,6 +16,7 @@ public:
 
 	void Save(JSON_Array* comp_array) const;
 	void Load(JSON_Object* comp_obj);
+	void SaveScriptFile(UID uuid) const;
 
 	std::vector<GameObject*> GetBlackboard()const;
 	void AddReferenceToBlackboard(GameObject* ref); //To use when the user adds something via engine
