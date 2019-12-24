@@ -66,10 +66,10 @@ void Node::DrawObjectsInstance(std::vector<GameObject*> BB_objects)
 }
 
 
-void Node::Save() const {
+void Node::Save(JSON_Object* obj) const {
 
 }
 
-void Node::Load() {
+void Node::Load(JSON_Object* obj) {
 
 }

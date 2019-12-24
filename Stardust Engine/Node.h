@@ -49,8 +49,8 @@ public:
 	virtual bool Update(float dt, std::vector<GameObject*> BB_objects) { return false; }
 	virtual void Draw(std::vector<GameObject*> BB_objects) {}
 
-	virtual void Save() const;
-	virtual void Load();
+	virtual void Save(JSON_Object* obj) const;
+	virtual void Load(JSON_Object* obj);
 
 	void DrawObjectsInstance(std::vector<GameObject*> BB_objects);
 

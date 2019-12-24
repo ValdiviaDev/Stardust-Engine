@@ -643,7 +643,8 @@ void NodeGraph::DeleteNode(Node* node) {
 
 void NodeGraph::SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const {
 
-	
+	//TODO SAVE BLACKBOARD
+
 	//SAVE NODES
 	for (std::vector<Node*>::const_iterator it = nodes.begin(); it != nodes.end(); it++) {
 
@@ -660,13 +661,16 @@ void NodeGraph::SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const {
 		json_object_set_number(obj, "OutputsCount", (*it)->OutputsCount);
 
 
-		switch ((*it)->function) {
+		//switch ((*it)->function) {
 
-		case NodeFunction::Func_Default:
+		//case NodeFunction::Func_DelObject:
+			(*it)->Save(obj);
+		//	break;
+		//case NodeFunction::Func_Default:
 
-			break;
+		//	break;
 			//TODO SAVE INFO OF ALL THE REST OF FUNCS
-		}
+		//}
 		json_array_append_value(arr_nodes, value);
 	}
 
@@ -701,6 +705,8 @@ void NodeGraph::LoadFile(UID uuid) {
 
 	JSON_Object* it;
 
+	//TODO LOAD BLACKBOARD
+
 	for (uint i = 0; i < json_array_get_count(array_nodes); i++) {
 
 		it = json_array_get_object(array_nodes, i);
@@ -712,6 +718,10 @@ void NodeGraph::LoadFile(UID uuid) {
 		n->type = (NodeType)((int)json_object_get_number(it, "Type"));
 		n->InputsCount = json_object_get_number(it, "InputsCount");
 		n->OutputsCount = json_object_get_number(it, "OutputsCount");
+
+		n->Load(it);
+
+
 	}
 
 	for (uint i = 0; i < json_array_get_count(array_links); i++) {
