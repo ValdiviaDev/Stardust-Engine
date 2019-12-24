@@ -1,4 +1,14 @@
 {
     "UUID": 1156275487,
-    "Resource Type": 5
+    "Resource Type": 5,
+    "Nodes": [
+        {
+            "NodeID": 0,
+            "Name": "Event: Input"
+        },
+        {
+            "NodeID": 1,
+            "Name": "Action: MoveObject"
+        }
+    ]
 }

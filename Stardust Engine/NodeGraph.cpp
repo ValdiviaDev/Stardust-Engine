@@ -627,3 +627,23 @@ void NodeGraph::DeleteNode(Node* node) {
 
 }
 
+
+
+void NodeGraph::SaveFile(JSON_Array* arr) const {
+
+	
+
+	for (std::vector<Node*>::const_iterator it = nodes.begin(); it != nodes.end(); it++) {
+
+		JSON_Value* value = json_value_init_object();
+		JSON_Object* obj = json_value_get_object(value);
+
+		json_object_set_number(obj, "NodeID", (*it)->ID);
+		json_object_set_string(obj, "Name", (*it)->Name);
+
+		json_array_append_value(arr, value);
+
+	}
+
+
+}

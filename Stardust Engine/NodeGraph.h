@@ -7,6 +7,7 @@
 #include "Globals.h"
 #include <string>
 #include "imgui/imgui.h"
+#include "Parson/parson.h"
 #include <vector>
 
 #define NODE_WINDOW_PADDING ImVec2(8.0f, 8.0f)
@@ -41,12 +42,15 @@ public:
 	void Draw(std::vector<GameObject*> BB_objects, bool go_active);
 	void Update(float dt, std::vector<GameObject*> BB_objects);
 	void UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, NodeState input_updating);
+	void SaveFile(JSON_Array* arr) const;
 
 	Node* AddNode(NodeFunction node_function, const ImVec2& pos);
 	void AddLink(int input_idx, int input_slot, int output_idx, int output_slot);
 	void DeleteLink(int node_id, int slot_num, bool input); //Send true if slot is input (left of the node) or false if it's output (right of the node)
 	void DeleteNode(Node* node);
 	Node* GetNodeByID(int ID);
+
+	
 
 private:
 	
