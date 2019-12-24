@@ -4,11 +4,32 @@
     "Nodes": [
         {
             "NodeID": 0,
-            "Name": "Event: Input"
+            "Type": 1,
+            "Function": 1
         },
         {
             "NodeID": 1,
-            "Name": "Action: MoveObject"
+            "Type": 2,
+            "Function": 4
+        },
+        {
+            "NodeID": 2,
+            "Type": 1,
+            "Function": 2
+        }
+    ],
+    "Links": [
+        {
+            "Input ID": 2,
+            "Output ID": 1,
+            "Input Slot": 0,
+            "Output Slot": 1
+        },
+        {
+            "Input ID": 0,
+            "Output ID": 1,
+            "Input Slot": 0,
+            "Output Slot": 0
         }
     ]
 }

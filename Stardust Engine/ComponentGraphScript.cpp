@@ -204,18 +204,20 @@ void ComponentGraphScript::SaveScriptFile(UID uuid) const{
 
 		ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
-		JSON_Value* value_arr = json_value_init_array();
-		JSON_Array* array = json_value_get_array(value_arr);
+		JSON_Value* value_arr_node = json_value_init_array();
+		JSON_Array* array_nodes = json_value_get_array(value_arr_node);
 
-	
+		JSON_Value* value_arr_link = json_value_init_array();
+		JSON_Array* array_links = json_value_get_array(value_arr_link);
+
 
 		json_object_set_number(obj, "UUID", uuid);
 		json_object_set_number(obj, "Resource Type", type);
 
-		res->node_graph->SaveFile(array);
+		res->node_graph->SaveFile(array_nodes, array_links);
 
-		json_object_set_value(obj, "Nodes", value_arr);
-
+		json_object_set_value(obj, "Nodes", value_arr_node);
+		json_object_set_value(obj, "Links", value_arr_link);
 
 		json_serialize_to_file_pretty(value, file.c_str());
 

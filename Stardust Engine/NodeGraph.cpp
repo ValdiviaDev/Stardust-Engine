@@ -629,7 +629,7 @@ void NodeGraph::DeleteNode(Node* node) {
 
 
 
-void NodeGraph::SaveFile(JSON_Array* arr) const {
+void NodeGraph::SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const {
 
 	
 
@@ -639,11 +639,36 @@ void NodeGraph::SaveFile(JSON_Array* arr) const {
 		JSON_Object* obj = json_value_get_object(value);
 
 		json_object_set_number(obj, "NodeID", (*it)->ID);
-		json_object_set_string(obj, "Name", (*it)->Name);
+		//json_object_set_string(obj, "Name", (*it)->Name);
+		json_object_set_number(obj, "Type", (*it)->type);
+		json_object_set_number(obj, "Function", (*it)->function);	
 
-		json_array_append_value(arr, value);
+		switch ((*it)->function) {
+
+		case NodeFunction::Func_Default:
+
+			break;
+
+			//TODO SAVE INFO OF ALL THE REST OF FUNCS
+
+
+		}
+
+		json_array_append_value(arr_nodes, value);
 
 	}
 
+	for (std::vector<NodeLink>::const_iterator it = links.begin(); it != links.end(); it++) {
+
+		JSON_Value* value = json_value_init_object();
+		JSON_Object* obj = json_value_get_object(value);
+
+		json_object_set_number(obj, "Input ID", it->InputIdx);
+		json_object_set_number(obj, "Output ID", it->OutputIdx);
+		json_object_set_number(obj, "Input Slot", it->InputSlot);
+		json_object_set_number(obj, "Output Slot", it->OutputSlot);
+
+		json_array_append_value(arr_links, value);
+	}
 
 }
