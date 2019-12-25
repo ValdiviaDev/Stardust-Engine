@@ -1,32 +1,10 @@
 [
     {
-        "Name": "Sky001",
-        "UUID": 1032732671,
-        "Active": true,
-        "Static": false,
-        "Parent UUID": 1831793403,
-        "Components": [
-            {
-                "Component Type": 1,
-                "PosX": 18.153732299804688,
-                "PosY": 0,
-                "PosZ": 58.960910797119141,
-                "RotX": -1,
-                "RotY": 0,
-                "RotZ": 0,
-                "RotW": -4.3711388286737929e-08,
-                "ScaleX": 1,
-                "ScaleY": 1,
-                "ScaleZ": 1
-            }
-        ]
-    },
-    {
         "Name": "Dummy001",
-        "UUID": 2128786131,
+        "UUID": 1334139540,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1831793403,
+        "Parent UUID": 1620161081,
         "Components": [
             {
                 "Component Type": 1,
@@ -45,10 +23,10 @@
     },
     {
         "Name": "City_building_004",
-        "UUID": 1782812293,
+        "UUID": 1166214296,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -65,23 +43,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 914821647,
+                "UUID Mesh": 943776040,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 727883061,
+                "UUID Material": 74533581,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_001",
-        "UUID": 1774971622,
+        "UUID": 781951649,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -98,23 +76,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 500312294,
+                "UUID Mesh": 1545303579,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 57466234,
+                "UUID Material": 944726153,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_007",
-        "UUID": 94642953,
+        "UUID": 1797841344,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -131,23 +109,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 657201817,
+                "UUID Mesh": 1427845229,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 761118375,
+                "UUID Material": 994668579,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_008",
-        "UUID": 663396150,
+        "UUID": 2063457397,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -164,23 +142,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 372563121,
+                "UUID Mesh": 1901386825,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 909558675,
+                "UUID Material": 1265174951,
                 "Active": true
             }
         ]
     },
     {
         "Name": "Line002",
-        "UUID": 1534213086,
+        "UUID": 1555998219,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -197,7 +175,7 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 1907625920,
+                "UUID Mesh": 339432084,
                 "is primitive": 0,
                 "Active": true
             },
@@ -210,10 +188,10 @@
     },
     {
         "Name": "Plane001",
-        "UUID": 244791835,
+        "UUID": 661702308,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -230,7 +208,7 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 222121943,
+                "UUID Mesh": 557189824,
                 "is primitive": 0,
                 "Active": true
             },
@@ -243,10 +221,10 @@
     },
     {
         "Name": "City_building_010",
-        "UUID": 1822105596,
+        "UUID": 37292167,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -265,10 +243,10 @@
     },
     {
         "Name": "City_building_011",
-        "UUID": 659703532,
+        "UUID": 10229484,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -285,23 +263,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 657201817,
+                "UUID Mesh": 1427845229,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 761118375,
+                "UUID Material": 994668579,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_013",
-        "UUID": 738285251,
+        "UUID": 1983114713,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -318,23 +296,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 136368926,
+                "UUID Mesh": 410800849,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 115793659,
+                "UUID Material": 178697483,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_014",
-        "UUID": 16722401,
+        "UUID": 724696872,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -351,23 +329,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 294143347,
+                "UUID Mesh": 1140122894,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 727883061,
+                "UUID Material": 74533581,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_016",
-        "UUID": 1822108822,
+        "UUID": 469469200,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -386,10 +364,10 @@
     },
     {
         "Name": "City_building_017",
-        "UUID": 884300878,
+        "UUID": 214065860,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -408,10 +386,10 @@
     },
     {
         "Name": "City_building_022",
-        "UUID": 1850235042,
+        "UUID": 2090212527,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -428,23 +406,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 554777434,
+                "UUID Mesh": 604486959,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1666341219,
+                "UUID Material": 749542280,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_023",
-        "UUID": 980429765,
+        "UUID": 30453780,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -461,23 +439,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 657201817,
+                "UUID Mesh": 1427845229,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 761118375,
+                "UUID Material": 994668579,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_024",
-        "UUID": 1824547793,
+        "UUID": 2085282851,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -494,23 +472,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 372563121,
+                "UUID Mesh": 1901386825,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 909558675,
+                "UUID Material": 1265174951,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_026",
-        "UUID": 1183883443,
+        "UUID": 1985494425,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -527,23 +505,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 579329596,
+                "UUID Mesh": 732489182,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1666341219,
+                "UUID Material": 749542280,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_028",
-        "UUID": 1903034352,
+        "UUID": 641385471,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -560,23 +538,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 3535280,
+                "UUID Mesh": 1270404420,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1316593122,
+                "UUID Material": 564639478,
                 "Active": true
             }
         ]
     },
     {
         "Name": "Object010",
-        "UUID": 1485241861,
+        "UUID": 1076939503,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -593,7 +571,7 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 538517984,
+                "UUID Mesh": 361087005,
                 "is primitive": 0,
                 "Active": true
             },
@@ -606,10 +584,10 @@
     },
     {
         "Name": "City_building_030",
-        "UUID": 1551885539,
+        "UUID": 791018334,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -626,23 +604,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 3535280,
+                "UUID Mesh": 1270404420,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1316593122,
+                "UUID Material": 564639478,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_031",
-        "UUID": 2062051840,
+        "UUID": 1778029686,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -659,23 +637,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 3535280,
+                "UUID Mesh": 1270404420,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1316593122,
+                "UUID Material": 564639478,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_032",
-        "UUID": 866523302,
+        "UUID": 2082206997,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -692,23 +670,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 914821647,
+                "UUID Mesh": 943776040,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 727883061,
+                "UUID Material": 74533581,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_033",
-        "UUID": 1615220574,
+        "UUID": 644116170,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -725,23 +703,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 290407299,
+                "UUID Mesh": 258354916,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 115793659,
+                "UUID Material": 178697483,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_034",
-        "UUID": 1853003311,
+        "UUID": 1174179784,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -758,23 +736,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 10905253,
+                "UUID Mesh": 1458235162,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1666341219,
+                "UUID Material": 749542280,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_035",
-        "UUID": 1976383834,
+        "UUID": 1496709632,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -791,23 +769,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 3535280,
+                "UUID Mesh": 1270404420,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1316593122,
+                "UUID Material": 564639478,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_036",
-        "UUID": 758911635,
+        "UUID": 1757363265,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -824,23 +802,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 136368926,
+                "UUID Mesh": 410800849,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 115793659,
+                "UUID Material": 178697483,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_037",
-        "UUID": 1271244323,
+        "UUID": 1125638677,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -857,23 +835,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 1057467772,
+                "UUID Mesh": 2117085093,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1666341219,
+                "UUID Material": 749542280,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_038",
-        "UUID": 1571967715,
+        "UUID": 1742965677,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -890,23 +868,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 1902667601,
+                "UUID Mesh": 1302441035,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1666341219,
+                "UUID Material": 749542280,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_039",
-        "UUID": 474773802,
+        "UUID": 1883908472,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -923,23 +901,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 3535280,
+                "UUID Mesh": 1270404420,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1316593122,
+                "UUID Material": 564639478,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_040",
-        "UUID": 937606067,
+        "UUID": 1274981822,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -956,23 +934,23 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 3535280,
+                "UUID Mesh": 1270404420,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 1316593122,
+                "UUID Material": 564639478,
                 "Active": true
             }
         ]
     },
     {
         "Name": "City_building_041",
-        "UUID": 766311988,
+        "UUID": 1045139870,
         "Active": true,
         "Static": false,
-        "Parent UUID": 2128786131,
+        "Parent UUID": 1334139540,
         "Components": [
             {
                 "Component Type": 1,
@@ -989,96 +967,84 @@
             },
             {
                 "Component Type": 2,
-                "UUID Mesh": 500312294,
+                "UUID Mesh": 1545303579,
                 "is primitive": 0,
                 "Active": true
             },
             {
                 "Component Type": 3,
-                "UUID Material": 57466234,
+                "UUID Material": 944726153,
                 "Active": true
             }
         ]
     },
     {
-        "Name": "Camera001",
-        "UUID": 1630649431,
+        "Name": "camera",
+        "UUID": 1266259086,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1831793403,
+        "Parent UUID": 1620161081,
         "Components": [
             {
                 "Component Type": 1,
-                "PosX": -78.312431335449219,
-                "PosY": 45.251216888427734,
-                "PosZ": -97.031112670898438,
-                "RotX": -0.049339741468429565,
-                "RotY": -0.93228733539581299,
-                "RotZ": -0.1393311470746994,
-                "RotW": 0.33014041185379028,
-                "ScaleX": 1,
-                "ScaleY": 0.99999994039535522,
-                "ScaleZ": 0.99999994039535522
+                "PosX": 0,
+                "PosY": 28.708351135253906,
+                "PosZ": 35.411247253417969,
+                "RotX": 1.2810112970385035e-08,
+                "RotY": 0.95609104633331299,
+                "RotZ": -0.29306983947753906,
+                "RotW": -4.1790922722384494e-08,
+                "ScaleX": 1.0000483989715576,
+                "ScaleY": 0.99999910593032837,
+                "ScaleZ": 1.0000443458557129
+            },
+            {
+                "Component Type": 4,
+                "Main Camera": true,
+                "Aspect Ratio": 1.7777999639511108,
+                "FOV": 60.000003814697266,
+                "Far Plane": 100,
+                "Near Plane": 1,
+                "Active": true,
+                "culling": false
             }
         ]
     },
     {
-        "Name": "Camera001.Target",
-        "UUID": 721036996,
+        "Name": "Tank",
+        "UUID": 455308922,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1831793403,
+        "Parent UUID": 1620161081,
         "Components": [
             {
                 "Component Type": 1,
-                "PosX": -28.132621765136719,
-                "PosY": 20.873329162597656,
-                "PosZ": -35.064212799072266,
-                "RotX": -0.049339760094881058,
-                "RotY": -0.93228733539581299,
-                "RotZ": -0.13933101296424866,
-                "RotW": 0.33014047145843506,
-                "ScaleX": 1,
-                "ScaleY": 0.99999994039535522,
-                "ScaleZ": 1
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 1,
+                "RotZ": 0,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 0.029999999329447746,
+                "ScaleY": 0.029999999329447746,
+                "ScaleZ": 0.029999999329447746
             }
         ]
     },
     {
-        "Name": "Spot001",
-        "UUID": 1886449891,
+        "Name": "TankRenderers",
+        "UUID": 1503681673,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1831793403,
+        "Parent UUID": 455308922,
         "Components": [
             {
                 "Component Type": 1,
-                "PosX": -66.721267700195313,
-                "PosY": 141.93412780761719,
-                "PosZ": 6.2041376622801181e-06,
-                "RotX": -0.69003516435623169,
-                "RotY": -0.15443949401378632,
-                "RotZ": -0.69003516435623169,
-                "RotW": 0.1544388085603714,
-                "ScaleX": 1,
-                "ScaleY": 1,
-                "ScaleZ": 1
-            }
-        ]
-    },
-    {
-        "Name": "Spot001.Target",
-        "UUID": 722978085,
-        "Active": true,
-        "Static": false,
-        "Parent UUID": 1831793403,
-        "Components": [
-            {
-                "Component Type": 1,
-                "PosX": 28.890945434570313,
-                "PosY": -60.963882446289063,
-                "PosZ": -2.6648158382158726e-06,
-                "RotX": 8.9406967163085938e-08,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
                 "RotY": 0,
                 "RotZ": 0,
                 "RotW": 1,
@@ -1089,11 +1055,11 @@
         ]
     },
     {
-        "Name": "camera",
-        "UUID": 1250760875,
+        "Name": "TankTurret",
+        "UUID": 1561661435,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1831793403,
+        "Parent UUID": 1503681673,
         "Components": [
             {
                 "Component Type": 1,
@@ -1109,14 +1075,118 @@
                 "ScaleZ": 1
             },
             {
-                "Component Type": 4,
-                "Main Camera": true,
-                "Aspect Ratio": 1.7777999639511108,
-                "FOV": 60.000003814697266,
-                "Far Plane": 100,
-                "Near Plane": 1,
-                "Active": true,
-                "culling": false
+                "Component Type": 2,
+                "UUID Mesh": 1225846312,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 644459609,
+                "path": "",
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "TankTracksLeft",
+        "UUID": 1628685819,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1503681673,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1024266072,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 546601418,
+                "path": "",
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "TankTracksRight",
+        "UUID": 1451359352,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1503681673,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 2069805762,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 546601418,
+                "path": "",
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "TankChassis",
+        "UUID": 1688886948,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1503681673,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 131397086,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 644459609,
+                "path": "",
+                "Active": true
             }
         ]
     }
