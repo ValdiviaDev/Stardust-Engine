@@ -1,0 +1,20 @@
+{
+    "UUID": 161465078,
+    "Resource Type": 5,
+    "Nodes": [
+        {
+            "NodeID": 0,
+            "Type": 2,
+            "Function": 6,
+            "PosX": 470,
+            "PosY": 146,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "using this": false,
+            "id using": 0,
+            "curr active set str": "False",
+            "active set": 2
+        }
+    ],
+    "Links": []
+}

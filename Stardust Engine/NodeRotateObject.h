@@ -13,8 +13,8 @@ public:
 	bool Update(float dt, std::vector<GameObject*> BB_objects);
 	void Draw(std::vector<GameObject*> BB_objects);
 
-	void Save() const;
-	void Load();
+	void Save(JSON_Object* obj) const;
+	void Load(JSON_Object* obj);
 
 private:
 

@@ -70,10 +70,19 @@ void NodeMouseInput::Draw(std::vector<GameObject*> BB_objects)
 
 }
 
-void NodeMouseInput::Save() const {
-
+void NodeMouseInput::Save(JSON_Object* obj) const {
+	
+	json_object_set_number(obj, "mouse butt id", mouse_butt_id);
+	json_object_set_number(obj, "key state", key_state);
+	json_object_set_string(obj, "curr butt", curr_butt);
+	json_object_set_string(obj, "curr state str", curr_state_str);
 }
 
-void NodeMouseInput::Load() {
+void NodeMouseInput::Load(JSON_Object* obj) {
+	mouse_butt_id = json_object_get_number(obj, "mouse butt id");
+	key_state = (KEY_STATE)((int)json_object_get_number(obj, "key state"));
 
+	curr_butt = json_object_get_string(obj, "curr butt");
+	curr_state_str = json_object_get_string(obj, "curr state str");
 }
+

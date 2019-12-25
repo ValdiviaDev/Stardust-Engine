@@ -81,10 +81,18 @@ void NodeToggleActiveObject::Draw(std::vector<GameObject*> BB_objects)
 }
 
 
-void NodeToggleActiveObject::Save() const {
-
+void NodeToggleActiveObject::Save(JSON_Object* obj) const {
+	
+	json_object_set_boolean(obj, "using this", obj_using_this);
+	json_object_set_number(obj, "id using", obj_indx);
+	json_object_set_string(obj, "curr active set str", curr_active_set_str);
+	json_object_set_number(obj, "active set", active_set);
 }
 
-void NodeToggleActiveObject::Load() {
+void NodeToggleActiveObject::Load(JSON_Object* obj) {
 
+	obj_using_this = json_object_get_boolean(obj, "using this");
+	obj_indx = json_object_get_number(obj, "id using");
+	curr_active_set_str = json_object_get_string(obj, "curr active set str");
+	active_set = (ActiveSetTo)((int)json_object_get_number(obj, "active set"));
 }

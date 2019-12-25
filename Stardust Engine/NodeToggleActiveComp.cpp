@@ -116,10 +116,25 @@ void NodeToggleActiveComp::Draw(std::vector<GameObject*> BB_objects)
 
 }
 
-void NodeToggleActiveComp::Save() const {
+void NodeToggleActiveComp::Save(JSON_Object* obj) const {
 
+	json_object_set_boolean(obj, "using this", obj_using_this);
+	json_object_set_number(obj, "id using", obj_indx);
+	json_object_set_string(obj, "curr active set str", curr_active_set_str);
+	json_object_set_string(obj, "comp str", comp_str);
+	json_object_set_number(obj, "active set", active_set);
+	json_object_set_number(obj, "comp type", comp_type);
+
+	
 }
 
-void NodeToggleActiveComp::Load() {
+void NodeToggleActiveComp::Load(JSON_Object* obj) {
+
+	obj_using_this = json_object_get_boolean(obj, "using this");
+	obj_indx = json_object_get_number(obj, "id using");
+	curr_active_set_str = json_object_get_string(obj, "curr active set str");
+	comp_str = json_object_get_string(obj, "comp str");
+	active_set = (ActiveSetTo)((int)json_object_get_number(obj, "active set"));
+	comp_type = (ComponentType)((int)json_object_get_number(obj, "comp type"));
 
 }

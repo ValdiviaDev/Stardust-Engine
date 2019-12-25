@@ -77,10 +77,40 @@ void NodeRotateObject::Draw(std::vector<GameObject*> BB_objects)
 }
 
 
-void NodeRotateObject::Save() const {
+void NodeRotateObject::Save(JSON_Object* obj) const {
 
+	json_object_set_boolean(obj, "using this", obj_using_this);
+	json_object_set_number(obj, "id using", obj_indx);
+
+	json_object_set_boolean(obj, "rot with mouse", rot_with_mouse);
+	json_object_set_boolean(obj, "mouse rot X", mouse_rot_X);
+	json_object_set_boolean(obj, "mouse rot Y", mouse_rot_Y);
+	json_object_set_boolean(obj, "reset rot", reset_rot);
+
+	json_object_set_number(obj, "rot velX", rot_vel.x);
+	json_object_set_number(obj, "rot velY", rot_vel.y);
+	json_object_set_number(obj, "rot velZ", rot_vel.z);
+
+	json_object_set_number(obj, "rot axisX", rot_axis[0]);
+	json_object_set_number(obj, "rot axisY", rot_axis[1]);
+	json_object_set_number(obj, "rot axisZ", rot_axis[2]);
 }
 
-void NodeRotateObject::Load() {
+void NodeRotateObject::Load(JSON_Object* obj) {
 
+	obj_using_this = json_object_get_boolean(obj, "using this");
+	obj_indx = json_object_get_number(obj, "id using");
+
+	rot_with_mouse = json_object_get_boolean(obj, "rot with mouse");
+	mouse_rot_X = json_object_get_boolean(obj, "mouse rot X");
+	mouse_rot_Y = json_object_get_boolean(obj, "mouse rot Y");
+	reset_rot = json_object_get_boolean(obj, "reset rot");
+	  			
+	rot_vel.x = json_object_get_number(obj, "rot velX");
+	rot_vel.y = json_object_get_number(obj, "rot velY");
+	rot_vel.z = json_object_get_number(obj, "rot velZ");
+	  			
+	rot_axis[0] = json_object_get_number(obj, "rot axisX");
+	rot_axis[1] = json_object_get_number(obj, "rot axisY");
+	rot_axis[2] = json_object_get_number(obj, "rot axisZ");
 }

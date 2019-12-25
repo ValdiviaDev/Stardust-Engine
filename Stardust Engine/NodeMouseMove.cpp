@@ -26,10 +26,10 @@ void NodeMouseMove::Draw(std::vector<GameObject*> BB_objects)
 {
 }
 
-void NodeMouseMove::Save() const {
+void NodeMouseMove::Save(JSON_Object* obj) const {
 
 }
 
-void NodeMouseMove::Load() {
+void NodeMouseMove::Load(JSON_Object* obj) {
 
 }

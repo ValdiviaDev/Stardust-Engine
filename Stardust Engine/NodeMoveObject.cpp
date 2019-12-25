@@ -115,10 +115,24 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 }
 
 
-void NodeMoveObject::Save() const {
-
+void NodeMoveObject::Save(JSON_Object* obj) const {
+	
+	json_object_set_boolean(obj, "this go", this_go);
+	json_object_set_boolean(obj, "move global", move_global);
+	json_object_set_boolean(obj, "dont change dir local", dont_change_dir_local);
+	json_object_set_number(obj, "velocity", velocity);
+	json_object_set_string(obj, "dir str", dir_str);
+	json_object_set_boolean(obj, "using this", obj_using_this);
+	json_object_set_number(obj, "id using", obj_indx);
 }
 
-void NodeMoveObject::Load() {
+void NodeMoveObject::Load(JSON_Object* obj) {
 
+	this_go = json_object_get_boolean(obj, "this go");
+	move_global = json_object_get_boolean(obj, "move global");
+	dont_change_dir_local = json_object_get_boolean(obj, "dont change dir local");
+	velocity = json_object_get_number(obj, "velocity");
+	dir_str = json_object_get_string(obj, "dir str");
+	obj_using_this = json_object_get_boolean(obj, "using this");
+	obj_indx = json_object_get_number(obj, "id using");
 }

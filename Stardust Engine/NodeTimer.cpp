@@ -53,10 +53,17 @@ void NodeTimer::Draw(std::vector<GameObject*> BB_objects)
 
 
 
-void NodeTimer::Save() const {
+void NodeTimer::Save(JSON_Object* obj) const {
 
+	json_object_set_boolean(obj, "repeat action", repeat_action);
+	json_object_set_boolean(obj, "reset", reset);
+	json_object_set_number(obj, "time", time);
 }
 
-void NodeTimer::Load() {
+void NodeTimer::Load(JSON_Object* obj) {
+
+	repeat_action = json_object_get_boolean(obj, "repeat action");
+	reset = json_object_get_boolean(obj, "reset");
+	time = json_object_get_number(obj, "time");
 
 }

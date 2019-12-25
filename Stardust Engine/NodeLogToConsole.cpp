@@ -28,10 +28,13 @@ void NodeLogToConsole::Draw(std::vector<GameObject*> BB_objects)
 }
 
 
-void NodeLogToConsole::Save() const {
+void NodeLogToConsole::Save(JSON_Object* obj) const {
 
+	json_object_set_string(obj, "log", this->log);
 }
 
-void NodeLogToConsole::Load() {
+
+void NodeLogToConsole::Load(JSON_Object* obj) {
+	std::strcpy(this->log, json_object_get_string(obj, "log"));
 
 }

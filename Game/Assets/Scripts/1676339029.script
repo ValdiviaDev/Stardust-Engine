@@ -5,12 +5,12 @@
         {
             "NodeID": 0,
             "Type": 2,
-            "Function": 11,
-            "PosX": 428,
-            "PosY": 182,
+            "Function": 8,
+            "PosX": 598,
+            "PosY": 225,
             "InputsCount": 1,
             "OutputsCount": 1,
-            "scene to load": "asdf"
+            "log": "asdf"
         }
     ],
     "Links": []
