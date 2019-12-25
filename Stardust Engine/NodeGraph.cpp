@@ -30,11 +30,10 @@ NodeGraph::~NodeGraph() {
 	fst_ev_nodes.clear();
 }
 
-void NodeGraph::Draw(std::vector<GameObject*> BB_objects, bool go_active) {
+void NodeGraph::Draw(std::vector<GameObject*> BB_objects, bool go_active, bool& show_graph) {
 
 	bool open_context_menu = false;
 	static int node_selected = -1;
-	static bool open_win = true;
 
 	static int node_hovered_in_scene = -1;
 
@@ -49,7 +48,7 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects, bool go_active) {
 		inited = true;
 	}*/
 
-	ImGui::Begin("Graph", &open_win);
+	ImGui::Begin("Graph", &show_graph);
 
 	ImGui::BeginGroup();
 	ImGui::Text("Hold middle mouse button to scroll (%.2f,%.2f)", scrolling.x, scrolling.y);

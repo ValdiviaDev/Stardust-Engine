@@ -33,7 +33,7 @@ void ComponentGraphScript::Update(float dt)
 		ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
 		if(show_graph && gameObject->focused)
-			res->node_graph->Draw(BB_objects, active);
+			res->node_graph->Draw(BB_objects, active, show_graph);
 
 		if(App->GetEngineState() != Engine_State_Editor && active)
 			res->node_graph->Update(dt, BB_objects);

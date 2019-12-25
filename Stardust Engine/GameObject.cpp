@@ -46,10 +46,6 @@ GameObject::~GameObject()
 	}
 	components.clear();
 
-	//RELEASE(transform);
-	//RELEASE(mesh);
-	//RELEASE(material);
-	//RELEASE(camera);
 
 	parent = nullptr;
 }
@@ -164,7 +160,6 @@ void GameObject::SetStatic(bool staticGO)
 void GameObject::SetName(const char* new_name) {
 	
 	strcpy_s(name, 100, new_name);
-	//name = (char)new_name;
 	LOG("name = %s", name);
 }
 

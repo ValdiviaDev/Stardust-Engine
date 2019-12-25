@@ -39,7 +39,7 @@ public:
 	NodeGraph();
 	~NodeGraph();
 
-	void Draw(std::vector<GameObject*> BB_objects, bool go_active);
+	void Draw(std::vector<GameObject*> BB_objects, bool go_active, bool& show_graph);
 	void Update(float dt, std::vector<GameObject*> BB_objects);
 	void UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, NodeState input_updating);
 	void SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const;
