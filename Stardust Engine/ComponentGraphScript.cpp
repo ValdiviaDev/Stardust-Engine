@@ -178,7 +178,7 @@ void ComponentGraphScript::Save(JSON_Array* comp_array) const {
 
 	json_object_set_number(obj, "Component Type", type);
 	json_object_set_number(obj, "Script UUID", uuid_script);
-
+	json_object_set_boolean(obj, "Active", active);
 
 	//Save Blackboard
 	JSON_Value* value_arr = json_value_init_array();
@@ -210,7 +210,7 @@ void ComponentGraphScript::Save(JSON_Array* comp_array) const {
 void ComponentGraphScript::Load(JSON_Object* comp_obj) {
 
 	uuid_script = json_object_get_number(comp_obj, "Script UUID");
-
+	active = json_object_get_boolean(comp_obj, "Active");
 	
 	ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
