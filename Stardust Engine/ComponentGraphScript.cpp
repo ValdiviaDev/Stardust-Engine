@@ -43,13 +43,21 @@ void ComponentGraphScript::Update(float dt)
 
 void ComponentGraphScript::DrawInspector()
 {
-	//TODO: Close individual graph scripts
-	if (ImGui::CollapsingHeader("Graph Script", ImGuiTreeNodeFlags_DefaultOpen)) {
-		ImGui::Checkbox("Script Active", &active);
+	string cmp_idx = "";
+	for (int i = 0; i < gameObject->GetNumComp(); ++i) {
+		if (gameObject->GetComponentByIndex(i) == this)
+			cmp_idx = "##" + std::to_string(i);
+	}
+
+	string c_name = "Graph Script" + cmp_idx;
+	if (ImGui::CollapsingHeader(c_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+		string scr_active = "Script Active" + cmp_idx;
+		ImGui::Checkbox(scr_active.c_str(), &active);
 
 		if (!HasScript()) {
 			ImGui::Button("Drag script here");
-			if (ImGui::Button("New Script", { 80,30 })) {
+			string new_script = "New Script" + cmp_idx;
+			if (ImGui::Button(new_script.c_str(), { 80,30 })) {
 				uuid_script = App->GenerateUUID();
 				//TODO: Script serialization
 				//TODO: Do this in resource manager
@@ -60,13 +68,13 @@ void ComponentGraphScript::DrawInspector()
 		}
 		//If a graph node is already associated with this component
 		else {
-			const char* graph_visib_str;
+			string graph_visib_str = "";
 			if (!show_graph)
-				graph_visib_str = "Show Graph";
+				graph_visib_str = "Show Graph" + cmp_idx;
 			else
-				graph_visib_str = "Hide Graph";
+				graph_visib_str = "Hide Graph" + cmp_idx;
 
-			if (ImGui::Button(graph_visib_str, { 80,30 })) {
+			if (ImGui::Button(graph_visib_str.c_str(), { 80,30 })) {
 				if (!show_graph) 
 					HideOtherGraphsFromSameObject();
 				

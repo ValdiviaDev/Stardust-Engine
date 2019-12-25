@@ -526,10 +526,11 @@ void GameObject::Save(JSON_Array* go_array) const {
 		ComponentCamera* cam = (ComponentCamera*)GetComponent(Comp_Camera);
 		cam->Save(array_comps);
 	}
-	if (GetComponent(Comp_Graph_Script)) {
-
-		ComponentGraphScript* script = (ComponentGraphScript*)GetComponent(Comp_Graph_Script);
-		script->Save(array_comps);
+	for (int i = 0; i < components.size(); ++i) {
+		if (components[i]->GetType() == Comp_Graph_Script) {
+			ComponentGraphScript* script = (ComponentGraphScript*)GetComponentByIndex(i);
+			script->Save(array_comps);
+		}
 		
 	}
 
