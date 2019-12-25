@@ -29,6 +29,7 @@ public:
 	void FillMeshScenesMap(map<string, map<UID, string>> mesh_scenes);
 	void FillTexturesMap(map <string, UID> textures);
 	void FillScriptsMap(map <string, UID> scripts);
+	void AddToScriptsMap(std:: string name, UID uuid);
 
 private:
 	//Focused

@@ -268,3 +268,8 @@ void PanelAssets::FillScriptsMap(map<string, UID> scripts)
 {
 	this->scripts = scripts;
 }
+
+void PanelAssets::AddToScriptsMap(std::string name, UID uuid)
+{
+	scripts[name] = uuid;
+}

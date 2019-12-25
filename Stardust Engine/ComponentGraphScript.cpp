@@ -7,6 +7,7 @@
 #include "ModuleGui.h"
 #include "ModuleScene.h"
 #include "imgui/imgui.h"
+#include "PanelAssets.h"
 
 
 ComponentGraphScript::ComponentGraphScript(GameObject* parent) : Component(parent)
@@ -72,7 +73,25 @@ void ComponentGraphScript::DrawInspector()
 		ImGui::Checkbox(scr_active.c_str(), &active);
 
 		if (!HasScript()) {
+			//Preexisting script
 			ImGui::Button("Drag script here");
+
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Assets_Script")) {
+					UID uuid = *(UID*)payload->Data;
+					if (App->resources->Get(uuid) != nullptr) {
+						uuid_script = uuid;
+						ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid);
+						res->LoadToMemory();
+					}
+					else
+						App->gui->AddLogToConsole("Couldn't charge the script to component");
+
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			//New script
 			std::string new_script = "New Script" + cmp_idx;
 			if (ImGui::Button(new_script.c_str(), { 80,30 })) {
 				uuid_script = App->GenerateUUID();
@@ -198,6 +217,11 @@ void ComponentGraphScript::NewScriptMenu()
 			new_script_clicked = false;
 			App->resources->names[uuid_script] = script_name;
 			SaveScriptFile(uuid_script);
+
+			//Add to assets panel, to use during the drag and drop
+			string scr_name_ext = script_name + (string)".script";
+			App->gui->GetPanelAssets()->AddToScriptsMap(scr_name_ext, uuid_script);
+			
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SetItemDefaultFocus();
