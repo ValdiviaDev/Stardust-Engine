@@ -23,12 +23,12 @@ public:
 	void DrawAssetTree(vector<string> files, string name, int& id, bool is_directory, FileType ft);
 	void DrawAssetTreeDiferentFiles(vector<string> files, string name, int& id, FileType ft);
 
-	void ImportFromAssets();
 	void OpenScene();
 	void PutOnGameObject();
 
 	void FillMeshScenesMap(map<string, map<UID, string>> mesh_scenes);
 	void FillTexturesMap(map <string, UID> textures);
+	void FillScriptsMap(map <string, UID> scripts);
 
 private:
 	//Focused
@@ -39,6 +39,7 @@ private:
 
 	map<string, map<UID, string>> mesh_scenes;
 	map<string, UID> textures;
+	map<string, UID> scripts;
 };
 
 #endif

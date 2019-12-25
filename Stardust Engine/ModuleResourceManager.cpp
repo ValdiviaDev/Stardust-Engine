@@ -34,6 +34,7 @@ bool ModuleResourceManager::Start() {
 #ifndef GAME_MODE
 	GetAllMeshesFromScenes();
 	GetAllTexturesFromName();
+	GetAllScriptsFromName();
 #endif
 
 	return true;
@@ -511,16 +512,42 @@ void ModuleResourceManager::GetAllTexturesFromName()
 
 		if (ft == File_Material) {
 			UID aux_uid = GetUIDFromMeta(file);
-			if (aux_uid != 0) {
-				file = LIBRARY_SCENE_FOLDER + std::to_string(aux_uid);
+			if (aux_uid != 0)
 				textures[(*it)] = aux_uid;
-			}
-		
 		}
 	}
 
 	//Send to panel assets
 	App->gui->GetPanelAssets()->FillTexturesMap(textures);
+}
+
+void ModuleResourceManager::GetAllScriptsFromName()
+{
+	map<string, UID> scripts;
+
+	std::vector<std::string> files, dirs;
+	App->fs->DiscoverFiles(ASSETS_SCRIPT_FOLDER, files, dirs);
+
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++) {
+		std::string file = ASSETS_SCRIPT_FOLDER + (*it);
+		FileType ft = App->fs->DetermineFileType(file.c_str());
+
+		if (ft == File_Script) {
+			UID aux_uid = 0;
+			JSON_Value* root_value = json_parse_file(file.c_str());
+			JSON_Object* object = json_value_get_object(root_value);
+
+			if (object)
+				aux_uid = json_object_get_number(object, "UUID");
+			
+			if (aux_uid != 0)
+				scripts[(*it)] = aux_uid;
+
+		}
+	}
+
+	//Send to panel assets
+	App->gui->GetPanelAssets()->FillScriptsMap(scripts);
 }
 
 UID ModuleResourceManager::GetUIDFromMeta(std::string path_no_meta) const

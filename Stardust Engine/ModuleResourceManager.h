@@ -35,6 +35,7 @@ public:
 
 	void GetAllMeshesFromScenes();
 	void GetAllTexturesFromName();
+	void GetAllScriptsFromName();
 	UID GetUIDFromMeta(std::string path_no_meta) const; // ex. Assets/Meshes/Bakerhouse.fbx
 	
 	uint GetResourcesCount() const;

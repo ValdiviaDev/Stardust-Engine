@@ -209,9 +209,6 @@ void ComponentGraphScript::NewScriptMenu()
 
 }
 
-
-
-
 void ComponentGraphScript::Save(JSON_Array* comp_array) const {
 
 	JSON_Value* value = json_value_init_object();
@@ -257,13 +254,8 @@ void ComponentGraphScript::Load(JSON_Object* comp_obj) {
 	
 	ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
-	if (res) {
-		
+	if (res)
 		res->LoadToMemory();
-		//res->node_graph->LoadFile(uuid_script);
-		
-	}
-
 
 	//Load Blackboard
 	JSON_Array* array_bb = json_object_get_array(comp_obj, "Blackboard");

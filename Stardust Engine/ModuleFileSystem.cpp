@@ -276,6 +276,9 @@ FileType ModuleFileSystem::DetermineFileType(const char* file_name) const
 
 	}
 
+	else if(extension == ".script")
+		return File_Script;
+
 	else if (extension == ".meta" || extension == ".META")
 		return File_Meta;
 
