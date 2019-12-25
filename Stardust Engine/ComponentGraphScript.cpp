@@ -47,23 +47,33 @@ void ComponentGraphScript::Update(float dt)
 
 void ComponentGraphScript::DrawInspector()
 {
-	string cmp_idx = "";
+	std::string cmp_idx = "";
 	for (int i = 0; i < gameObject->GetNumComp(); ++i) {
 		if (gameObject->GetComponentByIndex(i) == this)
 			cmp_idx = "##" + std::to_string(i);
 	}
 
-	string c_name = "Graph Script" + cmp_idx;
+	std::string c_name = "Graph Script" + cmp_idx;
 	if (ImGui::CollapsingHeader(c_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 		
-		ImGui::Text(script_name);
+		std::string save_scr = "Save Script:" + cmp_idx;
+		if (ImGui::Button(save_scr.c_str(), ImVec2(100, 0))) {
 
-		string scr_active = "Script Active" + cmp_idx;
+			if (HasScript())
+				SaveScriptFile(uuid_script);
+		}
+
+		ImGui::SameLine();
+		ImGui::Text(script_name);
+	
+		
+
+		std::string scr_active = "Script Active" + cmp_idx;
 		ImGui::Checkbox(scr_active.c_str(), &active);
 
 		if (!HasScript()) {
 			ImGui::Button("Drag script here");
-			string new_script = "New Script" + cmp_idx;
+			std::string new_script = "New Script" + cmp_idx;
 			if (ImGui::Button(new_script.c_str(), { 80,30 })) {
 				uuid_script = App->GenerateUUID();
 				
@@ -77,7 +87,7 @@ void ComponentGraphScript::DrawInspector()
 		}
 		//If a graph node is already associated with this component
 		else {
-			string graph_visib_str = "";
+			std::string graph_visib_str = "";
 			if (!show_graph)
 				graph_visib_str = "Show Graph" + cmp_idx;
 			else
