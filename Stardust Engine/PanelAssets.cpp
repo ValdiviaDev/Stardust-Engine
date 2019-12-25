@@ -83,6 +83,8 @@ void PanelAssets::GestionDirectoryTree(vector<string> dir)
 			DrawAssetTree(file_list, dir[i], id, true, File_Mesh);
 		else if(dir[i] == "Textures")
 			DrawAssetTree(file_list, dir[i], id, true, File_Material);
+		else if (dir[i] == "Scripts")
+			DrawAssetTree(file_list, dir[i], id, true, File_Script);
 		else
 			DrawAssetTree(file_list, dir[i], id, true, File_Unknown);
 
@@ -163,7 +165,7 @@ void PanelAssets::DrawAssetTreeDiferentFiles(vector<string> files, string name, 
 	}
 	break;
 
-	case File_Material:
+	case File_Material: {
 		map<string, UID>::iterator it = textures.find(name);
 
 		//Get  this material uuid
@@ -180,6 +182,23 @@ void PanelAssets::DrawAssetTreeDiferentFiles(vector<string> files, string name, 
 
 			ImGui::EndDragDropSource();
 		}
+	}
+		break;
+
+	case File_Script: {
+		map<string, UID>::iterator it = scripts.find(name);
+		
+		if (it != scripts.end()) {
+			//Initiate drag and drop, to put a script to a component graph script
+			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+			{
+					UID uuid = it->second;
+					ImGui::SetDragDropPayload("Assets_Script", &uuid, sizeof(UID));
+
+					ImGui::EndDragDropSource();
+			}
+		}
+	}
 		break;
 	}
 }
@@ -243,4 +262,9 @@ void PanelAssets::FillMeshScenesMap(map<string, map<UID, string>> mesh_scenes)
 void PanelAssets::FillTexturesMap(map<string, UID> textures)
 {
 	this->textures = textures;
+}
+
+void PanelAssets::FillScriptsMap(map<string, UID> scripts)
+{
+	this->scripts = scripts;
 }

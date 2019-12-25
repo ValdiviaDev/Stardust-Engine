@@ -15,6 +15,7 @@ enum FileType {
 	File_Unknown,
 	File_Mesh,
 	File_Material,
+	File_Script,
 	File_Scene,
 	File_Meta,
 	No_Extension
