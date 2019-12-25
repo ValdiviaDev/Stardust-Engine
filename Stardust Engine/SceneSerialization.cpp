@@ -124,15 +124,19 @@ void SceneSerialization::LoadScene(const char* scene_name) {
 	}
 
 	//Finally load the Blackboard now that all GOs are created
-	for (uint i = 0; i < go_list.size(); i++) {
+	for (uint i = 0; i < go_list.size(); ++i) {
 
 		GameObject* it = go_list[i];
 
 		if (it) {
-			ComponentGraphScript* c = (ComponentGraphScript*)it->GetComponent(ComponentType::Comp_Graph_Script);
 
-			if (c)
-				c->LoadBlackBoard();
+			for (uint j = 0; j < it->GetNumComp(); ++j) {
+				
+				if (it->GetComponentByIndex(j)->GetType() == ComponentType::Comp_Graph_Script) {
+					ComponentGraphScript* c = (ComponentGraphScript*)it->GetComponentByIndex(j);
+					c->LoadBlackBoard();
+				}
+			}
 		}
 	}
 
