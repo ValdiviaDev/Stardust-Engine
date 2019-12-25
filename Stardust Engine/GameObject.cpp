@@ -477,7 +477,7 @@ void GameObject::Load(JSON_Object* object)
 			break;
 		}
 		case ComponentType::Comp_Graph_Script:
-			//TODOSERIALIZE
+			
 			ComponentGraphScript* script = (ComponentGraphScript*)CreateComponent((ComponentType)comp_type);
 			script->Load(it);
 			break;
@@ -535,7 +535,7 @@ void GameObject::Save(JSON_Array* go_array) const {
 
 		ComponentGraphScript* script = (ComponentGraphScript*)GetComponent(Comp_Graph_Script);
 		script->Save(array_comps);
-		//TODOSERIALIZE
+		
 	}
 
 	json_object_set_value(obj, "Components", value_comps);

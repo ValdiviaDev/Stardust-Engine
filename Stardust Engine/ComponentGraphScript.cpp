@@ -176,7 +176,7 @@ void ComponentGraphScript::Save(JSON_Array* comp_array) const {
 	JSON_Value* value_arr = json_value_init_array();
 	JSON_Array* array = json_value_get_array(value_arr);
 
-	for (uint i = 0; i < BB_objects.size(); i++) {
+	for (uint i = 1; i < BB_objects.size(); i++) {
 
 		JSON_Value* aux_val = json_value_init_object();
 		JSON_Object* aux_obj = json_value_get_object(aux_val);
@@ -224,10 +224,9 @@ void ComponentGraphScript::Load(JSON_Object* comp_obj) {
 		it = json_array_get_object(array_bb, i);
 		UID uuid_aux = json_object_get_number(it, "GO UUID");
 
-		if (uuid_aux != 0) {
-			GameObject* bb_go = App->scene->GetGameObjectFromUUID(uuid_aux, App->scene->GetRootGameObject());
-			BB_objects.push_back(bb_go);
-		}
+		if (uuid_aux != 0) 
+			BB_uids_load.push_back(uuid_aux);
+		
 	}
 
 }
@@ -238,9 +237,6 @@ void ComponentGraphScript::SaveScriptFile(UID uuid) const{
 	if (uuid != 0) {
 
 		std::string file = ASSETS_SCRIPT_FOLDER + std::to_string(uuid) + ".script";
-
-		//JSON_Value* root_value = json_value_init_array();
-		//JSON_Array* array = json_value_get_array(root_value);
 
 		JSON_Value* value = json_value_init_object();
 		JSON_Object* obj = json_value_get_object(value);
@@ -271,3 +267,16 @@ void ComponentGraphScript::SaveScriptFile(UID uuid) const{
 }
 
 
+void ComponentGraphScript::LoadBlackBoard() {
+
+
+	for (uint i = 0; i < BB_uids_load.size(); i++) {
+
+		GameObject* bb_go = App->scene->GetGameObjectFromUUID(BB_uids_load[i], App->scene->GetRootGameObject());
+		BB_objects.push_back(bb_go);
+
+	}
+
+	BB_uids_load.clear();
+
+}

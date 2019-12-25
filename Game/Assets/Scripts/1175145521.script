@@ -1,6 +1,70 @@
 {
     "UUID": 1175145521,
     "Resource Type": 5,
-    "Nodes": [],
-    "Links": []
+    "Nodes": [
+        {
+            "NodeID": 0,
+            "Type": 1,
+            "Function": 2,
+            "PosX": 93,
+            "PosY": 153,
+            "InputsCount": 0,
+            "OutputsCount": 2,
+            "mouse butt id": 1,
+            "key state": 2,
+            "curr butt": "Left",
+            "curr state str": "Key Repeat"
+        },
+        {
+            "NodeID": 1,
+            "Type": 2,
+            "Function": 4,
+            "PosX": 410,
+            "PosY": 93,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "this go": true,
+            "move global": true,
+            "dont change dir local": false,
+            "velocity": 1,
+            "dir str": "Forward",
+            "using this": false,
+            "id using": 1
+        },
+        {
+            "NodeID": 2,
+            "Type": 2,
+            "Function": 5,
+            "PosX": 415,
+            "PosY": 258,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "using this": false,
+            "id using": 1,
+            "rot with mouse": true,
+            "mouse rot X": true,
+            "mouse rot Y": true,
+            "reset rot": false,
+            "rot velX": 1,
+            "rot velY": 1,
+            "rot velZ": 1,
+            "rot axisX": -17958194,
+            "rot axisY": -17958194,
+            "rot axisZ": -17958194
+        }
+    ],
+    "Links": [
+        {
+            "Input ID": 0,
+            "Output ID": 1,
+            "Input Slot": 0,
+            "Output Slot": 0
+        },
+        {
+            "Input ID": 0,
+            "Output ID": 2,
+            "Input Slot": 1,
+            "Output Slot": 0
+        }
+    ]
 }

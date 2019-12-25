@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "ConfigEditor.h"
 #include "ModuleResourceManager.h"
+#include "ComponentGraphScript.h"
 #include "ModuleGui.h"
 
 SceneSerialization::SceneSerialization() {
@@ -119,6 +120,19 @@ void SceneSerialization::LoadScene(const char* scene_name) {
 			parent->childs.push_back(go_list[i]);
 			go_list[i]->SetParent(parent);
 
+		}
+	}
+
+	//Finally load the Blackboard now that all GOs are created
+	for (uint i = 0; i < go_list.size(); i++) {
+
+		GameObject* it = go_list[i];
+
+		if (it) {
+			ComponentGraphScript* c = (ComponentGraphScript*)it->GetComponent(ComponentType::Comp_Graph_Script);
+
+			if (c)
+				c->LoadBlackBoard();
 		}
 	}
 

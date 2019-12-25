@@ -643,7 +643,7 @@ void NodeGraph::DeleteNode(Node* node) {
 
 void NodeGraph::SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const {
 
-	//TODO SAVE BLACKBOARD
+	
 
 	//SAVE NODES
 	for (std::vector<Node*>::const_iterator it = nodes.begin(); it != nodes.end(); it++) {
@@ -697,7 +697,7 @@ void NodeGraph::LoadFile(UID uuid) {
 
 	JSON_Object* it;
 
-	//TODO LOAD BLACKBOARD
+	
 
 	for (uint i = 0; i < json_array_get_count(array_nodes); i++) {
 

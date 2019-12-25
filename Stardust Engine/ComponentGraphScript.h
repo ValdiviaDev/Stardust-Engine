@@ -17,6 +17,8 @@ public:
 	void Save(JSON_Array* comp_array) const;
 	void Load(JSON_Object* comp_obj);
 	void SaveScriptFile(UID uuid) const;
+	void LoadBlackBoard();
+
 
 	std::vector<GameObject*> GetBlackboard()const;
 	void AddReferenceToBlackboard(GameObject* ref); //To use when the user adds something via engine
@@ -30,6 +32,7 @@ public:
 private:
 	bool show_graph = false;
 	std::vector<GameObject*> BB_objects;
+	std::vector<UID> BB_uids_load;
 };
 
 #endif
