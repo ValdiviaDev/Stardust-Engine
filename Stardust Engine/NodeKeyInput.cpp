@@ -75,7 +75,7 @@ void NodeKeyInput::Load(JSON_Object* obj) {
 	curr_state_str = json_object_get_string(obj, "curr state str");
 
 	char k[2];
-	strcpy(k, json_object_get_string(obj, "key"));
+	std::strcpy(k, json_object_get_string(obj, "key"));
 	key = k[0];
 
 

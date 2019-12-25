@@ -684,9 +684,10 @@ void NodeGraph::SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const {
 
 
 
-void NodeGraph::LoadFile(UID uuid) {
+void NodeGraph::LoadFile(UID uuid, std::string name) {
 
-	std::string file = ASSETS_SCRIPT_FOLDER + std::to_string(uuid) + ".script";
+	//std::string file = ASSETS_SCRIPT_FOLDER + std::to_string(uuid) + ".script";
+	std::string file = ASSETS_SCRIPT_FOLDER + name + ".script";
 
 	JSON_Value* root_value = json_parse_file(file.c_str());
 	JSON_Object* object = json_value_get_object(root_value);
