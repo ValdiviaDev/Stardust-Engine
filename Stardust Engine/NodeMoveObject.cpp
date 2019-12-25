@@ -78,22 +78,22 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 	//Direction
 	if (ImGui::BeginCombo("Direction", dir_str)) {
 		if (ImGui::Selectable("Forward")) {
-			direction[0] = 0; direction[1] = 0; direction[2] = -1;
+			direction[0] = 0; direction[1] = 0; direction[2] = 1;
 			dir_str = "Forward";
 		}
 
 		if (ImGui::Selectable("Backward")) {
-			direction[0] = 0; direction[1] = 0; direction[2] = 1;
+			direction[0] = 0; direction[1] = 0; direction[2] = -1;
 			dir_str = "Backward";
 		}
 
 		if (ImGui::Selectable("Left")) {
-			direction[0] = -1; direction[1] = 0; direction[2] = 0;
+			direction[0] = 1; direction[1] = 0; direction[2] = 0;
 			dir_str = "Left";
 		}
 
 		if (ImGui::Selectable("Right")) {
-			direction[0] = 1; direction[1] = 0; direction[2] = 0;
+			direction[0] = -1; direction[1] = 0; direction[2] = 0;
 			dir_str = "Right";
 		}
 

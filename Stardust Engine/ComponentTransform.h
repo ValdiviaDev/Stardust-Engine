@@ -43,6 +43,7 @@ public:
 	void Reset();
 
 	math::float3 GetGlobalPos() const;
+	math::float3 GetGlobalRot() const;
 	math::float3 GetGlobalScale() const;
 	void SetTransformFromParent();
 

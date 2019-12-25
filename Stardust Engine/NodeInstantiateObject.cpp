@@ -47,8 +47,8 @@ bool NodeInstantiateObject::Update(float dt, std::vector<GameObject*> BB_objects
 
 		//Set position
 		if (get_ref_trans) {
-			pos_to_inst = ref->transform->GetPosition();
-			rot_to_inst = ref->transform->GetRotation();
+			pos_to_inst = ref->transform->GetGlobalPos();
+			rot_to_inst = ref->transform->GetGlobalRot();
 		}
 
 		InstanceObject(to_instance);

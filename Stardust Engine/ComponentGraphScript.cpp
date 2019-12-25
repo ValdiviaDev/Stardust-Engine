@@ -37,7 +37,7 @@ void ComponentGraphScript::Update(float dt)
 		if(show_graph && gameObject->focused)
 			res->node_graph->Draw(BB_objects, active, show_graph);
 
-		if(App->GetEngineState() != Engine_State_Editor && active)
+		if(App->GetEngineState() != Engine_State_Editor && active && gameObject->IsActive())
 			res->node_graph->Update(dt, BB_objects);
 	}
 

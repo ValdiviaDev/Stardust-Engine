@@ -219,6 +219,13 @@ void ComponentTransform::SumPositionGlobal(math::float3 pos)
 
 void ComponentTransform::SumPositionLocal(math::float3& dir, float vel)
 {
+	if (rotation.x == -180.0f || rotation.x == 180.0f)
+		rotation.x = 0.0f;
+	if (rotation.y == -180.0f)
+		rotation.y = 0.0f;
+	if (rotation.z == -180.0f || rotation.z == 180.0f)
+		rotation.z = 0.0f;
+
 	float3 rot = rotation * DEGTORAD;
 	float4x4 vec; //Matrix to store the values needed when calculation the rotation
 
@@ -292,6 +299,27 @@ math::float3 ComponentTransform::GetGlobalPos() const {
 	//return ret;
 
 	return global_matrix.TranslatePart();
+}
+
+math::float3 ComponentTransform::GetGlobalRot() const
+{
+	math::float3 ret = float3::zero;
+	math::Quat glob_q = quaternion_rot;
+
+	GameObject* aux = gameObject->GetParent();
+
+	while (aux != nullptr) {
+
+		if (aux->transform != nullptr) {
+			math::float3 p_rot = aux->transform->GetRotation();
+			glob_q = glob_q * Quat::FromEulerXYZ(p_rot.x * DEGTORAD, p_rot.y * DEGTORAD, p_rot.z * DEGTORAD);
+			ret = glob_q.ToEulerXYZ() * RADTODEG;
+		}
+
+		aux = aux->GetParent();
+	}
+
+	return ret;
 }
 
 

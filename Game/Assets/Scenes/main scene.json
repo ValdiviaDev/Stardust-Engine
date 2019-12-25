@@ -4,7 +4,7 @@
         "UUID": 1334139540,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1927720619,
+        "Parent UUID": 1495598835,
         "Components": [
             {
                 "Component Type": 1,
@@ -983,20 +983,20 @@
         "UUID": 1266259086,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1927720619,
+        "Parent UUID": 1495598835,
         "Components": [
             {
                 "Component Type": 1,
                 "PosX": 0,
                 "PosY": 28.708351135253906,
-                "PosZ": 35.411247253417969,
-                "RotX": 1.2810112970385035e-08,
-                "RotY": 0.95609104633331299,
-                "RotZ": -0.29306983947753906,
-                "RotW": -4.1790922722384494e-08,
-                "ScaleX": 1.0000483989715576,
-                "ScaleY": 0.99999910593032837,
-                "ScaleZ": 1.0000443458557129
+                "PosZ": -29.000732421875,
+                "RotX": 0.29305148124694824,
+                "RotY": -0.011943886056542397,
+                "RotZ": 0.0036609487142413855,
+                "RotW": 0.95601516962051392,
+                "ScaleX": 1.0000381469726563,
+                "ScaleY": 0.99999988079071045,
+                "ScaleZ": 1.0000455379486084
             },
             {
                 "Component Type": 4,
@@ -1015,7 +1015,7 @@
         "UUID": 455308922,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1927720619,
+        "Parent UUID": 1495598835,
         "Components": [
             {
                 "Component Type": 1,
@@ -1023,9 +1023,9 @@
                 "PosY": 0,
                 "PosZ": 0,
                 "RotX": 0,
-                "RotY": 1,
+                "RotY": -4.3711388286737929e-08,
                 "RotZ": 0,
-                "RotW": -4.3711388286737929e-08,
+                "RotW": 1,
                 "ScaleX": 1,
                 "ScaleY": 1,
                 "ScaleZ": 1
@@ -1132,9 +1132,9 @@
         "Components": [
             {
                 "Component Type": 1,
-                "PosX": -8.2422957348171622e-13,
+                "PosX": 3.6307525874690327e-07,
                 "PosY": 4.73883056640625,
-                "PosZ": 6.8072385787963867,
+                "PosZ": 2.6541318893432617,
                 "RotX": 0,
                 "RotY": -3.7007438671680937e-14,
                 "RotZ": 0,
@@ -1263,9 +1263,9 @@
     {
         "Name": "bullet",
         "UUID": 1990120351,
-        "Active": true,
+        "Active": false,
         "Static": false,
-        "Parent UUID": 1927720619,
+        "Parent UUID": 1495598835,
         "Components": [
             {
                 "Component Type": 1,
