@@ -460,11 +460,13 @@ void ModuleResourceManager::CheckScripts() {
 
 		UID file_uid = json_object_get_number(object, "UUID");
 		int r_type = json_object_get_number(object, "Resource Type");
+		
+		std::string n = json_object_get_string(object, "Name");
 
 
-		Resource* res = CreateNewResource(ResourceType::Resource_Graph_Script, file_uid);
+		CreateNewResource(ResourceType::Resource_Graph_Script, file_uid);
 
-		//res->LoadToMemory();
+		names[file_uid] = n;
 
 		json_value_free(root_value);
 	}

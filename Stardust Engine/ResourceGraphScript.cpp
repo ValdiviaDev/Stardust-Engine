@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ResourceGraphScript.h"
 #include "NodeGraph.h"
+#include "ModuleResourceManager.h"
 
 
 
@@ -20,7 +21,7 @@ bool ResourceGraphScript::LoadInMemory()
 {
 	node_graph = new NodeGraph();
 
-	node_graph->LoadFile(uuid);
+	node_graph->LoadFile(uuid, App->resources->names[uuid]);
 
 	return true;
 }

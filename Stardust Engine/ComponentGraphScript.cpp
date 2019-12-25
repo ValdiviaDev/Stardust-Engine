@@ -13,6 +13,7 @@ ComponentGraphScript::ComponentGraphScript(GameObject* parent) : Component(paren
 {
 	type = Comp_Graph_Script;
 	BB_objects.push_back(gameObject);
+	//strcpy(script_name, App->resources->names[uuid_script].c_str());
 }
 
 
@@ -65,6 +66,7 @@ void ComponentGraphScript::DrawInspector()
 			string new_script = "New Script" + cmp_idx;
 			if (ImGui::Button(new_script.c_str(), { 80,30 })) {
 				uuid_script = App->GenerateUUID();
+				
 				new_script_clicked = true;
 				//TODO: Script serialization
 				//TODO: Do this in resource manager
@@ -186,7 +188,7 @@ void ComponentGraphScript::NewScriptMenu()
 
 		if (ImGui::Button("OK", ImVec2(200, 0))) {
 			new_script_clicked = false;
-			
+			App->resources->names[uuid_script] = script_name;
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SetItemDefaultFocus();
@@ -207,6 +209,7 @@ void ComponentGraphScript::Save(JSON_Array* comp_array) const {
 
 	json_object_set_number(obj, "Component Type", type);
 	json_object_set_number(obj, "Script UUID", uuid_script);
+	json_object_set_string(obj, "Name", script_name);
 	json_object_set_boolean(obj, "Active", active);
 
 	//Save Blackboard
@@ -240,6 +243,7 @@ void ComponentGraphScript::Load(JSON_Object* comp_obj) {
 
 	uuid_script = json_object_get_number(comp_obj, "Script UUID");
 	active = json_object_get_boolean(comp_obj, "Active");
+	std::strcpy(script_name, json_object_get_string(comp_obj, "Name"));
 	
 	ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
@@ -273,7 +277,9 @@ void ComponentGraphScript::SaveScriptFile(UID uuid) const{
 
 	if (uuid != 0) {
 
-		std::string file = ASSETS_SCRIPT_FOLDER + std::to_string(uuid) + ".script";
+		//std::string file = ASSETS_SCRIPT_FOLDER + std::to_string(uuid) + ".script";
+		std::string name = script_name;
+		std::string file = ASSETS_SCRIPT_FOLDER + name + ".script";
 
 		JSON_Value* value = json_value_init_object();
 		JSON_Object* obj = json_value_get_object(value);
@@ -289,6 +295,7 @@ void ComponentGraphScript::SaveScriptFile(UID uuid) const{
 
 		json_object_set_number(obj, "UUID", uuid);
 		json_object_set_number(obj, "Resource Type", type);
+		json_object_set_string(obj, "Name", name.c_str());
 
 		res->node_graph->SaveFile(array_nodes, array_links);
 

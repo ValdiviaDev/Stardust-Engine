@@ -46,6 +46,9 @@ public:
 private:
 	std::map<UID, Resource*> resources;
 
+public:
+	std::map<UID, std::string> names;
+
 };
 
 #endif
