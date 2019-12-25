@@ -1,0 +1,46 @@
+{
+    "UUID": 671536178,
+    "Resource Type": 5,
+    "Name": "Move forward die",
+    "Nodes": [
+        {
+            "NodeID": 0,
+            "Type": 1,
+            "Function": 12,
+            "PosX": 199,
+            "PosY": 99,
+            "InputsCount": 0,
+            "OutputsCount": 1,
+            "repeat action": true,
+            "reset": false,
+            "time": 0
+        },
+        {
+            "NodeID": 1,
+            "Type": 2,
+            "Function": 4,
+            "PosX": 527,
+            "PosY": 129,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "this go": true,
+            "move global": false,
+            "dont change dir local": false,
+            "velocity": 11,
+            "dir str": "Forward",
+            "dir x": 0,
+            "dir y": 0,
+            "dir z": -1,
+            "using this": true,
+            "id using": 0
+        }
+    ],
+    "Links": [
+        {
+            "Input ID": 0,
+            "Output ID": 1,
+            "Input Slot": 0,
+            "Output Slot": 0
+        }
+    ]
+}

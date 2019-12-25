@@ -1,0 +1,47 @@
+{
+    "UUID": 993031451,
+    "Resource Type": 5,
+    "Name": "Instance bullet",
+    "Nodes": [
+        {
+            "NodeID": 0,
+            "Type": 1,
+            "Function": 2,
+            "PosX": 222,
+            "PosY": 90,
+            "InputsCount": 0,
+            "OutputsCount": 1,
+            "mouse butt id": 1,
+            "key state": 1,
+            "curr butt": "Left",
+            "curr state str": "Key Down"
+        },
+        {
+            "NodeID": 1,
+            "Type": 2,
+            "Function": 9,
+            "PosX": 550,
+            "PosY": 67,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "get ref trans": true,
+            "posX": 0,
+            "posY": 14.162300109863281,
+            "posZ": 0,
+            "rotX": -0,
+            "rotY": 0,
+            "rotZ": -0,
+            "inst indx": 1,
+            "using this": true,
+            "id using": 0
+        }
+    ],
+    "Links": [
+        {
+            "Input ID": 0,
+            "Output ID": 1,
+            "Input Slot": 0,
+            "Output Slot": 0
+        }
+    ]
+}

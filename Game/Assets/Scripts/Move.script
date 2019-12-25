@@ -1,0 +1,161 @@
+{
+    "UUID": 2142505324,
+    "Resource Type": 5,
+    "Name": "Move",
+    "Nodes": [
+        {
+            "NodeID": 0,
+            "Type": 1,
+            "Function": 1,
+            "PosX": 36,
+            "PosY": 97,
+            "InputsCount": 0,
+            "OutputsCount": 1,
+            "key id": 26,
+            "key state": 2,
+            "key": "w",
+            "curr state str": "Key Repeat"
+        },
+        {
+            "NodeID": 1,
+            "Type": 1,
+            "Function": 1,
+            "PosX": 64,
+            "PosY": 196,
+            "InputsCount": 0,
+            "OutputsCount": 1,
+            "key id": 4,
+            "key state": 2,
+            "key": "a",
+            "curr state str": "Key Repeat"
+        },
+        {
+            "NodeID": 2,
+            "Type": 2,
+            "Function": 4,
+            "PosX": 411,
+            "PosY": 72,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "this go": true,
+            "move global": true,
+            "dont change dir local": false,
+            "velocity": 11,
+            "dir str": "Forward",
+            "dir x": 0,
+            "dir y": 0,
+            "dir z": -1,
+            "using this": true,
+            "id using": 0
+        },
+        {
+            "NodeID": 3,
+            "Type": 2,
+            "Function": 4,
+            "PosX": 402,
+            "PosY": 206,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "this go": true,
+            "move global": true,
+            "dont change dir local": false,
+            "velocity": 11,
+            "dir str": "Left",
+            "dir x": -1,
+            "dir y": 0,
+            "dir z": 0,
+            "using this": true,
+            "id using": 0
+        },
+        {
+            "NodeID": 4,
+            "Type": 1,
+            "Function": 1,
+            "PosX": 51,
+            "PosY": 342,
+            "InputsCount": 0,
+            "OutputsCount": 1,
+            "key id": 22,
+            "key state": 2,
+            "key": "s",
+            "curr state str": "Key Repeat"
+        },
+        {
+            "NodeID": 5,
+            "Type": 1,
+            "Function": 1,
+            "PosX": 54,
+            "PosY": 449,
+            "InputsCount": 0,
+            "OutputsCount": 1,
+            "key id": 7,
+            "key state": 2,
+            "key": "d",
+            "curr state str": "Key Repeat"
+        },
+        {
+            "NodeID": 6,
+            "Type": 2,
+            "Function": 4,
+            "PosX": 460,
+            "PosY": 332,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "this go": true,
+            "move global": true,
+            "dont change dir local": false,
+            "velocity": 11,
+            "dir str": "Backward",
+            "dir x": 0,
+            "dir y": 0,
+            "dir z": 1,
+            "using this": true,
+            "id using": 0
+        },
+        {
+            "NodeID": 7,
+            "Type": 2,
+            "Function": 4,
+            "PosX": 465,
+            "PosY": 448,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "this go": true,
+            "move global": true,
+            "dont change dir local": false,
+            "velocity": 11,
+            "dir str": "Right",
+            "dir x": 1,
+            "dir y": 0,
+            "dir z": 0,
+            "using this": true,
+            "id using": 0
+        }
+    ],
+    "Links": [
+        {
+            "Input ID": 0,
+            "Output ID": 2,
+            "Input Slot": 0,
+            "Output Slot": 0
+        },
+        {
+            "Input ID": 1,
+            "Output ID": 3,
+            "Input Slot": 0,
+            "Output Slot": 0
+        },
+        {
+            "Input ID": 4,
+            "Output ID": 6,
+            "Input Slot": 0,
+            "Output Slot": 0
+        },
+        {
+            "Input ID": 5,
+            "Output ID": 7,
+            "Input Slot": 0,
+            "Output Slot": 0
+        }
+    ]
+}

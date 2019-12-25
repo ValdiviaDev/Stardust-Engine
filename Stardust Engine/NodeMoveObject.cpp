@@ -78,12 +78,12 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 	//Direction
 	if (ImGui::BeginCombo("Direction", dir_str)) {
 		if (ImGui::Selectable("Forward")) {
-			direction[0] = 0; direction[1] = 0; direction[2] = 1;
+			direction[0] = 0; direction[1] = 0; direction[2] = -1;
 			dir_str = "Forward";
 		}
 
 		if (ImGui::Selectable("Backward")) {
-			direction[0] = 0; direction[1] = 0; direction[2] = -1;
+			direction[0] = 0; direction[1] = 0; direction[2] = 1;
 			dir_str = "Backward";
 		}
 
@@ -98,12 +98,12 @@ void NodeMoveObject::Draw(std::vector<GameObject*> BB_objects)
 		}
 
 		if (ImGui::Selectable("Up")) {
-			direction[0] = 0; direction[1] = -1; direction[2] = 0;
+			direction[0] = 0; direction[1] = 1; direction[2] = 0;
 			dir_str = "Up";
 		}
 
 		if (ImGui::Selectable("Down")) {
-			direction[0] = 0; direction[1] = 1; direction[2] = 0;
+			direction[0] = 0; direction[1] = -1; direction[2] = 0;
 			dir_str = "Down";
 		}
 
@@ -122,6 +122,13 @@ void NodeMoveObject::Save(JSON_Object* obj) const {
 	json_object_set_boolean(obj, "dont change dir local", dont_change_dir_local);
 	json_object_set_number(obj, "velocity", velocity);
 	json_object_set_string(obj, "dir str", dir_str);
+
+	//Direction ----------------------------------------------
+	json_object_set_number(obj, "dir x", direction[0]);
+	json_object_set_number(obj, "dir y", direction[1]);
+	json_object_set_number(obj, "dir z", direction[2]);
+	//--------------------------------------------------------
+
 	json_object_set_boolean(obj, "using this", obj_using_this);
 	json_object_set_number(obj, "id using", obj_indx);
 }
@@ -135,24 +142,9 @@ void NodeMoveObject::Load(JSON_Object* obj) {
 	dir_str = json_object_get_string(obj, "dir str");
 
 	//Direction ----------------------------------------------
-	if (dir_str == "Forward") {
-		direction[0] = 0; direction[1] = 0; direction[2] = 1;
-	}
-	else if (dir_str == "Backward") {
-		direction[0] = 0; direction[1] = 0; direction[2] = -1;
-	}
-	else if (dir_str == "Left") {
-		direction[0] = -1; direction[1] = 0; direction[2] = 0;
-	}
-	else if (dir_str == "Right") {
-		direction[0] = 1; direction[1] = 0; direction[2] = 0;
-	}
-	else if (dir_str == "Up") {
-		direction[0] = 0; direction[1] = -1; direction[2] = 0;
-	}
-	else if (dir_str == "Down") {
-		direction[0] = 0; direction[1] = 1; direction[2] = 0;
-	}
+	direction[0] = json_object_get_number(obj, "dir x");
+	direction[1] = json_object_get_number(obj, "dir y");
+	direction[2] = json_object_get_number(obj, "dir z");
 	//--------------------------------------------------------
 
 	obj_using_this = json_object_get_boolean(obj, "using this");

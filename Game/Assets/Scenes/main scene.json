@@ -4,7 +4,7 @@
         "UUID": 1334139540,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1620161081,
+        "Parent UUID": 1927720619,
         "Components": [
             {
                 "Component Type": 1,
@@ -983,7 +983,7 @@
         "UUID": 1266259086,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1620161081,
+        "Parent UUID": 1927720619,
         "Components": [
             {
                 "Component Type": 1,
@@ -1015,7 +1015,7 @@
         "UUID": 455308922,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1620161081,
+        "Parent UUID": 1927720619,
         "Components": [
             {
                 "Component Type": 1,
@@ -1026,9 +1026,16 @@
                 "RotY": 1,
                 "RotZ": 0,
                 "RotW": -4.3711388286737929e-08,
-                "ScaleX": 0.029999999329447746,
-                "ScaleY": 0.029999999329447746,
-                "ScaleZ": 0.029999999329447746
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 5,
+                "Script UUID": 2142505324,
+                "Name": "Move",
+                "Active": true,
+                "Blackboard": []
             }
         ]
     },
@@ -1055,15 +1062,15 @@
         ]
     },
     {
-        "Name": "TankTurret",
-        "UUID": 1561661435,
+        "Name": "Canon",
+        "UUID": 1845683527,
         "Active": true,
         "Static": false,
         "Parent UUID": 1503681673,
         "Components": [
             {
                 "Component Type": 1,
-                "PosX": 0,
+                "PosX": -2.8421709430404007e-14,
                 "PosY": 0,
                 "PosZ": 0,
                 "RotX": 0,
@@ -1075,6 +1082,35 @@
                 "ScaleZ": 1
             },
             {
+                "Component Type": 5,
+                "Script UUID": 153769701,
+                "Name": "spin cannon",
+                "Active": true,
+                "Blackboard": []
+            }
+        ]
+    },
+    {
+        "Name": "TankTurret",
+        "UUID": 731889083,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1845683527,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 8.7422776573475858e-08,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 0.029999999329447746,
+                "ScaleY": 0.029999999329447746,
+                "ScaleZ": 0.029999999329447746
+            },
+            {
                 "Component Type": 2,
                 "UUID Mesh": 1225846312,
                 "is primitive": 0,
@@ -1083,8 +1119,45 @@
             {
                 "Component Type": 3,
                 "UUID Material": 644459609,
-                "path": "",
                 "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "Target",
+        "UUID": 394373026,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1845683527,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -8.2422957348171622e-13,
+                "PosY": 4.73883056640625,
+                "PosZ": 6.8072385787963867,
+                "RotX": 0,
+                "RotY": -3.7007438671680937e-14,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 0.029999999329447746,
+                "ScaleY": 0.029999999329447746,
+                "ScaleZ": 0.029999999329447746
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 5,
+                "Script UUID": 993031451,
+                "Name": "Instance bullet",
+                "Active": true,
+                "Blackboard": [
+                    {
+                        "GO UUID": 1990120351
+                    }
+                ]
             }
         ]
     },
@@ -1104,9 +1177,9 @@
                 "RotY": 0,
                 "RotZ": 0,
                 "RotW": 1,
-                "ScaleX": 1,
-                "ScaleY": 1,
-                "ScaleZ": 1
+                "ScaleX": 0.029999999329447746,
+                "ScaleY": 0.029999999329447746,
+                "ScaleZ": 0.029999999329447746
             },
             {
                 "Component Type": 2,
@@ -1117,7 +1190,6 @@
             {
                 "Component Type": 3,
                 "UUID Material": 546601418,
-                "path": "",
                 "Active": true
             }
         ]
@@ -1138,9 +1210,9 @@
                 "RotY": 0,
                 "RotZ": 0,
                 "RotW": 1,
-                "ScaleX": 1,
-                "ScaleY": 1,
-                "ScaleZ": 1
+                "ScaleX": 0.029999999329447746,
+                "ScaleY": 0.029999999329447746,
+                "ScaleZ": 0.029999999329447746
             },
             {
                 "Component Type": 2,
@@ -1151,7 +1223,6 @@
             {
                 "Component Type": 3,
                 "UUID Material": 546601418,
-                "path": "",
                 "Active": true
             }
         ]
@@ -1172,9 +1243,9 @@
                 "RotY": 0,
                 "RotZ": 0,
                 "RotW": 1,
-                "ScaleX": 1,
-                "ScaleY": 1,
-                "ScaleZ": 1
+                "ScaleX": 0.029999999329447746,
+                "ScaleY": 0.029999999329447746,
+                "ScaleZ": 0.029999999329447746
             },
             {
                 "Component Type": 2,
@@ -1185,8 +1256,47 @@
             {
                 "Component Type": 3,
                 "UUID Material": 644459609,
-                "path": "",
                 "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "bullet",
+        "UUID": 1990120351,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1927720619,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 13.21202278137207,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 537404450,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 546601418,
+                "Active": true
+            },
+            {
+                "Component Type": 5,
+                "Script UUID": 671536178,
+                "Name": "Move forward die",
+                "Active": true,
+                "Blackboard": []
             }
         ]
     }

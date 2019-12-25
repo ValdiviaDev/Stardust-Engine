@@ -1,0 +1,79 @@
+{
+    "UUID": 153769701,
+    "Resource Type": 5,
+    "Name": "spin cannon",
+    "Nodes": [
+        {
+            "NodeID": 0,
+            "Type": 1,
+            "Function": 3,
+            "PosX": 205,
+            "PosY": 123,
+            "InputsCount": 0,
+            "OutputsCount": 1
+        },
+        {
+            "NodeID": 1,
+            "Type": 2,
+            "Function": 5,
+            "PosX": 655,
+            "PosY": 72,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "using this": true,
+            "id using": 0,
+            "rot with mouse": true,
+            "mouse rot X": true,
+            "mouse rot Y": false,
+            "reset rot": false,
+            "rot velX": 0,
+            "rot velY": 3,
+            "rot velZ": 0
+        },
+        {
+            "NodeID": 2,
+            "Type": 1,
+            "Function": 1,
+            "PosX": 169,
+            "PosY": 255,
+            "InputsCount": 0,
+            "OutputsCount": 1,
+            "key id": 21,
+            "key state": 1,
+            "key": "r",
+            "curr state str": "Key Down"
+        },
+        {
+            "NodeID": 3,
+            "Type": 2,
+            "Function": 5,
+            "PosX": 634,
+            "PosY": 265,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "using this": true,
+            "id using": 0,
+            "rot with mouse": true,
+            "mouse rot X": true,
+            "mouse rot Y": false,
+            "reset rot": true,
+            "rot velX": 0,
+            "rot velY": 0,
+            "rot velZ": 0
+        }
+    ],
+    "Links": [
+        {
+            "Input ID": 0,
+            "Output ID": 1,
+            "Input Slot": 0,
+            "Output Slot": 0
+        },
+        {
+            "Input ID": 2,
+            "Output ID": 3,
+            "Input Slot": 0,
+            "Output Slot": 0
+        }
+    ]
+}

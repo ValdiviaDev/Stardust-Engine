@@ -83,6 +83,8 @@ void ComponentGraphScript::DrawInspector()
 						uuid_script = uuid;
 						ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid);
 						res->LoadToMemory();
+						//Name
+						strcpy(script_name, App->resources->names[uuid].c_str());
 					}
 					else
 						App->gui->AddLogToConsole("Couldn't charge the script to component");
