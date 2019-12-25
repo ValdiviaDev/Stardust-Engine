@@ -78,11 +78,9 @@ void ComponentGraphScript::DrawInspector()
 				uuid_script = App->GenerateUUID();
 				
 				new_script_clicked = true;
-				//TODO: Script serialization
-				//TODO: Do this in resource manager
+				
 				ResourceGraphScript* res = (ResourceGraphScript*)App->resources->CreateNewResource(Resource_Graph_Script, uuid_script);
 				res->LoadToMemory();
-
 			}
 		}
 		//If a graph node is already associated with this component
@@ -199,6 +197,7 @@ void ComponentGraphScript::NewScriptMenu()
 		if (ImGui::Button("OK", ImVec2(200, 0))) {
 			new_script_clicked = false;
 			App->resources->names[uuid_script] = script_name;
+			SaveScriptFile(uuid_script);
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SetItemDefaultFocus();
