@@ -97,16 +97,15 @@ ComponentCamera * ModuleScene::GetMainCamera() const
 
 void ModuleScene::SetMainCamera(ComponentCamera* cam)
 {
-	if (main_camera)
-		main_camera->main_camera = false;
-
 	if (cam == nullptr)
 		main_camera = nullptr;
 	else {
+		if (main_camera)
+			main_camera->main_camera = false;
+
 		main_camera = cam;
 		main_camera->main_camera = true;
 	}
-	
 }
 
 // Update

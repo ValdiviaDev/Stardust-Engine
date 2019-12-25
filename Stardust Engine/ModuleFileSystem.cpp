@@ -305,6 +305,11 @@ void ModuleFileSystem::CreateAllDirectories()
 		LOG("Creating directory %s", ASSETS_SCENE_FOLDER);
 	}
 
+	if (!Exists(ASSETS_SCRIPT_FOLDER)) {
+		CreateDirectory(ASSETS_SCRIPT_FOLDER);
+		LOG("Creating directory %s", ASSETS_SCRIPT_FOLDER);
+	}
+
 	//Library
 	if (!Exists(LIBRARY_MESH_FOLDER)) {
 		CreateDirectory(LIBRARY_MESH_FOLDER);
