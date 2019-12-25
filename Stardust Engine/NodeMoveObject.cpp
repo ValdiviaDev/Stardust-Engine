@@ -133,6 +133,30 @@ void NodeMoveObject::Load(JSON_Object* obj) {
 	dont_change_dir_local = json_object_get_boolean(obj, "dont change dir local");
 	velocity = json_object_get_number(obj, "velocity");
 	dir_str = json_object_get_string(obj, "dir str");
+
+	//Direction ----------------------------------------------
+	if (dir_str == "Forward") {
+		direction[0] = 0; direction[1] = 0; direction[2] = 1;
+	}
+	else if (dir_str == "Backward") {
+		direction[0] = 0; direction[1] = 0; direction[2] = -1;
+	}
+	else if (dir_str == "Left") {
+		direction[0] = -1; direction[1] = 0; direction[2] = 0;
+	}
+	else if (dir_str == "Right") {
+		direction[0] = 1; direction[1] = 0; direction[2] = 0;
+	}
+	else if (dir_str == "Up") {
+		direction[0] = 0; direction[1] = -1; direction[2] = 0;
+	}
+	else if (dir_str == "Down") {
+		direction[0] = 0; direction[1] = 1; direction[2] = 0;
+	}
+	//--------------------------------------------------------
+
 	obj_using_this = json_object_get_boolean(obj, "using this");
 	obj_indx = json_object_get_number(obj, "id using");
+
+
 }

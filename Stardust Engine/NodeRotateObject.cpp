@@ -91,9 +91,6 @@ void NodeRotateObject::Save(JSON_Object* obj) const {
 	json_object_set_number(obj, "rot velY", rot_vel.y);
 	json_object_set_number(obj, "rot velZ", rot_vel.z);
 
-	json_object_set_number(obj, "rot axisX", rot_axis[0]);
-	json_object_set_number(obj, "rot axisY", rot_axis[1]);
-	json_object_set_number(obj, "rot axisZ", rot_axis[2]);
 }
 
 void NodeRotateObject::Load(JSON_Object* obj) {
@@ -110,7 +107,4 @@ void NodeRotateObject::Load(JSON_Object* obj) {
 	rot_vel.y = json_object_get_number(obj, "rot velY");
 	rot_vel.z = json_object_get_number(obj, "rot velZ");
 	  			
-	rot_axis[0] = json_object_get_number(obj, "rot axisX");
-	rot_axis[1] = json_object_get_number(obj, "rot axisY");
-	rot_axis[2] = json_object_get_number(obj, "rot axisZ");
 }
