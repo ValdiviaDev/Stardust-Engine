@@ -661,16 +661,8 @@ void NodeGraph::SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const {
 		json_object_set_number(obj, "OutputsCount", (*it)->OutputsCount);
 
 
-		//switch ((*it)->function) {
-
-		//case NodeFunction::Func_DelObject:
-			(*it)->Save(obj);
-		//	break;
-		//case NodeFunction::Func_Default:
-
-		//	break;
-			//TODO SAVE INFO OF ALL THE REST OF FUNCS
-		//}
+		(*it)->Save(obj);
+	
 		json_array_append_value(arr_nodes, value);
 	}
 

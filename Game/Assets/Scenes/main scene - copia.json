@@ -1,0 +1,1123 @@
+[
+    {
+        "Name": "Sky001",
+        "UUID": 1032732671,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1831793403,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 18.153732299804688,
+                "PosY": 0,
+                "PosZ": 58.960910797119141,
+                "RotX": -1,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "Dummy001",
+        "UUID": 2128786131,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1831793403,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": -0.7071068286895752,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "City_building_004",
+        "UUID": 1782812293,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -41.47589111328125,
+                "PosY": 21.01409912109375,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 914821647,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 727883061,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_001",
+        "UUID": 1774971622,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 17.707164764404297,
+                "PosY": 20.053276062011719,
+                "PosZ": 2.1210729528320371e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 500312294,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 57466234,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_007",
+        "UUID": 94642953,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 16.010492324829102,
+                "PosY": 37.4932861328125,
+                "PosZ": -1.5106878663573298e-06,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 657201817,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 761118375,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_008",
+        "UUID": 663396150,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 40.979995727539063,
+                "PosY": 18.270824432373047,
+                "PosZ": -2.0522466002148576e-06,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 372563121,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 909558675,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "Line002",
+        "UUID": 1534213086,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -2.1597719192504883,
+                "PosY": 1.8538382053375244,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1907625920,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 0,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "Plane001",
+        "UUID": 244791835,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -0.02860260009765625,
+                "PosY": 0.026032090187072754,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 0.99663525819778442,
+                "ScaleY": 0.97061645984649658,
+                "ScaleZ": 0.99663525819778442
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 222121943,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 0,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_010",
+        "UUID": 1822105596,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 25.154010772705078,
+                "PosY": -39.153720855712891,
+                "PosZ": 8.5538641769744572e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "City_building_011",
+        "UUID": 659703532,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 30.134540557861328,
+                "PosY": 37.4932861328125,
+                "PosZ": -1.5106878663573298e-06,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 657201817,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 761118375,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_013",
+        "UUID": 738285251,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -42.288055419921875,
+                "PosY": 33.201576232910156,
+                "PosZ": 5.0146070407208754e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 136368926,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 115793659,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_014",
+        "UUID": 16722401,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -19.439706802368164,
+                "PosY": 32.061729431152344,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 1,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 294143347,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 727883061,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_016",
+        "UUID": 1822108822,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 34.270423889160156,
+                "PosY": -41.972747802734375,
+                "PosZ": 8.5538641769744572e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 1,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "City_building_017",
+        "UUID": 884300878,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 44.260082244873047,
+                "PosY": -39.153720855712891,
+                "PosZ": 8.5538641769744572e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "City_building_022",
+        "UUID": 1850235042,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -20.831323623657227,
+                "PosY": -27.426488876342773,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 1,
+                "RotW": 1.9470718370939721e-07,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 554777434,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1666341219,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_023",
+        "UUID": 980429765,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 42.130641937255859,
+                "PosY": 37.4932861328125,
+                "PosZ": -1.5106878663573298e-06,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 657201817,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 761118375,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_024",
+        "UUID": 1824547793,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -20.572771072387695,
+                "PosY": 43.060829162597656,
+                "PosZ": -0.069194458425045013,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -1,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 372563121,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 909558675,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_026",
+        "UUID": 1183883443,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 31.51188850402832,
+                "PosY": -16.446016311645508,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -1,
+                "RotW": -4.3711388286737929e-08,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 579329596,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1666341219,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_028",
+        "UUID": 1903034352,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 13.38798999786377,
+                "PosY": -33.755039215087891,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 3535280,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1316593122,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "Object010",
+        "UUID": 1485241861,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -2.5033531188964844,
+                "PosY": 15.800846099853516,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 538517984,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 0,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_030",
+        "UUID": 1551885539,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -42.807239532470703,
+                "PosY": -41.835563659667969,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 3535280,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1316593122,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_031",
+        "UUID": 2062051840,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -34.679481506347656,
+                "PosY": -41.835563659667969,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 3535280,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1316593122,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_032",
+        "UUID": 866523302,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -29.478403091430664,
+                "PosY": 21.01409912109375,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 914821647,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 727883061,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_033",
+        "UUID": 1615220574,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -32.361495971679688,
+                "PosY": 42.37042236328125,
+                "PosZ": 5.0146070407208754e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 290407299,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 115793659,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_034",
+        "UUID": 1853003311,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 16.049516677856445,
+                "PosY": -16.696884155273438,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 10905253,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1666341219,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_035",
+        "UUID": 1976383834,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 13.38798999786377,
+                "PosY": -40.802516937255859,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 3535280,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1316593122,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_036",
+        "UUID": 758911635,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -31.216331481933594,
+                "PosY": 33.201576232910156,
+                "PosZ": 5.0146070407208754e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 136368926,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 115793659,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_037",
+        "UUID": 1271244323,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -20.317693710327148,
+                "PosY": -16.163608551025391,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 1,
+                "RotW": 1.9470718370939721e-07,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1057467772,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1666341219,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_038",
+        "UUID": 1571967715,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -41.649002075195313,
+                "PosY": -16.495393753051758,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 1902667601,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1666341219,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_039",
+        "UUID": 474773802,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -42.807239532470703,
+                "PosY": -30.643888473510742,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 3535280,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1316593122,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_040",
+        "UUID": 937606067,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -34.679481506347656,
+                "PosY": -30.643888473510742,
+                "PosZ": -9.3834518111179932e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": -0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 3535280,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 1316593122,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "City_building_041",
+        "UUID": 766311988,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 2128786131,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 30.695278167724609,
+                "PosY": 21.612646102905273,
+                "PosZ": 2.1210729528320371e-07,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0.7071068286895752,
+                "RotW": 0.70710670948028564,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 2,
+                "UUID Mesh": 500312294,
+                "is primitive": 0,
+                "Active": true
+            },
+            {
+                "Component Type": 3,
+                "UUID Material": 57466234,
+                "Active": true
+            }
+        ]
+    },
+    {
+        "Name": "Camera001",
+        "UUID": 1630649431,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1831793403,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -78.312431335449219,
+                "PosY": 45.251216888427734,
+                "PosZ": -97.031112670898438,
+                "RotX": -0.049339741468429565,
+                "RotY": -0.93228733539581299,
+                "RotZ": -0.1393311470746994,
+                "RotW": 0.33014041185379028,
+                "ScaleX": 1,
+                "ScaleY": 0.99999994039535522,
+                "ScaleZ": 0.99999994039535522
+            }
+        ]
+    },
+    {
+        "Name": "Camera001.Target",
+        "UUID": 721036996,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1831793403,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -28.132621765136719,
+                "PosY": 20.873329162597656,
+                "PosZ": -35.064212799072266,
+                "RotX": -0.049339760094881058,
+                "RotY": -0.93228733539581299,
+                "RotZ": -0.13933101296424866,
+                "RotW": 0.33014047145843506,
+                "ScaleX": 1,
+                "ScaleY": 0.99999994039535522,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "Spot001",
+        "UUID": 1886449891,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1831793403,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": -66.721267700195313,
+                "PosY": 141.93412780761719,
+                "PosZ": 6.2041376622801181e-06,
+                "RotX": -0.69003516435623169,
+                "RotY": -0.15443949401378632,
+                "RotZ": -0.69003516435623169,
+                "RotW": 0.1544388085603714,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "Spot001.Target",
+        "UUID": 722978085,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1831793403,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 28.890945434570313,
+                "PosY": -60.963882446289063,
+                "PosZ": -2.6648158382158726e-06,
+                "RotX": 8.9406967163085938e-08,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            }
+        ]
+    },
+    {
+        "Name": "camera",
+        "UUID": 1250760875,
+        "Active": true,
+        "Static": false,
+        "Parent UUID": 1831793403,
+        "Components": [
+            {
+                "Component Type": 1,
+                "PosX": 0,
+                "PosY": 0,
+                "PosZ": 0,
+                "RotX": 0,
+                "RotY": 0,
+                "RotZ": 0,
+                "RotW": 1,
+                "ScaleX": 1,
+                "ScaleY": 1,
+                "ScaleZ": 1
+            },
+            {
+                "Component Type": 4,
+                "Main Camera": true,
+                "Aspect Ratio": 1.7777999639511108,
+                "FOV": 60.000003814697266,
+                "Far Plane": 100,
+                "Near Plane": 1,
+                "Active": true,
+                "culling": false
+            }
+        ]
+    }
+]

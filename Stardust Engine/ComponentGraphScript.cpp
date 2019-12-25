@@ -5,6 +5,7 @@
 #include "NodeGraph.h"
 #include "GameObject.h"
 #include "ModuleGui.h"
+#include "ModuleScene.h"
 #include "imgui/imgui.h"
 
 
@@ -170,9 +171,30 @@ void ComponentGraphScript::Save(JSON_Array* comp_array) const {
 	json_object_set_number(obj, "Component Type", type);
 	json_object_set_number(obj, "Script UUID", uuid_script);
 
-	SaveScriptFile(uuid_script);
+
+	//Save Blackboard
+	JSON_Value* value_arr = json_value_init_array();
+	JSON_Array* array = json_value_get_array(value_arr);
+
+	for (uint i = 0; i < BB_objects.size(); i++) {
+
+		JSON_Value* aux_val = json_value_init_object();
+		JSON_Object* aux_obj = json_value_get_object(aux_val);
+
+		GameObject* it = BB_objects[i];
+
+		json_object_set_number(aux_obj, "GO UUID", it->uuid);
+
+		json_array_append_value(array, aux_val);
+	}
+
+	json_object_set_value(obj, "Blackboard", value_arr);
 
 	json_array_append_value(comp_array, value);
+
+	//Save .script file with all the info of nodes and links
+	SaveScriptFile(uuid_script);
+		
 }
 
 
@@ -181,8 +203,7 @@ void ComponentGraphScript::Load(JSON_Object* comp_obj) {
 
 	uuid_script = json_object_get_number(comp_obj, "Script UUID");
 
-	//TODOSERALIZE  seguramente haga falta llamar al load del fichero del script des de aqui con la UUID
-
+	
 	ResourceGraphScript* res = (ResourceGraphScript*)App->resources->Get(uuid_script);
 
 	if (res) {
@@ -191,6 +212,24 @@ void ComponentGraphScript::Load(JSON_Object* comp_obj) {
 		//res->node_graph->LoadFile(uuid_script);
 		
 	}
+
+
+	//Load Blackboard
+	JSON_Array* array_bb = json_object_get_array(comp_obj, "Blackboard");
+
+	JSON_Object* it;
+
+	for (uint i = 0; i < json_array_get_count(array_bb); i++) {
+
+		it = json_array_get_object(array_bb, i);
+		UID uuid_aux = json_object_get_number(it, "GO UUID");
+
+		if (uuid_aux != 0) {
+			GameObject* bb_go = App->scene->GetGameObjectFromUUID(uuid_aux, App->scene->GetRootGameObject());
+			BB_objects.push_back(bb_go);
+		}
+	}
+
 }
 
 
