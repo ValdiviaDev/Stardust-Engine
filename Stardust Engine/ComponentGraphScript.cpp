@@ -38,6 +38,9 @@ void ComponentGraphScript::Update(float dt)
 		if(App->GetEngineState() != Engine_State_Editor && active)
 			res->node_graph->Update(dt, BB_objects);
 	}
+
+	if (new_script_clicked)
+		NewScriptMenu();
 		
 }
 
@@ -51,6 +54,9 @@ void ComponentGraphScript::DrawInspector()
 
 	string c_name = "Graph Script" + cmp_idx;
 	if (ImGui::CollapsingHeader(c_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+		
+		ImGui::Text(script_name);
+
 		string scr_active = "Script Active" + cmp_idx;
 		ImGui::Checkbox(scr_active.c_str(), &active);
 
@@ -59,6 +65,7 @@ void ComponentGraphScript::DrawInspector()
 			string new_script = "New Script" + cmp_idx;
 			if (ImGui::Button(new_script.c_str(), { 80,30 })) {
 				uuid_script = App->GenerateUUID();
+				new_script_clicked = true;
 				//TODO: Script serialization
 				//TODO: Do this in resource manager
 				ResourceGraphScript* res = (ResourceGraphScript*)App->resources->CreateNewResource(Resource_Graph_Script, uuid_script);
@@ -166,6 +173,28 @@ void ComponentGraphScript::HideOtherGraphsFromSameObject()
 			g->show_graph = false;
 		}
 	}
+}
+
+void ComponentGraphScript::NewScriptMenu()
+{
+
+	ImGui::OpenPopup("Enter script name");
+
+	if (ImGui::BeginPopupModal("Enter script name", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+		ImGui::InputText("##NewScriptName", script_name, 256);
+
+		if (ImGui::Button("OK", ImVec2(200, 0))) {
+			new_script_clicked = false;
+			
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SetItemDefaultFocus();
+	
+		ImGui::EndPopup();
+
+	}
+
 }
 
 
