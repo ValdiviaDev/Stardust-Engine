@@ -138,6 +138,17 @@ void ComponentGraphScript::DrawInspector()
 			for (int i = 1; i < BB_objects.size(); ++i) {
 				ImGui::Text(BB_objects[i]->GetName());
 			}
+
+			ImGui::Separator();
+
+			//Timers
+			ImGui::Text("Timers");
+			for (int i = 0; i < timers.size(); ++i) {
+				string timer_num = "Timer number " + std::to_string(i + 1) + ":";
+				ImGui::Text(timer_num.c_str());
+				ImGui::TextColored({ 255,255,0,255 }, " %0.2f", timers[i]);
+			}
+
 		}
 
 	}

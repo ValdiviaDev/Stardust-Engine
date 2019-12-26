@@ -20,7 +20,6 @@ private:
 	bool repeat_action = false;
 
 	float time = 0.0f;
-	float timer = 0.0f;
 
 	uint timer_num = 0;
 

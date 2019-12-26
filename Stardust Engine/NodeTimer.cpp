@@ -28,7 +28,9 @@ bool NodeTimer::Update(float dt, std::vector<GameObject*> BB_objects, uint num_c
 	//Time count
 	comp_gs->IncrementTimer(timer_num, dt);
 
-	if (comp_gs->GetTimer(timer_num) >= time) {
+	//Timer check
+	float timer = comp_gs->GetTimer(timer_num);
+	if (timer >= time) {
 		if (make_action)
 			node_state = Node_State_Updating;
 
@@ -51,13 +53,14 @@ bool NodeTimer::Update(float dt, std::vector<GameObject*> BB_objects, uint num_c
 
 void NodeTimer::Draw(std::vector<GameObject*> BB_objects)
 {
+	ImGui::Text("Graph timer number ");
+	ImGui::SameLine();
+	ImGui::TextColored({ 255,255,0,255 }, "%i", timer_num);
+
 	ImGui::Checkbox("Reset", &reset);
 	ImGui::Checkbox("Repeat action", &repeat_action);
 
-	ImGui::InputFloat("Time", &time, 0.0f, 0.0f, 2);
-
-	ImGui::Text("Time since action:");
-	ImGui::TextColored({ 255,255,0,255 }," %0.2f", timer);
+	ImGui::InputFloat("Time to action", &time, 0.0f, 0.0f, 2);
 }
 
 
