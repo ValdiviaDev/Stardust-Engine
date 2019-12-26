@@ -117,7 +117,7 @@ This engine counts with a visual scripting system using node graphs. This serves
 	- Change of game view and engine view with the edit panel
 	- Importation of assets to own format into a library folder
 	- Resource manager
-	- NodeGrph visual scripting system
+	- NodeGraph visual scripting system
 
 ## List of tasks done
 Ricardo Gutiérrez
@@ -152,6 +152,7 @@ David Valdivia
 
 ## Innovation
 - Game Mode: Uncommenting a line of code (#define GAME_MODE) in Application.h creates and compiling creates an exe of Game Mode.
+- Node Graph notification system: Notifies the user when a node is updating, is going to update or if there's an error in the node, using an outline that envelopes the node.
 
 ## [Github repository](https://github.com/ValdiviaDev/Stardust-Engine)
 
