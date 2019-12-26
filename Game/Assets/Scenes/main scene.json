@@ -4,20 +4,20 @@
         "UUID": 1334139540,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1495598835,
+        "Parent UUID": 1666519287,
         "Components": [
             {
                 "Component Type": 1,
                 "PosX": 0,
-                "PosY": 0,
+                "PosY": 4.6020903587341309,
                 "PosZ": 0,
                 "RotX": -0.7071068286895752,
                 "RotY": 0,
                 "RotZ": 0,
                 "RotW": 0.70710670948028564,
                 "ScaleX": 1,
-                "ScaleY": 1,
-                "ScaleZ": 1
+                "ScaleY": 0.99999779462814331,
+                "ScaleZ": 0.99999779462814331
             }
         ]
     },
@@ -983,20 +983,20 @@
         "UUID": 1266259086,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1495598835,
+        "Parent UUID": 1666519287,
         "Components": [
             {
                 "Component Type": 1,
                 "PosX": 0,
-                "PosY": 28.708351135253906,
+                "PosY": 56.470573425292969,
                 "PosZ": -29.000732421875,
-                "RotX": 0.29305148124694824,
-                "RotY": -0.011943886056542397,
-                "RotZ": 0.0036609487142413855,
-                "RotW": 0.95601516962051392,
-                "ScaleX": 1.0000381469726563,
-                "ScaleY": 0.99999988079071045,
-                "ScaleZ": 1.0000455379486084
+                "RotX": 0.4972873330116272,
+                "RotY": -0.012458045035600662,
+                "RotZ": 0.00092797144316136837,
+                "RotW": 0.86749595403671265,
+                "ScaleX": 1.0000295639038086,
+                "ScaleY": 1.0000002384185791,
+                "ScaleZ": 1.0000505447387695
             },
             {
                 "Component Type": 4,
@@ -1015,12 +1015,12 @@
         "UUID": 455308922,
         "Active": true,
         "Static": false,
-        "Parent UUID": 1495598835,
+        "Parent UUID": 1666519287,
         "Components": [
             {
                 "Component Type": 1,
                 "PosX": 0,
-                "PosY": 0,
+                "PosY": 4.4793133735656738,
                 "PosZ": 0,
                 "RotX": 0,
                 "RotY": -4.3711388286737929e-08,
@@ -1265,7 +1265,7 @@
         "UUID": 1990120351,
         "Active": false,
         "Static": false,
-        "Parent UUID": 1495598835,
+        "Parent UUID": 1666519287,
         "Components": [
             {
                 "Component Type": 1,
