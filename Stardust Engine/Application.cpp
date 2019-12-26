@@ -63,6 +63,10 @@ Application::Application()
 
 	// Renderer last!
 	AddModule(renderer3D);
+
+#ifdef GAME_MODE
+	engine_state = Engine_State_Play;
+#endif
 }
 
 Application::~Application()
