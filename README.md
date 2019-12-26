@@ -49,6 +49,51 @@ Open the "Stardust Engine.exe" file that you'll find inside this folder.
   	- You can drop a mesh scene file (fbx/.obj/.dae) in assets/meshes to charge the scene in the file.
 	- You can drop a scene file (.json) that you can create in the engine to open a scene.
 	- You can drop a texture file in assets/textures to apply said texture to the object.
+	
+	
+## NodeGraph visual scripting instructions (Assignment 3)
+This engine counts with a visual scripting system using node graphs. This serves the purpose to program something in-game directly using a visual system integraded into the engine itself. It is mostly useful for people that don't know how to code or know only the basics.
+
+  ### Component graph script
+  	- In this component you can create a new script or drag a preexisting script from assets.
+	- You can drag GameObjects to the Blackboard, to use it as a reference in the NodeGraph script
+	- The timers you use in the NodeGraph will be shown here in the component.
+	
+  ### NodeGraph functionality
+  	- Click "Show Graph" and "Hide Graph" in the Component graph script to show or hide a window showcasing the node graph.
+	- Inside the graph, mouse right click to create a new node.
+	- Inside the graph, mouse left click to select a node, move it or change its variables.
+	- There are two types of nodes:
+		- Events: Are always updating and when the event specified in the node happens, all the outputs connected to it start to update.
+		- Actions: Need to have an event or another action as an input. Theese nodes make that something happen with a GameObject, scene or another game interaction.
+	- Note: Actions can be connected to other actions, to make an on-chain reaction and events can be connected to other events if the user wants to use a multiple event (example: move the mouse and press a key). Events can be also connected to actions if the user wants something to occur in some specific situations (example: while an object is moving right, pressing the mouse makes it stop).
+	
+  ### Nodes
+  **Events**
+  
+  	- Key input -> Condition: Pressing a keyboard key.
+	- Mouse input -> Condition: Pressing a mouse button.
+	- Mouse Move -> Condition: Moving the mouse in the screen,
+	- Timer -> Condition: When a timer arrives to a certain time determined by the user an action happens. The timer can be reset or be told to repeat the action when the timer reaches the determined time.
+ 
+ **Actions**
+  
+ 	- Move Object -> Function: Move a GameObject in an axis globally (world coordinates) or locally
+	- Rotate Object -> Function: Rotate a GameObject. It can be rotated in an axis globally using an event or using the mouse movement. If using the mouse, the user can choose if only to rotate when mouse is moving in the X-axis of the screen, the Y-axis or both.
+	- Active Object -> Function: Enable or disable GameObject.
+	- Active Component -> Function: Enable or disable a GameObject component.
+	- Instantiate GameObject -> Function: Create a GameObject from an already existing GameObject. If the GameObject is inactive, this action will automatically activate it. The instantiated object can be put in a position and rotation determined bt the user, or put it in the position and rotation of a reference GameObject.
+	- Delete GameObject -> Function: Delete a GameObject.
+	- Load Scene -> Function: Load an alredy existing scene.
+	- Log to Console -> Function: Log a text to the engine's console.
+	
+  ### NodeGraph notification system
+  The nodes in the graph notify the user of the engine of which state is the node in, depending in the colour of the outline of the node.
+	
+	- No colour: The node is not updating.
+	- Green: The node is updating.
+	- Orange: The node is waiting for something to update (example: the timer waits for the time to be the one determined by the user).
+	- Red: The node wanted to update but encountered an error (example: a GameObject reference is NULL).
 
 ## Features
 	- GameObject tree structure
@@ -69,9 +114,9 @@ Open the "Stardust Engine.exe" file that you'll find inside this folder.
 	- Change of game view and engine view with the edit panel
 	- Importation of assets to own format into a library folder
 	- Resource manager
-	
+	- NodeGrph visual scripting system
 
-## List of tasks done in this release (assignment)
+## List of tasks done
 Ricardo Gutiérrez
 	
 	- GameObject system
@@ -80,6 +125,11 @@ Ricardo Gutiérrez
 	- Camera component and camera culling
 	- Scene serialization
 	- Resource manager: offline part
+	
+	 3rd assignment
+	- Graph node visual implementation
+	- Saving and loading scripts
+	- Scene serialization of component script
 
 David Valdivia
 
@@ -91,7 +141,14 @@ David Valdivia
 	- Quadtree and quadtree optimizations (camera culling and mouse picking)
 	- Time manager (game and engine times)
 	- Resource manager: runtime part
+	
+	3rd assignment
+	- Graph node visual scripting sctructure
+	- Nodes functionality
+	- Component graph script functionality
 
+## Innovation
+- Game Mode: Uncommenting a line of code (#define GAME_MODE) in Application.h creates and compiling creates an exe of Game Mode.
 
 ## [Github repository](https://github.com/ValdiviaDev/Stardust-Engine)
 
