@@ -12,7 +12,7 @@ NodeMouseMove::~NodeMouseMove()
 {
 }
 
-bool NodeMouseMove::Update(float dt, std::vector<GameObject*> BB_objects)
+bool NodeMouseMove::Update(float dt, std::vector<GameObject*> BB_objects, uint num_comp_graph)
 {
 	node_state = Node_State_Idle;
 

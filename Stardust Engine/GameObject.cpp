@@ -91,7 +91,14 @@ Component* GameObject::CreateComponent(ComponentType type)
 			return nullptr;
 		break;
 	case Comp_Graph_Script:
-		component = new ComponentGraphScript(this);
+	{
+		uint script_num = 1;
+		for (int i = 0; i < components.size(); ++i) {
+			if (components[i]->GetType() == Comp_Graph_Script)
+				script_num++;
+		}
+		component = new ComponentGraphScript(this, script_num);
+	}
 		break;
 	case Comp_Default:
 		return nullptr;
@@ -200,6 +207,19 @@ void GameObject::DeleteFromParentList()
 				break;
 			}
 	}
+}
+
+ComponentGraphScript* GameObject::GetCompScript(uint num) const
+{
+	for (int i = 0; i < components.size(); ++i) {
+		if (components[i]->GetType() == Comp_Graph_Script) {
+			ComponentGraphScript* gs = (ComponentGraphScript*)components[i];
+			if (gs->GetCompSriptNum() == num)
+				return gs;
+		}
+	}
+
+	return nullptr;
 }
 
 uint GameObject::GetNumComp() const

@@ -7,8 +7,8 @@
             "NodeID": 0,
             "Type": 1,
             "Function": 12,
-            "PosX": 199,
-            "PosY": 99,
+            "PosX": 114,
+            "PosY": 43,
             "InputsCount": 0,
             "OutputsCount": 1,
             "repeat action": true,
@@ -19,8 +19,8 @@
             "NodeID": 1,
             "Type": 2,
             "Function": 4,
-            "PosX": 527,
-            "PosY": 129,
+            "PosX": 557,
+            "PosY": 47,
             "InputsCount": 1,
             "OutputsCount": 1,
             "this go": true,
@@ -33,12 +33,41 @@
             "dir z": 1,
             "using this": true,
             "id using": 0
+        },
+        {
+            "NodeID": 2,
+            "Type": 1,
+            "Function": 12,
+            "PosX": 93,
+            "PosY": 238,
+            "InputsCount": 0,
+            "OutputsCount": 1,
+            "repeat action": false,
+            "reset": false,
+            "time": 3
+        },
+        {
+            "NodeID": 3,
+            "Type": 2,
+            "Function": 10,
+            "PosX": 478,
+            "PosY": 271,
+            "InputsCount": 1,
+            "OutputsCount": 1,
+            "using this": true,
+            "id using": 0
         }
     ],
     "Links": [
         {
             "Input ID": 0,
             "Output ID": 1,
+            "Input Slot": 0,
+            "Output Slot": 0
+        },
+        {
+            "Input ID": 2,
+            "Output ID": 3,
             "Input Slot": 0,
             "Output Slot": 0
         }

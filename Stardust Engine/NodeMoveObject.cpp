@@ -15,7 +15,7 @@ NodeMoveObject::~NodeMoveObject()
 {
 }
 
-bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
+bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects, uint num_comp_graph)
 {
 	node_state = Node_State_Idle;
 	GameObject* object = nullptr;
@@ -40,18 +40,8 @@ bool NodeMoveObject::Update(float dt, std::vector<GameObject*> BB_objects)
 		}
 
 		else {//Move Local
-
-			//If we don't change directions, we simply sum positions
-			if (dont_change_dir_local && local_dir_changed)
-				trans->SumPositionGlobal(dir * velocity * dt);
-
-			//If we need to change directions, we calculate the direction vector every frame
-			else {
-				dir = { (float)direction[0] , (float)direction[1], (float)direction[2] };
-				trans->SumPositionLocal(dir, velocity * dt);
-
-				local_dir_changed = true;
-			}
+			dir = { (float)direction[0] , (float)direction[1], (float)direction[2] };
+			trans->SumPositionLocal(dir, velocity * dt);
 		}
 	}
 	else

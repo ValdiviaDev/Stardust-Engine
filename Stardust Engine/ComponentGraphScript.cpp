@@ -10,11 +10,12 @@
 #include "PanelAssets.h"
 
 
-ComponentGraphScript::ComponentGraphScript(GameObject* parent) : Component(parent)
+ComponentGraphScript::ComponentGraphScript(GameObject* parent, uint script_num) : Component(parent)
 {
 	type = Comp_Graph_Script;
 	BB_objects.push_back(gameObject);
-	//strcpy(script_name, App->resources->names[uuid_script].c_str());
+	
+	this->script_num = script_num;
 }
 
 
@@ -38,7 +39,7 @@ void ComponentGraphScript::Update(float dt)
 			res->node_graph->Draw(BB_objects, active, show_graph);
 
 		if(App->GetEngineState() != Engine_State_Editor && active && gameObject->IsActive())
-			res->node_graph->Update(dt, BB_objects);
+			res->node_graph->Update(dt, BB_objects, script_num);
 	}
 
 	if (new_script_clicked)
@@ -151,6 +152,11 @@ bool ComponentGraphScript::HasScript()
 	return false;
 }
 
+uint ComponentGraphScript::GetCompSriptNum() const
+{
+	return script_num;
+}
+
 std::vector<GameObject*> ComponentGraphScript::GetBlackboard() const
 {
 	return BB_objects;
@@ -232,6 +238,27 @@ void ComponentGraphScript::NewScriptMenu()
 
 	}
 
+}
+
+uint ComponentGraphScript::CreateNewTimer()
+{
+	timers.push_back(0.0f);
+	return timers.size();
+}
+
+void ComponentGraphScript::IncrementTimer(uint idx, float dt)
+{
+	timers[idx - 1] += dt;
+}
+
+float ComponentGraphScript::GetTimer(uint idx) const
+{
+	return timers[idx - 1];
+}
+
+uint ComponentGraphScript::GetNumTimers() const
+{
+	return timers.size();
 }
 
 void ComponentGraphScript::Save(JSON_Array* comp_array) const {

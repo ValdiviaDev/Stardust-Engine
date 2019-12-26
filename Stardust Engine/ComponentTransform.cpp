@@ -219,11 +219,11 @@ void ComponentTransform::SumPositionGlobal(math::float3 pos)
 
 void ComponentTransform::SumPositionLocal(math::float3& dir, float vel)
 {
-	if (rotation.x == -180.0f || rotation.x == 180.0f)
+	if (rotation.x == -180.0f )
 		rotation.x = 0.0f;
 	if (rotation.y == -180.0f)
 		rotation.y = 0.0f;
-	if (rotation.z == -180.0f || rotation.z == 180.0f)
+	if (rotation.z == -180.0f)
 		rotation.z = 0.0f;
 
 	float3 rot = rotation * DEGTORAD;

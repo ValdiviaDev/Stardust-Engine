@@ -9,7 +9,7 @@ public:
 	NodeLoadScene(int id, const ImVec2& pos);
 	~NodeLoadScene();
 
-	bool Update(float dt, std::vector<GameObject*> BB_objects);
+	bool Update(float dt, std::vector<GameObject*> BB_objects, uint num_comp_graph);
 	void Draw(std::vector<GameObject*> BB_objects);
 
 	void Save(JSON_Object* obj) const;

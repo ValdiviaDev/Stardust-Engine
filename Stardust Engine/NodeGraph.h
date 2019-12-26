@@ -40,8 +40,8 @@ public:
 	~NodeGraph();
 
 	void Draw(std::vector<GameObject*> BB_objects, bool go_active, bool& show_graph);
-	void Update(float dt, std::vector<GameObject*> BB_objects);
-	void UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, NodeState input_updating);
+	void Update(float dt, std::vector<GameObject*> BB_objects, uint num_comp_graph);
+	void UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, NodeState input_updating, uint num_comp_graph);
 	void SaveFile(JSON_Array* arr_nodes, JSON_Array* arr_links) const;
 	void LoadFile(UID uuid, std::string name);
 
@@ -51,7 +51,7 @@ public:
 	void DeleteNode(Node* node);
 	Node* GetNodeByID(int ID);
 
-	
+	uint GetTimerNum() const;
 
 private:
 	

@@ -14,7 +14,7 @@ NodeDeleteObject::~NodeDeleteObject()
 {
 }
 
-bool NodeDeleteObject::Update(float dt, std::vector<GameObject*> BB_objects)
+bool NodeDeleteObject::Update(float dt, std::vector<GameObject*> BB_objects, uint num_comp_graph)
 {
 	node_state = Node_State_Idle;
 	GameObject* to_delete = nullptr;

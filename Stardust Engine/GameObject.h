@@ -12,6 +12,7 @@ class ComponentTransform;
 class ComponentMesh;
 class ComponentMaterial;
 class ComponentCamera;
+class ComponentGraphScript;
 class ConfigEditor;
 enum ComponentType;
 
@@ -48,6 +49,7 @@ public:
 	GameObject* GetParent() const;
 	void SetParent(GameObject* parent);
 	void DeleteFromParentList();
+	ComponentGraphScript* GetCompScript(uint num) const;
 
 	void SetName(const char* new_name);
 	const char* GetName()const;

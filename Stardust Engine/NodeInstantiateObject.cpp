@@ -23,7 +23,7 @@ NodeInstantiateObject::~NodeInstantiateObject()
 {
 }
 
-bool NodeInstantiateObject::Update(float dt, std::vector<GameObject*> BB_objects)
+bool NodeInstantiateObject::Update(float dt, std::vector<GameObject*> BB_objects, uint num_comp_graph)
 {
 	node_state = Node_State_Idle;
 	GameObject* to_instance = nullptr;

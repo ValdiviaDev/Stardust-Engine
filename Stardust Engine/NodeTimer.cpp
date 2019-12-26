@@ -1,9 +1,12 @@
 #include "NodeTimer.h"
+#include "GameObject.h"
+#include "ComponentGraphScript.h"
 
 
 
-NodeTimer::NodeTimer(int id, const ImVec2& pos) : Node(id, "Event: Timer", pos, 0, 1, Node_Type_Event, Func_Timer)
+NodeTimer::NodeTimer(int id, const ImVec2& pos, uint timer_num) : Node(id, "Event: Timer", pos, 0, 1, Node_Type_Event, Func_Timer)
 {
+	this->timer_num = timer_num;
 }
 
 
@@ -11,15 +14,21 @@ NodeTimer::~NodeTimer()
 {
 }
 
-bool NodeTimer::Update(float dt, std::vector<GameObject*> BB_objects)
+bool NodeTimer::Update(float dt, std::vector<GameObject*> BB_objects, uint num_comp_graph)
 {
 	node_state = Node_State_Idle;
 	static bool make_action = true;
 
-	//Time count
-	timer += dt;
+	ComponentGraphScript* comp_gs = BB_objects[0]->GetCompScript(num_comp_graph);
 
-	if (timer >= time) {
+	if (comp_gs->GetNumTimers() < timer_num) {
+		comp_gs->CreateNewTimer();
+	}
+
+	//Time count
+	comp_gs->IncrementTimer(timer_num, dt);
+
+	if (comp_gs->GetTimer(timer_num) >= time) {
 		if (make_action)
 			node_state = Node_State_Updating;
 

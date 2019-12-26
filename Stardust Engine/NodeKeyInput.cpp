@@ -16,7 +16,7 @@ NodeKeyInput::~NodeKeyInput()
 {
 }
 
-bool NodeKeyInput::Update(float dt, std::vector<GameObject*> BB_objects)
+bool NodeKeyInput::Update(float dt, std::vector<GameObject*> BB_objects, uint num_comp_graph)
 {
 	node_state = Node_State_Idle;
 

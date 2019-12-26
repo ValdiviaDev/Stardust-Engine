@@ -326,27 +326,27 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects, bool go_active, bool& 
 	ImGui::End();
 }
 
-void NodeGraph::Update(float dt, std::vector<GameObject*> BB_objects)
+void NodeGraph::Update(float dt, std::vector<GameObject*> BB_objects, uint num_comp_graph)
 {
 	for (int i = 0; i < fst_ev_nodes.size(); ++i) {
 		//This nodes update always (first event nodes)
-		fst_ev_nodes[i]->Update(dt, BB_objects);
+		fst_ev_nodes[i]->Update(dt, BB_objects, num_comp_graph);
 			
 		//Look for every output update
 		for (int j = 0; j < fst_ev_nodes[i]->outputs.size(); ++j)
-			UpdateOutputNodes(dt, BB_objects, fst_ev_nodes[i]->outputs[j], fst_ev_nodes[i]->node_state);
+			UpdateOutputNodes(dt, BB_objects, fst_ev_nodes[i]->outputs[j], fst_ev_nodes[i]->node_state, num_comp_graph);
 	}
 }
 
-void NodeGraph::UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, NodeState input_state)
+void NodeGraph::UpdateOutputNodes(float dt, std::vector<GameObject*> BB_objects, Node* output, NodeState input_state, uint num_comp_graph)
 {
 	if (input_state == Node_State_Updating)
-		output->Update(dt, BB_objects); //Update of the node
+		output->Update(dt, BB_objects, num_comp_graph); //Update of the node
 	else
 		output->node_state = Node_State_Idle;
 
 	for (int i = 0; i < output->outputs.size(); ++i)
-		UpdateOutputNodes(dt, BB_objects, output->outputs[i], output->node_state);
+		UpdateOutputNodes(dt, BB_objects, output->outputs[i], output->node_state, num_comp_graph);
 
 }
 
@@ -403,7 +403,9 @@ Node* NodeGraph::AddNode(NodeFunction node_function, const ImVec2& pos) {
 		break;
 
 	case Func_Timer:
-		node = (Node*)new NodeTimer(last_node_id, pos);
+	{
+		node = (Node*)new NodeTimer(last_node_id, pos, GetTimerNum() + 1);
+	}
 		break;
 
 	case Func_Default:
@@ -544,6 +546,16 @@ Node* NodeGraph::GetNodeByID(int ID) {
 	}
 
 	return nullptr;
+}
+
+uint NodeGraph::GetTimerNum() const
+{
+	uint num_timers = 0;
+	for (int i = 0; i < nodes.size(); ++i) {
+		if (nodes[i]->function == Func_Timer)
+			num_timers++;
+	}
+	return num_timers;
 }
 
 void NodeGraph::DeleteNode(Node* node) {
