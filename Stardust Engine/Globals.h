@@ -28,8 +28,8 @@ enum update_status
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 1024
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768
 #define SCREEN_SIZE 1
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE true
@@ -37,8 +37,8 @@ enum update_status
 #define WIN_FULLSCREEN_DESKTOP false
 #define TITLE "Stardust Engine"
 #define ORGANIZATION "Speedwagon Foundation"
-#define ENGINE_VER_SUP 0
-#define ENGINE_VER_INF 7
+#define ENGINE_VER_SUP 1
+#define ENGINE_VER_INF 0
 
 
 #define RELEASE(x)\
