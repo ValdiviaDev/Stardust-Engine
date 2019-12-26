@@ -25,7 +25,6 @@
             "OutputsCount": 1,
             "this go": true,
             "move global": false,
-            "dont change dir local": false,
             "velocity": 11,
             "dir str": "Backward",
             "dir x": 0,

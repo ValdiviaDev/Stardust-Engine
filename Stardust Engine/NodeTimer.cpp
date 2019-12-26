@@ -58,7 +58,7 @@ void NodeTimer::Draw(std::vector<GameObject*> BB_objects)
 	ImGui::TextColored({ 255,255,0,255 }, "%i", timer_num);
 
 	ImGui::Checkbox("Reset", &reset);
-	ImGui::Checkbox("Repeat action", &repeat_action);
+	ImGui::Checkbox("Repeat action", &repeat_action);+
 
 	ImGui::InputFloat("Time to action", &time, 0.0f, 0.0f, 2);
 }

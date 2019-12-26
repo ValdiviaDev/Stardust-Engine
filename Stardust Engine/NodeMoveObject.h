@@ -22,7 +22,6 @@ private:
 	float velocity = 0.0f;
 	bool this_go = true;
 	bool move_global = true;
-	bool dont_change_dir_local = false;
 };
 
 #endif
