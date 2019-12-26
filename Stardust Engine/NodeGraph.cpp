@@ -254,8 +254,7 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects, bool go_active, bool& 
 				node_selected = -1;
 			}
 
-			if (ImGui::MenuItem("Copy", NULL, false, false)) {}
-
+			
 			ImGui::Separator();
 			if (ImGui::MenuItem("Add input", NULL, false, true))
 				node->SetInputsCount(node->InputsCount + 1);
@@ -305,7 +304,7 @@ void NodeGraph::Draw(std::vector<GameObject*> BB_objects, bool go_active, bool& 
 
 				ImGui::EndMenu();
 			}
-			if (ImGui::MenuItem("Paste", NULL, false, false)) {}
+			
 			
 			
 		}
