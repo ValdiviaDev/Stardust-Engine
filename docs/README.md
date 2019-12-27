@@ -6,6 +6,7 @@ Stardust Engine is a 3D engine student project, made by [Ricardo Gutiérrez](htt
 ### List of tasks done
 Ricardo Gutiérrez
 
+	- Model charge with assimp
 	- GameObject system
 	- Transform system for the GameObjects
 	- Material importer system
@@ -20,6 +21,7 @@ Ricardo Gutiérrez
 
 David Valdivia
 
+	- Texture chare with DevIL
 	- GameObject system
 	- Mesh and material components systems
 	- Mesh/scene importer system
@@ -34,21 +36,25 @@ David Valdivia
 	- Nodes functionality
 	- Component graph script functionality
 
+## Main core sub-systems
+
+### Optimizations
+
 ## NodeGraph visual scripting
 This engine counts with a visual scripting system using node graphs. This serves the purpose to program something in-game directly using a visual system integraded into the engine itself. It is mostly useful for people that don't know how to code or know only the basics.
 
 ### Component graph script
-    - In this component you can create a new script or drag a preexisting script from assets.
-    - You can drag GameObjects to the Blackboard, to use it as a reference in the NodeGraph script
-    - The timers you use in the NodeGraph will be shown here in the component.
+- In this component you can create a new script or drag a preexisting script from assets.
+- You can drag GameObjects to the Blackboard, to use it as a reference in the NodeGraph script
+- The timers you use in the NodeGraph will be shown here in the component.
 	
 ### NodeGraph functionality
-    - Click "Show Graph" and "Hide Graph" in the Component graph script to show or hide a window showcasing the node graph.
-    - Inside the graph, mouse right click to create a new node.
-    - Inside the graph, mouse left click to select a node, move it or change its variables.
-    - There are two types of nodes:
-	       * Events: Are always updating and when the event specified in the node happens, all the outputs connected to it start to update.
-	       * Actions: Need to have an event or another action as an input. Theese nodes make that something happen with a GameObject, scene or another game interaction.
+- Click "Show Graph" and "Hide Graph" in the Component graph script to show or hide a window showcasing the node graph.
+- Inside the graph, mouse right click to create a new node.
+- Inside the graph, mouse left click to select a node, move it or change its variables.
+- There are two types of nodes:
+	* Events: Are always updating and when the event specified in the node happens, all the outputs connected to it start to update.
+	* Actions: Need to have an event or another action as an input. Theese nodes make that something happen with a GameObject, scene or another game interaction.
 
 Actions can be connected to other actions, to make an on-chain reaction and events can be connected to other events if the user wants to use a multiple event (example: move the mouse and press a key). Events can be also connected to actions if the user wants something to occur in some specific situations (example: while an object is moving right, pressing the mouse makes it stop).
 	
@@ -69,17 +75,15 @@ Actions can be connected to other actions, to make an on-chain reaction and even
   * **Delete GameObject** -> Function: Delete a GameObject.
   * **Load Scene** -> Function: Load an alredy existing scene.
   * **Log to Console** -> Function: Log a text to the engine's console.
-
 <img src="Images_gifs/graph_interact.gif" width="700">
 *Using the NodeGraph*
 
 ### NodeGraph notification system
 The nodes in the graph notify the user of the engine of which state is the node in, depending in the colour of the outline of the node.
-
-    - No colour: The node is not updating.
-    - Green: The node is updating.
-    - Orange: The node is waiting for something to update (example: the timer waits for the time to be the one determined by the user).
-    - Red: The node wanted to update but encountered an error (example: a GameObject reference is NULL).
+- No colour: The node is not updating.
+- Green: The node is updating.
+- Orange: The node is waiting for something to update (example: the timer waits for the time to be the one determined by the user).
+- Red: The node wanted to update but encountered an error (example: a GameObject reference is NULL).
 <img src="Images_gifs/script_functionality.gif" width="700">
 *Visual scripting functionality*
 
@@ -91,14 +95,13 @@ Controls:
   * Left mouse button: Shoot a ball
   * Mouse movement: move tank turret to aim
   * R: reset the turret's position
-  
 <img src="Images_gifs/tank.gif" width="700">
 *Demo in GAME MODE*
 
 ## Links
 
-[Github repository](https://github.com/ValdiviaDev/Stardust-Engine)
-[Latest Release](https://github.com/ValdiviaDev/Stardust-Engine/releases/tag/Assignment3.1)
+- [**Github repository**](https://github.com/ValdiviaDev/Stardust-Engine)
+- [**Latest Release**](https://github.com/ValdiviaDev/Stardust-Engine/releases/tag/Assignment3.1)
 
 ## License:
 
