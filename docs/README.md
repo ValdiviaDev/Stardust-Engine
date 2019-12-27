@@ -3,7 +3,8 @@
 3D engine student project, made by [Ricardo Gutiérrez](https://twitter.com/reRikarudo) & [David Valdivia](https://twitter.com/ValdiviaDev), students at the CITM university (UPC affiliate) at Terrassa (Barcelona).
 
 ## The team
-PHOTO
+<img src="Images_gifs/team_photo.jpg" width="350">
+
 ### List of tasks done
 Ricardo Gutiérrez
 
@@ -70,7 +71,11 @@ This engine counts with a visual scripting system using node graphs. This serves
 	- Delete GameObject -> Function: Delete a GameObject.
 	- Load Scene -> Function: Load an alredy existing scene.
 	- Log to Console -> Function: Log a text to the engine's console.
-	
+
+**Using the NodeGraph**
+
+<img src="Images_gifs/graph_interact.gif" width="500">
+
   ### NodeGraph notification system
   The nodes in the graph notify the user of the engine of which state is the node in, depending in the colour of the outline of the node.
 	
@@ -79,9 +84,15 @@ This engine counts with a visual scripting system using node graphs. This serves
 	- Orange: The node is waiting for something to update (example: the timer waits for the time to be the one determined by the user).
 	- Red: The node wanted to update but encountered an error (example: a GameObject reference is NULL).
 
+**Visual scripting functionality**
 
-## [Github repository](https://github.com/ValdiviaDev/Stardust-Engine)
-## [Latest Release](https://github.com/ValdiviaDev/Stardust-Engine/releases/tag/Assignment3.1)
+<img src="Images_gifs/script_functionality.gif" width="500">
+
+## Links
+
+[Github repository](https://github.com/ValdiviaDev/Stardust-Engine)
+
+[Latest Release](https://github.com/ValdiviaDev/Stardust-Engine/releases/tag/Assignment3.1)
 
 ## License:
 
