@@ -37,10 +37,17 @@ David Valdivia
 	- Component graph script functionality
 
 ## Main core sub-systems
+Stardust Engine is programmed in c++, using OpenGL as the graphics library and SDL for low level systems, amongst several other 3rd party libraries. This is a Unity-like engine, constructed in a similar fashion, so it has a resource manager system to manage game assets (resources) and the memory they consume. These resources are used in GameObjects, which are the base entities that compose a game.
+The engine counts with a Visual Programming system using node graphs and two performance optimizations, in the form of camera culling and a Quadtree.
+<img src="Images_gifs/sub-systems.png" width="500">
 
 ### Optimizations
+<img src="Images_gifs/Camera culling.gif" width="700">
+*Camera Culling optimization*
+<img src="Images_gifs/quadtree.gif" width="700">
+*Quadtree optimization*
 
-## NodeGraph visual scripting
+## NodeGraph visual programming
 This engine counts with a visual scripting system using node graphs. This serves the purpose to program something in-game directly using a visual system integraded into the engine itself. It is mostly useful for people that don't know how to code or know only the basics.
 
 ### Component graph script
