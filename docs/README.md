@@ -1,6 +1,4 @@
-# Stardust Engine
- 3D Game Engine
-3D engine student project, made by [Ricardo Gutiérrez](https://twitter.com/reRikarudo) & [David Valdivia](https://twitter.com/ValdiviaDev), students at the CITM university (UPC affiliate) at Terrassa (Barcelona).
+Stardust Engine is a 3D engine student project, made by [Ricardo Gutiérrez](https://twitter.com/reRikarudo) & [David Valdivia](https://twitter.com/ValdiviaDev), students at the CITM university (UPC affiliate) at Terrassa (Barcelona).
 
 ## The team
 <img src="Images_gifs/team_photo.jpg" width="450">
@@ -57,44 +55,38 @@ Actions can be connected to other actions, to make an on-chain reaction and even
 ### Nodes
  
 **Events**
-    
-    - Key input -> Condition: Pressing a keyboard key.
-    - Mouse input -> Condition: Pressing a mouse button.
-    - Mouse Move -> Condition: Moving the mouse inSIDE the screen.
-    - Timer -> Condition: When a timer arrives to a certain time determined by the user an action happens. The timer can be reset or be told to repeat the action when the timer reaches the determined time.
+   * **Key input** -> Condition: Pressing a keyboard key.
+   * **Mouse input** -> Condition: Pressing a mouse button.
+   * **Mouse Move** -> Condition: Moving the mouse inSIDE the screen.
+   * **Timer** -> Condition: When a timer arrives to a certain time determined by the user an action happens. The timer can be reset or be told to repeat the action when the timer reaches the determined time.
  
 **Actions**
-  
-    - Move Object -> Function: Move a GameObject in an axis globally (world coordinates) or locally
-    - Rotate Object -> Function: Rotate a GameObject. It can be rotated in an axis globally using an event or using the mouse movement. If using the mouse, the user can choose if only to rotate when mouse is moving in the X-axis of the screen, the Y-axis or both.
-    - Active Object -> Function: Enable or disable GameObject.
-    - Active Component -> Function: Enable or disable a GameObject component.
-    - Instantiate GameObject -> Function: Create a GameObject from an already existing GameObject. If the GameObject is inactive, this action will automatically activate it. The instantiated object can be put in a position and rotation determined bt the user, or put it in the position and rotation of a reference GameObject.
-    - Delete GameObject -> Function: Delete a GameObject.
-    - Load Scene -> Function: Load an alredy existing scene.
-    - Log to Console -> Function: Log a text to the engine's console.
+  * **Move Object** -> Function: Move a GameObject in an axis globally (world coordinates) or locally
+  * **Rotate Object** -> Function: Rotate a GameObject. It can be rotated in an axis globally using an event or using the mouse movement. If using the mouse, the user can choose if only to rotate when mouse is moving in the X-axis of the screen, the Y-axis or both.
+  * **Active Object** -> Function: Enable or disable GameObject.
+  * **Active Component** -> Function: Enable or disable a GameObject component.
+  * **Instantiate GameObject** -> Function: Create a GameObject from an already existing GameObject. If the GameObject is inactive, this action will automatically activate it. The instantiated object can be put in a position and rotation determined bt the user, or put it in the position and rotation of a reference GameObject.
+  * **Delete GameObject** -> Function: Delete a GameObject.
+  * **Load Scene** -> Function: Load an alredy existing scene.
+  * **Log to Console** -> Function: Log a text to the engine's console.
 
 <img src="Images_gifs/graph_interact.gif" width="700">
-  
 *Using the NodeGraph*
 
 ### NodeGraph notification system
 The nodes in the graph notify the user of the engine of which state is the node in, depending in the colour of the outline of the node.
-	
+
     - No colour: The node is not updating.
     - Green: The node is updating.
     - Orange: The node is waiting for something to update (example: the timer waits for the time to be the one determined by the user).
     - Red: The node wanted to update but encountered an error (example: a GameObject reference is NULL).
-
 <img src="Images_gifs/script_functionality.gif" width="700">
-
 *Visual scripting functionality*
 
 ### Demo
 When you open the engine there, there's a demo of a tank that moves, rotates and shoots balls in game mode.
   
 Controls:
-  
   * WASD: Move Tank
   * Left mouse button: Shoot a ball
   * Mouse movement: move tank turret to aim
@@ -106,7 +98,6 @@ Controls:
 ## Links
 
 [Github repository](https://github.com/ValdiviaDev/Stardust-Engine)
-
 [Latest Release](https://github.com/ValdiviaDev/Stardust-Engine/releases/tag/Assignment3.1)
 
 ## License:
