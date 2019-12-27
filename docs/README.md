@@ -82,7 +82,8 @@ Actions can be connected to other actions, to make an on-chain reaction and even
   * **Delete GameObject** -> Function: Delete a GameObject.
   * **Load Scene** -> Function: Load an alredy existing scene.
   * **Log to Console** -> Function: Log a text to the engine's console.
-<img src="Images_gifs/graph_interact.gif" width="700">
+
+<img src="Images_gifs/graph_interact.gif" width="800">
 *Using the NodeGraph*
 
 ### NodeGraph notification system
@@ -91,7 +92,8 @@ The nodes in the graph notify the user of the engine of which state is the node 
 - Green: The node is updating.
 - Orange: The node is waiting for something to update (example: the timer waits for the time to be the one determined by the user).
 - Red: The node wanted to update but encountered an error (example: a GameObject reference is NULL).
-<img src="Images_gifs/script_functionality.gif" width="700">
+
+<img src="Images_gifs/script_functionality.gif" width="800">
 *Visual scripting functionality*
 
 ### Demo
@@ -102,7 +104,8 @@ Controls:
   * Left mouse button: Shoot a ball
   * Mouse movement: move tank turret to aim
   * R: reset the turret's position
-<img src="Images_gifs/tank.gif" width="700">
+
+<img src="Images_gifs/tank.gif" width="800">
 *Demo in GAME MODE*
 
 ## Links
