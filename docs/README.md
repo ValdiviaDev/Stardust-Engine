@@ -44,6 +44,7 @@ The engine counts with a Visual Programming system using node graphs and two per
 ### Optimizations
 <img src="Images_gifs/Camera culling.gif" width="700">
 *Camera Culling optimization*
+
 <img src="Images_gifs/quadtree.gif" width="700">
 *Quadtree optimization*
 
@@ -83,7 +84,7 @@ Actions can be connected to other actions, to make an on-chain reaction and even
   * **Load Scene** -> Function: Load an alredy existing scene.
   * **Log to Console** -> Function: Log a text to the engine's console.
 
-<img src="Images_gifs/graph_interact.gif" width="800">
+<img src="Images_gifs/graph_interact.gif" width="950">
 *Using the NodeGraph*
 
 ### NodeGraph notification system
@@ -93,7 +94,7 @@ The nodes in the graph notify the user of the engine of which state is the node 
 - Orange: The node is waiting for something to update (example: the timer waits for the time to be the one determined by the user).
 - Red: The node wanted to update but encountered an error (example: a GameObject reference is NULL).
 
-<img src="Images_gifs/script_functionality.gif" width="800">
+<img src="Images_gifs/script_functionality.gif" width="950">
 *Visual scripting functionality*
 
 ### Demo
@@ -107,6 +108,9 @@ Controls:
 
 <img src="Images_gifs/tank.gif" width="800">
 *Demo in GAME MODE*
+
+## Engine video demonstration
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=4TpnDBCI7zk" frameborder="0" allowfullscreen></iframe>
 
 ## Links
 
