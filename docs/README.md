@@ -57,7 +57,7 @@ This engine counts with a visual scripting system using node graphs. This serves
 - The timers you use in the NodeGraph will be shown here in the component.
 	
 ### Blackboard
-The component graph script has a blackboard for GameObject references that you can use in a NodeGraph of the object the component is on. To put a reference to the blackboard, simply drag a GameObject to the button that says to drag the GameObject to the blackboard
+The component graph script has a blackboard for GameObject references that you can use in a NodeGraph of the object the component is on. To put a reference to the blackboard, simply drag a GameObject to the button that says to drag the GameObject to the blackboard.
 
 The blackboard also has a list of timers that shows the time progress of the graph's timers. 
 
