@@ -56,6 +56,11 @@ This engine counts with a visual scripting system using node graphs. This serves
 - You can drag GameObjects to the Blackboard, to use it as a reference in the NodeGraph script
 - The timers you use in the NodeGraph will be shown here in the component.
 	
+### Blackboard
+The component graph script has a blackboard for GameObject references that you can use in a NodeGraph of the object the component is on. To put a reference to the blackboard, simply drag a GameObject to the button that says to drag the GameObject to the blackboard
+
+The blackboard also has a list of timers that shows the time progress of the graph's timers. 
+
 ### NodeGraph functionality
 - Click "Show Graph" and "Hide Graph" in the Component graph script to show or hide a window showcasing the node graph.
 - Inside the graph, mouse right click to create a new node.
@@ -86,6 +91,7 @@ Actions can be connected to other actions, to make an on-chain reaction and even
 
 <img src="Images_gifs/graph_interact.gif" width="950">
 *Using the NodeGraph*
+
 
 ### NodeGraph notification system
 The nodes in the graph notify the user of the engine of which state is the node in, depending in the colour of the outline of the node.
