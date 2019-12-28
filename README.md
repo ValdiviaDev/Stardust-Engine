@@ -37,12 +37,12 @@ Open the "Stardust Engine.exe" file that you'll find inside this folder.
 	- With the "F" button you can focus your camera to the selected GameObject.
 	- By pressing "W", "E" or "R", you can use diferent translation, rotation and scale gizmos. By pressing "T" you can change the gizmo form global to local space and vice versa. You can hide the gizmos by pressing "Q".
 
-  ### Asset panel
+  ### Assets panel
   	- In the asset panel you can charge mesh scenes by double clicking a .fbx/.obj/.dae and pressing the "Open" button.
 	- You can open a scene by selecting the scene and pressing the "Open" button.
 	- You can create a GameObject by pressing the "Put to GameObject"button with a selected mesh  or assign a new mesh to an already created GameObject.
 	- You can assign a texture to an already created GameObject by selecting a texture and pressing the "Put to GameObject" button.
-
+	
   ### Play mode
   	- Press "Play" in the edit panel to watch the engine in the perspective of the GameObject that has a camera and the main camera property activated. Press "Stop" to resume activity on the engine
 	- Press "Pause" to pause the current simulation (only stops in-game clock for now).
@@ -52,6 +52,7 @@ Open the "Stardust Engine.exe" file that you'll find inside this folder.
   	- You can drop a mesh scene file (fbx/.obj/.dae) in assets/meshes to charge the scene in the file.
 	- You can drop a scene file (.json) that you can create in the engine to open a scene.
 	- You can drop a texture file in assets/textures to apply said texture to the object.
+	- You can drag a mesh, texture or script from the assets panel to the corresponding component to charge the resource onto that GameObject.
 	
 	
 ## NodeGraph visual scripting instructions (Assignment 3)
@@ -61,7 +62,11 @@ This engine counts with a visual scripting system using node graphs. This serves
   	- In this component you can create a new script or drag a preexisting script from assets.
 	- You can drag GameObjects to the Blackboard, to use it as a reference in the NodeGraph script
 	- The timers you use in the NodeGraph will be shown here in the component.
-	
+  ### Blackboard
+  The component graph script has a blackboard for GameObject references that you can use in a NodeGraph of the object the component is on. To put a reference to the blackboard, simply drag a GameObject to the button that says to drag the GameObject to the blackboard.
+
+  The blackboard also has a list of timers that shows the time progress of the graph's timers.
+
   ### NodeGraph functionality
   	- Click "Show Graph" and "Hide Graph" in the Component graph script to show or hide a window showcasing the node graph.
 	- Inside the graph, mouse right click to create a new node.
@@ -97,6 +102,16 @@ This engine counts with a visual scripting system using node graphs. This serves
 	- Green: The node is updating.
 	- Orange: The node is waiting for something to update (example: the timer waits for the time to be the one determined by the user).
 	- Red: The node wanted to update but encountered an error (example: a GameObject reference is NULL).
+
+## Demo
+When you open the engine there, there's a demo of a tank that moves, rotates and shoots balls in game mode.
+
+Controls:
+- WASD: Move Tank
+- Left mouse button: Shoot a ball
+- Mouse movement: move tank turret to aim
+- R: reset the turret's position
+
 
 ## Features
 	- GameObject tree structure
